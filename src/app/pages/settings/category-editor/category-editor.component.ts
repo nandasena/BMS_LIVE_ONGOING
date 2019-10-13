@@ -3,6 +3,10 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import {BiguserService} from '../../../services/biguser.service';
 import { LocalDataSource, ViewCell } from 'ng2-smart-table';
 import { SmartTableService } from '../../../@core/data/smart-table.service';
+import { Category } from '../../../models/category_model';
+import { Item } from '../../../models/item_modal';
+import { AlertifyService } from '../../../services/alertify.service';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'invite-user',
@@ -40,22 +44,28 @@ export class CategoryEditorComponent implements OnInit {
         title: 'Category Code',
         type: 'number',
       },
-      name: {
+      categoryName: {
         title: 'Name',
         type: 'string',
       },
     },
   };
 
+  itemList = [];
+  itemToSave: Item[] = [];
+  categoryName: string;
+  temp_itemcount: number = 0;
   source: LocalDataSource = new LocalDataSource();
 
   constructor(private activeModal: NgbActiveModal, private biguserService: BiguserService,
-    private service: SmartTableService ) { }
+    private service: SmartTableService,
+    private alertifyService: AlertifyService ) { }
 
   ngOnInit() {
   }
 
   closeModal() {
+    this.temp_itemcount = 0;
     this.activeModal.close();
   }
   createUser() {
@@ -70,5 +80,24 @@ export class CategoryEditorComponent implements OnInit {
       this.closeModal();
     });*/
   }
-  bindCategoryList() {}
+  bindCategoryList() {
+
+    if ( this.categoryName !== undefined && this.categoryName !== '' && this.categoryName != null) {
+
+      this.categoryName.trim;
+      if (_.find(this.itemToSave, { 'categoryName': this.categoryName })) {
+        this.alertifyService.warning('category name is already taken');
+        return;
+      }
+
+      const item = new Item();
+      item.id = this.temp_itemcount++;
+      item.categoryName = this.categoryName;
+      this.itemToSave.push(item);
+      this.source.load(this.itemToSave);
+    }else {
+      this.alertifyService.error('Please enter category name');
+    }
+    return;
+  }
 }
