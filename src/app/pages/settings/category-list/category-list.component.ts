@@ -31,15 +31,11 @@ export class CategoryListComponent implements OnInit {
 
     columns: {
       id: {
-        title: 'Identifier Code',
+        title: 'Category Code',
         type: 'number',
       },
       name: {
         title: 'Name',
-        type: 'string',
-      },
-      count: {
-        title: 'Count',
         type: 'string',
       },
     },
