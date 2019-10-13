@@ -22,9 +22,9 @@ export const MENU_ITEMS: NbMenuItem[] = [
   //   icon: 'nb-sunny',
   //   link: '/pages/business-selfie',
   // },
-  // {
-  //   title: 'Settings',
-  //   icon: 'nb-gear',
-  //   link: '/pages/settings',
-  // }
+  {
+     title: 'Settings',
+     icon: 'nb-gear',
+     link: '/pages/settings',
+  },
 ];
