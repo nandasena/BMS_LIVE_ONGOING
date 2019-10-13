@@ -100,7 +100,7 @@
             <td><input id="amountReceived" type="text" name="amountReceived" placeholder="%" (change)="setDiscount($event.target.value,item.itemId)"
               value="{{item.discountPercentage}}" OnlyNumber="true" numbersOnlyDiscount></td>
             <td>{{item.price}}</td>
-            <td>{{item.price * item.sellingQuantity }}</td>
+            <td>{{item.total}}</td>
             <td style="padding: 0px;padding-top:7px;">
               <button type="button" class="btn btn-default main-buttons-sub" style="height: 35px;padding-top: 8px;"
                 (click)="removeItem(item.itemDetailId)">

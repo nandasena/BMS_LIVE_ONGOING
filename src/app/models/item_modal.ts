@@ -10,4 +10,5 @@ export class Item {
     price:number;
     id:number;
     discountPercentage:number;
+    total:number;
 }
