@@ -11,8 +11,7 @@
         <div class="row">
           <label for="inputEmail1" class="col-sm-2" style="padding-top: 3px;">Invoice No:</label>
           <div class="col-sm-3" style="padding:0px;">
-            <input type="email" class="form-control-sm" 
-              placeholder="Invoice No:">
+            <input type="email" class="form-control-sm" placeholder="Invoice No:">
           </div>
           <label for="inputEmail1" class="col-sm-2 col-form-label" style="padding-top: 3px;">Invoice Date:</label>
           <!-- <div class="col-sm-3" style="padding:0px;">
@@ -20,8 +19,7 @@
               placeholder="Invoice Date:">
           </div> -->
           <div class="col-sm-3">
-            <my-date-picker name="mydate" [options]="myDatePickerOptions"
-            [(ngModel)]="model" required></my-date-picker>
+            <my-date-picker name="mydate" [options]="myDatePickerOptions" [(ngModel)]="model" required></my-date-picker>
           </div>
         </div>
 
@@ -83,14 +81,15 @@
             <td>{{item.categoryId}}</td>
             <td>{{item.name}}</td>
             <td>
-              <input type="text" ng-maxlength="3" class="table-number " name="tblQty"
-                value="{{item.sellingQuantity}}" (change)=changeQty(item.itemDetailId,$event.target.value) numbersOnly >
+              <input type="text" ng-maxlength="3" class="table-number " name="tblQty" value="{{item.sellingQuantity}}"
+                (change)=changeQty(item.itemDetailId,$event.target.value) numbersOnly>
             </td>
             <td>{{item.availableQuantity}}</td>
             <td>{{item.price}}</td>
             <td>{{item.price * item.sellingQuantity }}</td>
             <td style="padding: 0px;padding-top:7px;">
-              <button type="button" class="btn btn-default main-buttons-sub" style="height: 35px;padding-top: 8px;" (click)="removeItem(item.itemDetailId)">
+              <button type="button" class="btn btn-default main-buttons-sub" style="height: 35px;padding-top: 8px;"
+                (click)="removeItem(item.itemDetailId)">
                 <span class="" style="color: black;">&#x2b;</span>
               </button>
             </td>
@@ -101,21 +100,52 @@
 
   </form>
 </div>
-<div class="modal-footer">
-  <button class="btn btn-md btn-success" (click)="saveInvoice()">Create</button>
-  <button class="btn btn-hero-secondary btn-demo" (click)="closeModal()">Close</button>
-</div>
 
-<div class="col-md-6">
-  <div class="row form-group">
-    <div class="col-md-6 main-font hidden-sm">
-      <label for="amount">Net Total</label>
+  <div class="row">
+    <div class="col-md-5">
+      <div class="row form-group">
+        <div class="col-md-4 main-font hidden-sm" style="padding-top: 20px;">
+          <label for="amount">Net Total</label>
+        </div>
+        <div class="col-md-8 main-font form-group mb-2">
+          <input class="text-right form-control" id="amount" type="text" name="amount" value="{{totalAmount | number:'1.2-2'}}"
+            placeholder="0.00" readonly>
+        </div>
+      </div>
     </div>
-    <div class="col-md-6 main-font">
-      <input class="text-right" id="amount" type="text" name="amount" value="{{totalAmount | number:'1.2-2'}}"
-        placeholder="0.00" readonly>
+    <div class="col-md-4">
+
+      </div>
+    <div class="col-md-3">
+      <button class="btn btn-md btn-success" (click)="saveInvoice()">Create</button>
+      <button class="btn btn-hero-secondary btn-demo" (click)="closeModal()">Close</button>
     </div>
   </div>
+  <div class="row">
+      <div class="col-md-5">
+          <div class="row form-group">
+            <div class="col-md-4 main-font hidden-sm" style="padding-top: 20px;">
+              <label for="amount">Cash</label>
+            </div>
+            <div class="col-md-8 main-font form-group mb-2">
+              <input class="text-right form-control" (change)="getBalanceAmount($event.target.value)" id="cash" type="text" name="cash" value="{{cash | number:'1.2-2'}}"
+                placeholder="0.00" numbersOnly>
+            </div>
+          </div>
+        </div>
+  </div>
+  <div class="row">
+    <div class="col-md-5">
+        <div class="row form-group">
+          <div class="col-md-4 main-font hidden-sm" style="padding-top: 20px;">
+            <label for="amount">Balance</label>
+          </div>
+          <div class="col-md-8 main-font form-group mb-2">
+            <input class="text-right form-control" id="balance" type="text" name="balance" value="{{balance | number:'1.2-2'}}"
+              placeholder="0.00" readonly>
+          </div>
+        </div>
+      </div>
 </div>
 
 <div id="myModal" class="modal"
@@ -125,7 +155,8 @@
     <p>Price List</p>
     <select class="form-control-sm" #ItemDetails (change)="selectedItemDetails($event.target.value)">
       <option selected disabled>Select Price</option>
-      <option *ngFor="let itemDetail of itemDetailList" [value]="itemDetail.itemDetailId"> Price     {{ itemDetail.sellingPrice }} Quantity     {{ itemDetail.quantity }}
+      <option *ngFor="let itemDetail of itemDetailList" [value]="itemDetail.itemDetailId"> Price
+        {{ itemDetail.sellingPrice }} Quantity {{ itemDetail.quantity }}
       </option>
     </select>
   </div>

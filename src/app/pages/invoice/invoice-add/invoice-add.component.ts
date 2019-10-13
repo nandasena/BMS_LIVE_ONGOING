@@ -33,10 +33,8 @@ export class InvoiceAddComponent implements OnInit {
   myDatePickerOptions: IMyDpOptions = {
     dateFormat: 'yyyy/mm/dd',
   };
-
-
-  //createKpi =new KpiModel;
-  fk_period_quarter: number;
+  balance: number = 0.00;
+  cash: number;
 
 
 
@@ -193,15 +191,19 @@ export class InvoiceAddComponent implements OnInit {
         invoiceTosave.customerName = 'Pasan Madusanka'
         invoiceTosave.invoiceDate = innerThis.model.formatted;
         innerThis.invoiceService.saveInvoice(invoiceTosave).then((response) => {
-          this.spinner.show();
+          innerThis.spinner.show();
           let resultObj = response.json();
+          console.log("asasasasaasasa");
           if (resultObj.statusCode == 200 && resultObj.success) {
-            this.spinner.hide();
-            innerThis.alertify.error('Create successfull');  
+
+            innerThis.spinner.hide();
+            innerThis.alertify.success('Create successfull');
+            innerThis.itemToSave = [];
           } else {
-            this.spinner.hide();
+            innerThis.spinner.hide();
             innerThis.alertify.error('Create un-successfull');
-            
+            innerThis.itemToSave = [];
+
           }
         })
       });
@@ -210,6 +212,11 @@ export class InvoiceAddComponent implements OnInit {
       this.alertify.error('Please add item....');
     }
 
+  }
+
+  getBalanceAmount(cash) {
+    this.cash =cash;
+    this.balance = cash - this.totalAmount
   }
 
 }
