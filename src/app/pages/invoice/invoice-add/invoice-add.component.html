@@ -31,20 +31,31 @@
       <div class="col-sm-8 col-form-label">
         <div class="row">
           <div class="col-sm-2" style="padding: 0px;"></div>
-          <div class="col-md-4" style="padding: 0px;">
-            <select class="form-control-sm" #selectedCategory (change)="getItemsOfRelevetCategory($event.target.value)"
+          <div class="col-md-3" style="padding: 0px;padding-right:5px;">
+            <select class="form-control-sm" #selectedCategory (change)="getSubCategory($event.target.value)"
               style="width: 100%">
-              <option selected disabled>Select Category</option>
-              <option *ngFor="let category of this.categoryList" [value]="category.categoryId">{{ category.name }}
+              <option selected [value]="-1">Select Category</option>
+              <option *ngFor="let mainCategory of this.mainCategoryList" [value]="mainCategory.mainCategoryId">{{ mainCategory.name }}
               </option>
               <!-- <option>test1</option>
               <option>test2</option>
               <option>test3</option> -->
             </select>
           </div>
-          <div class="col-md-4">
+          <div class="col-md-3" style="padding: 0px; padding-left: 5px;">
+            <select class="form-control-sm" #selectedCategory (change)="getItemsOfRelevetCategory($event.target.value)"
+              style="width: 100%">
+              <option selected [value]="-1">Select Sub-Category</option>
+              <option *ngFor="let subCategory of this.selectedSubCategory" [value]="subCategory.subCategoryId">{{ subCategory.name }}
+              </option>
+              <!-- <option>test1</option>
+              <option>test2</option>
+              <option>test3</option> -->
+            </select>
+          </div>
+          <div class="col-md-3">
             <select class="form-control-sm" #selectedInventoryItem style="width: 100%">
-              <option selected disabled [value]="-1">Select Item</option>
+              <option selected [value]="-1">Select Item</option>
               <option *ngFor="let categoryWiseItem of categoryWiseItemList" [value]="categoryWiseItem.itemId">
                 {{ categoryWiseItem.description }}</option>
 
@@ -52,7 +63,7 @@
 
             <button style="display: none;" id="myBtn"></button>
           </div>
-          <div class="col-md-2" style="padding-left:0px;padding-right:0px;">
+          <div class="col-md-1" style="padding-left:0px;padding-right:0px;">
             <button type="button" class="btn btn-md btn-success btn-sm" style="height: 35px;padding-top: 8px;"
               (click)="addSelectedItemToTable(selectedInventoryItem.value)">
               <span class="" style="color: black;">&#x2b;</span>
@@ -78,7 +89,7 @@
         <tbody>
           <tr *ngFor="let item of itemToSave let i = index" aria-required="true">
             <td>{{item.id}}</td>
-            <td>{{item.categoryId}}</td>
+            <td>{{item.subCategoryId}}</td>
             <td>{{item.name}}</td>
             <td>
               <input type="text" ng-maxlength="3" class="table-number " name="tblQty" value="{{item.sellingQuantity}}"
@@ -156,7 +167,7 @@
     <select class="form-control-sm" #ItemDetails (change)="selectedItemDetails($event.target.value)">
       <option selected disabled>Select Price</option>
       <option *ngFor="let itemDetail of itemDetailList" [value]="itemDetail.itemDetailId"> Price
-        {{ itemDetail.sellingPrice }} Quantity {{ itemDetail.quantity }}
+        {{ itemDetail.mrpPrice }} Quantity {{ itemDetail.quantity }}
       </option>
     </select>
   </div>

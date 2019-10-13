@@ -23,7 +23,9 @@ export class InvoiceAddComponent implements OnInit {
   categoryWiseItemList = [];
   addedItemList = [];
   assignee: number;
-  categoryList = [];
+  mainCategoryList = [];
+  subCategoryList=[];
+  selectedSubCategory=[];
   itemDetailList = [];
   invoiceToSave: InvoiceModel;
   itemToSave: Item[] = []
@@ -49,8 +51,12 @@ export class InvoiceAddComponent implements OnInit {
     }
 
     var span = document.getElementsByClassName("close")[0];
-    this.invoiceService.getCategoryList().then((response) => {
-      this.categoryList = response.json().result;
+    this.invoiceService.getMaiCategoryList().then((response) => {
+      this.mainCategoryList = response.json().result;
+    })
+
+    this.invoiceService.getSubCategoryList().then((response) => {
+      this.subCategoryList = response.json().result;
     })
 
     this.invoiceService.getItemList().then((response) => {
@@ -69,7 +75,7 @@ export class InvoiceAddComponent implements OnInit {
 
   getItemsOfRelevetCategory(id) {
     id = Number(id)
-    this.categoryWiseItemList = _.filter(this.itemList, { 'categoryId': id });
+    this.categoryWiseItemList = _.filter(this.itemList, { 'subCategoryId': id });
   }
 
   addSelectedItemToTable(id) {
@@ -95,12 +101,12 @@ export class InvoiceAddComponent implements OnInit {
         let length = this.itemToSave.length;
         if (foundItem == null) {
           let item = new Item();
-          item.categoryId = Number(this.selectedItem.categoryId);
+          item.subCategoryId = Number(this.selectedItem.subCategoryId);
           item.name = this.selectedItem.description;
           item.itemDetailId = this.selectedItem.itemDetailList[0].itemDetailId;
           item.sellingQuantity = 1
           item.availableQuantity = this.selectedItem.itemDetailList[0].availableQuantity;
-          item.price = this.selectedItem.itemDetailList[0].sellingPrice;
+          item.price = this.selectedItem.itemDetailList[0].mrpPrice;
           item.id = length + 1;
           item.itemId = this.selectedItem.itemId;
           this.itemToSave.push(item);
@@ -124,12 +130,12 @@ export class InvoiceAddComponent implements OnInit {
       let length = this.itemToSave.length;
       let selectedDetail = _.find(this.selectedItem.itemDetailList, { 'itemDetailId': itemDetailId })
       let item = new Item();
-      item.categoryId = Number(this.selectedItem.categoryId);
+      item.subCategoryId = Number(this.selectedItem.subCategoryId);
       item.name = this.selectedItem.description;
       item.itemDetailId = selectedDetail.itemDetailId;
       item.sellingQuantity = 1
       item.availableQuantity = selectedDetail.availableQuantity;
-      item.price = selectedDetail.sellingPrice;
+      item.price = selectedDetail.mrpPrice;
       item.itemId = this.selectedItem.itemId;
       item.id = length + 1;
       this.itemToSave.push(item);
@@ -217,6 +223,11 @@ export class InvoiceAddComponent implements OnInit {
   getBalanceAmount(cash) {
     this.cash =cash;
     this.balance = cash - this.totalAmount
+  }
+
+  getSubCategory(id){
+    id =Number(id);
+    this.selectedSubCategory=  _.filter(this.subCategoryList, { 'mainCategoryId': id })
   }
 
 }

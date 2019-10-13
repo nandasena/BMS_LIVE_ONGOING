@@ -28,8 +28,12 @@ export class InvoiceService{
 		this.sharedDataObject.next(editObject);
     }
     
-    getCategoryList(){
-        return this.commonsService.apiGet('category/'); 
+    getMaiCategoryList(){
+        return this.commonsService.apiGet('category/mainCategory/'); 
+    }
+
+    getSubCategoryList(){
+        return this.commonsService.apiGet('category/subCategory/'); 
     }
 
     getItemList(){
