@@ -116,7 +116,7 @@ export class InvoiceAddComponent implements OnInit {
           let price =foundItem.price
           let qty =foundItem.sellingQuantity;
           foundItem.sellingQuantity++
-          foundItem.total=price*(++qty)
+          foundItem.total=price*(++qty)* _.round(1-(foundItem.discountPercentage/100),4)
           this.itemToSave.push(foundItem);
           this.calculateTotal();
         }
@@ -150,8 +150,7 @@ export class InvoiceAddComponent implements OnInit {
       let price =foundItem.price
       let qty =foundItem.sellingQuantity;
       foundItem.sellingQuantity++
-      foundItem.total=price*(qty++)
-      foundItem.sellingQuantity++
+      foundItem.total=price*(++qty)* _.round(1-(foundItem.discountPercentage/100),4)
       this.itemToSave.push(foundItem);
       this.calculateTotal();
     }
@@ -172,7 +171,7 @@ export class InvoiceAddComponent implements OnInit {
     
     let price =findItem.price
     findItem.sellingQuantity++
-    findItem.total=price*qty
+    findItem.total=price*qty* _.round(1-(findItem.discountPercentage/100),4)
     findItem.sellingQuantity++
     findItem.sellingQuantity = qty;
     this.itemToSave.push(findItem);
@@ -192,7 +191,7 @@ export class InvoiceAddComponent implements OnInit {
   calculateTotal() {
     this.totalAmount = 0.00;
     this.itemToSave.forEach(item => {
-      this.totalAmount += (item.sellingQuantity * item.price * _.round(1-(item.discountPercentage/100),2))
+      this.totalAmount += (item.sellingQuantity * item.price * _.round(1-(item.discountPercentage/100),4))
     });
     this.itemToSave = _.orderBy(this.itemToSave, ['id'], ['desc']);
 
@@ -244,11 +243,11 @@ export class InvoiceAddComponent implements OnInit {
     this.selectedSubCategory=  _.filter(this.subCategoryList, { 'mainCategoryId': id })
   }
   setDiscount(discountPer,itemId){
-    let findItem = _.find(this.itemToSave, { 'itemId': itemId })
-    _.remove(this.itemToSave, { 'itemId': itemId })
+    let findItem = _.find(this.itemToSave, { 'itemDetailId': itemId })
+    _.remove(this.itemToSave, { 'itemDetailId': itemId })
     let price =findItem.price
     let qty =findItem.sellingQuantity;
-    findItem.total =price*qty*_.round((1-(discountPer/100)),2)
+    findItem.total =price*qty*_.round((1-(discountPer/100)),4)
     findItem.discountPercentage =Number(discountPer);
     this.itemToSave.push(findItem);
     this.calculateTotal();

@@ -4,23 +4,34 @@ import { Directive, ElementRef, HostListener } from '@angular/core';
  selector: 'input[numbersOnlyDiscount]'
 })
 export class NumberDirectiveDiscount {
-
-
-constructor(private _el: ElementRef) { }
-
-  @HostListener('input', ['$event']) onInputChange(event) {
-    const initalValue = this._el.nativeElement.value;
-    this._el.nativeElement.value = initalValue.replace(/[^0-9]*/g, '');
-    if ( initalValue !== this._el.nativeElement.value) {
-      event.stopPropagation();
-    }
+private regex: RegExp = new RegExp(/^\d*\.?\d{0,2}$/g);
+private specialKeys: Array<string> = ['Backspace', 'Tab', 'End', 'Home', '-', 'ArrowLeft', 'ArrowRight', 'Del', 'Delete'];
+constructor(private el: ElementRef) {
+}
+@HostListener('keydown', ['$event'])
+onKeyDown(event: KeyboardEvent) {
+  // Allow Backspace, tab, end, and home keys
+  if (this.specialKeys.indexOf(event.key) !== -1) {
+    return;
   }
+  let current: string = this.el.nativeElement.value;
+  const position = this.el.nativeElement.selectionStart;
+  const next: string = [current.slice(0, position), event.key == 'Decimal' ? '.' : event.key, current.slice(position)].join('');
+  if (next && !String(next).match(this.regex)) {
+    event.preventDefault();
+  }
+}
+
   @HostListener('change', ['$event']) onChange(event) {
-    const initalValue = this._el.nativeElement.value;
+    const initalValue = this.el.nativeElement.value;
     let enterNumber =Number(initalValue);
     if(enterNumber==0)
     {
-      this._el.nativeElement.value=0
+      this.el.nativeElement.value=0;
+    }
+    if(enterNumber>100)
+    {
+      this.el.nativeElement.value=0;
     }
     event.stopPropagation();
   }
