@@ -12,6 +12,7 @@ import { InvoiceExpandComponent } from './invoice-expand/invoice-expand.componen
 import { MyDatePickerModule } from 'mydatepicker';
 import { NumberOnlyDirective } from '../../models/number-directive'
 import { NgxSpinnerModule } from 'ngx-spinner';
+import {NumberDirectiveDiscount} from '../../models/number-directive-discount'
 import { from } from 'rxjs/observable/from';
 // import {Config}from '../../config/config.service';
 // import {CommonService} from '../../commonService/common.service';
@@ -30,7 +31,8 @@ import { from } from 'rxjs/observable/from';
     InvoiceEditComponent,
     CustomRenderComponent,
     InvoiceExpandComponent,
-    NumberOnlyDirective
+    NumberOnlyDirective,
+    NumberDirectiveDiscount
   ],
   entryComponents: [
     InvoiceAddComponent,

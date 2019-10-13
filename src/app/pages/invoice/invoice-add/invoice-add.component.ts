@@ -85,8 +85,6 @@ export class InvoiceAddComponent implements OnInit {
       this.alertify.error('Please select item');
       return false
     }
-
-
     this.selectedItem = _.find(this.categoryWiseItemList, { 'itemId': id })
 
     if (this.selectedItem.itemDetailList.length > 1) {
@@ -110,10 +108,15 @@ export class InvoiceAddComponent implements OnInit {
           item.price = this.selectedItem.itemDetailList[0].mrpPrice;
           item.id = length + 1;
           item.itemId = this.selectedItem.itemId;
+          item.discountPercentage=0;
+          item.total=this.selectedItem.itemDetailList[0].mrpPrice*1
           this.itemToSave.push(item);
           this.calculateTotal();
         } else {
+          let price =foundItem.price
+          let qty =foundItem.sellingQuantity;
           foundItem.sellingQuantity++
+          foundItem.total=price*(++qty)
           this.itemToSave.push(foundItem);
           this.calculateTotal();
         }
@@ -138,10 +141,16 @@ export class InvoiceAddComponent implements OnInit {
       item.availableQuantity = selectedDetail.availableQuantity;
       item.price = selectedDetail.mrpPrice;
       item.itemId = this.selectedItem.itemId;
+      item.discountPercentage=0;
+      item.total=item.price*item.sellingQuantity
       item.id = length + 1;
       this.itemToSave.push(item);
       this.calculateTotal();
     } else {
+      let price =foundItem.price
+      let qty =foundItem.sellingQuantity;
+      foundItem.sellingQuantity++
+      foundItem.total=price*(qty++)
       foundItem.sellingQuantity++
       this.itemToSave.push(foundItem);
       this.calculateTotal();
@@ -160,6 +169,11 @@ export class InvoiceAddComponent implements OnInit {
     }
     let findItem = _.find(this.itemToSave, { 'itemDetailId': itemDetailId })
     _.remove(this.itemToSave, { 'itemDetailId': itemDetailId })
+    
+    let price =findItem.price
+    findItem.sellingQuantity++
+    findItem.total=price*qty
+    findItem.sellingQuantity++
     findItem.sellingQuantity = qty;
     this.itemToSave.push(findItem);
     this.calculateTotal();
@@ -177,8 +191,8 @@ export class InvoiceAddComponent implements OnInit {
 
   calculateTotal() {
     this.totalAmount = 0.00;
-    this.itemToSave.forEach(element => {
-      this.totalAmount += (element.sellingQuantity * element.price)
+    this.itemToSave.forEach(item => {
+      this.totalAmount += (item.sellingQuantity * item.price * _.round(1-(item.discountPercentage/100),2))
     });
     this.itemToSave = _.orderBy(this.itemToSave, ['id'], ['desc']);
 
@@ -200,7 +214,6 @@ export class InvoiceAddComponent implements OnInit {
         innerThis.invoiceService.saveInvoice(invoiceTosave).then((response) => {
           innerThis.spinner.show();
           let resultObj = response.json();
-          console.log("asasasasaasasa");
           if (resultObj.statusCode == 200 && resultObj.success) {
 
             innerThis.spinner.hide();
@@ -229,6 +242,16 @@ export class InvoiceAddComponent implements OnInit {
   getSubCategory(id){
     id =Number(id);
     this.selectedSubCategory=  _.filter(this.subCategoryList, { 'mainCategoryId': id })
+  }
+  setDiscount(discountPer,itemId){
+    let findItem = _.find(this.itemToSave, { 'itemId': itemId })
+    _.remove(this.itemToSave, { 'itemId': itemId })
+    let price =findItem.price
+    let qty =findItem.sellingQuantity;
+    findItem.total =price*qty*_.round((1-(discountPer/100)),2)
+    findItem.discountPercentage =Number(discountPer);
+    this.itemToSave.push(findItem);
+    this.calculateTotal();
   }
 
 }
