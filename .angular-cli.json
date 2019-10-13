@@ -9,8 +9,8 @@
       "outDir": "dist",
       "assets": [
         "assets",
-        "favicon.ico",
-        "favicon.png",
+        "Google.ico",
+        "Google-Chrome-Canary-icon.png",
         {
           "glob": "**/*",
           "input": "../node_modules/leaflet/dist/images",
@@ -46,7 +46,7 @@
         "../node_modules/echarts/dist/echarts.min.js",
         "../node_modules/chart.js/dist/Chart.min.js",
         "../node_modules/alertifyjs/build/alertify.min.js"
-        
+
       ],
       "environmentSource": "environments/environment.ts",
       "environments": {

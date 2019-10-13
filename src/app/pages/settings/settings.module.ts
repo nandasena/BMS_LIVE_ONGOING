@@ -12,6 +12,7 @@ import { RockTypeListComponent } from './rock-type-list/rock-type-list.component
 import { UserListComponent } from './user-list/user-list.component';
 import { InviteRenderButtonComponent } from './user-list/invite-render-button.component';
 import { InviteUserComponent } from './invite-user/invite-user.component';
+import { CategoryEditorComponent } from './category-editor/category-editor.component';
 import{  FormsModule } from '@angular/forms';
 
 @NgModule({
@@ -28,6 +29,7 @@ import{  FormsModule } from '@angular/forms';
     InviteRenderButtonComponent,
     InviteUserComponent,
     CategoryListComponent,
+    CategoryEditorComponent,
   ],
   entryComponents: [
     UOMListComponent,
@@ -36,6 +38,7 @@ import{  FormsModule } from '@angular/forms';
     InviteRenderButtonComponent,
     InviteUserComponent,
     CategoryListComponent,
+    CategoryEditorComponent,
   ],
   providers: [
     SmartTableService
