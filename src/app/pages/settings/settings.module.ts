@@ -6,6 +6,8 @@ import { ThemeModule } from '../../@theme/theme.module';
 import { SmartTableService } from '../../@core/data/smart-table.service';
 import { SettingsComponent } from './settings.component';
 import { UOMListComponent } from './u-o-m-list/u-o-m-list.component';
+import { CategoryListComponent } from './category-list/category-list.component';
+
 import { RockTypeListComponent } from './rock-type-list/rock-type-list.component';
 import { UserListComponent } from './user-list/user-list.component';
 import { InviteRenderButtonComponent } from './user-list/invite-render-button.component';
@@ -25,13 +27,15 @@ import{  FormsModule } from '@angular/forms';
     UserListComponent,
     InviteRenderButtonComponent,
     InviteUserComponent,
+    CategoryListComponent,
   ],
   entryComponents: [
     UOMListComponent,
     RockTypeListComponent,
     UserListComponent,
     InviteRenderButtonComponent,
-    InviteUserComponent
+    InviteUserComponent,
+    CategoryListComponent,
   ],
   providers: [
     SmartTableService
