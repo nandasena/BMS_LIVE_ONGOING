@@ -4,7 +4,7 @@ export class Item {
     sellingQuantity:number;
     name:string;
     categoryName:string;
-    categoryId:number;
+    subCategoryId:number;
     qty:number;
     availableQuantity:number;
     price:number;
