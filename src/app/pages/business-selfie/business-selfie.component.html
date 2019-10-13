@@ -1,0 +1,97 @@
+<nb-card>
+  <nb-card-body>
+    <div class="row">
+      <div class="col-md-12">
+        <h3>Week 4 / Quarter 1 / 2018</h3>
+        <div class="form-inline row row-top-bottom-pad-15">
+          <div class="col-md-3">
+            Rating
+          </div>
+          <div class="col-md-9">
+            <div class="row rating-slot-container">
+              <!-- <div [bigRatingHighlight]="hilightingBar[0]" (click)="highlightBox=1" class="col-md-1">
+                1
+              </div>
+              <div [bigRatingHighlight]="hilightingBar[1]" (click)="highlightBox=2" class="col-md-1">
+                2
+              </div>
+              <div [bigRatingHighlight]="hilightingBar[2]" (click)="highlightBox=3" class="col-md-1">
+                3
+              </div>
+              <div [bigRatingHighlight]="hilightingBar[3]" (click)="highlightBox=4" class="col-md-1">
+                4
+              </div>
+              <div [bigRatingHighlight]="hilightingBar[4]" (click)="highlightBox=5" class="col-md-1">
+                5
+              </div>
+              <div [bigRatingHighlight]="hilightingBar[5]" (click)="highlightBox=6" class="col-md-1">
+                6
+              </div>
+              <div [bigRatingHighlight]="hilightingBar[6]" (click)="highlightBox=7" class="col-md-1">
+                7
+              </div>
+              <div [bigRatingHighlight]="hilightingBar[7]" (click)="highlightBox=8" class="col-md-1">
+                8
+              </div>
+              <div [bigRatingHighlight]="hilightingBar[8]" (click)="highlightBox=9" class="col-md-1">
+                9
+              </div>
+              <div [bigRatingHighlight]="hilightingBar[9]" (click)="highlightBox=10" class="col-md-1">
+                10
+              </div> -->
+              <!-- <div [style.background-color]="ratingBar[0] ? '#dfe3ea' : '#ffffff'" #box0 (click)="onClick(box0.innerText)" class="col-md-1" value="1">
+                1
+              </div>
+              <div [style.background-color]="ratingBar[1] ? '#dfe3ea' : '#ffffff'" #box1 (click)="onClick(box1.innerText)" class="col-md-1">
+                2
+              </div>
+              <div [style.background-color]="ratingBar[2] ? '#dfe3ea' : '#ffffff'" #box2 (click)="onClick(box2.innerText)" class="col-md-1">
+                3
+              </div>
+              <div [style.background-color]="ratingBar[3] ? '#dfe3ea' : '#ffffff'" #box3 (click)="onClick(box3.innerText)" class="col-md-1">
+                4
+              </div>
+              <div [style.background-color]="ratingBar[4] ? '#dfe3ea' : '#ffffff'" #box4 (click)="onClick(box4.innerText)" class="col-md-1">
+                5
+              </div>
+              <div [style.background-color]="ratingBar[5] ? '#dfe3ea' : '#ffffff'" #box5 (click)="onClick(box5.innerText)" class="col-md-1">
+                6
+              </div>
+              <div [style.background-color]="ratingBar[6] ? '#dfe3ea' : '#ffffff'" #box6 (click)="onClick(box6.innerText)" class="col-md-1">
+                7
+              </div>
+              <div [style.background-color]="ratingBar[7] ? '#dfe3ea' : '#ffffff'" #box7 (click)="onClick(box7.innerText)" class="col-md-1">
+                8
+              </div>
+              <div [style.background-color]="ratingBar[8] ? '#dfe3ea' : '#ffffff'" #box8 (click)="onClick(box8.innerText)" class="col-md-1">
+                9
+              </div>
+              <div [style.background-color]="ratingBar[9] ? '#dfe3ea' : '#ffffff'" #box9 (click)="onClick(box9.innerText)" class="col-md-1">
+                10
+              </div> -->
+            </div>
+          </div>
+        </div>
+        <div class="form-group row">
+          <!-- <div class="col-md-3">&nbsp;</div>
+          <div class="col-sm-9">
+            <button type="button" class="btn btn-success">Save</button>
+          </div> -->
+        </div>
+        <div class="form-group row">
+          <label class="col-sm-3">Comment</label>
+          <div class="col-sm-8">
+            <textarea #comment class="txt" rows="2" placeholder="Enter comment here." class="form-control"></textarea>
+          </div>
+        </div>
+        <div class="form-group row">
+          <div class="col-sm-3">&nbsp;</div>
+          <div class="col-sm-8">
+            <button class="btn btn-md btn-success pull-right" (click)="onSave(comment.value)">Save</button>
+          </div>
+        </div>
+        <business-selfie-list></business-selfie-list>
+      </div>
+    </div>
+  </nb-card-body>
+</nb-card>

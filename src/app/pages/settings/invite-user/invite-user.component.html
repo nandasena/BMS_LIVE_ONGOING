@@ -1,0 +1,40 @@
+<div class="modal-header">
+    <span>Invite User</span>
+    <button class="close" aria-label="Close" (click)="closeModal()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+  <form>
+      <div class="form-group row">
+          <label for="userName" class="col-sm-3 col-form-label">Name</label>
+          <div class="col-sm-9">
+            <input [(ngModel)]="user.name" type="text" name="userName" class="form-control" id="userName" placeholder="name">
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="userEmail" class="col-sm-3 col-form-label">Email</label>
+          <div class="col-sm-9">
+            <input [(ngModel)]="user.email" type="email" name="email" class="form-control" id="userEmail" placeholder="Email">
+          </div>
+        </div>
+        <div class="form-group row">
+            <label for="userEmail" class="col-sm-3 col-form-label">Email</label>
+        <div class="col-sm-9">
+            <div class="form-group">
+                <select class="form-control" [(ngModel)]="user.level" name="level">
+                  <option value="1">Admin</option>
+                  <option value="2">Level 1</option>
+                  <option value="3">Level 2</option>
+                  <option value="4">Level 3</option>
+                  <option value="5" selected>Level 4</option>
+                </select>
+              </div>
+        </div>
+        </div>
+  </form>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-md btn-success" (click)="createUser()">Send Invitation</button>
+    <button class="btn btn-hero-secondary btn-demo" (click)="closeModal()">Close</button>
+  </div>

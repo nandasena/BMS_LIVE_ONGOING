@@ -1,0 +1,100 @@
+<nb-card>
+  <nb-card-header>
+    <div class="row">
+      <div class="col-md-1">
+        Filter
+      </div>
+      <div class="col-md-2">
+        <div class="form-group">
+          <div class="dropdown input-group-btn" ngbDropdown>
+            <button type="button" class="btn btn-outline-success dropdown-toggle" ngbDropdownToggle>
+              Year
+            </button>
+            <ul class="dropdown-menu" ngbDropdownMenu>
+              <li class="dropdown-item">2018</li>
+              <li class="dropdown-item">2019</li>
+              <li class="dropdown-item">2020</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-2">
+        <div class="form-group">
+          <div class="dropdown input-group-btn" ngbDropdown>
+            <button type="button" class="btn btn-outline-success dropdown-toggle" ngbDropdownToggle>
+              Quarter
+            </button>
+            <ul class="dropdown-menu" ngbDropdownMenu>
+              <li class="dropdown-item">Q1</li>
+              <li class="dropdown-item">Q2</li>
+              <li class="dropdown-item">Q3</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-2">
+        <div class="form-group">
+          <div class="dropdown input-group-btn" ngbDropdown>
+            <button type="button" class="btn btn-outline-success dropdown-toggle" ngbDropdownToggle>
+              Month
+            </button>
+            <ul class="dropdown-menu" ngbDropdownMenu>
+              <li class="dropdown-item">January</li>
+              <li class="dropdown-item">February</li>
+              <li class="dropdown-item">March</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-2">
+        <div class="form-group">
+          <div class="dropdown input-group-btn" ngbDropdown>
+            <button type="button" class="btn btn-outline-success dropdown-toggle" ngbDropdownToggle>
+              Week
+            </button>
+            <ul class="dropdown-menu" ngbDropdownMenu>
+              <li class="dropdown-item">Week 1</li>
+              <li class="dropdown-item">Week 2</li>
+              <li class="dropdown-item">Week 3</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <!-- <div class="col-md-2">
+          <div class="form-group">
+            <div class="dropdown input-group-btn" ngbDropdown>
+              <button type="button" class="btn btn-outline-success dropdown-toggle" ngbDropdownToggle>
+                Day
+              </button>
+              <ul class="dropdown-menu" ngbDropdownMenu>
+                <li class="dropdown-item">Confidence Level</li>
+                <li class="dropdown-item">Hours per Quarter</li>
+                <li class="dropdown-item">Milestone</li>
+              </ul>
+            </div>
+          </div>
+        </div> -->
+    </div>
+    <div class="row">
+      <div class="col-md-1">
+        Issues
+      </div>
+      <div class="col-md-7">
+        &nbsp;
+      </div>
+      <div class="col-md-4">
+        <div style="display: inline;">
+          <button class="btn btn-success pull-right" (click)="showAddIssue()">
+            + Add
+          </button>
+          <button class="btn btn-success pull-right" (click)="showSummery()" style="margin-right: 10px;">
+            Summery
+          </button>
+        </div>
+      </div>
+    </div>
+  </nb-card-header>
+  <nb-card-body>
+    <issue-list></issue-list>
+  </nb-card-body>
+</nb-card>

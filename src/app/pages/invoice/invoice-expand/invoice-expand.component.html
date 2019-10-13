@@ -1,0 +1,127 @@
+<div class="modal-header">
+  <span>KPI - Identifier code 2 / New leads sales</span>
+  <button class="close" aria-label="Close" (click)="closeModal()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <form>
+    <div class="form-group row">
+      <div class="col-md-2">
+        <label for="inputPassword2" class="col-sm-3 col-form-label">Filter</label>
+      </div>
+      <div class="col-md-3">
+        <div class="dropdown input-group-btn" ngbDropdown>
+          <button type="button" class="btn btn-outline-success dropdown-toggle" ngbDropdownToggle>
+            Division
+          </button>
+          <ul class="dropdown-menu" ngbDropdownMenu>
+            <li class="dropdown-item">Team Sam</li>
+            <li class="dropdown-item">Team Soap</li>
+            <li class="dropdown-item">Team Miller</li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="dropdown input-group-btn" ngbDropdown>
+          <button type="button" class="btn btn-outline-success dropdown-toggle" ngbDropdownToggle>
+            Team
+          </button>
+          <ul class="dropdown-menu" ngbDropdownMenu>
+            <li class="dropdown-item">Samwise Gamgee</li>
+            <li class="dropdown-item">Soap MacTavish</li>
+            <li class="dropdown-item">John Miller</li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="dropdown input-group-btn" ngbDropdown>
+          <button type="button" class="btn btn-outline-success dropdown-toggle" ngbDropdownToggle>
+            Member
+          </button>
+          <ul class="dropdown-menu" ngbDropdownMenu>
+            <li class="dropdown-item">Jane Stale</li>
+            <li class="dropdown-item">Mary Simpsons</li>
+            <li class="dropdown-item">Ricky Mars</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </form>
+  <div>
+    <div class="row">
+      <div class="col-md-3">
+        &nbsp;
+      </div>
+      <div class="col-md-3 kpi-target">
+        Weekly
+      </div>
+      <div class="col-md-3 kpi-target">
+        Monthly
+      </div>
+      <div class="col-md-3 kpi-target">
+        Quarterly
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-3">
+        <p class="bg-text-hollow">KPI Target</p>
+      </div>
+      <div class="col-md-3">
+        <input type="text" class="form-control kpi-target" value="£10,000">
+      </div>
+      <div class="col-md-3">
+        <input type="text" class="form-control kpi-target" value="£40,000">
+      </div>
+      <div class="col-md-3">
+        <input type="text" class="form-control kpi-target" value="£120,000">
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-3">
+        <p class="bg-text-hollow">Actual</p>
+      </div>
+      <div class="col-md-3">
+        <p class="bg-text">£6,000</p>
+      </div>
+      <div class="col-md-3">
+        <p class="bg-text">£14,000</p>
+      </div>
+      <div class="col-md-3">
+        <p class="bg-text">£14,000</p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-3">
+        <p class="bg-text-hollow">Accumilation</p>
+      </div>
+      <div class="col-md-3">
+        <p class="bg-text">£7,000</p>
+      </div>
+      <div class="col-md-3">
+        <p class="bg-text">£28,000</p>
+      </div>
+      <div class="col-md-3">
+        <p class="bg-text">£84,000</p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-3">
+        <p class="bg-text-hollow">Variance</p>
+      </div>
+      <div class="col-md-3">
+        <p class="bg-text">£-3,000</p>
+      </div>
+      <div class="col-md-3">
+        <p class="bg-text">£-12,000</p>
+      </div>
+      <div class="col-md-3">
+        <p class="bg-text">£26,000</p>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal-footer">
+  <button class="btn btn-md btn-success" (click)="closeModal()">Save</button>
+  <button class="btn btn-hero-secondary btn-demo" (click)="closeModal()">Close</button>
+</div>

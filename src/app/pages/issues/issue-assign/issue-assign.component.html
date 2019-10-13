@@ -1,0 +1,122 @@
+<div class="modal-header">
+  <span>Issue Assigning</span>
+  <button class="close" aria-label="Close" (click)="closeModal()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <form>
+    <div class="form-group row">
+      <label class="col-sm-3">Issue</label>
+      <div class="col-sm-9">
+          Credit collection delayed in
+          <i>Downtown</i> area. Reported by collection officer
+          <i>James Mayor</i>. Collection officer
+          <i>Jerry Fox</i> will be helping officer
+          <i>James Mayor</i> to resolve this issue.
+      </div>
+    </div>
+    <div class="form-group row">
+      <label class="col-sm-3">Reported By</label>
+      <div class="col-sm-9">
+        <!-- <input type="email" class="form-control" id="inputEmail1" placeholder="Noris"> -->
+        James Mayor
+      </div>
+    </div>
+    <div class="form-group row">
+      <label class="col-sm-3">Priority</label>
+      <div class="col-sm-9">
+        <input type="email" class="form-control" id="inputEmail1" placeholder="Priority">
+      </div>
+    </div>
+    <div class="form-group row">
+      <label class="col-sm-3">Type</label>
+      <div class="col-sm-9">
+        Proposed
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="inputEmail1" class="col-sm-3 col-form-label">Due Date</label>
+      <div class="col-sm-9">
+        <input type="email" class="form-control" id="inputEmail1" placeholder="Due date">
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="inputPassword2" class="col-sm-3 col-form-label">Helping Person</label>
+      <div class="col-sm-9">
+        <div class="dropdown input-group-btn" ngbDropdown>
+          <button type="button" class="btn btn-outline-success dropdown-toggle" ngbDropdownToggle>
+            Select Member
+          </button>
+          <ul class="dropdown-menu" ngbDropdownMenu>
+            <li class="dropdown-item">Jerry</li>
+            <li class="dropdown-item">Fox</li>
+            <li class="dropdown-item">Akra</li>
+            <li class="dropdown-item">Kelly</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div role="separator" class="dropdown-divider"></div>
+    <div class="form-group row">
+      <label for="inputEmail1" class="col-sm-3 col-form-label">TODO</label>
+    </div>
+    <div class="form-group row">
+      <label for="inputEmail1" class="col-sm-3 col-form-label">Task</label>
+      <div class="col-sm-9">
+        <input type="email" class="form-control" id="inputEmail1" placeholder="Task">
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="inputPassword2" class="col-sm-3 col-form-label">Assign To</label>
+      <div class="col-sm-9">
+        <div class="dropdown input-group-btn" ngbDropdown>
+          <button type="button" class="btn btn-outline-success dropdown-toggle" ngbDropdownToggle>
+            Select Member
+          </button>
+          <ul class="dropdown-menu" ngbDropdownMenu>
+            <li class="dropdown-item">Jerry</li>
+            <li class="dropdown-item">Fox</li>
+            <li class="dropdown-item">Akra</li>
+            <li class="dropdown-item">Kelly</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="inputEmail1" class="col-sm-3 col-form-label">Due Date</label>
+      <div class="col-sm-5">
+        <input type="email" class="form-control" id="inputEmail1" placeholder="Due date">
+      </div>
+      <div class="col-sm-4">
+        <button class="btn btn-md btn-success pull-right"><i class="ion-plus-round"></i></button>
+      </div>
+    </div>
+    <div class="row margin-bottom-15">
+      <div class="col-md-12">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>Task</th>
+              <th>Assignee</th>
+              <th>Due Date</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Talk to head of collections</td>
+              <td>Victor Flemming</td>
+              <td>2018-06-01</td>
+              <td><i class="nb-trash" style="font-size: 28px;"></i></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </form>
+</div>
+<div class="modal-footer">
+  <button class="btn btn-md btn-success" (click)="closeModal()">Assign</button>
+  <button class="btn btn-hero-secondary btn-demo" (click)="closeModal()">Close</button>
+</div>

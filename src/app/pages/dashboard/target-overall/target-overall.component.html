@@ -1,0 +1,124 @@
+
+<nb-card [size]="breakpoint.width >= breakpoints.xxxl || breakpoint.width < breakpoints.md ? 'small' : 'small'">
+  <div class="row">
+    <form class="col-md-12">
+      <br>
+      <div class="form-group row">
+        <div class="col-md-2">
+          <label for="inputPassword2" class="col-sm-3 col-form-label">Filter</label>
+        </div>
+        <div class="col-md-2">
+              <div class="dropdown input-group-btn" ngbDropdown>
+                <button type="button" class="btn btn-outline-success dropdown-toggle" ngbDropdownToggle>
+                  Division
+                </button>
+                <ul class="dropdown-menu" ngbDropdownMenu>
+                  <li class="dropdown-item">Team Sam</li>
+                  <li class="dropdown-item">Team Soap</li>
+                  <li class="dropdown-item">Team Miller</li>
+                </ul>
+              </div>
+            </div>
+        <div class="col-md-2">
+          <div class="dropdown input-group-btn" ngbDropdown>
+            <button type="button" class="btn btn-outline-success dropdown-toggle" ngbDropdownToggle>
+              Team
+            </button>
+            <ul class="dropdown-menu" ngbDropdownMenu>
+              <li class="dropdown-item">Samwise Gamgee</li>
+              <li class="dropdown-item">Soap MacTavish</li>
+              <li class="dropdown-item">John Miller</li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-md-2">
+          <div class="dropdown input-group-btn" ngbDropdown>
+            <button type="button" class="btn btn-outline-success dropdown-toggle" ngbDropdownToggle>
+              Member
+            </button>
+            <ul class="dropdown-menu" ngbDropdownMenu>
+              <li class="dropdown-item">Jane Stale</li>
+              <li class="dropdown-item">Mary Simpsons</li>
+              <li class="dropdown-item">Ricky Mars</li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <button class="btn btn-md btn-success float-left">Go to Dashboard</button>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="table-responsive">
+    <div class="col-md-12">
+      <h6>Sales Division</h6>
+    </div>
+    <table class="table">
+      <thead>
+        <tr>
+          <th></th>
+          <th>Week 1</th>
+          <th>Week 2</th>
+          <th>Week 3</th>
+          <th>Week 4</th>
+          <th>Monthly</th>
+          <th>Quarterly</th>
+          <th>Annuaily</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th>Target</th>
+          <td>£150,000</td>
+          <td>£225,000
+            <br />
+            <span>(£150,000)</span>
+          </td>
+          <td>£330,000
+            <br />
+            <span>(£150,000)</span>
+          </td>
+          <td>£295,000
+            <br />
+            <span>(£150,000)</span>
+          </td>
+          <td>£600,000</td>
+          <td>£1,800,000</td>
+          <td>£7,200,000</td>
+        </tr>
+        <tr>
+          <th>Actual</th>
+          <td>£75,000</td>
+          <td>£45,000</td>
+          <td>£195,000</td>
+          <td>£105,000</td>
+          <td>£420,000</td>
+          <td>£1,260,000</td>
+          <td>£5,040,000</td>
+        </tr>
+        <tr>
+          <th>Accumilation</th>
+          <td>£75,000</td>
+          <td>£120,000</td>
+          <td>£315,000</td>
+          <td>£420,000</td>
+          <td>£420,000</td>
+          <td>£1,260,000</td>
+          <td>£5,040,000</td>
+        </tr>
+        <tr>
+          <th>Variances</th>
+          <td>£75,000</td>
+          <td>-£180,000</td>
+          <td>-£135,000</td>
+          <td>-£180,000</td>
+          <td>-£180,000</td>
+          <td>-£540,000</td>
+          <td>-£2,160,000</td>
+        </tr>
+      </tbody>
+    </table>
+
+
+  </div>
+</nb-card>

@@ -1,0 +1,15 @@
+nb-card {
+    transform: translate3d(0, 0, 0);
+  }
+
+  ng2-smart-table /deep/ thead th:last-child {
+    text-align: center;
+  }
+
+  ng2-smart-table /deep/ thead th:nth-child(4) {
+    text-align: center;
+  }
+
+  ng2-smart-table /deep/ tbody td:nth-child(4) {
+    text-align: center;
+  }

@@ -1,0 +1,79 @@
+<div class="modal-header">
+  <span>Add Issue</span>
+  <button class="close" aria-label="Close" (click)="closeModal()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <form>
+    <div class="form-group row">
+      <label class="col-sm-3">Issue</label>
+      <div class="col-sm-9">
+        <textarea rows="5" placeholder="Enter issue here" class="form-control"></textarea>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="inputPassword2" class="col-sm-3 col-form-label">Reported By</label>
+      <div class="col-sm-9">
+        <div class="dropdown input-group-btn" ngbDropdown>
+          <button type="button" class="btn btn-outline-success dropdown-toggle" ngbDropdownToggle>
+            Select Member
+          </button>
+          <ul class="dropdown-menu" ngbDropdownMenu>
+            <li class="dropdown-item">James</li>
+            <li class="dropdown-item">Singha</li>
+            <li class="dropdown-item">Carry</li>
+            <li class="dropdown-item">Mole</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <!-- <div class="form-group row">
+      <label for="inputEmail1" class="col-sm-3 col-form-label">Priority</label>
+      <div class="col-sm-9">
+        <input type="email" class="form-control" id="inputEmail1" placeholder="Priority">
+      </div>
+    </div> -->
+    <div class="form-group row">
+        <label for="inputPassword2" class="col-sm-3 col-form-label">Type</label>
+        <div class="col-sm-9">
+          <div class="dropdown input-group-btn" ngbDropdown>
+            <button type="button" class="btn btn-outline-success dropdown-toggle" ngbDropdownToggle>
+              Select Type
+            </button>
+            <ul class="dropdown-menu" ngbDropdownMenu>
+              <li class="dropdown-item">New</li>
+              <li class="dropdown-item">Proposed</li>
+              <li class="dropdown-item">Uncomplete</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    <div class="form-group row">
+      <label for="inputEmail1" class="col-sm-3 col-form-label">Reported Date</label>
+      <div class="col-sm-9">
+        <input type="email" class="form-control" id="inputEmail1" placeholder="Reported date">
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="inputPassword2" class="col-sm-3 col-form-label">Helping Person</label>
+      <div class="col-sm-9">
+        <div class="dropdown input-group-btn" ngbDropdown>
+          <button type="button" class="btn btn-outline-success dropdown-toggle" ngbDropdownToggle>
+            Select Member
+          </button>
+          <ul class="dropdown-menu" ngbDropdownMenu>
+            <li class="dropdown-item">Jerry</li>
+            <li class="dropdown-item">Fox</li>
+            <li class="dropdown-item">Akra</li>
+            <li class="dropdown-item">Kelly</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+<div class="modal-footer">
+  <button class="btn btn-md btn-success" (click)="closeModal()">Add</button>
+  <button class="btn btn-hero-secondary btn-demo" (click)="closeModal()">Close</button>
+</div>

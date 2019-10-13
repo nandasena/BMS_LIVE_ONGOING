@@ -1,0 +1,16 @@
+<nb-card [size]="breakpoint.width >= breakpoints.xxxl || breakpoint.width < breakpoints.md ? 'small' : 'small'">
+  <nb-tabset fullWidth>
+    <nb-tab tabTitle="Suggestions">
+      <div class="contact" *ngFor="let c of contacts">
+        <nb-user [picture]="c.user.picture" [name]="c.user.name" [title]="c.type" size="large"></nb-user>
+        <!-- <i class="i-contact nb-phone"></i> -->
+      </div>
+    </nb-tab>
+    <nb-tab tabTitle="Company Rating">
+      <div class="contact" *ngFor="let c of recent">
+        <nb-user [picture]="c.user.picture" [name]="c.user.name" [title]="c.type" size="large"></nb-user>
+        <!-- <span class="time">{{ c.time }}</span> -->
+      </div>
+    </nb-tab>
+  </nb-tabset>
+</nb-card>

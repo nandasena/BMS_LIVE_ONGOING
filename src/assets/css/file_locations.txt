@@ -1,0 +1,2 @@
+_default.scss => \node_modules\@nebular\theme\styles\themes\
+_sidebar.component.theme.scss => \node_modules\@nebular\theme\components\sidebar\

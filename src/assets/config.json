@@ -1,0 +1,5 @@
+{
+    "apiBasePath":"http://localhost:8080/big-api/",
+    "uploadedImagesPath":"api/src/files/"
+    
+}

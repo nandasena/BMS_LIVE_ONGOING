@@ -1,0 +1,250 @@
+<nb-card size="large" style="height: 100%">
+  <nb-tabset>
+    <nb-tab tabTitle="General">
+      <form class="margin-bottom-30">
+        <div class="form-group row">
+          <div class="col-md-3">
+            <label for="inputEmail1" class="col-form-label">Quarter starting date</label>
+          </div>
+          <div class="col-md-2">
+            <input type="email" class="form-control" id="inputEmail1" placeholder="2018-06-01">
+          </div>
+        </div>
+      </form>
+      <div role="separator" class="dropdown-divider"></div>
+      <div class="row">
+        <div class="col-md-12 margin-bottom-30">
+          <div class="row margin-bottom-15">
+            <div class="col-md-3">
+              <b> Unit of Measure</b>
+            </div>
+            <div class="col-md-7">
+              &nbsp;
+            </div>
+            <div class="col-md-2">
+              <button class="btn btn-success input-group-text pull-right">
+                + Add
+              </button>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <u-o-m-list></u-o-m-list>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div role="separator" class="dropdown-divider"></div>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="row margin-bottom-15">
+            <div class="col-md-3">
+              <b>Rock Types</b>
+            </div>
+            <div class="col-md-7">
+              &nbsp;
+            </div>
+            <div class="col-md-2">
+              <button class="btn btn-success input-group-text pull-right">
+                + Add
+              </button>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <rock-type-list></rock-type-list>
+            </div>
+          </div>
+        </div>
+      </div>
+    </nb-tab>
+    <nb-tab tabTitle="Company">
+      <div class="row margin-bottom-30">
+        <div class="com-sm-6 col-md-4">
+          <div class="margin-bottom-30">
+            <h5>Company Logo</h5>
+          </div>
+          <div class="row">
+            <div class="col-md-12 margin-bottom-30">
+              <div class="row">
+                <div class="col-md-12">
+                  <nb-card>
+                    <nb-card-body>
+                      <div style="font-size: 120px; text-align: center;">
+                        <i class="nb-home"></i>
+                      </div>
+                    </nb-card-body>
+                  </nb-card>
+                </div>
+              </div>
+              <div class="container">
+                <div class="row">
+                  <button class="btn btn-success" style="width: 100%">
+                    Upload Photo
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="colms-6 col-md-8">
+          <form>
+            <div class="form-group row">
+              <label for="inputEmail1" class="col-sm-3 col-form-label">Company Name</label>
+              <div class="col-sm-9">
+                <input type="email" class="form-control" id="inputEmail1" placeholder="Company name">
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="inputEmail1" class="col-sm-3 col-form-label">Registration Number</label>
+              <div class="col-sm-9">
+                <input type="email" class="form-control" id="inputEmail1" placeholder="Registration number">
+              </div>
+            </div>
+            <div class="form-group row">
+              <label class="col-sm-3">Address</label>
+              <div class="col-sm-9">
+                <textarea rows="6" placeholder="Address" class="form-control"></textarea>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <form>
+            <div class="form-group row">
+              <label class="col-sm-2">Vision</label>
+              <div class="col-sm-10">
+                <textarea rows="3" placeholder="Vision" class="form-control"></textarea>
+              </div>
+            </div>
+            <div class="form-group row">
+              <label class="col-sm-2">Mission</label>
+              <div class="col-sm-10">
+                <textarea rows="3" placeholder="Mission" class="form-control"></textarea>
+              </div>
+            </div>
+            <button class="btn btn-success float-right">Submit</button>
+          </form>
+        </div>
+      </div>
+    </nb-tab>
+    <nb-tab tabTitle="Users">
+      <div class="row margin-bottom-15">
+        <div class="col-md-3">
+          <h5>Users</h5>
+        </div>
+        <div class="col-md-5">
+          &nbsp;
+        </div>
+        <div class="col-md-4">
+          <button class="btn btn-success input-group-text pull-right" style="margin-left:15px;" (click)="showInviteModal()">
+            + Add
+          </button>
+          &nbsp;
+          <button class="btn btn-warning input-group-text pull-right">
+            Invite All
+          </button>
+
+        </div>
+      </div>
+      <user-list></user-list>
+    </nb-tab>
+    <nb-tab tabTitle="Org Structure">
+      <h5>One click organization structure creation.</h5>
+      <form>
+        <div class="form-group row">
+          <div class="col-md-2">
+            <label for="inputEmail1" class="col-form-label">Specify file path</label>
+          </div>
+          <div class="col-md-5">
+            <input type="email" class="form-control" id="inputEmail1" placeholder="eg: C:/Documents/exmaple.xlxs">
+          </div>
+          <div class="col-md-2">
+            <button class="btn btn-hero-secondary input-group-text">Browse</button>
+          </div>
+        </div>
+      </form>
+      <form>
+        <div class="form-group row">
+          <div class="col-md-1">
+            <button class="btn btn-success input-group-text">Upload</button>
+          </div>
+        </div>
+      </form>
+    </nb-tab>
+    <nb-tab tabTitle="Profile">
+      <div class="row margin-bottom-30">
+        <div class="com-sm-6 col-md-4">
+          <div class="margin-bottom-30">
+            <h5>Profile Picture</h5>
+          </div>
+          <div class="row">
+            <div class="col-md-12 margin-bottom-30">
+              <div class="row">
+                <div class="col-md-12">
+                  <nb-card>
+                    <nb-card-body>
+                      <div style="font-size: 120px; text-align: center;">
+                        <i class="fa fa-user-o"></i>
+                      </div>
+                    </nb-card-body>
+                  </nb-card>
+                </div>
+              </div>
+              <div class="container">
+                <div class="row">
+                  <button class="btn btn-success" style="width: 100%">
+                    Upload Photo
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-ms-6 col-md-8">
+          <form>
+            <div class="form-group row">
+              <label for="inputEmail1" class="col-sm-3 col-form-label">Your Name</label>
+              <div class="col-sm-9">
+                <input type="email" class="form-control" id="inputEmail1" placeholder="Your name">
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="inputEmail1" class="col-sm-3 col-form-label">Email</label>
+              <div class="col-sm-9">
+                <input type="email" class="form-control" id="inputEmail1" placeholder="Email">
+              </div>
+            </div>
+            <div class="form-group row">
+              <label class="col-sm-3">Address</label>
+              <div class="col-sm-9">
+                <textarea rows="5" placeholder="Address" class="form-control"></textarea>
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="inputEmail1" class="col-sm-3 col-form-label">Phone Number</label>
+              <div class="col-sm-9">
+                <input type="text" class="form-control" id="inputEmail1" placeholder="Phone number">
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="inputEmail1" class="col-sm-3 col-form-label">Employee Number</label>
+              <div class="col-sm-9">
+                <input type="text" class="form-control" id="inputEmail1" placeholder="Employee number">
+              </div>
+            </div>
+            <div class="form-group row">
+              <label class="col-sm-3">Discription</label>
+              <div class="col-sm-9">
+                <textarea rows="6" placeholder="Discription" class="form-control"></textarea>
+              </div>
+            </div>
+            <button class="btn btn-success float-right">Submit</button>
+          </form>
+        </div>
+      </div>
+    </nb-tab>
+  </nb-tabset>
+</nb-card>
