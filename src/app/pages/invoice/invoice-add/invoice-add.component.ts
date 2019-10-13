@@ -109,6 +109,7 @@ export class InvoiceAddComponent implements OnInit {
           item.price = this.selectedItem.itemDetailList[0].mrpPrice;
           item.id = length + 1;
           item.itemId = this.selectedItem.itemId;
+          item.discountPercentage=0;
           this.itemToSave.push(item);
           this.calculateTotal();
         } else {
@@ -137,6 +138,7 @@ export class InvoiceAddComponent implements OnInit {
       item.availableQuantity = selectedDetail.availableQuantity;
       item.price = selectedDetail.mrpPrice;
       item.itemId = this.selectedItem.itemId;
+      item.discountPercentage=0;
       item.id = length + 1;
       this.itemToSave.push(item);
       this.calculateTotal();
@@ -176,8 +178,9 @@ export class InvoiceAddComponent implements OnInit {
 
   calculateTotal() {
     this.totalAmount = 0.00;
-    this.itemToSave.forEach(element => {
-      this.totalAmount += (element.sellingQuantity * element.price)
+    this.itemToSave.forEach(item => {
+      console.log("discount values=======",_.round(1-(item.discountPercentage/100),2))
+      this.totalAmount += (item.sellingQuantity * item.price * _.round(1-(item.discountPercentage/100),2))
     });
     this.itemToSave = _.orderBy(this.itemToSave, ['id'], ['desc']);
 
@@ -228,6 +231,14 @@ export class InvoiceAddComponent implements OnInit {
   getSubCategory(id){
     id =Number(id);
     this.selectedSubCategory=  _.filter(this.subCategoryList, { 'mainCategoryId': id })
+  }
+  setDiscount(discountPer,itemId){
+    console.log("aaaaaaaaaaaaa",discountPer,"item id ==========",discountPer);
+    let findItem = _.find(this.itemToSave, { 'itemId': itemId })
+    _.remove(this.itemToSave, { 'itemId': itemId })
+    findItem.discountPercentage =Number(discountPer);
+    this.itemToSave.push(findItem);
+    this.calculateTotal();
   }
 
 }

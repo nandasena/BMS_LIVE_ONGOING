@@ -9,4 +9,5 @@ export class Item {
     availableQuantity:number;
     price:number;
     id:number;
+    discountPercentage:number;
 }

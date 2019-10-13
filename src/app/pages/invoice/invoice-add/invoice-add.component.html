@@ -81,6 +81,7 @@
             <th>Items</th>
             <th>Qty</th>
             <th>Available</th>
+            <th>Discount %</th>
             <th>Price</th>
             <th>Total</th>
             <th>Remove</th>
@@ -96,6 +97,8 @@
                 (change)=changeQty(item.itemDetailId,$event.target.value) numbersOnly>
             </td>
             <td>{{item.availableQuantity}}</td>
+            <td><input id="amountReceived" type="text" name="amountReceived" placeholder="%" (change)="setDiscount($event.target.value,item.itemId)"
+              value="{{item.discountPercentage}}" OnlyNumber="true" numbersOnlyDiscount></td>
             <td>{{item.price}}</td>
             <td>{{item.price * item.sellingQuantity }}</td>
             <td style="padding: 0px;padding-top:7px;">
