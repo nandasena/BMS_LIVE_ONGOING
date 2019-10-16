@@ -200,7 +200,7 @@ export class InvoiceAddComponent implements OnInit {
       this.itemToSave.push(findItem);
       this.calculateTotal();
     } else {
-      this.alertify.error('Entered quantity more than available quantity');
+      this.alertify.error('Entered quantity is more than available quantity');
       let price = findItem.price
       findItem.sellingQuantity = Number(1);
       findItem.total = price * Number(1) * _.round(1 - (findItem.discountPercentage / 100), 4)
@@ -251,6 +251,9 @@ export class InvoiceAddComponent implements OnInit {
             innerThis.spinner.hide();
             innerThis.alertify.success('Create successfull');
             innerThis.itemToSave = [];
+            innerThis.totalAmount=0.00;
+            innerThis.balance=0.00;
+            innerThis.cash=0.00;
           } else {
             innerThis.spinner.hide();
             innerThis.alertify.error('Create un-successfull');
