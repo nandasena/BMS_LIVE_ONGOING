@@ -241,6 +241,7 @@ export class InvoiceAddComponent implements OnInit {
   getSubCategory(id){
     id =Number(id);
     this.selectedSubCategory=  _.filter(this.subCategoryList, { 'mainCategoryId': id })
+    this.categoryWiseItemList=[];
   }
   setDiscount(discountPer,itemId){
     let findItem = _.find(this.itemToSave, { 'itemDetailId': itemId })
