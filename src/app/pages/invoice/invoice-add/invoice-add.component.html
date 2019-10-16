@@ -65,7 +65,7 @@
           </div>
           <div class="col-md-1" style="padding-left:0px;padding-right:0px;">
             <button type="button" class="btn btn-md btn-success btn-sm" style="height: 35px;padding-top: 8px;"
-              (click)="addSelectedItemToTable(selectedInventoryItem.value)">
+              (click)="addSelectedItemToTable(selectedInventoryItem.value,$event)">
               <span class="" style="color: black;">&#x2b;</span>
             </button>
           </div>
@@ -94,13 +94,13 @@
             <td>{{item.name}}</td>
             <td>
               <input type="text" ng-maxlength="3" class="table-number " name="tblQty" value="{{item.sellingQuantity}}"
-                (change)=changeQty(item.itemDetailId,$event.target.value) numbersOnly>
+                (change)=changeQty(item.itemDetailId,$event.target.value,$event) numbersOnly>
             </td>
             <td>{{item.availableQuantity}}</td>
             <td><input id="amountReceived" type="number" name="amountReceived" placeholder="%" (change)="setDiscount($event.target.value,item.itemDetailId)"
               value="{{item.discountPercentage}}" OnlyNumber="true" numbersOnlyDiscount></td>
-            <td>{{item.price}}</td>
-            <td>{{item.total}}</td>
+            <td>{{item.price | number:'1.2-2' }}</td>
+            <td>{{item.total | number:'1.2-2' }}</td>
             <td style="padding: 0px;padding-top:7px;">
               <button type="button" class="btn btn-default main-buttons-sub" style="height: 35px;padding-top: 8px;"
                 (click)="removeItem(item.itemDetailId)">
