@@ -38,6 +38,9 @@ export class InvoiceAddComponent implements OnInit {
   balance: number = 0.00;
   cash: number;
   selectedItemId: number;
+  customerList = [];
+  selectedCustomerName: string = '';
+  selectedCustomerId: number;
 
 
 
@@ -64,6 +67,12 @@ export class InvoiceAddComponent implements OnInit {
     this.invoiceService.getItemList().then((response) => {
       this.itemList = response.json().result;
     })
+
+    this.invoiceService.getCustomerList().then((response) => {
+      this.customerList = response.json().result;
+    })
+
+
 
     this.model = {
       date: {
@@ -241,7 +250,9 @@ export class InvoiceAddComponent implements OnInit {
         invoiceTosave.totalAmount = innerThis.totalAmount;
         invoiceTosave.itemList = innerThis.itemToSave;
         invoiceTosave.balanceAmount = 0.00;
-        invoiceTosave.customerName = 'Pasan Madusanka'
+        invoiceTosave.customerName = innerThis.selectedCustomerName;
+        invoiceTosave.customerId=innerThis.selectedCustomerId;
+
         invoiceTosave.invoiceDate = innerThis.model.formatted;
         innerThis.invoiceService.saveInvoice(invoiceTosave).then((response) => {
           innerThis.spinner.show();
@@ -251,9 +262,9 @@ export class InvoiceAddComponent implements OnInit {
             innerThis.spinner.hide();
             innerThis.alertify.success('Create successfull');
             innerThis.itemToSave = [];
-            innerThis.totalAmount=0.00;
-            innerThis.balance=0.00;
-            innerThis.cash=0.00;
+            innerThis.totalAmount = 0.00;
+            innerThis.balance = 0.00;
+            innerThis.cash = 0.00;
           } else {
             innerThis.spinner.hide();
             innerThis.alertify.error('Create un-successfull');
@@ -289,15 +300,22 @@ export class InvoiceAddComponent implements OnInit {
     this.itemToSave.push(findItem);
     this.calculateTotal();
   }
-  // @HostListener('change', ['$event']) onChange(event) {
-  //   let findItem = _.find(this.itemToSave, { 'itemDetailId': this.selectedItemId })
-  //   const initalValue = this.el.nativeElement.value;
-  //   let enterNumber =Number(initalValue);
-  //   if(findItem.availableQuantity >= enterNumber)
-  //   {
-  //     this.el.nativeElement.value=1
-  //   }
-  //   event.stopPropagation();
-  // }
+  addCustomerName(customerId,event) {
+    event.target.value='';
+    this.selectedCustomerId=null;
+    this.selectedCustomerName = '';
+    customerId = Number(customerId);
+    if (customerId == -1) {
+      this.selectedCustomerName = '';
+    } else {
+      let selectedCustomer = _.find(this.customerList, { 'customerId': customerId });
+      if (selectedCustomer != null) {
+        this.selectedCustomerName = selectedCustomer.firstName;
+        event.target.value=this.selectedCustomerName;
+        this.selectedCustomerId = selectedCustomer.customerId;
+      }
+
+    }
+  }
 
 }

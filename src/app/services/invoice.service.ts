@@ -42,4 +42,8 @@ export class InvoiceService{
     saveInvoice(invoiceToSave:any){
         return this.commonsService.apiPost(invoiceToSave,'invoice/')
     }
+
+    getCustomerList(){
+        return this.commonsService.apiGet('customer/'); 
+    }
 }

@@ -4,5 +4,6 @@ export class InvoiceModel {
     invoiceDate:string;
     customerName:string;
     balanceAmount:number;
+    customerId:number;
     itemList:Item[];
 }
