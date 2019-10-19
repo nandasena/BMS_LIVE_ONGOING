@@ -1,7 +1,6 @@
 <ngx-spinner bdColor="rgba(51, 51, 51, 0.8)" size="large" color="#fff" type="ball-clip-rotate-multiple"></ngx-spinner>
 <div class="modal-header" style="padding: 0px;">
   <span>Create New Invoice</span>
-  <!-- <button class="close" aria-label="Close" (click)="closeModal()"></button> -->
   <span aria-hidden="true"></span>
 </div>
 <div class="modal-body">
@@ -14,10 +13,6 @@
             <input type="email" class="form-control-sm" placeholder="Invoice No:" style="padding-left: 19px;">
           </div>
           <label for="inputEmail1" class="col-sm-2 col-form-label" style="padding-top: 3px;">Invoice Date:</label>
-          <!-- <div class="col-sm-3" style="padding:0px;">
-            <input type="email" class="form-control-sm"
-              placeholder="Invoice Date:">
-          </div> -->
           <div class="col-sm-3">
             <my-date-picker name="mydate" [options]="myDatePickerOptions" [(ngModel)]="model" required></my-date-picker>
           </div>
@@ -25,18 +20,20 @@
 
       </div>
       <div class="col-sm-2 col-form-label">
-        <!-- <select class="form-control-sm" #selectedCustomer (change)="addCustomerName($event.target.value)"
-          style="width: 100%; height: 36px;">
-          <option selected [value]="-1">Select Customer</option>
-          <option *ngFor="let customer of this.customerList" [value]="customer.customerId">
-            {{ customer.firstName }}
-          </option>
-        </select> -->
-
-        <input list="customer" autocomplete="off" class="form-control" name="customer" (change)="addCustomerName($event.target.value,$event)" placeholder="Select Customer" style="width: 100%; height: 36px;padding-left: 8px;">
+        <input list="customer" autocomplete="off" class="form-control" id="selectedCustomer" [(ngModel)]="selectedCustomer" name="customer"
+          (change)="addCustomerName($event.target.value,$event)" placeholder="Select Customer"
+          style="width: 100%; height: 36px;padding-left: 8px;">
         <datalist id="customer">
           <option *ngFor="let customer of customerList" [value]="customer.customerId">{{ customer.firstName }}</option>
         </datalist>
+      </div>
+      <div class="col-sm-2 col-form-label">
+        <input autocomplete="off" class="form-control" name="itemCode"
+          (change)="getItemByItemCode($event.target.value,$event)" placeholder="Enter Item Code"
+          style="width: 100%; height: 36px;padding-left: 8px;">
+        <!-- <datalist id="customer">
+          <option *ngFor="let customer of customerList" [value]="customer.customerId">{{ customer.firstName }}</option>
+        </datalist> -->
       </div>
     </div>
 
@@ -52,9 +49,6 @@
               <option *ngFor="let mainCategory of this.mainCategoryList" [value]="mainCategory.mainCategoryId">
                 {{ mainCategory.name }}
               </option>
-              <!-- <option>test1</option>
-              <option>test2</option>
-              <option>test3</option> -->
             </select>
           </div>
           <div class="col-md-3" style="padding: 0px; padding-left: 5px;">
@@ -64,9 +58,6 @@
               <option *ngFor="let subCategory of this.selectedSubCategory" [value]="subCategory.subCategoryId">
                 {{ subCategory.name }}
               </option>
-              <!-- <option>test1</option>
-              <option>test2</option>
-              <option>test3</option> -->
             </select>
           </div>
           <div class="col-md-3">

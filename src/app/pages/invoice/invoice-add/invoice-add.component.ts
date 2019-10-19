@@ -41,6 +41,7 @@ export class InvoiceAddComponent implements OnInit {
   customerList = [];
   selectedCustomerName: string = '';
   selectedCustomerId: number;
+  selectedCustomer
 
 
 
@@ -251,7 +252,7 @@ export class InvoiceAddComponent implements OnInit {
         invoiceTosave.itemList = innerThis.itemToSave;
         invoiceTosave.balanceAmount = 0.00;
         invoiceTosave.customerName = innerThis.selectedCustomerName;
-        invoiceTosave.customerId=innerThis.selectedCustomerId;
+        invoiceTosave.customerId = innerThis.selectedCustomerId;
 
         invoiceTosave.invoiceDate = innerThis.model.formatted;
         innerThis.invoiceService.saveInvoice(invoiceTosave).then((response) => {
@@ -265,6 +266,7 @@ export class InvoiceAddComponent implements OnInit {
             innerThis.totalAmount = 0.00;
             innerThis.balance = 0.00;
             innerThis.cash = 0.00;
+            innerThis.selectedCustomer=""
           } else {
             innerThis.spinner.hide();
             innerThis.alertify.error('Create un-successfull');
@@ -300,9 +302,9 @@ export class InvoiceAddComponent implements OnInit {
     this.itemToSave.push(findItem);
     this.calculateTotal();
   }
-  addCustomerName(customerId,event) {
-    event.target.value='';
-    this.selectedCustomerId=null;
+  addCustomerName(customerId, event) {
+    event.target.value = '';
+    this.selectedCustomerId = null;
     this.selectedCustomerName = '';
     customerId = Number(customerId);
     if (customerId == -1) {
@@ -311,11 +313,72 @@ export class InvoiceAddComponent implements OnInit {
       let selectedCustomer = _.find(this.customerList, { 'customerId': customerId });
       if (selectedCustomer != null) {
         this.selectedCustomerName = selectedCustomer.firstName;
-        event.target.value=this.selectedCustomerName;
+        event.target.value = this.selectedCustomerName;
         this.selectedCustomerId = selectedCustomer.customerId;
       }
 
     }
+  }
+
+  getItemByItemCode(itemCode, event) {
+    this.invoiceService.getItemByItemCode(itemCode.trim()).then((response) => {
+      let getItem = response.json().result;
+      if (getItem != null) {
+        this.selectedItem = getItem;
+        if (this.selectedItem.itemDetailList.length > 1) {
+          var modal = document.getElementById("myModal");
+          this.itemDetailList = this.selectedItem.itemDetailList;
+          modal.style.display = "block";
+
+        } else {
+          this.closeModal()
+
+          if (typeof this.selectedItem.itemDetailList[0] != 'undefined') {
+
+            if (this.selectedItem.itemDetailList[0].availableQuantity >= 1) {
+              let foundItem = _.find(this.itemToSave, { 'itemDetailId': this.selectedItem.itemDetailList[0].itemDetailId })
+              _.remove(this.itemToSave, { 'itemDetailId': this.selectedItem.itemDetailList[0].itemDetailId })
+              let length = this.itemToSave.length;
+              if (foundItem == null) {
+                let item = new Item();
+                item.subCategoryId = Number(this.selectedItem.subCategoryId);
+                item.name = this.selectedItem.description;
+                item.itemDetailId = this.selectedItem.itemDetailList[0].itemDetailId;
+                item.sellingQuantity = 1
+                item.availableQuantity = this.selectedItem.itemDetailList[0].availableQuantity;
+                item.price = this.selectedItem.itemDetailList[0].mrpPrice;
+                item.id = length + 1;
+                item.itemId = this.selectedItem.itemId;
+                item.discountPercentage = 0;
+                item.total = this.selectedItem.itemDetailList[0].mrpPrice * 1
+                this.itemToSave.push(item);
+                this.calculateTotal();
+              } else {
+                if (this.selectedItem.itemDetailList[0].availableQuantity > foundItem.sellingQuantity) {
+                  let price = foundItem.price
+                  let qty = foundItem.sellingQuantity;
+                  foundItem.sellingQuantity++
+                  foundItem.total = price * (++qty) * _.round(1 - (foundItem.discountPercentage / 100), 4)
+
+                } else {
+                  this.alertify.error('Quantity not enough...');
+                }
+                this.itemToSave.push(foundItem);
+                this.calculateTotal();
+              }
+            } else {
+              this.alertify.error('Quantity not avalable...');
+            }
+          } else {
+            this.alertify.error('Item not here');
+          }
+        }
+      } else {
+        this.alertify.error('Item Not Found....');
+      }
+      event.target.value = '';
+    })
+
   }
 
 }

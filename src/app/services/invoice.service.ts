@@ -46,4 +46,7 @@ export class InvoiceService{
     getCustomerList(){
         return this.commonsService.apiGet('customer/'); 
     }
+    getItemByItemCode(itemCode){
+        return this.commonsService.apiGet('item/'+itemCode);
+    }
 }
