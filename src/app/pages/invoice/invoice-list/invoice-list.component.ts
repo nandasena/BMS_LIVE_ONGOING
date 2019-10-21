@@ -49,7 +49,11 @@ export class InvoiceListComponent implements OnInit {
       },
       totalAmount: {
         title: 'Total Amount',
-        type: 'string',
+        valuePrepareFunction: (value) => { return value === 'Total'? value : Intl.NumberFormat("ja-JP",{style: "decimal", currency: "JPY", minimumFractionDigits: 2, maximumFractionDigits: 2}).format(value)}
+      },
+      invoiceDiscount: {
+        title: 'Invoice Discount',
+        valuePrepareFunction: (value) => { return value === 'Total'? value : Intl.NumberFormat("ja-JP",{style: "decimal", currency: "JPY", minimumFractionDigits: 2, maximumFractionDigits: 2}).format(value)}
       },
       invoiceDateOfString: {
         title: 'Invoice Date',

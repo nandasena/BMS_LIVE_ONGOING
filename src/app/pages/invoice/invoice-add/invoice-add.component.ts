@@ -148,7 +148,7 @@ export class InvoiceAddComponent implements OnInit {
     }
 
   }
-  selectedItemDetails(itemDetailId, itemDetail) {
+  selectedItemDetails(itemDetailId) {
     itemDetailId = Number(itemDetailId);
     let foundItem = _.find(this.itemToSave, { 'itemDetailId': itemDetailId })
     _.remove(this.itemToSave, { 'itemDetailId': itemDetailId })
@@ -267,6 +267,17 @@ export class InvoiceAddComponent implements OnInit {
             innerThis.balance = 0.00;
             innerThis.cash = 0.00;
             innerThis.selectedCustomer=""
+            innerThis.invoiceService.getItemList().then((response) => {
+              innerThis.itemList = response.json().result;
+            });
+            innerThis.categoryWiseItemList=[];
+            innerThis.selectedSubCategory=[];
+            innerThis.mainCategoryList=[];
+            innerThis.invoiceService.getMaiCategoryList().then((response) => {
+              innerThis.mainCategoryList = response.json().result;
+            })
+        
+        
           } else {
             innerThis.spinner.hide();
             innerThis.alertify.error('Create un-successfull');
