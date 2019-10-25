@@ -49,4 +49,7 @@ export class InvoiceService{
     getItemByItemCode(itemCode){
         return this.commonsService.apiGet('item/'+itemCode);
     }
+    getInvoiceDetailByInvoiceId(invoiceId){
+        return this.commonsService.apiGet('invoice/'+invoiceId);
+    }
 }

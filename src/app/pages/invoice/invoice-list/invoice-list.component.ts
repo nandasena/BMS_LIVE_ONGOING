@@ -13,10 +13,6 @@ import { AlertifyService } from '../../../services/alertify.service';
   styleUrls: ['./invoice-list.component.scss']
 })
 export class InvoiceListComponent implements OnInit {
-  private kpiId: number;
-  private kpiName: string;
-  private uom: string;
-  private description: string;
   InvoiceList;
 
   settings = {
@@ -84,7 +80,6 @@ export class InvoiceListComponent implements OnInit {
       let retunData = response.json();
       if (retunData.statusCode == 200) {
         this.InvoiceList = retunData.result;
-        console.log("invoce List is ====", this.InvoiceList)
         this.invoiceService.loadEditObject(this.InvoiceList);
       }
 
@@ -102,24 +97,25 @@ export class InvoiceListComponent implements OnInit {
   }
 
   onEdit(event): void {
-    console.log('EDITTT===', event.data);
-    this.kpiId = event.data.id;
-    this.kpiName = event.data.name;
-    this.uom = event.data.uom;
-    this.description = event.data.description;
-    this.showEditModal();
+    this.showEditModal(event.data.id,event.data.invoiceNumber);
   }
 
   onDelete(event): void {
     this.alertify.success('Confirm Message');
-
-
   }
 
-  showEditModal() {
-    const activeEditModal = this.modalService.open(InvoiceEditComponent, { size: 'lg', container: 'nb-layout' });
-    activeEditModal.componentInstance.kpiId = this.kpiId;
-    activeEditModal.componentInstance.kipName = this.kpiName;
+  showEditModal(id,invoiceNumber) {
+
+    let options: any = {
+      size: "lg modal-dialog my-modal",
+      container: 'nb-layout',
+      class: "my-modal",
+      style:'padding: 117px'
+    };
+    
+    const activeEditModal = this.modalService.open(InvoiceEditComponent,options);
+    activeEditModal.componentInstance.invoiceId=id;
+    activeEditModal.componentInstance.invoiceNumber=invoiceNumber;
   }
 
 }
