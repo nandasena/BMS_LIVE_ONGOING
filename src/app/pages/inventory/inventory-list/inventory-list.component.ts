@@ -8,7 +8,7 @@ import { InventoryIssueBtnComponent } from './inventory-issue-btn-component';
 import { from } from 'rxjs/observable/from';
 
 @Component({
-  selector: 'issue-list',
+  selector: 'inventory-list',
   templateUrl: './inventory-list.component.html',
   styleUrls: ['./inventory-list.component.scss']
 })
@@ -45,19 +45,19 @@ export class InventoryListComponent implements OnInit {
       },
       cost: {
         title: 'Item Cost',
-        type: 'string',
+        valuePrepareFunction: (value) => { return value === 'Total'? value : Intl.NumberFormat("ja-JP",{style: "decimal", currency: "JPY", minimumFractionDigits: 2, maximumFractionDigits: 2}).format(value)}
       },
       fabricatorPrice: {
         title: 'Fabrication Price',
-        type: 'number',
+        valuePrepareFunction: (value) => { return value === 'Total'? value : Intl.NumberFormat("ja-JP",{style: "decimal", currency: "JPY", minimumFractionDigits: 2, maximumFractionDigits: 2}).format(value)}
       },
       price: {
         title: 'MRP Price',
-        type: 'number',
+        valuePrepareFunction: (value) => { return value === 'Total'? value : Intl.NumberFormat("ja-JP",{style: "decimal", currency: "JPY", minimumFractionDigits: 2, maximumFractionDigits: 2}).format(value)}
       },
       availableQuantity: {
         title: 'quantity',
-        type: 'number',
+        valuePrepareFunction: (value) => { return value === 'Total'? value : Intl.NumberFormat("ja-JP",{style: "decimal", currency: "JPY", minimumFractionDigits: 2, maximumFractionDigits: 2}).format(value)}
       },
       button: {
         title: '',
