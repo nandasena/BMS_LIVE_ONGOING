@@ -55,19 +55,6 @@ export class InvoiceListComponent implements OnInit {
         title: 'Invoice Date',
         type: 'string',
       },
-      // kpiValues: {
-      //   title: 'Total Amount',
-      //   type: 'string',
-      // },
-      // assignee: {
-      //   title: 'Assignee',
-      //   type: 'string',
-      // },
-      // button: {
-      //   title: '',
-      //   type: 'custom',
-      //   renderComponent: CustomRenderComponent,
-      // },
     },
   };
 
@@ -82,12 +69,7 @@ export class InvoiceListComponent implements OnInit {
         this.InvoiceList = retunData.result;
         this.invoiceService.loadEditObject(this.InvoiceList);
       }
-
-
-
     });
-
-
   }
 
   ngOnInit() {

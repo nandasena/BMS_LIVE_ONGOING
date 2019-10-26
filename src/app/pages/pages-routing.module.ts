@@ -5,7 +5,7 @@ import { PagesComponent } from './pages.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { InvoiceComponent } from './invoice/invoice.component';
 import { InvoiceAddComponent } from './invoice/invoice-add/invoice-add.component';
-import { IssuesComponent } from './issues/issues.component';
+import { InventoryComponent } from './inventory/inventory.component';
 import { SettingsComponent } from './settings/settings.component';
 import { BusinessSelfieComponent } from './business-selfie/business-selfie.component';
 import { TeamComponent } from './dashboard/team/team.component';
@@ -23,7 +23,7 @@ const routes: Routes = [{
   },
   {
     path: 'issues',
-    component: IssuesComponent,
+    component: InventoryComponent,
   },
   {
     path: 'settings',

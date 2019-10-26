@@ -3,14 +3,14 @@ import { LocalDataSource, ViewCell } from 'ng2-smart-table';
 import { SmartTableService } from '../../../@core/data/smart-table.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
-import { AssignIssueBtnComponent } from './assign-issue-btn-component';
+import { InventoryIssueBtnComponent } from './inventory-issue-btn-component';
 
 @Component({
   selector: 'issue-list',
-  templateUrl: './issue-list.component.html',
-  styleUrls: ['./issue-list.component.scss']
+  templateUrl: './inventory-list.component.html',
+  styleUrls: ['./inventory-list.component.scss']
 })
-export class IssueListComponent implements OnInit {
+export class InventoryListComponent implements OnInit {
 
   settings = {
     mode: 'external',
@@ -30,7 +30,7 @@ export class IssueListComponent implements OnInit {
       deleteButtonContent: '<i class="nb-trash"></i>',
       confirmDelete: true,
     },
-    
+
     columns: {
       id: {
         title: 'Identifier Code',
@@ -67,7 +67,7 @@ export class IssueListComponent implements OnInit {
       button: {
         title: '',
         type: 'custom',
-        renderComponent: AssignIssueBtnComponent
+        renderComponent: InventoryIssueBtnComponent
       }
     },
   };

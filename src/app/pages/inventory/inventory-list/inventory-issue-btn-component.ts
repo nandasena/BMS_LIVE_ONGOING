@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { ViewCell } from 'ng2-smart-table';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
-import { IssueAssignComponent } from '../issue-assign/issue-assign.component';
+import { InventoryAssignComponent } from '../inventory-assign/inventory-assign.component';
 
 @Component({
     template: `
@@ -11,7 +11,7 @@ import { IssueAssignComponent } from '../issue-assign/issue-assign.component';
     `,
 })
 
-export class AssignIssueBtnComponent implements ViewCell, OnInit {
+export class InventoryIssueBtnComponent implements ViewCell, OnInit {
 
     renderValue: string;
 
@@ -26,7 +26,7 @@ export class AssignIssueBtnComponent implements ViewCell, OnInit {
     }
 
     assignMember() {
-        const activeModal = this.modalService.open(IssueAssignComponent, { size: 'lg', container: 'nb-layout' });
+        const activeModal = this.modalService.open(InventoryAssignComponent, { size: 'lg', container: 'nb-layout' });
     }
 
 }

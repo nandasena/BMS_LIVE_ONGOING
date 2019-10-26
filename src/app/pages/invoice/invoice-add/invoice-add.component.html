@@ -1,9 +1,10 @@
 <ngx-spinner bdColor="rgba(51, 51, 51, 0.8)" size="large" color="#fff" type="ball-clip-rotate-multiple"></ngx-spinner>
-<div class="modal-header" style="padding: 0px;">
-  <span>Create New Invoice</span>
-  <span aria-hidden="true"></span>
-</div>
-<div class="modal-body">
+
+<div class="modal-body" style="height:100%;">
+    <div class="modal-header" style="padding: 0px;">
+        <span>Create New Invoice</span>
+        <span aria-hidden="true"></span>
+      </div>
   <form>
     <div class="form-group row">
       <div class="col-sm-8 col-form-label">
@@ -119,56 +120,56 @@
         </tbody>
       </table>
     </div>
-
+    <div class="row">
+      <div class="col-md-5">
+        <div class="row form-group">
+          <div class="col-md-4 main-font hidden-sm" style="padding-top: 20px;">
+            <label for="amount">Net Total</label>
+          </div>
+          <div class="col-md-8 main-font form-group mb-2">
+            <input class="text-right form-control" id="amount" type="text" name="amount"
+              value="{{totalAmount | number:'1.2-2'}}" placeholder="0.00" readonly>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+    
+      </div>
+      <div class="col-md-3">
+        <button class="btn btn-md btn-success" (click)="saveInvoice()">Create</button>
+        <button class="btn btn-hero-secondary btn-demo" (click)="closeModal()">Close</button>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-5">
+        <div class="row form-group">
+          <div class="col-md-4 main-font hidden-sm" style="padding-top: 20px;">
+            <label for="amount">Cash</label>
+          </div>
+          <div class="col-md-8 main-font form-group mb-2">
+            <input class="text-right form-control" (change)="getBalanceAmount($event.target.value)" id="cash" type="text"
+              name="cash" value="{{cash | number:'1.2-2'}}" placeholder="0.00" numbersOnly>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-5">
+        <div class="row form-group">
+          <div class="col-md-4 main-font hidden-sm" style="padding-top: 20px;">
+            <label for="amount">Balance</label>
+          </div>
+          <div class="col-md-8 main-font form-group mb-2">
+            <input class="text-right form-control" id="balance" type="text" name="balance"
+              value="{{balance | number:'1.2-2'}}" placeholder="0.00" readonly>
+          </div>
+        </div>
+      </div>
+    </div>
   </form>
 </div>
 
-<div class="row">
-  <div class="col-md-5">
-    <div class="row form-group">
-      <div class="col-md-4 main-font hidden-sm" style="padding-top: 20px;">
-        <label for="amount">Net Total</label>
-      </div>
-      <div class="col-md-8 main-font form-group mb-2">
-        <input class="text-right form-control" id="amount" type="text" name="amount"
-          value="{{totalAmount | number:'1.2-2'}}" placeholder="0.00" readonly>
-      </div>
-    </div>
-  </div>
-  <div class="col-md-4">
 
-  </div>
-  <div class="col-md-3">
-    <button class="btn btn-md btn-success" (click)="saveInvoice()">Create</button>
-    <button class="btn btn-hero-secondary btn-demo" (click)="closeModal()">Close</button>
-  </div>
-</div>
-<div class="row">
-  <div class="col-md-5">
-    <div class="row form-group">
-      <div class="col-md-4 main-font hidden-sm" style="padding-top: 20px;">
-        <label for="amount">Cash</label>
-      </div>
-      <div class="col-md-8 main-font form-group mb-2">
-        <input class="text-right form-control" (change)="getBalanceAmount($event.target.value)" id="cash" type="text"
-          name="cash" value="{{cash | number:'1.2-2'}}" placeholder="0.00" numbersOnly>
-      </div>
-    </div>
-  </div>
-</div>
-<div class="row">
-  <div class="col-md-5">
-    <div class="row form-group">
-      <div class="col-md-4 main-font hidden-sm" style="padding-top: 20px;">
-        <label for="amount">Balance</label>
-      </div>
-      <div class="col-md-8 main-font form-group mb-2">
-        <input class="text-right form-control" id="balance" type="text" name="balance"
-          value="{{balance | number:'1.2-2'}}" placeholder="0.00" readonly>
-      </div>
-    </div>
-  </div>
-</div>
 
 <div id="myModal" class="modal"
   style="position: absolute; top: 263px; right:400px; bottom: 0; left:400px; z-index: 10040; overflow: auto; overflow-y: auto;">
