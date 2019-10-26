@@ -22,3 +22,10 @@ ng2-smart-table /deep/ thead th:last-child {
   padding: 0rem 0rem 0rem 0.2rem;
   font-size: 13px;
 }
+
+:host /deep/ ng2-smart-table table .ng2-smart-actions a.ng2-smart-action i.fa {
+  font-size: 18px !important;
+}
+
+
+

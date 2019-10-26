@@ -13,5 +13,6 @@ export class Item {
     total:number;
     fabricatorPrice:number;
     cost:number;
+    itemCode:string;
     
 }

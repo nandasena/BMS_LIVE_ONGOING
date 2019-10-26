@@ -27,11 +27,15 @@ export class InvoiceListComponent implements OnInit {
       cancelButtonContent: '<i class="nb-close"></i>',
     },
     edit: {
-      editButtonContent: '<i class="nb-edit"></i>',
+      editButtonContent: '<i class="fa fa-arrows-alt"></i>',
     },
     delete: {
       deleteButtonContent: '<i class="nb-trash"></i>',
       confirmDelete: true,
+    },
+    pager: {
+      display: true,
+      perPage: 15
     },
 
     columns: {

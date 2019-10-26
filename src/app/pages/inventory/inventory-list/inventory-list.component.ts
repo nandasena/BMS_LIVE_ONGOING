@@ -33,9 +33,16 @@ export class InventoryListComponent implements OnInit {
       deleteButtonContent: '<i class="nb-trash"></i>',
       confirmDelete: true,
     },
-
+    pager: {
+      display: true,
+      perPage: 15
+    },
     columns: {
       itemId: {
+        title: 'Item Id',
+        type: 'number',
+      },
+      itemCode: {
         title: 'Item Id',
         type: 'number',
       },
@@ -59,11 +66,11 @@ export class InventoryListComponent implements OnInit {
         title: 'quantity',
         valuePrepareFunction: (value) => { return value === 'Total'? value : Intl.NumberFormat("ja-JP",{style: "decimal", currency: "JPY", minimumFractionDigits: 2, maximumFractionDigits: 2}).format(value)}
       },
-      button: {
-        title: '',
-        type: 'custom',
-        renderComponent: InventoryIssueBtnComponent
-      }
+      // button: {
+      //   title: '',
+      //   type: 'custom',
+      //   renderComponent: InventoryIssueBtnComponent
+      // }
     },
   };
 
@@ -82,6 +89,7 @@ export class InventoryListComponent implements OnInit {
             tempItem.fabricatorPrice = itemDetail.fabricatorPrice;
             tempItem.price=itemDetail.mrpPrice;
             tempItem.availableQuantity=itemDetail.availableQuantity;
+            tempItem.itemCode=item.itemCode;
             this.inventoryList.push(tempItem);
           });
       });
