@@ -28,7 +28,7 @@ export class InvoiceAddComponent implements OnInit {
   selectedSubCategory = [];
   itemDetailList = [];
   invoiceToSave: InvoiceModel;
-  itemToSave: Item[] = []
+  itemToSave: Item[] = [];
   selectedItem;
   totalAmount: number = 0.00;
   model = { date: {}, formatted: '' };

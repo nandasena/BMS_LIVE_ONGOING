@@ -22,7 +22,7 @@ const routes: Routes = [{
     component: InvoiceComponent,
   },
   {
-    path: 'issues',
+    path: 'inventory',
     component: InventoryComponent,
   },
   {

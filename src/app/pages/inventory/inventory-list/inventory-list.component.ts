@@ -2,8 +2,10 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { LocalDataSource, ViewCell } from 'ng2-smart-table';
 import { SmartTableService } from '../../../@core/data/smart-table.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-
+import { InventoryService } from '../../../services/inventory.service';
+import { Item } from '../../../models/item_modal';
 import { InventoryIssueBtnComponent } from './inventory-issue-btn-component';
+import { from } from 'rxjs/observable/from';
 
 @Component({
   selector: 'issue-list',
@@ -11,6 +13,7 @@ import { InventoryIssueBtnComponent } from './inventory-issue-btn-component';
   styleUrls: ['./inventory-list.component.scss']
 })
 export class InventoryListComponent implements OnInit {
+  inventoryList: Item[] = [];
 
   settings = {
     mode: 'external',
@@ -32,37 +35,29 @@ export class InventoryListComponent implements OnInit {
     },
 
     columns: {
-      id: {
-        title: 'Identifier Code',
+      itemId: {
+        title: 'Item Id',
         type: 'number',
       },
-      issue: {
-        title: 'Issue',
+      name: {
+        title: 'Item Name',
         type: 'string',
       },
-      reportedBy: {
-        title: 'Reported By',
+      cost: {
+        title: 'Item Cost',
         type: 'string',
       },
-      priority: {
-        title: 'Priority',
-        type: 'string',
+      fabricatorPrice: {
+        title: 'Fabrication Price',
+        type: 'number',
       },
-      // reportedDate: {
-      //   title: 'Reported Date',
-      //   type: 'string',
-      // },
-      // type: {
-      //   title: 'Type',
-      //   type: 'string',
-      // },
-      completedDate: {
-        title: 'Completed Date',
-        type: 'string',
+      price: {
+        title: 'MRP Price',
+        type: 'number',
       },
-      helpingPerson: {
-        title: 'Helping Person',
-        type: 'string',
+      availableQuantity: {
+        title: 'quantity',
+        type: 'number',
       },
       button: {
         title: '',
@@ -74,9 +69,26 @@ export class InventoryListComponent implements OnInit {
 
   source: LocalDataSource = new LocalDataSource();
 
-  constructor(private service: SmartTableService, private modalService: NgbModal) {
-    const data = this.service.getIssueList();
-    this.source.load(data);
+  constructor(private inventoryService: InventoryService, private modalService: NgbModal) {
+    this.inventoryService.getAllItem().then(response => {
+      let itemList = response.json().result;
+      itemList.forEach(item => {
+          item.itemDetailList.forEach(itemDetail => {
+            let tempItem = new Item();
+            tempItem.itemId = item.itemId;
+            tempItem.name = item.itemName;
+            tempItem.availableQuantity = itemDetail.availableQuantity
+            tempItem.cost = itemDetail.costPrice;
+            tempItem.fabricatorPrice = itemDetail.fabricatorPrice;
+            tempItem.price=itemDetail.mrpPrice;
+            tempItem.availableQuantity=itemDetail.availableQuantity;
+            this.inventoryList.push(tempItem);
+          });
+      });
+
+      this.source.load(this.inventoryList);
+    });
+
   }
 
   ngOnInit() {
