@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
+
 @Component({
-  selector: 'issue-assign',
-  templateUrl: './issue-assign.component.html',
-  styleUrls: ['./issue-assign.component.scss']
+  selector: 'issue-add',
+  templateUrl: './inventory-add.component.html',
+  styleUrls: ['./inventory-add.component.scss']
 })
-export class IssueAssignComponent implements OnInit {
+export class InventoryAddComponent implements OnInit {
 
   constructor(private activeModal: NgbActiveModal) { }
 

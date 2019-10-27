@@ -1,42 +1,63 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,Input } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { InvoiceService } from '../../../services/invoice.service';
+import { LocalDataSource, ViewCell } from 'ng2-smart-table';
 
 @Component({
-  selector: 'kpi-edit',
+  selector: 'invoice-view',
   templateUrl: './invoice-edit.component.html',
   styleUrls: ['./invoice-edit.component.scss']
 })
 export class InvoiceEditComponent implements OnInit {
-
-  constructor(private activeModal: NgbActiveModal) { }
+  @Input() invoiceId;
+  @Input() invoiceNumber;
+  source: LocalDataSource = new LocalDataSource();
+  settings = {
+    mode: 'external',
+    hideSubHeader: true,
+    actions: false,
+    add: {
+      addButtonContent: '<i class="nb-plus"></i>',
+      createButtonContent: '<i class="nb-checkmark"></i>',
+      cancelButtonContent: '<i class="nb-close"></i>',
+    },
+    columns: {
+      itemId: {
+        title: 'Item Id',
+        type: 'number',
+      },
+      itemName: {
+        title: 'Item Name',
+        type: 'string',
+      },
+      mrpPrice: {
+        title: 'Item Price',
+        valuePrepareFunction: (value) => { return value === 'Total'? value : Intl.NumberFormat("ja-JP",{style: "decimal", currency: "JPY", minimumFractionDigits: 2, maximumFractionDigits: 2}).format(value)}
+      },
+      quantity: {
+        title: 'Quantity',
+        type: 'string',
+      },
+      totalItemAmount: {
+        title: 'Total',
+        valuePrepareFunction: (value) => { return value === 'Total'? value : Intl.NumberFormat("ja-JP",{style: "decimal", currency: "JPY", minimumFractionDigits: 2, maximumFractionDigits: 2}).format(value)}
+      },
+      totalItemDiscount: {
+        title: 'Discount',
+        valuePrepareFunction: (value) => { return value === 'Total'? value : Intl.NumberFormat("ja-JP",{style: "decimal", currency: "JPY", minimumFractionDigits: 2, maximumFractionDigits: 2}).format(value)}
+      }
+    },
+  };
+  constructor(private activeModal: NgbActiveModal,private invoiceService:InvoiceService) { }
 
   ngOnInit() {
+    this.invoiceService.getInvoiceDetailByInvoiceId(this.invoiceId).then(responce=>{
+      this.source.load(responce.json().result);
+    })
+
   }
 
-  buttonsViews = [{
-    title: 'Select UOM',
-  },{
-    title: 'Amount',
-  }, {
-    title: 'Hours per Quarter',
-  }, {
-    title: 'Milestone',
-  }];
-
-  selectedView = this.buttonsViews[0];
-
-  members = [{
-    title: 'Select Member',
-  },{
-    title: 'Sam Akpin',
-  }, {
-    title: 'Hours per Quarter',
-  }, {
-    title: 'Milestone',
-  }];
-
-  memebersView = this.members[0];
-
+  
   closeModal() {
     this.activeModal.close();
   }

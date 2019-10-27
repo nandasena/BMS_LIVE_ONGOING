@@ -1,58 +1,13 @@
 <div class="modal-header">
-  <span>Edit KPIs / ID - </span>
+  <span>Invoice Details / NO - {{invoiceNumber}}</span>
   <button class="close" aria-label="Close" (click)="closeModal()">
     <span aria-hidden="true">&times;</span>
   </button>
 </div>
-<div class="modal-body">
-  <form>
-    <div class="form-group row">
-      <label for="inputEmail1" class="col-sm-3 col-form-label">KPI Name</label>
-      <div class="col-sm-9">
-        <input type="email" class="form-control" id="inputEmail1" placeholder="KPI name" value="Total sales value">
-      </div>
-    </div>
-    <div class="form-group row">
-      <label for="inputPassword2" class="col-sm-3 col-form-label">UOM</label>
-      <div class="col-sm-9">
-        <div class="dropdown input-group-btn" ngbDropdown>
-          <button type="button" class="btn btn-outline-success dropdown-toggle" ngbDropdownToggle>
-            {{ selectedView.title }}
-          </button>
-          <ul class="dropdown-menu" ngbDropdownMenu>
-            <li class="dropdown-item" *ngFor="let v of buttonsViews" (click)="this.selectedView = v">{{ v.title }}</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-    <div class="form-group row">
-      <label class="col-sm-3">Description</label>
-      <div class="col-sm-9">
-        <textarea rows="5" placeholder="Total sales value should be 20,000" class="form-control" value="Total sales value should be 20,000"></textarea>
-      </div>
-    </div>
-    <div class="form-group row">
-      <label for="inputEmail1" class="col-sm-3 col-form-label">KPI Value</label>
-      <div class="col-sm-9">
-        <input type="email" class="form-control" id="inputEmail1" placeholder="KPI Value" value="20,000">
-      </div>
-    </div>
-    <div class="form-group row">
-      <label for="inputPassword2" class="col-sm-3 col-form-label">Member</label>
-      <div class="col-sm-9">
-        <div class="dropdown input-group-btn" ngbDropdown>
-          <button type="button" class="btn btn-outline-success dropdown-toggle" ngbDropdownToggle>
-            {{ memebersView.title }}
-          </button>
-          <ul class="dropdown-menu" ngbDropdownMenu>
-            <li class="dropdown-item" *ngFor="let v of members" (click)="this.memebersView = v">{{ v.title }}</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </form>
+<div style="padding:10px;">
+  <ng2-smart-table [settings]="settings" [source]="source">
+  </ng2-smart-table>
 </div>
-<div class="modal-footer">
-  <button class="btn btn-md btn-success" (click)="closeModal()">Create</button>
-  <button class="btn btn-hero-secondary btn-demo" (click)="closeModal()">Close</button>
+
+<div class="modal-header" style="padding: 8px;">
 </div>

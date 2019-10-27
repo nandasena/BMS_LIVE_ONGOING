@@ -13,9 +13,9 @@ export const MENU_ITEMS: NbMenuItem[] = [
     link: '/pages/invoice'
   },
   {
-    title: 'Issues',
+    title: 'Inventory',
     icon: 'nb-pause',
-    link: '/pages/issues',
+    link: '/pages/inventory',
   },
   // {
   //   title: 'Business Selfie',

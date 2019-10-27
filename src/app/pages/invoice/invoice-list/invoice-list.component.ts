@@ -6,17 +6,15 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CustomRenderComponent } from './custome-render.component';
 import { InvoiceService } from '../../../services/invoice.service';
 import { AlertifyService } from '../../../services/alertify.service';
+import * as moment from 'moment';
+import { IMyDpOptions } from 'mydatepicker';
 
 @Component({
-  selector: 'kpi-list',
+  selector: 'invoice-list',
   templateUrl: './invoice-list.component.html',
   styleUrls: ['./invoice-list.component.scss']
 })
 export class InvoiceListComponent implements OnInit {
-  private kpiId: number;
-  private kpiName: string;
-  private uom: string;
-  private description: string;
   InvoiceList;
 
   settings = {
@@ -31,11 +29,15 @@ export class InvoiceListComponent implements OnInit {
       cancelButtonContent: '<i class="nb-close"></i>',
     },
     edit: {
-      editButtonContent: '<i class="nb-edit"></i>',
+      editButtonContent: '<i class="fa fa-arrows-alt"></i>',
     },
     delete: {
       deleteButtonContent: '<i class="nb-trash"></i>',
       confirmDelete: true,
+    },
+    pager: {
+      display: true,
+      perPage: 15
     },
 
     columns: {
@@ -49,73 +51,116 @@ export class InvoiceListComponent implements OnInit {
       },
       totalAmount: {
         title: 'Total Amount',
-        type: 'string',
+        valuePrepareFunction: (value) => { return value === 'Total' ? value : Intl.NumberFormat("ja-JP", { style: "decimal", currency: "JPY", minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(value) }
+      },
+      invoiceDiscount: {
+        title: 'Invoice Discount',
+        valuePrepareFunction: (value) => { return value === 'Total' ? value : Intl.NumberFormat("ja-JP", { style: "decimal", currency: "JPY", minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(value) }
       },
       invoiceDateOfString: {
         title: 'Invoice Date',
         type: 'string',
       },
-      // kpiValues: {
-      //   title: 'Total Amount',
-      //   type: 'string',
-      // },
-      // assignee: {
-      //   title: 'Assignee',
-      //   type: 'string',
-      // },
-      // button: {
-      //   title: '',
-      //   type: 'custom',
-      //   renderComponent: CustomRenderComponent,
-      // },
     },
   };
 
   source: LocalDataSource = new LocalDataSource();
+  fromDate;
+  toDate;
+  model = { date: {}, formatted: '' };
+  myDatePickerOptions: IMyDpOptions = {
+    dateFormat: 'yyyy-mm-dd',
+  };
 
   constructor(private service: SmartTableService, private modalService: NgbModal, private invoiceService: InvoiceService, private alertify: AlertifyService) {
 
-    let userId = 1;
-    this.invoiceService.getInvoice(userId).then((response) => {
+    let tempDate = moment().subtract(21, 'days').calendar().split('/');
+    this.fromDate = {
+      "date": {
+        year: tempDate[2],
+        month: parseInt(tempDate[0]),
+        day: parseInt(tempDate[1])
+      },
+      formatted: tempDate[2] + '-' + parseInt(tempDate[0]) + '-' + parseInt(tempDate[1])
+    }
+
+    this.toDate = {
+      "date": {
+        year: moment().year(),
+        month: moment().month() + 1,
+        day: moment().date()
+      },
+      formatted: moment().year() + '-' + (moment().month() + 1) + '-' + moment().date()
+    }
+
+    let today = new Date(this.toDate.formatted);
+    today.setDate(today.getDate() + 1);
+
+    let dd = today.getDate();
+    let mm = today.getMonth() + 1;
+    let y = today.getFullYear();
+    let someFormattedDateToDate = y + '-' + mm + '-' + dd;
+    this.invoiceService.getInvoiceByDateRange(this.fromDate.formatted, someFormattedDateToDate).then((response) => {
       let retunData = response.json();
       if (retunData.statusCode == 200) {
         this.InvoiceList = retunData.result;
-        console.log("invoce List is ====", this.InvoiceList)
         this.invoiceService.loadEditObject(this.InvoiceList);
       }
-
-
-
     });
-
-
   }
 
   ngOnInit() {
+
     this.invoiceService.getLoadedList().subscribe(invoiceList => {
       this.source.load(invoiceList);
     })
   }
 
   onEdit(event): void {
-    console.log('EDITTT===', event.data);
-    this.kpiId = event.data.id;
-    this.kpiName = event.data.name;
-    this.uom = event.data.uom;
-    this.description = event.data.description;
-    this.showEditModal();
+    this.showEditModal(event.data.id, event.data.invoiceNumber);
   }
 
   onDelete(event): void {
     this.alertify.success('Confirm Message');
-
-
   }
 
-  showEditModal() {
-    const activeEditModal = this.modalService.open(InvoiceEditComponent, { size: 'lg', container: 'nb-layout' });
-    activeEditModal.componentInstance.kpiId = this.kpiId;
-    activeEditModal.componentInstance.kipName = this.kpiName;
+  showEditModal(id, invoiceNumber) {
+
+    let options: any = {
+      size: "lg modal-dialog my-modal",
+      container: 'nb-layout',
+      class: "my-modal",
+      style: 'padding: 117px'
+    };
+
+    const activeEditModal = this.modalService.open(InvoiceEditComponent, options);
+    activeEditModal.componentInstance.invoiceId = id;
+    activeEditModal.componentInstance.invoiceNumber = invoiceNumber;
+  }
+
+  getInvoiceByDate() {
+
+    if (this.toDate!=null && this.fromDate!=null) {
+      let today = new Date(this.toDate.formatted);
+      today.setDate(today.getDate() + 1);
+
+      let dd = today.getDate();
+      let mm = today.getMonth() + 1;
+      let y = today.getFullYear();
+
+      let someFormattedDateToDate = y + '-' + mm + '-' + dd;
+      this.invoiceService.getInvoiceByDateRange(this.fromDate.formatted, someFormattedDateToDate).then((response) => {
+        let retunData = response.json();
+        if (retunData.statusCode == 200) {
+          this.InvoiceList = retunData.result;
+          this.invoiceService.loadEditObject(this.InvoiceList);
+        }
+      });
+    }else{
+      this.alertify.error('Please select date...');
+    }
+
+
   }
 
 }

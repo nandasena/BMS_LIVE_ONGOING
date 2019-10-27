@@ -25,6 +25,7 @@ import { AlertifyService } from './services/alertify.service';
 import { environment } from '../environments/environment';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { SettingsService } from './services/settings.service';
+import {InventoryService} from './services/inventory.service';
 
 @NgModule({
   declarations: [AppComponent],
@@ -105,6 +106,10 @@ import { SettingsService } from './services/settings.service';
     BiguserService,
     RatingService,
     AlertifyService,
+<<<<<<< HEAD
+=======
+    InventoryService
+>>>>>>> 6240d850c643b0dbcf4a9aeb887fa8b5bb199f3b
   ],
 })
 export class AppModule {

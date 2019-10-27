@@ -3,10 +3,10 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'issue-summery',
-  templateUrl: './issue-summery.component.html',
-  styleUrls: ['./issue-summery.component.scss']
+  templateUrl: './inventory-summery.component.html',
+  styleUrls: ['./inventory-summery.component.scss']
 })
-export class IssueSummeryComponent implements OnInit {
+export class InventorySummeryComponent implements OnInit {
 
   constructor(private activeModal: NgbActiveModal) { }
 

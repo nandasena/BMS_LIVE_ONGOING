@@ -11,4 +11,8 @@ export class Item {
     id:number;
     discountPercentage:number;
     total:number;
+    fabricatorPrice:number;
+    cost:number;
+    itemCode:string;
+    
 }

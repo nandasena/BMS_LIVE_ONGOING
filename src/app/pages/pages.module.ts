@@ -5,7 +5,7 @@ import { DashboardModule } from './dashboard/dashboard.module';
 import { InvoiceModule } from './invoice/invoice.module';
 import { PagesRoutingModule } from './pages-routing.module';
 import { ThemeModule } from '../@theme/theme.module';
-import { IssuesModule } from './issues/issues.module';
+import { InventoryModule } from './inventory/inventory.module';
 import { SettingsModule } from './settings/settings.module';
 import { BusinessSelfieModule } from './business-selfie/business-selfie.module';
 
@@ -19,7 +19,7 @@ const PAGES_COMPONENTS = [
     ThemeModule,
     DashboardModule,
     InvoiceModule,
-    IssuesModule,
+    InventoryModule,
     SettingsModule,
     BusinessSelfieModule,
   ],
