@@ -24,6 +24,7 @@ import { RatingService } from './services/rating.service';
 import { AlertifyService } from './services/alertify.service';
 import { environment } from '../environments/environment';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { SettingsService } from './services/settings.service';
 
 @NgModule({
   declarations: [AppComponent],
@@ -89,7 +90,7 @@ import { NgxSpinnerModule } from 'ngx-spinner';
     ThemeModule.forRoot(),
     CoreModule.forRoot(),
     HttpModule,
-    NgxSpinnerModule
+    NgxSpinnerModule,
   ],
   bootstrap: [AppComponent],
   providers: [
@@ -99,10 +100,11 @@ import { NgxSpinnerModule } from 'ngx-spinner';
     RoleProviderService,
     CommonService,
     InvoiceService,
+    SettingsService,
     Config,
     BiguserService,
     RatingService,
-    AlertifyService
+    AlertifyService,
   ],
 })
 export class AppModule {

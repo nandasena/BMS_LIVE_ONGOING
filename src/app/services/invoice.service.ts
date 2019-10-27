@@ -10,43 +10,43 @@ import {KpiModel} from '../models/kpi-model'
 import { BehaviorSubject } from 'rxjs';
 
 @Injectable()
-export class InvoiceService{
+export class InvoiceService {
     private tableList: any[] = [];
     private sharedDataObject = new BehaviorSubject(this.tableList);
     modifiedDataList = this.sharedDataObject.asObservable();
-    constructor(private http: Http , private commonsService : CommonService ){}
+    constructor(private http: Http , private commonsService: CommonService ) {}
 
     getInvoice(id){
         return this.commonsService.apiGet('invoice/');
     }
-    
+
     getLoadedList(): any {
-		return this.modifiedDataList;
+      return this.modifiedDataList;
 
     }
     loadEditObject(editObject: any): void {
-		this.sharedDataObject.next(editObject);
+      this.sharedDataObject.next(editObject);
     }
-    
+
     getMaiCategoryList(){
-        return this.commonsService.apiGet('category/mainCategory/'); 
+      return this.commonsService.apiGet('category/mainCategory/');
     }
 
     getSubCategoryList(){
-        return this.commonsService.apiGet('category/subCategory/'); 
+      return this.commonsService.apiGet('category/subCategory/');
     }
 
     getItemList(){
-        return this.commonsService.apiGet('item/'); 
+      return this.commonsService.apiGet('item/');
     }
     saveInvoice(invoiceToSave:any){
-        return this.commonsService.apiPost(invoiceToSave,'invoice/')
+      return this.commonsService.apiPost(invoiceToSave,'invoice/')
     }
 
     getCustomerList(){
-        return this.commonsService.apiGet('customer/'); 
+      return this.commonsService.apiGet('customer/');
     }
     getItemByItemCode(itemCode){
-        return this.commonsService.apiGet('item/'+itemCode);
+      return this.commonsService.apiGet('item/'+itemCode);
     }
 }

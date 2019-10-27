@@ -2,6 +2,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { LocalDataSource, ViewCell } from 'ng2-smart-table';
 import { SmartTableService } from '../../../@core/data/smart-table.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { SettingsService } from '../../../services/settings.service';
 
 @Component({
   selector: 'category-list',
@@ -30,7 +31,7 @@ export class CategoryListComponent implements OnInit {
     },
 
     columns: {
-      id: {
+      mainCategoryId: {
         title: 'Category Code',
         type: 'number',
       },
@@ -41,14 +42,29 @@ export class CategoryListComponent implements OnInit {
     },
   };
 
+  init_data = [];
   source: LocalDataSource = new LocalDataSource();
 
-  constructor(private service: SmartTableService, private modalService: NgbModal) {
-    const data = this.service.getUOMList();
-    this.source.load(data);
-  }
+  constructor(private service: SettingsService, private modalService: NgbModal ) {}
+
 
   ngOnInit() {
-  }
 
+    /// ----------Data Populate To Smart Table
+
+    this.service.getMainCategoryList().then((response) => {
+      debugger;
+      this.init_data = response.json().result;
+      this.source.load(this.init_data);
+    }).catch((ex) => {
+       this.init_data;
+    });
+   /// ----------Data Populate To Smart Table
+
+
+    //this.service.getMainCategoryList().then((re));
+    //debugger;
+   // this.source.load(data);
+
+  }
 }

@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
+import { SettingsService } from '../../services/settings.service';
 
 @Injectable()
 export class SmartTableService {
 
+  constructor(private settingsService: SettingsService){}
   data = [{
     id: 1,
     firstName: 'Mark',
@@ -200,7 +202,7 @@ export class SmartTableService {
     comment: 'Need training program'
   }
   ];
-  
+
   teamsList = [{
     id: '9',
     name: 'Sales team',
@@ -327,7 +329,7 @@ export class SmartTableService {
   getTeamsList() {
     return this.teamsList;
   }
-  
+
   getUOMList() {
     return this.uomList;
   }
@@ -347,8 +349,23 @@ export class SmartTableService {
   getMyTaskList() {
     return this.myTaskList;
   }
-    
+
   getRockMilestoneList() {
     return this.rockMilestoneList;
   }
+  init_data = [];
+  /// ----------Data Populate To Smart Table
+  getMainCategoryList() {
+
+    this.settingsService.getMainCategoryList().then((response) => {
+      this.init_data = response.json().result;
+      return this.init_data ;
+    }).catch((ex) => {
+       this.init_data;
+    });
+debugger;
+    return this.uomList;
+
+  }
+/// ----------Data Populate To Smart Table
 }
