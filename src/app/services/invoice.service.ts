@@ -16,7 +16,7 @@ export class InvoiceService{
     modifiedDataList = this.sharedDataObject.asObservable();
     constructor(private http: Http , private commonsService : CommonService ){}
 
-    getInvoice(id){
+    getInvoice(){
         return this.commonsService.apiGet('invoice/');
     }
     
@@ -51,5 +51,9 @@ export class InvoiceService{
     }
     getInvoiceDetailByInvoiceId(invoiceId){
         return this.commonsService.apiGet('invoice/'+invoiceId);
+    }
+
+    getInvoiceByDateRange(fromDate,toDate){
+        return this.commonsService.apiGet('invoice/fromDate/'+fromDate+'/toDate/'+toDate);
     }
 }
