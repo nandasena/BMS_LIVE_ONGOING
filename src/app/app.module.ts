@@ -106,10 +106,7 @@ import {InventoryService} from './services/inventory.service';
     BiguserService,
     RatingService,
     AlertifyService,
-<<<<<<< HEAD
-=======
-    InventoryService
->>>>>>> 6240d850c643b0dbcf4a9aeb887fa8b5bb199f3b
+    InventoryService,
   ],
 })
 export class AppModule {
