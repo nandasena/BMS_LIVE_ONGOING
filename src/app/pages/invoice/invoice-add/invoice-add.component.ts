@@ -335,12 +335,14 @@ export class InvoiceAddComponent implements OnInit {
             innerThis.invoiceService.getMaiCategoryList().then((response) => {
               innerThis.mainCategoryList = response.json().result;
             })
+            innerThis.closeModalWindow();
 
 
           } else {
             innerThis.spinner.hide();
             innerThis.alertify.error('Create un-successfull');
             innerThis.itemToSave = [];
+            innerThis.closeModalWindow();
 
           }
         })
