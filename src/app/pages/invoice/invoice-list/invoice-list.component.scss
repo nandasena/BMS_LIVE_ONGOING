@@ -26,6 +26,9 @@ ng2-smart-table /deep/ thead th:last-child {
 :host /deep/ ng2-smart-table table .ng2-smart-actions a.ng2-smart-action i.fa {
   font-size: 18px !important;
 }
+:host-conext(.my-modal){
+  padding-top: 10px;
+}
 
 
 

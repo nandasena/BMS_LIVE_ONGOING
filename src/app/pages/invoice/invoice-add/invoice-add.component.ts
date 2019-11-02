@@ -1,8 +1,9 @@
 import { Component, OnInit, ElementRef, HostListener } from '@angular/core';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { KpiModel } from '../../../models/kpi-model';
 import { InvoiceService } from '../../../services/invoice.service';
 import { Item } from '../../../models/item_modal';
+import { PaymentModal } from '../../../models/payment-modal';
 import { InvoiceModel } from '../../../models/invoice-modal';
 import { AlertifyService } from '../../../services/alertify.service';
 import * as moment from 'moment';
@@ -42,11 +43,25 @@ export class InvoiceAddComponent implements OnInit {
   selectedCustomerName: string = '';
   selectedCustomerId: number;
   selectedCustomer
+  showChequeFild: boolean = false;
+  showCardFild: boolean = false;
+  modalReference: NgbModalRef;
+  paymentType = '';
+  paymentDetailList: PaymentModal[] = [];
+  paymentDetail;
+  chequeNo: string = '';
+  carsRefNo: string = '';
+  isCheckedCash: boolean = true;
+  isCheckedCheque: boolean = false;
+  isCheckedCreditCard: boolean = false;
+  isCheckedDebitCard: boolean = false;
+  isCheckedCredit: boolean = false;
 
 
 
 
-  constructor(private invoiceService: InvoiceService, private alertify: AlertifyService, private spinner: NgxSpinnerService, private el: ElementRef) { }
+
+  constructor(private invoiceService: InvoiceService, private alertify: AlertifyService, private spinner: NgxSpinnerService, private el: ElementRef, private modalService: NgbModal) { }
 
   ngOnInit() {
     var modal = document.getElementById("myModal");
@@ -73,8 +88,6 @@ export class InvoiceAddComponent implements OnInit {
       this.customerList = response.json().result;
     })
 
-
-
     this.model = {
       date: {
         year: moment().year(),
@@ -82,6 +95,8 @@ export class InvoiceAddComponent implements OnInit {
         day: moment().date()
       }, formatted: moment().year() + '-' + (moment().month() + 1) + '-' + moment().date()
     };
+
+    this.selectPaymentType('CH')
   }
 
 
@@ -236,8 +251,29 @@ export class InvoiceAddComponent implements OnInit {
     this.itemToSave.forEach(item => {
       this.totalAmount += (item.sellingQuantity * item.price * _.round(1 - (item.discountPercentage / 100), 4))
     });
+    this.balance = this.totalAmount;
     this.itemToSave = _.orderBy(this.itemToSave, ['id'], ['desc']);
 
+  }
+  selectPaymentType(values) {
+    this.showChequeFild = false;
+    this.showCardFild =false;
+    this.paymentType = values;
+    this.paymentDetail = new PaymentModal();
+    this.paymentDetail.typeCode = this.paymentType;
+    if (this.paymentType == 'CQ') {
+      this.showChequeFild = true;
+      this.carsRefNo='';
+    }
+    if (this.paymentType == 'CD' || this.paymentType == 'DB') {
+      this.showCardFild= true;
+      this.chequeNo = '';
+     
+    }
+    if(this.paymentType=='CH' || this.paymentType=='LN'){
+      this.chequeNo = '';
+      this.carsRefNo='';
+    }
   }
   saveInvoice() {
     if (this.itemToSave.length != 0) {
@@ -245,7 +281,29 @@ export class InvoiceAddComponent implements OnInit {
         this.alertify.error('Please add date....');
         return false;
       }
+      if (this.balance > 0) {
+        this.alertify.error('Balance amount more than total amount ....');
+        return false;
+      }
+      if (this.showChequeFild) {
+        if (this.chequeNo == '') {
+          this.alertify.error('Please add cheque number....');
+          return false;
+        }
+      }
+      if(this.showCardFild){
+        if(this.carsRefNo==""){
+          this.alertify.error('Please add ref number....');
+          return false;
+        }
+       
+      }
       let innerThis = this;
+      this.paymentDetailList.pop();
+      this.paymentDetail.amount = this.totalAmount;
+      this.chequeNo == ''?this.paymentDetail.chequeNumber=null:this.paymentDetail.chequeNumber=this.chequeNo;
+      this.carsRefNo==""?this.paymentDetail.cardNumber=null:this.paymentDetail.cardNumber=this.carsRefNo
+      this.paymentDetailList.push(this.paymentDetail);
       this.alertify.confirm('Create Invoice', 'Are you sure you want to create invoice', function () {
         let invoiceTosave = new InvoiceModel;
         invoiceTosave.totalAmount = innerThis.totalAmount;
@@ -253,6 +311,7 @@ export class InvoiceAddComponent implements OnInit {
         invoiceTosave.balanceAmount = 0.00;
         invoiceTosave.customerName = innerThis.selectedCustomerName;
         invoiceTosave.customerId = innerThis.selectedCustomerId;
+        invoiceTosave.paymentDetailList = innerThis.paymentDetailList;
 
         invoiceTosave.invoiceDate = innerThis.model.formatted;
         innerThis.invoiceService.saveInvoice(invoiceTosave).then((response) => {
@@ -266,18 +325,18 @@ export class InvoiceAddComponent implements OnInit {
             innerThis.totalAmount = 0.00;
             innerThis.balance = 0.00;
             innerThis.cash = 0.00;
-            innerThis.selectedCustomer=""
+            innerThis.selectedCustomer = ""
             innerThis.invoiceService.getItemList().then((response) => {
               innerThis.itemList = response.json().result;
             });
-            innerThis.categoryWiseItemList=[];
-            innerThis.selectedSubCategory=[];
-            innerThis.mainCategoryList=[];
+            innerThis.categoryWiseItemList = [];
+            innerThis.selectedSubCategory = [];
+            innerThis.mainCategoryList = [];
             innerThis.invoiceService.getMaiCategoryList().then((response) => {
               innerThis.mainCategoryList = response.json().result;
             })
-        
-        
+
+
           } else {
             innerThis.spinner.hide();
             innerThis.alertify.error('Create un-successfull');
@@ -295,7 +354,7 @@ export class InvoiceAddComponent implements OnInit {
 
   getBalanceAmount(cash) {
     this.cash = cash;
-    this.balance = cash - this.totalAmount
+    this.balance = this.totalAmount - this.cash
   }
 
   getSubCategory(id) {
@@ -390,6 +449,22 @@ export class InvoiceAddComponent implements OnInit {
       event.target.value = '';
     })
 
+  }
+
+  openModalWindow(content) {
+    this.isCheckedCash = true;
+    this.isCheckedCheque = false;
+    this.isCheckedCreditCard = false;
+    this.isCheckedDebitCard = false;
+    this.isCheckedCredit = false;
+    this.showChequeFild = false;
+    this.showCardFild =false;
+    this.chequeNo = '';
+    this.carsRefNo='';
+    this.modalReference = this.modalService.open(content, { size: 'lg' });
+  }
+  closeModalWindow() {
+    this.modalReference.close();
   }
 
 }

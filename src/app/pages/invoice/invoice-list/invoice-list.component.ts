@@ -129,7 +129,7 @@ export class InvoiceListComponent implements OnInit {
     let options: any = {
       size: "lg modal-dialog my-modal",
       container: 'nb-layout',
-      class: "my-modal",
+      class: "xxx",
       style: 'padding: 117px'
     };
 
