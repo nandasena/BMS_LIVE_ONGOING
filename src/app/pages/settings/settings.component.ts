@@ -10,6 +10,9 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 })
 export class SettingsComponent implements OnInit {
 
+  data = {
+    category: '',
+  }
   @Input() on = true;
   constructor(private modalService: NgbModal) { }
 
@@ -19,6 +22,15 @@ export class SettingsComponent implements OnInit {
     const activeModal = this.modalService.open(InviteUserComponent, {size:'lg', container: 'nb-layout'});
   }
   showCategoryEditorWindow() {
-    this.modalService.open(CategoryEditorComponent, {size:'lg', container: 'nb-layout'});
+    this.data.category = 'mainCategory';
+    const editorModel = this.modalService.open(CategoryEditorComponent, {size:'lg', container: 'nb-layout'});
+    editorModel.componentInstance.selectedTask = this.data;
   }
+  showSubCategoryEditorWindow() {
+    this.data.category = 'subCategory';
+   const editorModel = this.modalService.open(CategoryEditorComponent, {size:'lg', container: 'nb-layout'});
+   editorModel.componentInstance.selectedTask = this.data;
+  }
+
+
 }

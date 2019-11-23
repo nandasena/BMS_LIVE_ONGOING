@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit ,Input} from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import {BiguserService} from '../../../services/biguser.service';
 import { LocalDataSource, ViewCell } from 'ng2-smart-table';
@@ -9,11 +9,14 @@ import { AlertifyService } from '../../../services/alertify.service';
 import * as _ from 'lodash';
 
 @Component({
-  selector: 'invite-user',
+  selector: 'category-editor',
   templateUrl: './category-editor.component.html',
   styleUrls: ['./category-editor.component.scss'],
 })
 export class CategoryEditorComponent implements OnInit {
+
+  @Input() selectedTask;
+
   category = {
     name: '',
     subCategoryId: '',
@@ -51,6 +54,9 @@ export class CategoryEditorComponent implements OnInit {
     },
   };
 
+  Categorytype: string = '';
+  mainCategory: boolean = false;
+  subCategory: boolean = false;
   itemList = [];
   itemToSave: Item[] = [];
   categoryName: string;
@@ -62,6 +68,8 @@ export class CategoryEditorComponent implements OnInit {
     private alertifyService: AlertifyService ) { }
 
   ngOnInit() {
+
+    this.checkSectiontoDisplay();
   }
 
   closeModal() {
@@ -80,24 +88,58 @@ export class CategoryEditorComponent implements OnInit {
       this.closeModal();
     });*/
   }
+  checkSectiontoDisplay() {
+    debugger;
+    this.Categorytype = String(this.selectedTask.category);
+    if (this.Categorytype === 'mainCategory') {
+      this.mainCategory = true;
+      this.subCategory = false;
+    }else if (this.Categorytype === 'subCategory') {
+      this.mainCategory = false;
+      this.subCategory = true;
+    }
+  }
   bindCategoryList() {
 
-    if ( this.categoryName !== undefined && this.categoryName !== '' && this.categoryName != null) {
+    if (this.Categorytype === 'mainCategory') {
 
-      this.categoryName.trim;
-      if (_.find(this.itemToSave, { 'categoryName': this.categoryName })) {
-        this.alertifyService.warning('category name is already taken');
+        if ( this.categoryName !== undefined && this.categoryName !== '' && this.categoryName != null) {
+
+          this.categoryName.trim;
+          if (_.find(this.itemToSave, { 'categoryName': this.categoryName })) {
+            this.alertifyService.warning('category name is already taken');
+            return;
+          }
+          const item = new Item();
+          item.id = this.temp_itemcount++;
+          item.categoryName = this.categoryName;
+          this.itemToSave.push(item);
+          this.source.load(this.itemToSave);
+        }else {
+          this.alertifyService.error('Please enter category name');
+        }
         return;
-      }
 
-      const item = new Item();
-      item.id = this.temp_itemcount++;
-      item.categoryName = this.categoryName;
-      this.itemToSave.push(item);
-      this.source.load(this.itemToSave);
-    }else {
-      this.alertifyService.error('Please enter category name');
+    }else if (this.Categorytype === 'subCategory') {
+
+      if ( this.categoryName !== undefined && this.categoryName !== '' && this.categoryName != null) {
+
+        this.categoryName.trim;
+        if (_.find(this.itemToSave, { 'categoryName': this.categoryName })) {
+          this.alertifyService.warning('category name is already taken');
+          return;
+        }
+        const item = new Item();
+        item.id = this.temp_itemcount++;
+        item.categoryName = this.categoryName;
+        this.itemToSave.push(item);
+        this.source.load(this.itemToSave);
+      }else {
+        this.alertifyService.error('Please enter category name');
+      }
+      return;
     }
-    return;
+
   }
+
 }

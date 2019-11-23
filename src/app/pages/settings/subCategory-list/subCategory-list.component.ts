@@ -5,11 +5,11 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { SettingsService } from '../../../services/settings.service';
 
 @Component({
-  selector: 'category-list',
-  templateUrl: './category-list.component.html',
-  styleUrls: ['./category-list.component.scss']
+  selector: 'subCategory-list',
+  templateUrl: './subCategory-list.component.html',
+  styleUrls: ['./subCategory-list.component.scss']
 })
-export class CategoryListComponent implements OnInit {
+export class SubCategoryListComponent implements OnInit {
 
   settings = {
     mode: 'external',
@@ -35,6 +35,10 @@ export class CategoryListComponent implements OnInit {
         title: 'Category Code',
         type: 'number',
       },
+      subCategoryId: {
+        title: 'Sub Category Code',
+        type: 'number',
+      },
       name: {
         title: 'Name',
         type: 'string',
@@ -52,7 +56,7 @@ export class CategoryListComponent implements OnInit {
 
     /// ----------Data Populate To Smart Table
 
-    this.service.getMainCategoryList().then((response) => {
+    this.service.getSubCategoryList().then((response) => {
       this.init_data = response.json().result;
       this.source.load(this.init_data);
     }).catch((ex) => {
@@ -62,5 +66,4 @@ export class CategoryListComponent implements OnInit {
 
   }
 }
-
 

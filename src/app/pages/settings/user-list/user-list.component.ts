@@ -31,7 +31,7 @@ export class UserListComponent implements OnInit {
     delete: {
       deleteButtonContent: '<i class="nb-trash" (deleteConfirm)="deleteRecord($event)"></i>'
     },
-    
+
     columns: {
       name: {
         title: 'Name',
@@ -58,10 +58,10 @@ export class UserListComponent implements OnInit {
 
 
   ngOnInit() {
-    this.loadUsers();
+   // this.loadUsers();
   }
 
-  loadUsers(){
+ /* loadUsers(){
     this.biguserService.getUsers().then(users =>{
       const bigUsers = users.json();
       _.map(bigUsers, function(user){
@@ -75,5 +75,5 @@ export class UserListComponent implements OnInit {
   }
   deleteRecord(event) {
     console.log("eee");
-  }
+  }*/
 }

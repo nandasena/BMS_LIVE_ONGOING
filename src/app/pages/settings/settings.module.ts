@@ -13,7 +13,8 @@ import { UserListComponent } from './user-list/user-list.component';
 import { InviteRenderButtonComponent } from './user-list/invite-render-button.component';
 import { InviteUserComponent } from './invite-user/invite-user.component';
 import { CategoryEditorComponent } from './category-editor/category-editor.component';
-import{  FormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
+import { SubCategoryListComponent } from './subCategory-list/subCategory-list.component';
 
 @NgModule({
   imports: [
@@ -30,6 +31,7 @@ import{  FormsModule } from '@angular/forms';
     InviteUserComponent,
     CategoryListComponent,
     CategoryEditorComponent,
+    SubCategoryListComponent,
   ],
   entryComponents: [
     UOMListComponent,
@@ -39,6 +41,7 @@ import{  FormsModule } from '@angular/forms';
     InviteUserComponent,
     CategoryListComponent,
     CategoryEditorComponent,
+    SubCategoryListComponent,
   ],
   providers: [
     SmartTableService

@@ -14,8 +14,9 @@ export class SettingsService {
   constructor(private http: Http , private commonsService: CommonService) {}
 
   getMainCategoryList() {
-debugger;
     return this.commonsService.apiGet('category/mainCategory/');
-
+  }
+  getSubCategoryList() {
+    return this.commonsService.apiGet('category/subCategory/');
   }
 }
