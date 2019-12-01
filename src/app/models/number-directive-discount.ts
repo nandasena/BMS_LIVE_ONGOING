@@ -23,6 +23,7 @@ onKeyDown(event: KeyboardEvent) {
 }
 
   @HostListener('change', ['$event']) onChange(event) {
+    console.log("asasasasasaaass==============")
     const initalValue = this.el.nativeElement.value;
     let enterNumber =Number(initalValue);
     if(enterNumber==0)

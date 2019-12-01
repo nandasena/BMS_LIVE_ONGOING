@@ -124,64 +124,6 @@
     <div class="col-md-3" style="height: 70px;">
       <button class="btn btn-md btn-success" (click)="openModalWindow(content)">Pay</button>
     </div>
-    <!-- <div class="row">
-      <div class="col-md-5" style="height: 70px;">
-        <div class="row form-group">
-          <div class="col-md-4 main-font hidden-sm" style="padding-top: 20px;">
-            <label for="amount">Net Total</label>
-          </div>
-          <div class="col-md-8 main-font form-group mb-2">
-            <input class="text-right form-control" id="amount" type="text" name="amount" style="height: 40px;"
-              value="{{totalAmount | number:'1.2-2'}}" placeholder="0.00" readonly>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-md-3" style="height: 70px;">
-        <button class="btn btn-md btn-success" (click)="openModalWindow(content)">Create</button>
-        <button class="btn btn-hero-secondary btn-demo" (click)="closeModal()">Close</button>
-      </div>
-    </div> -->
-    <!-- <div class="row">
-      <div class="col-md-5" style="height: 70px;">
-        <div class="row form-group">
-          <div class="col-md-4 main-font hidden-sm" style="padding-top: 20px;">
-            <label for="amount">Cash</label>
-          </div>
-          <div class="col-md-8 main-font form-group mb-2">
-            <input class="text-right form-control" (change)="getBalanceAmount($event.target.value)" id="cash"
-              type="text" style="height: 40px;" name="cash" value="{{cash | number:'1.2-2'}}" placeholder="0.00"
-              numbersOnly>
-          </div>
-        </div>
-      </div>
-    </div> -->
-    <!-- <div class="row">
-      <div class="col-md-5" style="height: 70px;">
-        <div class="row form-group">
-          <div class="col-md-4 main-font hidden-sm" style="padding-top: 20px;">
-            <label for="amount">Cheque No</label>
-          </div>
-          <div class="col-md-8 main-font form-group mb-2">
-            <input class="text-right form-control" id="cash" type="text" style="height: 40px;" name="chequeNo" value=""
-              numbersOnly>
-          </div>
-        </div>
-      </div>
-    </div> -->
-    <!-- <div class="row" *ngIf="showChequeFild">
-      <div class="col-md-5" style="height: 70px;">
-        <div class="row form-group">
-          <div class="col-md-4 main-font hidden-sm" style="padding-top: 20px;">
-            <label for="amount">Balance</label>
-          </div>
-          <div class="col-md-8 main-font form-group mb-2">
-            <input class="text-right form-control" id="balance" type="text" name="balance" style="height: 40px;"
-              value="{{balance | number:'1.2-2'}}" placeholder="0.00" readonly>
-          </div>
-        </div>
-      </div>
-    </div> -->
   </form>
 </div>
 
@@ -202,7 +144,7 @@
 </div>
 
 
-<!-- ------------------- this payment modal window ------------------------------------------------------------------------------ -->
+<!-- ------------------- this is  payment modal window ------------------------------------------------------------------------------ -->
 
 
 <ng-template id="paymentModalWindow" #content let-modal>
@@ -247,7 +189,7 @@
             </div>
           </div>
         </div>
-        <div class="row">
+        <div class="row" *ngIf="isShowCashFild">
           <div class="col-md-8" style="height: 70px;">
             <div class="row form-group">
               <div class="col-md-4 main-font hidden-sm" style="padding-top: 20px;">
@@ -287,7 +229,7 @@
               </div>
             </div>
           </div>
-        <div class="row">
+        <div class="row" *ngIf="isShowCashFild">
           <div class="col-md-8" style="height: 70px;">
             <div class="row form-group">
               <div class="col-md-4 main-font hidden-sm" style="padding-top: 20px;">

@@ -37,7 +37,7 @@ export class InvoiceAddComponent implements OnInit {
     dateFormat: 'yyyy/mm/dd',
   };
   balance: number = 0.00;
-  cash: number;
+  cash:number=0.00;
   selectedItemId: number;
   customerList = [];
   selectedCustomerName: string = '';
@@ -56,6 +56,7 @@ export class InvoiceAddComponent implements OnInit {
   isCheckedCreditCard: boolean = false;
   isCheckedDebitCard: boolean = false;
   isCheckedCredit: boolean = false;
+  isShowCashFild:boolean=true;
 
 
 
@@ -257,22 +258,35 @@ export class InvoiceAddComponent implements OnInit {
   }
   selectPaymentType(values) {
     this.showChequeFild = false;
-    this.showCardFild =false;
+    this.showCardFild = false;
     this.paymentType = values;
     this.paymentDetail = new PaymentModal();
     this.paymentDetail.typeCode = this.paymentType;
+    if(this.paymentType == 'LN'){
+      this.isShowCashFild =false;
+      this.chequeNo = '';
+      this.carsRefNo = '';
+    }
     if (this.paymentType == 'CQ') {
       this.showChequeFild = true;
-      this.carsRefNo='';
+      this.isShowCashFild =true;
+      this.carsRefNo = '';
     }
-    if (this.paymentType == 'CD' || this.paymentType == 'DB') {
-      this.showCardFild= true;
+    if (this.paymentType == 'CD') {
+      this.showCardFild = true;
+      this.isShowCashFild =true;
       this.chequeNo = '';
-     
+
     }
-    if(this.paymentType=='CH' || this.paymentType=='LN'){
+    if (this.paymentType == 'CH') {
       this.chequeNo = '';
-      this.carsRefNo='';
+      this.carsRefNo = '';
+      this.isShowCashFild =true;
+    }
+    if(this.paymentType == 'DB'){
+      this.showCardFild = true;
+      this.isShowCashFild =true;
+      this.chequeNo = '';
     }
   }
   saveInvoice() {
@@ -280,10 +294,11 @@ export class InvoiceAddComponent implements OnInit {
       if (this.model == null) {
         this.alertify.error('Please add date....');
         return false;
-      }
-      if (this.balance > 0) {
-        this.alertify.error('Balance amount more than total amount ....');
-        return false;
+      } if (this.paymentDetail.typeCode != 'LN') {
+        if (this.balance > 0) {
+          this.alertify.error('Balance amount more than total amount ....');
+          return false;
+        }
       }
       if (this.showChequeFild) {
         if (this.chequeNo == '') {
@@ -291,18 +306,24 @@ export class InvoiceAddComponent implements OnInit {
           return false;
         }
       }
-      if(this.showCardFild){
-        if(this.carsRefNo==""){
+      if (this.showCardFild) {
+        if (this.carsRefNo == "") {
           this.alertify.error('Please add ref number....');
           return false;
         }
-       
+
+      }
+      if (this.paymentDetail.typeCode == 'LN') {
+        if (this.selectedCustomerId == null) {
+          this.alertify.error('Please select customer for credit invoice....');
+          return false;
+        }
       }
       let innerThis = this;
       this.paymentDetailList.pop();
       this.paymentDetail.amount = this.totalAmount;
-      this.chequeNo == ''?this.paymentDetail.chequeNumber=null:this.paymentDetail.chequeNumber=this.chequeNo;
-      this.carsRefNo==""?this.paymentDetail.cardNumber=null:this.paymentDetail.cardNumber=this.carsRefNo
+      this.chequeNo == '' ? this.paymentDetail.chequeNumber = null : this.paymentDetail.chequeNumber = this.chequeNo;
+      this.carsRefNo == "" ? this.paymentDetail.cardNumber = null : this.paymentDetail.cardNumber = this.carsRefNo
       this.paymentDetailList.push(this.paymentDetail);
       this.alertify.confirm('Create Invoice', 'Are you sure you want to create invoice', function () {
         let invoiceTosave = new InvoiceModel;
@@ -460,12 +481,16 @@ export class InvoiceAddComponent implements OnInit {
     this.isCheckedDebitCard = false;
     this.isCheckedCredit = false;
     this.showChequeFild = false;
-    this.showCardFild =false;
+    this.showCardFild = false;
     this.chequeNo = '';
-    this.carsRefNo='';
+    this.carsRefNo = '';
     this.modalReference = this.modalService.open(content, { size: 'lg' });
   }
   closeModalWindow() {
+    this.balance = this.totalAmount;
+    this.cash = 0.00;
+    this.paymentDetail.typeCode='CH';
+    this.isShowCashFild =true;
     this.modalReference.close();
   }
 

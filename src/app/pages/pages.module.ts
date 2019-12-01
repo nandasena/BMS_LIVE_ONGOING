@@ -8,6 +8,7 @@ import { ThemeModule } from '../@theme/theme.module';
 import { InventoryModule } from './inventory/inventory.module';
 import { SettingsModule } from './settings/settings.module';
 import { BusinessSelfieModule } from './business-selfie/business-selfie.module';
+import {PaymentModule}from './payment/payment.module';
 
 const PAGES_COMPONENTS = [
   PagesComponent,
@@ -22,6 +23,7 @@ const PAGES_COMPONENTS = [
     InventoryModule,
     SettingsModule,
     BusinessSelfieModule,
+    PaymentModule
   ],
   declarations: [
     ...PAGES_COMPONENTS,
