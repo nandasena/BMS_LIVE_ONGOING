@@ -6,6 +6,7 @@ import { SmartTableService } from '../../../@core/data/smart-table.service';
 import { Category } from '../../../models/category_model';
 import { Item } from '../../../models/item_modal';
 import { AlertifyService } from '../../../services/alertify.service';
+import { SettingsService } from '../../../services/settings.service';
 import * as _ from 'lodash';
 
 @Component({
@@ -54,6 +55,7 @@ export class CategoryEditorComponent implements OnInit {
     },
   };
 
+  mainCategoryList = [];
   Categorytype: string = '';
   mainCategory: boolean = false;
   subCategory: boolean = false;
@@ -65,11 +67,19 @@ export class CategoryEditorComponent implements OnInit {
 
   constructor(private activeModal: NgbActiveModal, private biguserService: BiguserService,
     private service: SmartTableService,
-    private alertifyService: AlertifyService ) { }
+    private alertifyService: AlertifyService,
+    private settingsservice: SettingsService)
+  { }
 
   ngOnInit() {
 
     this.checkSectiontoDisplay();
+
+    this.settingsservice.getMainCategoryList().then((response) => {
+      debugger;
+      this.mainCategoryList = response.json().result;
+    })
+
   }
 
   closeModal() {
@@ -89,7 +99,7 @@ export class CategoryEditorComponent implements OnInit {
     });*/
   }
   checkSectiontoDisplay() {
-    debugger;
+
     this.Categorytype = String(this.selectedTask.category);
     if (this.Categorytype === 'mainCategory') {
       this.mainCategory = true;
