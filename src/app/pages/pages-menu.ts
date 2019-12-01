@@ -17,6 +17,11 @@ export const MENU_ITEMS: NbMenuItem[] = [
     icon: 'nb-pause',
     link: '/pages/inventory',
   },
+  {
+    title: 'Credit',
+    icon: 'nb-gear',
+    link: '/pages/payment',
+ },
   // {
   //   title: 'Business Selfie',
   //   icon: 'nb-sunny',
@@ -27,4 +32,5 @@ export const MENU_ITEMS: NbMenuItem[] = [
      icon: 'nb-gear',
      link: '/pages/settings',
   },
+  
 ];

@@ -298,6 +298,12 @@ export class InvoiceAddComponent implements OnInit {
         }
        
       }
+      if(this.paymentDetail.typeCode=='LN'){
+          if(this.selectedCustomerId==null){
+            this.alertify.error('Please select customer for credit invoice....');
+            return false;
+        }
+      }
       let innerThis = this;
       this.paymentDetailList.pop();
       this.paymentDetail.amount = this.totalAmount;
@@ -466,6 +472,9 @@ export class InvoiceAddComponent implements OnInit {
     this.modalReference = this.modalService.open(content, { size: 'lg' });
   }
   closeModalWindow() {
+    this.balance=0.00;
+    this.balance=this.cash;
+    this.cash=0.00;
     this.modalReference.close();
   }
 

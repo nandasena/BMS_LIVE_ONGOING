@@ -13,7 +13,9 @@ import { BehaviorSubject } from 'rxjs';
 export class InvoiceService {
     private tableList: any[] = [];
     private sharedDataObject = new BehaviorSubject(this.tableList);
+    private sharedInvoiceCreditObject = new BehaviorSubject(this.tableList);
     modifiedDataList = this.sharedDataObject.asObservable();
+    modifiedCreditList =this.sharedInvoiceCreditObject.asObservable();
     constructor(private http: Http , private commonsService: CommonService ) {}
 
     getInvoice(){
@@ -55,5 +57,18 @@ export class InvoiceService {
 
     getInvoiceByDateRange(fromDate,toDate){
         return this.commonsService.apiGet('invoice/fromDate/'+fromDate+'/toDate/'+toDate);
+    }
+
+    getInvoiceCreditList(fromDate,toDate,type){
+      return this.commonsService.apiGet('invoice/paymentDetail/fromDate/'+fromDate+'/toDate/'+toDate+'/type/'+type);
+    }
+
+    getCreditList(): any {
+      return this.modifiedCreditList;
+
+    }
+
+    loadEditCreditList(editObject: any): void {
+      this.sharedInvoiceCreditObject.next(editObject);
     }
 }
