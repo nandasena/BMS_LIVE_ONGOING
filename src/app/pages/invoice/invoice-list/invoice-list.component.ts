@@ -45,6 +45,14 @@ export class InvoiceListComponent implements OnInit {
         title: 'Invoice NO',
         type: 'number',
       },
+      invoiceDateOfString: {
+        title: 'Invoice Date',
+        type: 'string',
+      },
+      paymentType: {
+        title: 'Payment Type',
+        type: 'string',
+      },
       customerName: {
         title: 'Customer Name',
         type: 'string',
@@ -56,10 +64,6 @@ export class InvoiceListComponent implements OnInit {
       invoiceDiscount: {
         title: 'Invoice Discount',
         valuePrepareFunction: (value) => { return value === 'Total' ? value : Intl.NumberFormat("ja-JP", { style: "decimal", currency: "JPY", minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(value) }
-      },
-      invoiceDateOfString: {
-        title: 'Invoice Date',
-        type: 'string',
       },
     },
   };
