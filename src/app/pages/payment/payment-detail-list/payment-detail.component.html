@@ -91,8 +91,8 @@
                   <label for="amount">{{fildName}}</label>
                 </div>
                 <div class="col-md-8 main-font form-group mb-2">
-                  <input class="text-right form-control" (change)="getBalanceAmount($event.target.value)" id="cash"
-                    type="text" style="height: 40px;" name="cash" value="{{cash | number:'1.2-2'}}" placeholder="0.00"
+                  <input class="text-right form-control" (change)="getBalanceAmount($event.target.value)" id="cash" numericType="decimal" double-number-directive
+                    type="text" style="height: 40px;" name="cash" value="{{amount | number:'1.2-2'}}" placeholder="0.00"
                     numbersOnly>
                 </div>
               </div>
@@ -118,8 +118,8 @@
                     <label for="amount">Card Ref No</label>
                   </div>
                   <div class="col-md-8 main-font form-group mb-2">
-                    <input class="text-right form-control" id="carsRefNo" [(ngModel)]="carsRefNo" type="text"
-                      style="height: 40px;" name="carsRefNo" value="">
+                    <input class="text-right form-control" id="cardRefNo" [(ngModel)]="cardRefNo" type="text"
+                      style="height: 40px;" name="cardRefNo" value="">
                   </div>
                 </div>
               </div>
@@ -128,11 +128,11 @@
             <div class="col-md-8" style="height: 70px;">
               <div class="row form-group">
                 <div class="col-md-4 main-font hidden-sm" style="padding-top: 20px;">
-                  <label for="amount">Balance</label>
+                  <label for="amount">Payable Amount</label>
                 </div>
                 <div class="col-md-8 main-font form-group mb-2">
-                  <input class="text-right form-control" id="balance" type="text" name="balance" style="height: 40px;"
-                    value="{{balance | number:'1.2-2'}}" placeholder="0.00" readonly>
+                  <input class="text-right form-control" id="payable" type="text" name="balance" style="height: 40px;"
+                    value="{{payable | number:'1.2-2'}}" placeholder="0.00" readonly>
                 </div>
               </div>
             </div>

@@ -42,7 +42,7 @@ export class InvoiceService {
       return this.commonsService.apiGet('item/');
     }
     saveInvoice(invoiceToSave:any){
-      return this.commonsService.apiPost(invoiceToSave,'invoice/')
+      return this.commonsService.apiPost(invoiceToSave,'invoice/');
     }
 
     getCustomerList(){
@@ -70,5 +70,9 @@ export class InvoiceService {
 
     loadEditCreditList(editObject: any): void {
       this.sharedInvoiceCreditObject.next(editObject);
+    }
+
+    saveCreditPayment(paymentModal:any){
+      return this.commonsService.apiPost(paymentModal,'invoice/creditPayment/')
     }
 }

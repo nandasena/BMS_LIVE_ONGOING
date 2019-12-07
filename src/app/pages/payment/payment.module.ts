@@ -8,6 +8,7 @@ import { NgxSpinnerModule } from 'ngx-spinner';
 import {PaymentComponent} from '../../pages/payment/payment.component'
 import {PaymentDetailComponent} from '../../pages/payment/payment-detail-list/payment-detail.component'
 import { from } from 'rxjs/observable/from';
+import {DoubleNumberDirective} from '../../models/double-number-directive'
 // import {Config}from '../../config/config.service';
 // import {CommonService} from '../../commonService/common.service';
 
@@ -22,7 +23,8 @@ import { from } from 'rxjs/observable/from';
     // NumberOnlyDirective,
     // NumberDirectiveDiscount,
     PaymentComponent,
-    PaymentDetailComponent
+    PaymentDetailComponent,
+    DoubleNumberDirective
 
   ],
   entryComponents: [

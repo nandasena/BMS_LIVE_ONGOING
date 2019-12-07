@@ -8,6 +8,7 @@ import { AlertifyService } from '../../../services/alertify.service';
 import { PaymentModal } from '../../../models/payment-modal';
 import * as moment from 'moment';
 import { IMyDpOptions } from 'mydatepicker';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'payment-detail-list',
@@ -32,9 +33,9 @@ export class PaymentDetailComponent implements OnInit {
   showCardFild: boolean = false;
   isShowCashFild: boolean = true;
   chequeNo: string = '';
-  carsRefNo: string = '';
+  cardRefNo: string = '';
   paymentType = '';
-  paymentDetailList: PaymentModal[] = [];
+  creditPaymentObject: PaymentModal = new PaymentModal;
   paymentDetail;
   isCheckedCash: boolean = true;
   isCheckedCheque: boolean = false;
@@ -43,8 +44,12 @@ export class PaymentDetailComponent implements OnInit {
   isCheckedCredit: boolean = false;
   invoiceAmount: number = 0.00;
   totalPayment: number = 0.00;
-  balance:number=0.00;
-  fildName='';
+  payable: number = 0.00;
+  amount: number = 0.00;
+  paymentDetailId:number;
+  fildName = '';
+  type = '';
+  
 
   settings = {
     mode: 'external',
@@ -94,7 +99,7 @@ export class PaymentDetailComponent implements OnInit {
   };
 
 
-  constructor(private service: SmartTableService, private modalService: NgbModal, private invoiceService: InvoiceService, private alertify: AlertifyService) {
+  constructor(private service: SmartTableService, private modalService: NgbModal, private invoiceService: InvoiceService, private alertify: AlertifyService, private spinner: NgxSpinnerService) {
 
     let tempDate = moment().subtract(21, 'days').calendar().split('/');
     this.fromDate = {
@@ -161,8 +166,11 @@ export class PaymentDetailComponent implements OnInit {
 
   openModalWindow(content, selectedRow) {
     console.log("selected row", selectedRow)
+    this.type = selectedRow.typeCode;
+    this.paymentDetailId =selectedRow.paymentDetailId;
     this.invoiceAmount = selectedRow.amount;
     this.totalPayment = selectedRow.paidAmount;
+    this.payable = this.invoiceAmount - this.totalPayment;
     this.isCheckedCash = true;
     this.isCheckedCheque = false;
     this.isCheckedCreditCard = false;
@@ -171,8 +179,9 @@ export class PaymentDetailComponent implements OnInit {
     this.showChequeFild = false;
     this.showCardFild = false;
     this.chequeNo = '';
-    this.carsRefNo = '';
+    this.cardRefNo = '';
     this.isShowCashFild = true;
+    this.amount = 0.00;
     this.modalReference = this.modalService.open(content, { size: 'lg' });
   }
 
@@ -189,39 +198,42 @@ export class PaymentDetailComponent implements OnInit {
     if (this.paymentType == 'LN') {
       this.isShowCashFild = false;
       this.chequeNo = '';
-      this.carsRefNo = '';
+      this.cardRefNo = '';
     }
     if (this.paymentType == 'CQ') {
       this.showChequeFild = true;
       this.isShowCashFild = true;
-      this.carsRefNo = '';
-      this.fildName='Amount';
+      this.cardRefNo = '';
+      this.fildName = 'Amount';
     }
     if (this.paymentType == 'CD') {
       this.showCardFild = true;
       this.isShowCashFild = true;
       this.chequeNo = '';
-      this.fildName='Amount';
+      this.fildName = 'Amount';
 
     }
     if (this.paymentType == 'CH') {
       this.chequeNo = '';
-      this.carsRefNo = '';
+      this.cardRefNo = '';
       this.isShowCashFild = true;
-      this.fildName='Cash';
+      this.fildName = 'Cash';
     }
     if (this.paymentType == 'DB') {
       this.showCardFild = true;
       this.isShowCashFild = true;
       this.chequeNo = '';
-      this.fildName='Amount';
+      this.fildName = 'Amount';
     }
   }
 
   saveCreditInvoice() {
-
-    if (this.balance > 0) {
-      this.alertify.error('Balance amount more than total amount ....');
+    if (this.payable < this.amount) {
+      this.alertify.error('Amount is more than to payable amount...');
+      return false;
+    }
+    if (this.amount <= 0.00) {
+      this.alertify.error('Please enter amount...');
       return false;
     }
 
@@ -232,16 +244,56 @@ export class PaymentDetailComponent implements OnInit {
       }
     }
     if (this.showCardFild) {
-      if (this.carsRefNo == "") {
+      if (this.cardRefNo == "") {
         this.alertify.error('Please add ref number....');
         return false;
       }
-
     }
+    let innerThis = this;
+    this.alertify.confirm('Create Invoice', 'Are you sure you want to create invoice', function () {
+      innerThis.creditPaymentObject.amount = innerThis.amount;
+      innerThis.creditPaymentObject.cardNumber = innerThis.cardRefNo;
+      innerThis.creditPaymentObject.chequeNumber = innerThis.chequeNo;
+      innerThis.creditPaymentObject.typeCode = innerThis.type;
+      innerThis.creditPaymentObject.paymentDetailId =innerThis.paymentDetailId
 
+      innerThis.invoiceService.saveCreditPayment(innerThis.creditPaymentObject).then((response) => {
+        innerThis.spinner.show();
+        let resultObj = response.json();
+        if (resultObj.statusCode == 200 && resultObj.success) {
+          innerThis.alertify.success('Create successfull');
+          innerThis.closeModalWindow();
+          innerThis.amount = 0.00;
+          innerThis.chequeNo = '';
+          innerThis.cardRefNo ='';
+
+          let today = new Date(innerThis.toDate.formatted);
+          today.setDate(today.getDate() + 1);
+
+          let dd = today.getDate();
+          let mm = today.getMonth() + 1;
+          let y = today.getFullYear();
+          let toDate = y + '-' + mm + '-' + dd;
+          innerThis.invoiceService.getInvoiceCreditList(innerThis.fromDate.formatted, toDate, 'LN').then((response) => {
+            let retunData = response.json();
+            if (retunData.statusCode == 200) {
+              innerThis.invoiceService.loadEditCreditList(retunData.result);
+            }
+          });
+
+        } else {
+          innerThis.spinner.hide();
+          innerThis.alertify.error('Create un-successfull');
+          innerThis.closeModalWindow();
+
+        }
+      })
+    });
   }
-
-  getBalanceAmount(){
-
+  getBalanceAmount(values) {
+    this.amount = values;
+    if (this.payable < values) {
+      this.alertify.error('Amount is more than to payable amount...');
+    }
   }
 }
