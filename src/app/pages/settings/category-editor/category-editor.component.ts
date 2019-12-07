@@ -25,58 +25,128 @@ export class CategoryEditorComponent implements OnInit {
   };
 
   settings = {
-    mode: 'external',
-    hideSubHeader: true,
-    actions: {
-      position: 'right',
-    },
-    add: {
-      addButtonContent: '<i class="nb-plus"></i>',
-      createButtonContent: '<i class="nb-checkmark"></i>',
-      cancelButtonContent: '<i class="nb-close"></i>',
-    },
-    edit: {
-      editButtonContent: '<i class="nb-edit"></i>',
-    },
-    delete: {
-      deleteButtonContent: '<i class="nb-trash"></i>',
-      confirmDelete: true,
-    },
 
-    columns: {
-      id: {
-        title: 'Category Code',
-        type: 'number',
-      },
-      categoryName: {
-        title: 'Name',
-        type: 'string',
-      },
-    },
   };
+
+    tablebound(): void {
+
+      if (this.Categorytype === 'mainCategory') {
+
+        this.settings = {
+          mode: 'external',
+          hideSubHeader: true,
+          actions: {
+            position: 'right',
+          },
+          add: {
+            addButtonContent: '<i class="nb-plus"></i>',
+            createButtonContent: '<i class="nb-checkmark"></i>',
+            cancelButtonContent: '<i class="nb-close"></i>',
+          },
+          edit: {
+            editButtonContent: '<i class="nb-edit"></i>',
+          },
+          delete: {
+            deleteButtonContent: '<i class="nb-trash"></i>',
+            confirmDelete: true,
+          },
+          columns: {
+            id: {
+              title: 'Category Code',
+              type: 'number',
+            },
+            categoryName: {
+              title: 'Name',
+              type: 'string',
+            },
+          },
+        };
+
+
+
+
+
+      }else if (this.Categorytype === 'subCategory') {
+
+        this.settings = {
+          mode: 'external',
+          hideSubHeader: true,
+          actions: {
+            position: 'right',
+          },
+          add: {
+            addButtonContent: '<i class="nb-plus"></i>',
+            createButtonContent: '<i class="nb-checkmark"></i>',
+            cancelButtonContent: '<i class="nb-close"></i>',
+          },
+          edit: {
+            editButtonContent: '<i class="nb-edit"></i>',
+          },
+          delete: {
+            deleteButtonContent: '<i class="nb-trash"></i>',
+            confirmDelete: true,
+          },
+          columns: {
+
+            id: {
+              title: 'Category Code',
+              type: 'number',
+            },
+            mainCategoryName: {
+              title: 'Main Category',
+              type: 'string',
+            },
+            categoryName: {
+              title: 'Name',
+              type: 'string',
+            },
+          },
+        };
+      }
+
+
+    }
+
 
   mainCategoryList = [];
   Categorytype: string = '';
   mainCategory: boolean = false;
   subCategory: boolean = false;
   itemList = [];
-  itemToSave: Item[] = [];
+  itemToSave: Category[] = [];
   categoryName: string;
   temp_itemcount: number = 0;
+
+  message: string;
+  selectedCategory: Category;
+
+  private initcategory: Category = {
+  "name": "Select Category",
+  "categoryName": "",
+  "mainCategoryName": "",
+  "subCategoryId": 0,
+  "mainCategoryId": 0,
+  "id": 0
+}
+
+
+
   source: LocalDataSource = new LocalDataSource();
 
   constructor(private activeModal: NgbActiveModal, private biguserService: BiguserService,
     private service: SmartTableService,
     private alertifyService: AlertifyService,
     private settingsservice: SettingsService)
-  { }
+  {
+    this.selectedCategory = this.initcategory;
+  }
 
   ngOnInit() {
 
     this.checkSectiontoDisplay();
-
+    this.tablebound();
     this.settingsservice.getMainCategoryList().then((response) => {
-      debugger;
+
       this.mainCategoryList = response.json().result;
     })
 
@@ -98,6 +168,13 @@ export class CategoryEditorComponent implements OnInit {
       this.closeModal();
     });*/
   }
+
+  getSubCategory(category: Category): void {
+
+    this.selectedCategory = category;
+
+  }
+
   checkSectiontoDisplay() {
 
     this.Categorytype = String(this.selectedTask.category);
@@ -109,6 +186,20 @@ export class CategoryEditorComponent implements OnInit {
       this.subCategory = true;
     }
   }
+
+  formValidation(): boolean {
+
+    if (this.selectedCategory.mainCategoryId === 0) {
+      this.message = 'Please select category';
+      return false;
+    }else if (this.categoryName === undefined || this.categoryName === '' || this.categoryName === null) {
+      this.message = 'Please enter category name';
+      return false;
+    }
+    return true
+
+  }
+
   bindCategoryList() {
 
     if (this.Categorytype === 'mainCategory') {
@@ -120,7 +211,7 @@ export class CategoryEditorComponent implements OnInit {
             this.alertifyService.warning('category name is already taken');
             return;
           }
-          const item = new Item();
+          const item = new Category();
           item.id = this.temp_itemcount++;
           item.categoryName = this.categoryName;
           this.itemToSave.push(item);
@@ -132,20 +223,21 @@ export class CategoryEditorComponent implements OnInit {
 
     }else if (this.Categorytype === 'subCategory') {
 
-      if ( this.categoryName !== undefined && this.categoryName !== '' && this.categoryName != null) {
+      if (this.formValidation()) {
 
         this.categoryName.trim;
         if (_.find(this.itemToSave, { 'categoryName': this.categoryName })) {
           this.alertifyService.warning('category name is already taken');
           return;
         }
-        const item = new Item();
+        const item = new Category();
         item.id = this.temp_itemcount++;
         item.categoryName = this.categoryName;
+        item.mainCategoryName = this.selectedCategory.name
         this.itemToSave.push(item);
         this.source.load(this.itemToSave);
       }else {
-        this.alertifyService.error('Please enter category name');
+        this.alertifyService.error(this.message);
       }
       return;
     }

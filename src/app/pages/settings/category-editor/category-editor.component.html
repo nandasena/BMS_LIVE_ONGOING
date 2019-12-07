@@ -36,10 +36,10 @@
             <div class="col-md-9">
               <div class="dropdown input-group-btn" ngbDropdown>
                   <button type="button" class="btn btn-outline-success dropdown-toggle" ngbDropdownToggle>
-                     select category
+                     {{selectedCategory.name}}
                     </button>
                 <ul class="dropdown-menu" ngbDropdownMenu>
-                  <li class="dropdown-item" *ngFor="let team of mainCategoryList">{{team.name}}</li>
+                  <li class="dropdown-item" *ngFor="let item of mainCategoryList"  (click)="getSubCategory(item)">{{item.name}}</li>
                 </ul>
               </div>
             </div>
