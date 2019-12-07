@@ -37,7 +37,7 @@ export class InvoiceAddComponent implements OnInit {
     dateFormat: 'yyyy/mm/dd',
   };
   balance: number = 0.00;
-  cash:number=0.00;
+  cash: number = 0.00;
   selectedItemId: number;
   customerList = [];
   selectedCustomerName: string = '';
@@ -56,7 +56,7 @@ export class InvoiceAddComponent implements OnInit {
   isCheckedCreditCard: boolean = false;
   isCheckedDebitCard: boolean = false;
   isCheckedCredit: boolean = false;
-  isShowCashFild:boolean=true;
+  isShowCashFild: boolean = true;
 
 
 
@@ -262,30 +262,30 @@ export class InvoiceAddComponent implements OnInit {
     this.paymentType = values;
     this.paymentDetail = new PaymentModal();
     this.paymentDetail.typeCode = this.paymentType;
-    if(this.paymentType == 'LN'){
-      this.isShowCashFild =false;
+    if (this.paymentType == 'LN') {
+      this.isShowCashFild = false;
       this.chequeNo = '';
       this.carsRefNo = '';
     }
     if (this.paymentType == 'CQ') {
       this.showChequeFild = true;
-      this.isShowCashFild =true;
+      this.isShowCashFild = true;
       this.carsRefNo = '';
     }
     if (this.paymentType == 'CD') {
       this.showCardFild = true;
-      this.isShowCashFild =true;
+      this.isShowCashFild = true;
       this.chequeNo = '';
 
     }
     if (this.paymentType == 'CH') {
       this.chequeNo = '';
       this.carsRefNo = '';
-      this.isShowCashFild =true;
+      this.isShowCashFild = true;
     }
-    if(this.paymentType == 'DB'){
+    if (this.paymentType == 'DB') {
       this.showCardFild = true;
-      this.isShowCashFild =true;
+      this.isShowCashFild = true;
       this.chequeNo = '';
     }
   }
@@ -484,13 +484,14 @@ export class InvoiceAddComponent implements OnInit {
     this.showCardFild = false;
     this.chequeNo = '';
     this.carsRefNo = '';
+    this.isShowCashFild = true;
     this.modalReference = this.modalService.open(content, { size: 'lg' });
   }
   closeModalWindow() {
     this.balance = this.totalAmount;
     this.cash = 0.00;
-    this.paymentDetail.typeCode='CH';
-    this.isShowCashFild =true;
+    this.paymentDetail.typeCode = 'CH';
+    this.isShowCashFild = true;
     this.modalReference.close();
   }
 

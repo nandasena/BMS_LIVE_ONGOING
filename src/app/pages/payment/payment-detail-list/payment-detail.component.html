@@ -23,6 +23,137 @@
     </div>
   </div>
 <div style="padding-top: 32px;">
-    <ng2-smart-table [settings]="settings" [source]="source" (edit)="onEdit($event)" (delete)="onDelete($event)">
+    <ng2-smart-table [settings]="settings" [source]="source" (edit)="openModalWindow(content,$event.data)" (delete)="onDelete($event)">
     </ng2-smart-table>
   </div>
+
+  <!-- ---------------------------------------------------------------------------------------------------------- -->
+
+  <ng-template id="paymentModalWindow" #content let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title">Payment Window For Credit</h4>
+      <button type="button" class="close" aria-label="Close" (click)="closeModalWindow()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="row" style="height:550px;">
+      <div class="col-md-12" style="height: 70px;">
+        <fieldset id="payment_method">
+          <legend style="padding-left: 19px;">Payment Method</legend>
+          <div class="fieldgroup">
+            <input type="radio" name="gender" value="CH" (click)="selectPaymentType($event.target.value)" [checked]="isCheckedCash" >
+            Cash<br>
+          </div>
+          <div class="fieldgroup">
+            <input type="radio" name="gender" value="CD" (click)="selectPaymentType($event.target.value)" [checked]="isCheckedCreditCard"> Credit Card<br>
+          </div>
+          <div class="fieldgroup">
+            <input type="radio" name="gender" value="DB" (click)="selectPaymentType($event.target.value)" [checked]="isCheckedDebitCard"> Debit Card<br>
+          </div>
+          <!-- <div class="fieldgroup">
+            <input type="radio" name="gender" value="LN" (click)="selectPaymentType($event.target.value)" [checked]="isCheckedCredit"> Credit<br>
+          </div> -->
+          <div class="fieldgroup">
+            <input type="radio" name="gender" value="CQ" (click)="selectPaymentType($event.target.value)" [checked]="isCheckedCheque"> Cheque<br>
+          </div>
+        </fieldset>
+        <div style="padding: 10px; padding-top: 60px;">
+          <div class="row">
+            <div class="col-md-8" style="height: 70px;">
+              <div class="row form-group">
+                <div class="col-md-4 main-font hidden-sm" style="padding-top: 20px;">
+                  <label for="amount">Invoice Amount</label>
+                </div>
+                <div class="col-md-8 main-font form-group mb-2">
+                  <input class="text-right form-control" id="amount" type="text" name="amount" style="height: 40px;"
+                    value="{{invoiceAmount | number:'1.2-2'}}" placeholder="0.00" readonly>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-8" style="height: 70px;">
+              <div class="row form-group">
+                <div class="col-md-4 main-font hidden-sm" style="padding-top: 20px;">
+                  <label for="amount">Total Payment</label>
+                </div>
+                <div class="col-md-8 main-font form-group mb-2">
+                  <input class="text-right form-control" id="amount" type="text" name="amount" style="height: 40px;"
+                    value="{{totalPayment | number:'1.2-2'}}" placeholder="0.00" readonly>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row" *ngIf="isShowCashFild">
+            <div class="col-md-8" style="height: 70px;">
+              <div class="row form-group">
+                <div class="col-md-4 main-font hidden-sm" style="padding-top: 20px;">
+                  <label for="amount">{{fildName}}</label>
+                </div>
+                <div class="col-md-8 main-font form-group mb-2">
+                  <input class="text-right form-control" (change)="getBalanceAmount($event.target.value)" id="cash" numericType="decimal" double-number-directive
+                    type="text" style="height: 40px;" name="cash" value="{{amount | number:'1.2-2'}}" placeholder="0.00"
+                    numbersOnly>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row" *ngIf="showChequeFild">
+            <div class="col-md-8" style="height: 70px;">
+              <div class="row form-group">
+                <div class="col-md-4 main-font hidden-sm" style="padding-top: 20px;">
+                  <label for="amount">Cheque No</label>
+                </div>
+                <div class="col-md-8 main-font form-group mb-2">
+                  <input class="text-right form-control" id="chequeNo" [(ngModel)]="chequeNo" type="text"
+                    style="height: 40px;" name="chequeNo" value="">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row" *ngIf="showCardFild">
+              <div class="col-md-8" style="height: 70px;">
+                <div class="row form-group">
+                  <div class="col-md-4 main-font hidden-sm" style="padding-top: 20px;">
+                    <label for="amount">Card Ref No</label>
+                  </div>
+                  <div class="col-md-8 main-font form-group mb-2">
+                    <input class="text-right form-control" id="cardRefNo" [(ngModel)]="cardRefNo" type="text"
+                      style="height: 40px;" name="cardRefNo" value="">
+                  </div>
+                </div>
+              </div>
+            </div>
+          <div class="row" *ngIf="isShowCashFild">
+            <div class="col-md-8" style="height: 70px;">
+              <div class="row form-group">
+                <div class="col-md-4 main-font hidden-sm" style="padding-top: 20px;">
+                  <label for="amount">Payable Amount</label>
+                </div>
+                <div class="col-md-8 main-font form-group mb-2">
+                  <input class="text-right form-control" id="payable" type="text" name="balance" style="height: 40px;"
+                    value="{{payable | number:'1.2-2'}}" placeholder="0.00" readonly>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row" style="padding-left: 15px;">
+            <div class="col-md-2" >
+                <button class="btn btn-md btn-success" (click)="saveCreditInvoice()">Create</button>
+            </div>
+            <div class="col-md-2" >
+                <button type="button" class="btn btn-md btn-danger" (click)="closeModalWindow()">Close</button>
+            </div>
+  
+          </div>
+        </div>
+        <div class="col-md-3" style="height: 70px;">
+        </div>
+      </div>
+    </div>
+    <!-- <div class="modal-footer">
+      <button type="button" class="btn btn-light" (click)="closeModalWindow()">Close</button>
+    </div> -->
+  </ng-template>
+
+  <!--  -->
