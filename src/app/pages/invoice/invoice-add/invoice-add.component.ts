@@ -501,7 +501,7 @@ export class InvoiceAddComponent implements OnInit {
 
   printInvoice(invoiceTosave,insertObject) {
     var invoiceWindow = window.open("", "print-window");
-        invoiceWindow.document.open();
+        //invoiceWindow.document.open();
         for (var x = 0; x < invoiceTosave.itemList.length; x++) {
             this.printDetails = this.printDetails + '<tr><td style="height:20px;width:33%;text-align:left;">' + invoiceTosave.itemList[x].name + '</td><td style="height:20px;width:15%;text-align:right;">' +
             parseFloat(invoiceTosave.itemList[x].price.toString()).toFixed(2).replace(/./g, function (c, i, a) {
@@ -515,7 +515,7 @@ export class InvoiceAddComponent implements OnInit {
         }) + '</td>' +
           '</tr>'
         }
-        
+
         invoiceWindow.document.write (
           '<div>' +
                `<table style="width:100%;">
@@ -640,8 +640,7 @@ export class InvoiceAddComponent implements OnInit {
 
 
       )
-
-      //  setTimeout(function () { invoiceWindow.close(); }, 1000);
+        setTimeout(function () { invoiceWindow.close(); }, 1000);
         this.printDetails='';
   }
 

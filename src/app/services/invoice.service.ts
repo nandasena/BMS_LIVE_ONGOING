@@ -73,6 +73,9 @@ export class InvoiceService {
     }
 
     saveCreditPayment(paymentModal:any){
-      return this.commonsService.apiPost(paymentModal,'invoice/creditPayment/')
+      return this.commonsService.apiPost(paymentModal,'invoice/creditPayment/');
+    }
+    getInvoiceDetailForReprintById(id){
+      return this.commonsService.apiGet('invoice/getInvoiceReprintData/'+id);
     }
 }

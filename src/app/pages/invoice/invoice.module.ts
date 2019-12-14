@@ -13,6 +13,7 @@ import { MyDatePickerModule } from 'mydatepicker';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { NumberOnlyDirective } from '../../models/number-directive';
 import {NumberDirectiveDiscount} from '../../models/number-directive-discount'
+import {InvoicePrintComponent} from '../invoice/invoice-list/invoice-print.component';
 import { from } from 'rxjs/observable/from';
 // import {Config}from '../../config/config.service';
 // import {CommonService} from '../../commonService/common.service';
@@ -32,13 +33,15 @@ import { from } from 'rxjs/observable/from';
     CustomRenderComponent,
     InvoiceExpandComponent,
      NumberOnlyDirective,
-     NumberDirectiveDiscount
+     NumberDirectiveDiscount,
+     InvoicePrintComponent
   ],
   entryComponents: [
     InvoiceAddComponent,
     InvoiceEditComponent,
     CustomRenderComponent,
-    InvoiceExpandComponent
+    InvoiceExpandComponent,
+    InvoicePrintComponent
   ],
   providers: [
     SmartTableService,
