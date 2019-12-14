@@ -296,4 +296,7 @@ export class PaymentDetailComponent implements OnInit {
       this.alertify.error('Amount is more than to payable amount...');
     }
   }
+  onDelete(){
+    
+  }
 }
