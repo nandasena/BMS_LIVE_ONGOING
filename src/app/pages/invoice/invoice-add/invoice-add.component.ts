@@ -57,7 +57,7 @@ export class InvoiceAddComponent implements OnInit {
   isCheckedDebitCard: boolean = false;
   isCheckedCredit: boolean = false;
   isShowCashFild: boolean = true;
-  printDetails;
+  printDetails:String='';
 
 
 

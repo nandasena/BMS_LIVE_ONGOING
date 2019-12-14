@@ -15,18 +15,16 @@ export class InvoicePrintComponent implements ViewCell, OnInit {
 
   @Input() value: string | number;
   @Input() rowData: any;
-  printDetails;
+  printDetails:string ='';
 
   constructor(private modalService: NgbModal,private invoiceService:InvoiceService) {
   }
 
   ngOnInit() {
-    // this.renderValue = this.value.toString().toUpperCase();
   }
 
   showAddMilestoneModal(){
       this.invoiceService.getInvoiceDetailForReprintById(this.rowData.id).then((response) => {
-        console.log("result is===..........",response.json());
         let result  =response.json();
         if(result.statusCode==200 && result.success){
             this.printReprint(result.result)
@@ -40,30 +38,31 @@ export class InvoicePrintComponent implements ViewCell, OnInit {
     var invoiceWindow = window.open("", "print-window");
     //invoiceWindow.document.open();
     for (var x = 0; x < ItemList.length; x++) {
+
         this.printDetails = this.printDetails + '<tr><td style="height:20px;width:33%;text-align:left;">' + ItemList[x].itemName + '</td><td style="height:20px;width:15%;text-align:right;">' +
         parseFloat(ItemList[x].price.toString()).toFixed(2).replace(/./g, function (c, i, a) {
           return i && c !== "." && ((a.length - i) % 3 === 0) ? ',' + c : c;
-      }) + '</td><td style="height:20px;width:14%;text-align:right;">' + ItemList[x].sellingQuantity + '</td>'+
+        }) + '</td><td style="height:20px;width:14%;text-align:right;">' + ItemList[x].sellingQuantity + '</td>'+
       '</td><td style="height:20px;width:18%;text-align:right;">' +  parseFloat(ItemList[x].itemDiscount.toString()).toFixed(2).replace(/./g, function (c, i, a) {
         return i && c !== "." && ((a.length - i) % 3 === 0) ? ',' + c : c;
-    }) + '</td>' +
+        }) + '</td>' +
       '</td><td style="height:20px;width:20%;text-align:right;">' + parseFloat(ItemList[x].total).toFixed(2).replace(/./g, function (c, i, a) {
         return i && c !== "." && ((a.length - i) % 3 === 0) ? ',' + c : c;
-    }) + '</td>' +
+        }) + '</td>' +
       '</tr>'
     }
 
     invoiceWindow.document.write (
       '<div>' +
-           `<table style="width:100%;">
+            `<table style="width:100%;">
                 <br><br><br><br><br><br><br><br><br><br>
             
-                <tr style="width:100%; height:50px; text-align:center;"><td >INVOICE</td></tr>
+                <tr style="width:100%; height:50px; text-align:center;"><td >INVOICE REPRINT</td></tr>
             </table>
 
             <br/>
             <br/> 
-            <div class="row">
+            
               <table  style=" margin-left:2%; width:100%;">
                <thead>
                 <tr>
@@ -91,7 +90,7 @@ export class InvoicePrintComponent implements ViewCell, OnInit {
               </thead>
 
              </table>
-            </div> <br/>
+             <br/>
            
 
             <table  style="margin-left:11%;width:80%;text-align:right;">
@@ -122,23 +121,23 @@ export class InvoicePrintComponent implements ViewCell, OnInit {
              </th>
             <th style=" text-align:right;height: 20px; width:24%;">`+ parseFloat(invoiceDetail.totalAmount+invoiceDetail.invoiceDiscount).toFixed(2).replace(/./g, function (c, i, a) {
             return i && c !== "." && ((a.length - i) % 3 === 0) ? ',' + c : c;
-        }) +
-        `</th></tr> 
+            }) +
+            `</th></tr> 
               <tr>
               <th style=" text-align:right; height: 20px; width:48%; "> Discount
               </th>  
                <th style=" text-align:right;height: 20px; width:22%; ">`+ parseFloat(invoiceDetail.invoiceDiscount).toFixed(2).replace(/./g, function (c, i, a) {
             return i && c !== "." && ((a.length - i) % 3 === 0) ? ',' + c : c;
-        }) +
-        `</th> 
+            }) +
+            `</th> 
                </tr>
                <tr>
                <th style="text-align:right; height: 20px; width:48%; ">Net Total
                </th> 
                 <th style=" text-align:right;height: 20px; width:22%; ">`+ (parseFloat(invoiceDetail.totalAmount)).toFixed(2).replace(/./g, function (c, i, a) {
             return i && c !== "." && ((a.length - i) % 3 === 0) ? ',' + c : c;
-        }) +
-        `</th>
+            }) +
+            `</th>
                 </tr> 
               </thead>
               <tbody > 
@@ -152,7 +151,7 @@ export class InvoicePrintComponent implements ViewCell, OnInit {
             <th style="text-align:right;height: 20px; width:25%; ">Authorized By :
             </th>
             <th style="text-align:left; height: 20px; width:10%;  ">`+ 'Pasan' +
-        `</th>
+            `</th>
             <th style="text-align:center;height: 20px; width:55%;  ">
             </th></tr>
             </thead>
