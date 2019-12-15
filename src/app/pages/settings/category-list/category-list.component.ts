@@ -3,6 +3,9 @@ import { LocalDataSource, ViewCell } from 'ng2-smart-table';
 import { SmartTableService } from '../../../@core/data/smart-table.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { SettingsService } from '../../../services/settings.service';
+import * as _ from 'lodash';
+import { AlertifyService } from '../../../services/alertify.service';
+import { CategoryEditorComponent } from '../../settings/category-editor/category-editor.component';
 
 @Component({
   selector: 'category-list',
@@ -42,10 +45,15 @@ export class CategoryListComponent implements OnInit {
     },
   };
 
+  data = {
+    category: '',
+  }
   init_data = [];
   source: LocalDataSource = new LocalDataSource();
 
-  constructor(private service: SettingsService, private modalService: NgbModal ) {}
+  constructor(private service: SettingsService,
+              private modalService: NgbModal,
+              private alertifyService: AlertifyService ) {}
 
 
   ngOnInit() {
@@ -61,6 +69,33 @@ export class CategoryListComponent implements OnInit {
 
 
   }
+
+  onEdit(event) {
+    const activeModal = this.modalService.open(CategoryEditorComponent, { size: 'lg', container: 'nb-layout' });
+    activeModal.componentInstance.rowData = event;
+    this.data.category = 'mainCategory';
+    activeModal.componentInstance.selectedTask = this.data;
+  }
+  Categorydelete(event) {
+    let innerthis = this;
+    this.alertifyService.confirm('Delete Category - ' + event.data.name, 'Are you sure you want to delete this issue?', function () {
+
+      _.remove( innerthis.init_data , { 'mainCategoryId': event.data.mainCategoryId });
+      innerthis.source.load( innerthis.init_data );
+     /* innerthis.settingsservice.delete(event.data.).then((response) => {
+        let message = response.json();
+        if (message.statusCode == 200) {
+          innerthis.alertifyService.success('Deleted Successfully!');
+          let id = event.data.pkId;
+          _.remove(innerthis.sortedList, { 'pkId': id });
+          innerthis.source.load(innerthis.sortedList);
+        } else {
+          innerthis.alertifyService.error('somthing went wrong!');
+        }
+      });*/
+    });
+  }
+
 }
 
 

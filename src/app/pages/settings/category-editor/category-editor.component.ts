@@ -1,4 +1,4 @@
-import { Component, OnInit ,Input} from '@angular/core';
+import { Component, OnInit , Input} from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import {BiguserService} from '../../../services/biguser.service';
 import { LocalDataSource, ViewCell } from 'ng2-smart-table';
@@ -8,6 +8,8 @@ import { Item } from '../../../models/item_modal';
 import { AlertifyService } from '../../../services/alertify.service';
 import { SettingsService } from '../../../services/settings.service';
 import * as _ from 'lodash';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'category-editor',
@@ -17,7 +19,7 @@ import * as _ from 'lodash';
 export class CategoryEditorComponent implements OnInit {
 
   @Input() selectedTask;
-
+  @Input() rowData;
   category = {
     name: '',
     subCategoryId: '',
@@ -55,17 +57,12 @@ export class CategoryEditorComponent implements OnInit {
               title: 'Category Code',
               type: 'number',
             },
-            categoryName: {
+            name: {
               title: 'Name',
               type: 'string',
             },
           },
         };
-
-
-
-
-
       }else if (this.Categorytype === 'subCategory') {
 
         this.settings = {
@@ -96,7 +93,7 @@ export class CategoryEditorComponent implements OnInit {
               title: 'Main Category',
               type: 'string',
             },
-            categoryName: {
+            name: {
               title: 'Name',
               type: 'string',
             },
@@ -116,7 +113,7 @@ export class CategoryEditorComponent implements OnInit {
   itemToSave: Category[] = [];
   categoryName: string;
   temp_itemcount: number = 0;
-
+  modalReference: NgbModalRef;
   message: string;
   selectedCategory: Category;
 
@@ -136,13 +133,14 @@ export class CategoryEditorComponent implements OnInit {
   constructor(private activeModal: NgbActiveModal, private biguserService: BiguserService,
     private service: SmartTableService,
     private alertifyService: AlertifyService,
-    private settingsservice: SettingsService)
+    private settingsservice: SettingsService,
+    private spinner: NgxSpinnerService)
   {
     this.selectedCategory = this.initcategory;
   }
 
   ngOnInit() {
-
+debugger;
     this.checkSectiontoDisplay();
     this.tablebound();
     this.settingsservice.getMainCategoryList().then((response) => {
@@ -156,17 +154,74 @@ export class CategoryEditorComponent implements OnInit {
     this.temp_itemcount = 0;
     this.activeModal.close();
   }
-  createUser() {
+  saveCategory() {
+    if (this.Categorytype === 'mainCategory') {
+      if (this.itemToSave.length !== 0) {
+        this.settingsservice.saveMainCategoryList(this.itemToSave).then((response) => {
+          this.spinner.show();
+          let resultObj = response.json();
+          if (resultObj.statusCode === 200 && resultObj.success) {
+            this.spinner.hide();
+            this.alertifyService.success('Create successfull');
+            this.itemToSave = [];
+            this.closeModalWindow();
+          } else {
+            this.spinner.hide();
+            this.alertifyService.error('Create un-successfull');
+            this.itemToSave = [];
+            this.closeModalWindow();
+          }
+        })
+      }
+      else {
+        this.alertifyService.warning('Add Category Name');
+      }
 
-    /*this.biguserService.addUser({
-      userName: this.user.email,
-      groupCode: 1,
-      name: this.user.name,
-      email: this.user.email,
-      levelCode: this.user.level
-    }).then(status =>{
-      this.closeModal();
+
+    }else if (this.Categorytype === 'subCategory') {
+      if (this.itemToSave.length !== 0) {
+        this.settingsservice.saveSubCategoryList(this.itemToSave).then((response) => {
+          this.spinner.show();
+          let resultObj = response.json();
+          if (resultObj.statusCode === 200 && resultObj.success) {
+            this.spinner.hide();
+            this.alertifyService.success('Create successfull');
+            this.itemToSave = [];
+            this.closeModalWindow();
+          } else {
+            this.spinner.hide();
+            this.alertifyService.error('Create un-successfull');
+            this.itemToSave = [];
+            this.closeModalWindow();
+          }
+        })
+      }else {
+        this.alertifyService.warning('Add Sub Category Name');
+      }
+    }
+
+  }
+
+  Categorydelete(event) {
+    _.remove(this.itemToSave, { 'id': event.data.id });
+    this.source.load(this.itemToSave);
+    /*this.alertifyService.confirm('Delete Category - ' + event.data.name, 'Are you sure you want to delete this issue?', function () {
+      innerthis.settingsservice.delete(event.data.).then((response) => {
+        let message = response.json();
+        if (message.statusCode == 200) {
+          innerthis.alertifyService.success('Deleted Successfully!');
+          let id = event.data.pkId;
+          _.remove(innerthis.sortedList, { 'pkId': id });
+          innerthis.source.load(innerthis.sortedList);
+        } else {
+          innerthis.alertifyService.error('somthing went wrong!');
+        }
+      });
     });*/
+  }
+  closeModalWindow() {
+
+    this.modalReference.close();
   }
 
   getSubCategory(category: Category): void {
@@ -213,7 +268,8 @@ export class CategoryEditorComponent implements OnInit {
           }
           const item = new Category();
           item.id = this.temp_itemcount++;
-          item.categoryName = this.categoryName;
+          item.name = this.categoryName;
+          item.subCategoryId = 0;
           this.itemToSave.push(item);
           this.source.load(this.itemToSave);
         }else {
@@ -232,8 +288,9 @@ export class CategoryEditorComponent implements OnInit {
         }
         const item = new Category();
         item.id = this.temp_itemcount++;
-        item.categoryName = this.categoryName;
-        item.mainCategoryName = this.selectedCategory.name
+        item.name = this.categoryName;
+        item.mainCategoryId = this.selectedCategory.mainCategoryId;
+        item.mainCategoryName = this.selectedCategory.name;
         this.itemToSave.push(item);
         this.source.load(this.itemToSave);
       }else {

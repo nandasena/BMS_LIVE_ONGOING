@@ -19,11 +19,11 @@
       <button class="btn btn-success input-group-text pull-right" (click)="bindCategoryList()">Add</button>
     </form>
 
-    <ng2-smart-table [settings]="settings" [source]="source">
+    <ng2-smart-table [settings]="settings" [source]="source" (delete)="Categorydelete($event)">
       </ng2-smart-table>
 
   <div class="modal-footer">
-    <button class="btn btn-md btn-success" (click)="createUser()">proceed</button>
+    <button class="btn btn-md btn-success" (click)="saveCategory()">proceed</button>
     <button class="btn btn-hero-secondary btn-demo" (click)="closeModal()">Close</button>
   </div>
 
@@ -57,11 +57,11 @@
         <button class="btn btn-success input-group-text pull-right" (click)="bindCategoryList()">Add</button>
       </form>
 
-      <ng2-smart-table [settings]="settings" [source]="source">
+      <ng2-smart-table [settings]="settings" [source]="source" (delete)="Categorydelete($event)">
         </ng2-smart-table>
 
     <div class="modal-footer">
-      <button class="btn btn-md btn-success" (click)="createUser()">proceed</button>
+      <button class="btn btn-md btn-success" (click)="saveCategory()">proceed</button>
       <button class="btn btn-hero-secondary btn-demo" (click)="closeModal()">Close</button>
     </div>
 

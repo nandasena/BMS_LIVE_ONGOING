@@ -19,4 +19,14 @@ export class SettingsService {
   getSubCategoryList() {
     return this.commonsService.apiGet('category/subCategory/');
   }
+  saveMainCategoryList(CategoryList: any) {
+    return this.commonsService.apiPost(CategoryList, 'category/mainCategory/');
+  }
+  saveSubCategoryList(CategoryList: any) {
+    return this.commonsService.apiPost(CategoryList, 'category/subCategory/');
+  }
+
+  DeleteMainCategory(CateGoryId: number) {
+   // return this.commonService.apid("issue//task/"+taskId);
+  }
 }

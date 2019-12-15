@@ -3,6 +3,7 @@ import { LocalDataSource, ViewCell } from 'ng2-smart-table';
 import { SmartTableService } from '../../../@core/data/smart-table.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { SettingsService } from '../../../services/settings.service';
+import { CategoryEditorComponent } from '../../settings/category-editor/category-editor.component';
 
 @Component({
   selector: 'subCategory-list',
@@ -46,6 +47,9 @@ export class SubCategoryListComponent implements OnInit {
     },
   };
 
+  data = {
+    category: '',
+  }
   init_data = [];
   source: LocalDataSource = new LocalDataSource();
 
@@ -65,5 +69,13 @@ export class SubCategoryListComponent implements OnInit {
 
 
   }
+
+  onEdit(event) {
+    const activeModal = this.modalService.open(CategoryEditorComponent, { size: 'lg', container: 'nb-layout' });
+    activeModal.componentInstance.rowData = event;
+    this.data.category = 'mainCategory';
+    activeModal.componentInstance.selectedTask = this.data;
+  }
+
 }
 
