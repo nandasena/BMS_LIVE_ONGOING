@@ -6,6 +6,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CustomRenderComponent } from './custome-render.component';
 import { InvoiceService } from '../../../services/invoice.service';
 import { AlertifyService } from '../../../services/alertify.service';
+import {InvoicePrintComponent}from '../invoice-list/invoice-print.component';
 import * as moment from 'moment';
 import { IMyDpOptions } from 'mydatepicker';
 
@@ -23,6 +24,7 @@ export class InvoiceListComponent implements OnInit {
     actions: {
       position: 'right',
     },
+    
     add: {
       addButtonContent: '<i class="nb-plus"></i>',
       createButtonContent: '<i class="nb-checkmark"></i>',
@@ -64,6 +66,11 @@ export class InvoiceListComponent implements OnInit {
       invoiceDiscount: {
         title: 'Invoice Discount',
         valuePrepareFunction: (value) => { return value === 'Total' ? value : Intl.NumberFormat("ja-JP", { style: "decimal", currency: "JPY", minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(value) }
+      },
+      print: {
+        title:'',
+        type: 'custom',
+        renderComponent:InvoicePrintComponent
       },
     },
   };

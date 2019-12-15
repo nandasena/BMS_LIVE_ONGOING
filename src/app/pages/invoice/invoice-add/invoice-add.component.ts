@@ -57,6 +57,7 @@ export class InvoiceAddComponent implements OnInit {
   isCheckedDebitCard: boolean = false;
   isCheckedCredit: boolean = false;
   isShowCashFild: boolean = true;
+  printDetails:String='';
 
 
 
@@ -335,12 +336,15 @@ export class InvoiceAddComponent implements OnInit {
         invoiceTosave.paymentDetailList = innerThis.paymentDetailList;
 
         invoiceTosave.invoiceDate = innerThis.model.formatted;
+        console.log("asasasasaas",invoiceTosave);
+        let totalDiscount =1000;
         innerThis.invoiceService.saveInvoice(invoiceTosave).then((response) => {
           innerThis.spinner.show();
           let resultObj = response.json();
           if (resultObj.statusCode == 200 && resultObj.success) {
 
             innerThis.spinner.hide();
+            innerThis.printInvoice(invoiceTosave,resultObj.result);
             innerThis.alertify.success('Create successfull');
             innerThis.itemToSave = [];
             innerThis.totalAmount = 0.00;
@@ -493,6 +497,151 @@ export class InvoiceAddComponent implements OnInit {
     this.paymentDetail.typeCode = 'CH';
     this.isShowCashFild = true;
     this.modalReference.close();
+  }
+
+  printInvoice(invoiceTosave,insertObject) {
+    var invoiceWindow = window.open("", "print-window");
+        //invoiceWindow.document.open();
+        for (var x = 0; x < invoiceTosave.itemList.length; x++) {
+            this.printDetails = this.printDetails + '<tr><td style="height:20px;width:33%;text-align:left;">' + invoiceTosave.itemList[x].name + '</td><td style="height:20px;width:15%;text-align:right;">' +
+            parseFloat(invoiceTosave.itemList[x].price.toString()).toFixed(2).replace(/./g, function (c, i, a) {
+              return i && c !== "." && ((a.length - i) % 3 === 0) ? ',' + c : c;
+          }) + '</td><td style="height:20px;width:14%;text-align:right;">' + invoiceTosave.itemList[x].sellingQuantity + '</td>'+
+          '</td><td style="height:20px;width:18%;text-align:right;">' +  parseFloat((invoiceTosave.itemList[x].sellingQuantity * invoiceTosave.itemList[x].discountPercentage * invoiceTosave.itemList[x].price / 100).toString()).toFixed(2).replace(/./g, function (c, i, a) {
+            return i && c !== "." && ((a.length - i) % 3 === 0) ? ',' + c : c;
+        }) + '</td>' +
+          '</td><td style="height:20px;width:20%;text-align:right;">' + parseFloat(invoiceTosave.itemList[x].total).toFixed(2).replace(/./g, function (c, i, a) {
+            return i && c !== "." && ((a.length - i) % 3 === 0) ? ',' + c : c;
+        }) + '</td>' +
+          '</tr>'
+        }
+
+        invoiceWindow.document.write (
+          '<div>' +
+               `<table style="width:100%;">
+                    <br><br><br><br><br><br><br><br><br><br>
+                
+                    <tr style="width:100%; height:50px; text-align:center;"><td >INVOICE</td></tr>
+                </table>
+
+                <br/>
+                <br/> 
+                <div class="row">
+                  <table  style=" margin-left:2%; width:100%;">
+                   <thead>
+                    <tr>
+                      <th style="text-align:left;height:15px;width:30%;">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspInvoice Number :
+                      </th>
+                      <th style="text-align:left;height:15px;width:20%;  ">`+ insertObject.invoiceNumber +
+                      `</th> 
+                      <th style="text-align:left;height:15px;width:20%;">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspDate :
+                      </th>
+                      <th style="text-align:left;height:15px;width:30%; ">`+ invoiceTosave.invoiceDate +
+                      `</th>
+                    </tr>
+                   </thead>
+                  </table>
+
+            
+                 <table  style=" margin-left:2%; width:100%;">
+                  <thead>
+                   <tr>
+                    <th style="text-align:left;height: 15px; width:30%; ">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspCustomer Name :
+                    </th>
+                    <th style="text-align:left; height: 15px; width:70%;  ">`+ insertObject.customerName +
+                    `</th>
+                   </tr>  
+                  </thead>
+
+                 </table>
+                </div> <br/>
+               
+
+                <table  style="margin-left:11%;width:80%;text-align:right;">
+                
+                  <tr>
+
+                    <th style="text-align:left;width:33%;">Discription
+                    </th>
+                    <th style="text-align:right;width:15%;">Unit Price
+                    </th> 
+                    <th style="text-align:right;width:14%;">Quantity
+                    </th>
+                    <th style="text-align:right;width:18%;">Discount (Rs)
+                    </th>
+                    <th style="text-align:right;width:20%;">Amount (Rs)
+                    </th>
+
+                  </tr>
+                <tbody > `+ this.printDetails + `</tbody>
+                </table> 
+
+
+                <div class="row">
+
+                <table style="margin-left:14%; width:77%;padding-top:50px;">
+                 <thead  > <tr>
+                 <th style= " text-align:right; height: 20px; width:48%;">Total
+                 </th>
+                <th style=" text-align:right;height: 20px; width:24%;">`+ parseFloat(invoiceTosave.totalAmount+insertObject.invoiceDiscount).toFixed(2).replace(/./g, function (c, i, a) {
+                return i && c !== "." && ((a.length - i) % 3 === 0) ? ',' + c : c;
+            }) +
+            `</th></tr> 
+                  <tr>
+                  <th style=" text-align:right; height: 20px; width:48%; "> Discount
+                  </th>  
+                   <th style=" text-align:right;height: 20px; width:22%; ">`+ parseFloat(insertObject.invoiceDiscount).toFixed(2).replace(/./g, function (c, i, a) {
+                return i && c !== "." && ((a.length - i) % 3 === 0) ? ',' + c : c;
+            }) +
+            `</th> 
+                   </tr>
+                   <tr>
+                   <th style="text-align:right; height: 20px; width:48%; ">Net Total
+                   </th> 
+                    <th style=" text-align:right;height: 20px; width:22%; ">`+ (parseFloat(invoiceTosave.totalAmount)).toFixed(2).replace(/./g, function (c, i, a) {
+                return i && c !== "." && ((a.length - i) % 3 === 0) ? ',' + c : c;
+            }) +
+            `</th>
+                    </tr> 
+                  </thead>
+                  <tbody > 
+                  </tbody>
+                  </table>
+                 </div><br/>
+                 <div class="row" style="  ">
+                <table  style="margin-left:2%; width:90%;">
+                <thead  >
+                <tr>
+                <th style="text-align:right;height: 20px; width:25%; ">Authorized By :
+                </th>
+                <th style="text-align:left; height: 20px; width:10%;  ">`+ 'Pasan' +
+            `</th>
+                <th style="text-align:center;height: 20px; width:55%;  ">
+                </th></tr>
+                </thead>
+                </table> 
+             </div>
+             <div class="row" style="  ">
+             <table  style="margin-left:5%; width:90%;">
+             <thead>
+             <tr>
+             <th style="text-align:center;height: 20px; width:90%;  ">Thank You.!
+             </th></tr>
+             <tr>
+             <th style="text-align:center;height: 40px; width:90%;  ">
+             </th></tr></thead>
+             </table>
+             </div>
+             <script>
+                setTimeout(function () { window.print(); }, 500);
+              </script>
+          </div>`
+              
+
+
+      )
+        setTimeout(function () { invoiceWindow.close(); }, 1000);
+        this.printDetails='';
   }
 
 }
