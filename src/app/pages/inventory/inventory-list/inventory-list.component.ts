@@ -6,6 +6,7 @@ import { InventoryService } from '../../../services/inventory.service';
 import { Item } from '../../../models/item_modal';
 import { InventoryIssueBtnComponent } from './inventory-issue-btn-component';
 import { from } from 'rxjs/observable/from';
+import { ExportToCsv } from 'export-to-csv';
 
 @Component({
   selector: 'inventory-list',
@@ -14,6 +15,21 @@ import { from } from 'rxjs/observable/from';
 })
 export class InventoryListComponent implements OnInit {
   inventoryList: Item[] = [];
+
+   options = { 
+    fieldSeparator: ',',
+    quoteStrings: '"',
+    decimalSeparator: '.',
+    showLabels: true, 
+    showTitle: true,
+    title: 'Inventory List',
+    useTextFile: false,
+    useBom: true,
+    useKeysAsHeaders: true,
+    filename:'Inventory List'
+    // headers: ['Column 1', 'Column 2', etc...] <-- Won't work with useKeysAsHeaders present!
+  };
+  csvExporter = new ExportToCsv(this.options);
 
   settings = {
     mode: 'external',
@@ -100,6 +116,10 @@ export class InventoryListComponent implements OnInit {
   }
 
   ngOnInit() {
+   
+  }
+  downloadInventoryData(){
+    this.csvExporter.generateCsv(this.inventoryList);
   }
 
 }
