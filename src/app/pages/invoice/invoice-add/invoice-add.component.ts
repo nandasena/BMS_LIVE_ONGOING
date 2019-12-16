@@ -36,8 +36,14 @@ export class InvoiceAddComponent implements OnInit {
   myDatePickerOptions: IMyDpOptions = {
     dateFormat: 'yyyy/mm/dd',
   };
+  chequeDatePickerOptions: IMyDpOptions = {
+    dateFormat: 'yyyy-mm-dd',
+  };
+  // chequeDate = { date: {}, formatted: '' };
+  chequeDate=null;
   balance: number = 0.00;
   cash: number = 0.00;
+  selectedBankId=-1;
   selectedItemId: number;
   customerList = [];
   selectedCustomerName: string = '';
@@ -51,13 +57,15 @@ export class InvoiceAddComponent implements OnInit {
   paymentDetail;
   chequeNo: string = '';
   carsRefNo: string = '';
+  chequeDescription:string='';
   isCheckedCash: boolean = true;
   isCheckedCheque: boolean = false;
   isCheckedCreditCard: boolean = false;
   isCheckedDebitCard: boolean = false;
   isCheckedCredit: boolean = false;
   isShowCashFild: boolean = true;
-  printDetails:String='';
+  printDetails: String = '';
+  bankList = [];
 
 
 
@@ -98,7 +106,24 @@ export class InvoiceAddComponent implements OnInit {
       }, formatted: moment().year() + '-' + (moment().month() + 1) + '-' + moment().date()
     };
 
+    // this.chequeDate = {
+    //   date: {
+    //     year: moment().year(),
+    //     month: (moment().month() + 1),
+    //     day: moment().date()
+    //   }, formatted: moment().year() + '-' + (moment().month() + 1) + '-' + moment().date()
+    // };
+
     this.selectPaymentType('CH')
+
+    this.invoiceService.getBankList().then((responce) => {
+      let result = responce.json();
+      if (result.success) {
+        this.bankList = result.result
+      }
+
+    });
+
   }
 
 
@@ -267,6 +292,8 @@ export class InvoiceAddComponent implements OnInit {
       this.isShowCashFild = false;
       this.chequeNo = '';
       this.carsRefNo = '';
+      this.chequeDescription = '';
+      this.selectedBankId = -1;
     }
     if (this.paymentType == 'CQ') {
       this.showChequeFild = true;
@@ -277,17 +304,23 @@ export class InvoiceAddComponent implements OnInit {
       this.showCardFild = true;
       this.isShowCashFild = true;
       this.chequeNo = '';
+      this.chequeDescription = '';
+      this.selectedBankId = -1;
 
     }
     if (this.paymentType == 'CH') {
       this.chequeNo = '';
       this.carsRefNo = '';
+      this.chequeDescription = '';
+      this.selectedBankId = -1;
       this.isShowCashFild = true;
     }
     if (this.paymentType == 'DB') {
       this.showCardFild = true;
       this.isShowCashFild = true;
       this.chequeNo = '';
+      this.selectedBankId = -1;
+      this.chequeDescription = ''
     }
   }
   saveInvoice() {
@@ -304,6 +337,18 @@ export class InvoiceAddComponent implements OnInit {
       if (this.showChequeFild) {
         if (this.chequeNo == '') {
           this.alertify.error('Please add cheque number....');
+          return false;
+        }
+        if(this.chequeDate==null){
+          this.alertify.error('Please add cheque date....');
+          return false;
+        }
+        if(this.chequeDescription==''){
+          this.alertify.error('Please add Description....');
+          return false;
+        }
+        if(this.selectedBankId == -1){
+          this.alertify.error('Please select bank....');
           return false;
         }
       }
@@ -324,7 +369,11 @@ export class InvoiceAddComponent implements OnInit {
       this.paymentDetailList.pop();
       this.paymentDetail.amount = this.totalAmount;
       this.chequeNo == '' ? this.paymentDetail.chequeNumber = null : this.paymentDetail.chequeNumber = this.chequeNo;
-      this.carsRefNo == "" ? this.paymentDetail.cardNumber = null : this.paymentDetail.cardNumber = this.carsRefNo
+      this.carsRefNo == "" ? this.paymentDetail.cardNumber = null : this.paymentDetail.cardNumber = this.carsRefNo;
+      this.chequeDescription=='' ? this.paymentDetail.description=null: this.paymentDetail.description = this.chequeDescription;
+      this.selectedBankId == -1 ? this.paymentDetail.bankId =null : this.paymentDetail.bankId =this.selectedBankId;
+      this.paymentDetail.chequeDate = this.chequeDate==null?null:this.chequeDate.formatted;
+
       this.paymentDetailList.push(this.paymentDetail);
       this.alertify.confirm('Create Invoice', 'Are you sure you want to create invoice', function () {
         let invoiceTosave = new InvoiceModel;
@@ -336,15 +385,13 @@ export class InvoiceAddComponent implements OnInit {
         invoiceTosave.paymentDetailList = innerThis.paymentDetailList;
 
         invoiceTosave.invoiceDate = innerThis.model.formatted;
-        console.log("asasasasaas",invoiceTosave);
-        let totalDiscount =1000;
         innerThis.invoiceService.saveInvoice(invoiceTosave).then((response) => {
           innerThis.spinner.show();
           let resultObj = response.json();
           if (resultObj.statusCode == 200 && resultObj.success) {
 
             innerThis.spinner.hide();
-            innerThis.printInvoice(invoiceTosave,resultObj.result);
+            innerThis.printInvoice(invoiceTosave, resultObj.result);
             innerThis.alertify.success('Create successfull');
             innerThis.itemToSave = [];
             innerThis.totalAmount = 0.00;
@@ -489,6 +536,8 @@ export class InvoiceAddComponent implements OnInit {
     this.chequeNo = '';
     this.carsRefNo = '';
     this.isShowCashFild = true;
+    this.chequeDescription = '';
+    this.selectedBankId=-1;
     this.modalReference = this.modalService.open(content, { size: 'lg' });
   }
   closeModalWindow() {
@@ -499,26 +548,32 @@ export class InvoiceAddComponent implements OnInit {
     this.modalReference.close();
   }
 
-  printInvoice(invoiceTosave,insertObject) {
-    var invoiceWindow = window.open("", "print-window");
-        //invoiceWindow.document.open();
-        for (var x = 0; x < invoiceTosave.itemList.length; x++) {
-            this.printDetails = this.printDetails + '<tr><td style="height:20px;width:33%;text-align:left;">' + invoiceTosave.itemList[x].name + '</td><td style="height:20px;width:15%;text-align:right;">' +
-            parseFloat(invoiceTosave.itemList[x].price.toString()).toFixed(2).replace(/./g, function (c, i, a) {
-              return i && c !== "." && ((a.length - i) % 3 === 0) ? ',' + c : c;
-          }) + '</td><td style="height:20px;width:14%;text-align:right;">' + invoiceTosave.itemList[x].sellingQuantity + '</td>'+
-          '</td><td style="height:20px;width:18%;text-align:right;">' +  parseFloat((invoiceTosave.itemList[x].sellingQuantity * invoiceTosave.itemList[x].discountPercentage * invoiceTosave.itemList[x].price / 100).toString()).toFixed(2).replace(/./g, function (c, i, a) {
-            return i && c !== "." && ((a.length - i) % 3 === 0) ? ',' + c : c;
-        }) + '</td>' +
-          '</td><td style="height:20px;width:20%;text-align:right;">' + parseFloat(invoiceTosave.itemList[x].total).toFixed(2).replace(/./g, function (c, i, a) {
-            return i && c !== "." && ((a.length - i) % 3 === 0) ? ',' + c : c;
-        }) + '</td>' +
-          '</tr>'
-        }
 
-        invoiceWindow.document.write (
-          '<div>' +
-               `<table style="width:100%;">
+  setSelectedBank(selectedBankId) {
+    console.log("selected Bank is =====", selectedBankId)
+    this.selectedBankId =selectedBankId
+  }
+
+  printInvoice(invoiceTosave, insertObject) {
+    var invoiceWindow = window.open("", "print-window");
+    //invoiceWindow.document.open();
+    for (var x = 0; x < invoiceTosave.itemList.length; x++) {
+      this.printDetails = this.printDetails + '<tr><td style="height:20px;width:33%;text-align:left;">' + invoiceTosave.itemList[x].name + '</td><td style="height:20px;width:15%;text-align:right;">' +
+        parseFloat(invoiceTosave.itemList[x].price.toString()).toFixed(2).replace(/./g, function (c, i, a) {
+          return i && c !== "." && ((a.length - i) % 3 === 0) ? ',' + c : c;
+        }) + '</td><td style="height:20px;width:14%;text-align:right;">' + invoiceTosave.itemList[x].sellingQuantity + '</td>' +
+        '</td><td style="height:20px;width:18%;text-align:right;">' + parseFloat((invoiceTosave.itemList[x].sellingQuantity * invoiceTosave.itemList[x].discountPercentage * invoiceTosave.itemList[x].price / 100).toString()).toFixed(2).replace(/./g, function (c, i, a) {
+          return i && c !== "." && ((a.length - i) % 3 === 0) ? ',' + c : c;
+        }) + '</td>' +
+        '</td><td style="height:20px;width:20%;text-align:right;">' + parseFloat(invoiceTosave.itemList[x].total).toFixed(2).replace(/./g, function (c, i, a) {
+          return i && c !== "." && ((a.length - i) % 3 === 0) ? ',' + c : c;
+        }) + '</td>' +
+        '</tr>'
+    }
+
+    invoiceWindow.document.write(
+      '<div>' +
+      `<table style="width:100%;">
                     <br><br><br><br><br><br><br><br><br><br>
                 
                     <tr style="width:100%; height:50px; text-align:center;"><td >INVOICE</td></tr>
@@ -533,11 +588,11 @@ export class InvoiceAddComponent implements OnInit {
                       <th style="text-align:left;height:15px;width:30%;">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspInvoice Number :
                       </th>
                       <th style="text-align:left;height:15px;width:20%;  ">`+ insertObject.invoiceNumber +
-                      `</th> 
+      `</th> 
                       <th style="text-align:left;height:15px;width:20%;">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspDate :
                       </th>
                       <th style="text-align:left;height:15px;width:30%; ">`+ invoiceTosave.invoiceDate +
-                      `</th>
+      `</th>
                     </tr>
                    </thead>
                   </table>
@@ -549,7 +604,7 @@ export class InvoiceAddComponent implements OnInit {
                     <th style="text-align:left;height: 15px; width:30%; ">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspCustomer Name :
                     </th>
                     <th style="text-align:left; height: 15px; width:70%;  ">`+ insertObject.customerName +
-                    `</th>
+      `</th>
                    </tr>  
                   </thead>
 
@@ -583,25 +638,25 @@ export class InvoiceAddComponent implements OnInit {
                  <thead  > <tr>
                  <th style= " text-align:right; height: 20px; width:48%;">Total
                  </th>
-                <th style=" text-align:right;height: 20px; width:24%;">`+ parseFloat(invoiceTosave.totalAmount+insertObject.invoiceDiscount).toFixed(2).replace(/./g, function (c, i, a) {
-                return i && c !== "." && ((a.length - i) % 3 === 0) ? ',' + c : c;
-            }) +
-            `</th></tr> 
+                <th style=" text-align:right;height: 20px; width:24%;">`+ parseFloat(invoiceTosave.totalAmount + insertObject.invoiceDiscount).toFixed(2).replace(/./g, function (c, i, a) {
+        return i && c !== "." && ((a.length - i) % 3 === 0) ? ',' + c : c;
+      }) +
+      `</th></tr> 
                   <tr>
                   <th style=" text-align:right; height: 20px; width:48%; "> Discount
                   </th>  
                    <th style=" text-align:right;height: 20px; width:22%; ">`+ parseFloat(insertObject.invoiceDiscount).toFixed(2).replace(/./g, function (c, i, a) {
-                return i && c !== "." && ((a.length - i) % 3 === 0) ? ',' + c : c;
-            }) +
-            `</th> 
+        return i && c !== "." && ((a.length - i) % 3 === 0) ? ',' + c : c;
+      }) +
+      `</th> 
                    </tr>
                    <tr>
                    <th style="text-align:right; height: 20px; width:48%; ">Net Total
                    </th> 
                     <th style=" text-align:right;height: 20px; width:22%; ">`+ (parseFloat(invoiceTosave.totalAmount)).toFixed(2).replace(/./g, function (c, i, a) {
-                return i && c !== "." && ((a.length - i) % 3 === 0) ? ',' + c : c;
-            }) +
-            `</th>
+        return i && c !== "." && ((a.length - i) % 3 === 0) ? ',' + c : c;
+      }) +
+      `</th>
                     </tr> 
                   </thead>
                   <tbody > 
@@ -615,7 +670,7 @@ export class InvoiceAddComponent implements OnInit {
                 <th style="text-align:right;height: 20px; width:25%; ">Authorized By :
                 </th>
                 <th style="text-align:left; height: 20px; width:10%;  ">`+ 'Pasan' +
-            `</th>
+      `</th>
                 <th style="text-align:center;height: 20px; width:55%;  ">
                 </th></tr>
                 </thead>
@@ -636,12 +691,12 @@ export class InvoiceAddComponent implements OnInit {
                 setTimeout(function () { window.print(); }, 500);
               </script>
           </div>`
-              
 
 
-      )
-        setTimeout(function () { invoiceWindow.close(); }, 1000);
-        this.printDetails='';
+
+    )
+    setTimeout(function () { invoiceWindow.close(); }, 1000);
+    this.printDetails = '';
   }
 
 }

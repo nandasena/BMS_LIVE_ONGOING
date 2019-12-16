@@ -78,4 +78,8 @@ export class InvoiceService {
     getInvoiceDetailForReprintById(id){
       return this.commonsService.apiGet('invoice/getInvoiceReprintData/'+id);
     }
+
+    getBankList(){
+      return this.commonsService.apiGet('bank/getAllBank/');
+    }
 }

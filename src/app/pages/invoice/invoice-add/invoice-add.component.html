@@ -154,25 +154,30 @@
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
-  <div class="row" style="height:550px;">
+  <div class="row" style="height:600px;">
     <div class="col-md-12" style="height: 70px;">
       <fieldset id="payment_method">
         <legend style="padding-left: 19px;">Payment Method</legend>
         <div class="fieldgroup">
-          <input type="radio" name="gender" value="CH" (click)="selectPaymentType($event.target.value)" [checked]="isCheckedCash" >
+          <input type="radio" name="gender" value="CH" (click)="selectPaymentType($event.target.value)"
+            [checked]="isCheckedCash">
           Cash<br>
         </div>
         <div class="fieldgroup">
-          <input type="radio" name="gender" value="CD" (click)="selectPaymentType($event.target.value)" [checked]="isCheckedCreditCard"> Credit Card<br>
+          <input type="radio" name="gender" value="CD" (click)="selectPaymentType($event.target.value)"
+            [checked]="isCheckedCreditCard"> Credit Card<br>
         </div>
         <div class="fieldgroup">
-          <input type="radio" name="gender" value="DB" (click)="selectPaymentType($event.target.value)" [checked]="isCheckedDebitCard"> Debit Card<br>
+          <input type="radio" name="gender" value="DB" (click)="selectPaymentType($event.target.value)"
+            [checked]="isCheckedDebitCard"> Debit Card<br>
         </div>
         <div class="fieldgroup">
-          <input type="radio" name="gender" value="LN" (click)="selectPaymentType($event.target.value)" [checked]="isCheckedCredit"> Credit<br>
+          <input type="radio" name="gender" value="LN" (click)="selectPaymentType($event.target.value)"
+            [checked]="isCheckedCredit"> Credit<br>
         </div>
         <div class="fieldgroup">
-          <input type="radio" name="gender" value="CQ" (click)="selectPaymentType($event.target.value)" [checked]="isCheckedCheque"> Cheque<br>
+          <input type="radio" name="gender" value="CQ" (click)="selectPaymentType($event.target.value)"
+            [checked]="isCheckedCheque"> Cheque<br>
         </div>
       </fieldset>
       <div style="padding: 10px; padding-top: 60px;">
@@ -203,36 +208,71 @@
             </div>
           </div>
         </div>
-        <div class="row" *ngIf="showChequeFild">
-          <div class="col-md-8" style="height: 70px;">
-            <div class="row form-group">
-              <div class="col-md-4 main-font hidden-sm" style="padding-top: 20px;">
-                <label for="amount">Cheque No</label>
+        <div *ngIf="showChequeFild">
+          <div class="row">
+            <div class="col-md-8" style="height: 70px;">
+              <div class="row form-group">
+                <div class="col-md-4 main-font hidden-sm" style="padding-top: 20px;">
+                  <label for="amount">Cheque No</label>
+                </div>
+                <div class="col-md-8 main-font form-group mb-2">
+                  <input class="text-right form-control" id="chequeNo" [(ngModel)]="chequeNo" type="text"
+                    style="height: 40px;" name="chequeNo" value="">
+                </div>
               </div>
-              <div class="col-md-8 main-font form-group mb-2">
-                <input class="text-right form-control" id="chequeNo" [(ngModel)]="chequeNo" type="text"
-                  style="height: 40px;" name="chequeNo" value="">
+            </div>
+            <div class="col-md-3 main-font form-group mb-2" style="padding: 0px;padding-right:5px;">
+              <select class="form-control text-right" (change)="setSelectedBank($event.target.value)"
+                style="width: 100%;height: 40px;">
+                <option selected [value]="-1">Select Bank</option>
+                <option *ngFor="let bank of bankList" [value]="bank.bankId">
+                  {{ bank.bankName }}
+                </option>
+              </select>
+            </div>
+            <div class="col-md-8" style="height: 70px;">
+              <div class="row form-group">
+                <div class="col-md-4 main-font hidden-sm" style="padding-top: 20px;">
+                  <label for="amount">Description</label>
+                </div>
+                <div class="col-md-8 main-font form-group mb-2">
+                  <input class="text-right form-control" id="chequeDescription" [(ngModel)]="chequeDescription" type="text"
+                    style="height: 40px;" name="chequeNo" value="">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-8" style="height: 70px;">
+              <div class="row form-group">
+                <div class="col-md-4 main-font hidden-sm">
+                  <label for="inputEmail1" style="padding-top: 3px;">Cheque Date:</label>
+                </div>
+                <div class="col-md-8 main-font form-group mb-2">
+                  <my-date-picker name="chequeDate" [options]="chequeDatePickerOptions" [(ngModel)]="chequeDate" required>
+                  </my-date-picker>
+                </div>
               </div>
             </div>
           </div>
         </div>
         <div class="row" *ngIf="showCardFild">
-            <div class="col-md-8" style="height: 70px;">
-              <div class="row form-group">
-                <div class="col-md-4 main-font hidden-sm" style="padding-top: 20px;">
-                  <label for="amount">Card Ref No</label>
-                </div>
-                <div class="col-md-8 main-font form-group mb-2">
-                  <input class="text-right form-control" id="carsRefNo" [(ngModel)]="carsRefNo" type="text"
-                    style="height: 40px;" name="carsRefNo" value="">
-                </div>
-              </div>
-            </div>
-          </div>
-        <div class="row" *ngIf="isShowCashFild">
           <div class="col-md-8" style="height: 70px;">
             <div class="row form-group">
               <div class="col-md-4 main-font hidden-sm" style="padding-top: 20px;">
+                <label for="amount">Card Ref No</label>
+              </div>
+              <div class="col-md-8 main-font form-group mb-2">
+                <input class="text-right form-control" id="carsRefNo" [(ngModel)]="carsRefNo" type="text"
+                  style="height: 40px;" name="carsRefNo" value="">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row" *ngIf="isShowCashFild">
+          <div class="col-md-8" style="height: 70px;">
+            <div class="row form-group">
+              <div class="col-md-4 main-font hidden-sm" style="padding-top:12px;">
                 <label for="amount">Balance</label>
               </div>
               <div class="col-md-8 main-font form-group mb-2">
@@ -243,11 +283,11 @@
           </div>
         </div>
         <div class="row" style="padding-left: 15px;">
-          <div class="col-md-2" >
-              <button class="btn btn-md btn-success" (click)="saveInvoice()">Create</button>
+          <div class="col-md-2">
+            <button class="btn btn-md btn-success" (click)="saveInvoice()">Create</button>
           </div>
-          <div class="col-md-2" >
-              <button type="button" class="btn btn-md btn-danger" (click)="closeModalWindow()">Close</button>
+          <div class="col-md-2">
+            <button type="button" class="btn btn-md btn-danger" (click)="closeModalWindow()">Close</button>
           </div>
 
         </div>
