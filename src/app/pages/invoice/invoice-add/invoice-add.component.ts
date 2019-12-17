@@ -294,6 +294,7 @@ export class InvoiceAddComponent implements OnInit {
       this.carsRefNo = '';
       this.chequeDescription = '';
       this.selectedBankId = -1;
+      this.chequeDate=null;
     }
     if (this.paymentType == 'CQ') {
       this.showChequeFild = true;
@@ -306,6 +307,7 @@ export class InvoiceAddComponent implements OnInit {
       this.chequeNo = '';
       this.chequeDescription = '';
       this.selectedBankId = -1;
+      this.chequeDate=null;
 
     }
     if (this.paymentType == 'CH') {
@@ -314,13 +316,15 @@ export class InvoiceAddComponent implements OnInit {
       this.chequeDescription = '';
       this.selectedBankId = -1;
       this.isShowCashFild = true;
+      this.chequeDate=null;
     }
     if (this.paymentType == 'DB') {
       this.showCardFild = true;
       this.isShowCashFild = true;
       this.chequeNo = '';
       this.selectedBankId = -1;
-      this.chequeDescription = ''
+      this.chequeDescription = '';
+      this.chequeDate=null;
     }
   }
   saveInvoice() {
@@ -538,6 +542,7 @@ export class InvoiceAddComponent implements OnInit {
     this.isShowCashFild = true;
     this.chequeDescription = '';
     this.selectedBankId=-1;
+    this.chequeDate=null;
     this.modalReference = this.modalService.open(content, { size: 'lg' });
   }
   closeModalWindow() {
