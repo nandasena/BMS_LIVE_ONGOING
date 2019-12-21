@@ -14,6 +14,7 @@ import { NgxSpinnerModule } from 'ngx-spinner';
 import { NumberOnlyDirective } from '../../models/number-directive';
 import {NumberDirectiveDiscount} from '../../models/number-directive-discount'
 import {InvoicePrintComponent} from '../invoice/invoice-list/invoice-print.component';
+import {NumberModal} from '../../models/number.module';
 import { from } from 'rxjs/observable/from';
 // import {Config}from '../../config/config.service';
 // import {CommonService} from '../../commonService/common.service';
@@ -24,6 +25,7 @@ import { from } from 'rxjs/observable/from';
     Ng2SmartTableModule,
     MyDatePickerModule,
     NgxSpinnerModule,
+    NumberModal
   ],
   declarations: [
     InvoiceComponent,
@@ -32,9 +34,7 @@ import { from } from 'rxjs/observable/from';
     InvoiceEditComponent,
     CustomRenderComponent,
     InvoiceExpandComponent,
-     NumberOnlyDirective,
-     NumberDirectiveDiscount,
-     InvoicePrintComponent
+    InvoicePrintComponent
   ],
   entryComponents: [
     InvoiceAddComponent,

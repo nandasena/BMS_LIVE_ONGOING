@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { ThemeModule } from '../../@theme/theme.module';
+import { PurchaseOrderComponent } from './purchase-order.component';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { SmartTableService } from '../../@core/data/smart-table.service';
+
 import { MyDatePickerModule } from 'mydatepicker';
 import { NgxSpinnerModule } from 'ngx-spinner';
-import {PaymentComponent} from '../../pages/payment/payment.component';
-import {PaymentDetailComponent} from '../../pages/payment/payment-detail-list/payment-detail.component';
-import {NumberModal} from '../../models/number.module';
+import {PurchaseOrderListComponent} from './purchase-order-list/purchase-order-list.component'
 
 @NgModule({
   imports: [
@@ -15,16 +15,18 @@ import {NumberModal} from '../../models/number.module';
     Ng2SmartTableModule,
     MyDatePickerModule,
     NgxSpinnerModule,
-    NumberModal
   ],
   declarations: [
-    PaymentComponent,
-    PaymentDetailComponent,
+    PurchaseOrderComponent,
+    PurchaseOrderListComponent
   ],
   entryComponents: [
+    PurchaseOrderListComponent
   ],
   providers: [
     SmartTableService,
   ]
 })
-export class PaymentModule { }
+export class PurchaseOrderModal {
+
+ }

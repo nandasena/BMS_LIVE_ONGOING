@@ -344,7 +344,6 @@ export class PaymentDetailComponent implements OnInit {
     
   }
   setSelectedBank(selectedBankId) {
-    console.log("selected Bank is =====", selectedBankId)
     this.selectedBankId =selectedBankId
   }
   
