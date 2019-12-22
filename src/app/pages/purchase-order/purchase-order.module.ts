@@ -7,7 +7,9 @@ import { SmartTableService } from '../../@core/data/smart-table.service';
 
 import { MyDatePickerModule } from 'mydatepicker';
 import { NgxSpinnerModule } from 'ngx-spinner';
-import {PurchaseOrderListComponent} from './purchase-order-list/purchase-order-list.component'
+import {PurchaseOrderListComponent} from './purchase-order-list/purchase-order-list.component';
+import {PurchaseOrderDetailButtonComponent} from './purchase-order-detail-button.component';
+import {PurchaseOrderDetailComponent}from './purchase-order-detail-modal-window/purchase-order-detail-modal-window.component';
 
 @NgModule({
   imports: [
@@ -18,10 +20,14 @@ import {PurchaseOrderListComponent} from './purchase-order-list/purchase-order-l
   ],
   declarations: [
     PurchaseOrderComponent,
-    PurchaseOrderListComponent
+    PurchaseOrderListComponent,
+    PurchaseOrderDetailButtonComponent,
+    PurchaseOrderDetailComponent
   ],
   entryComponents: [
-    PurchaseOrderListComponent
+    PurchaseOrderListComponent,
+    PurchaseOrderDetailButtonComponent,
+    PurchaseOrderDetailComponent
   ],
   providers: [
     SmartTableService,

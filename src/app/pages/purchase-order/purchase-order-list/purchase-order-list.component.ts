@@ -6,6 +6,7 @@ import { IMyDpOptions } from 'mydatepicker';
 import * as moment from 'moment';
 import { PurchaseOrderService } from '../../../services/purchaseOrder.service';
 import { AlertifyService } from '../../../services/alertify.service';
+import {PurchaseOrderDetailButtonComponent}from '../purchase-order-detail-button.component';
 
 @Component({
   selector: 'purchase-order-list',
@@ -13,7 +14,7 @@ import { AlertifyService } from '../../../services/alertify.service';
   styleUrls: ['./purchase-order-list.component.scss']
 })
 export class PurchaseOrderListComponent implements OnInit {
-    InvoiceList;
+    purchaseOrderList=[];
 
     settings = {
       mode: 'external',
@@ -28,7 +29,7 @@ export class PurchaseOrderListComponent implements OnInit {
         cancelButtonContent: '<i class="nb-close"></i>',
       },
       edit: {
-        editButtonContent: '<i class="fa fa-arrows-alt"></i>',
+        editButtonContent: '<i class="nb-edit"></i>',
       },
       delete: {
         deleteButtonContent: '<i class="nb-trash"></i>',
@@ -40,16 +41,16 @@ export class PurchaseOrderListComponent implements OnInit {
       },
   
       columns: {
-        invoiceNumber: {
-          title: 'Invoice NO',
+        purchaseCode: {
+          title: 'Purchase Order NO',
           type: 'number',
         },
-        invoiceDateOfString: {
-          title: 'Invoice Date',
+        estimationDate: {
+          title: 'Receive Date',
           type: 'string',
         },
-        paymentType: {
-          title: 'Payment Type',
+        supplierName: {
+          title: 'Supplier Name',
           type: 'string',
         },
         customerName: {
@@ -64,11 +65,11 @@ export class PurchaseOrderListComponent implements OnInit {
           title: 'Invoice Discount',
           valuePrepareFunction: (value) => { return value === 'Total' ? value : Intl.NumberFormat("ja-JP", { style: "decimal", currency: "JPY", minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(value) }
         },
-        // print: {
-        //   title:'',
-        //   type: 'custom',
-        //   renderComponent:InvoicePrintComponent
-        // },
+        print: {
+          title:'',
+          type: 'custom',
+          renderComponent:PurchaseOrderDetailButtonComponent
+        },
       },
     };
   
@@ -102,7 +103,7 @@ export class PurchaseOrderListComponent implements OnInit {
       }
   
       let today = new Date(this.toDate.formatted);
-      today.setDate(today.getDate() + 1);
+      today.setDate(today.getDate());
   
       let dd = today.getDate();
       let mm = today.getMonth() + 1;
@@ -111,8 +112,8 @@ export class PurchaseOrderListComponent implements OnInit {
       this.purchaseOrderService.getAllPurchaseOrderByDate(this.fromDate.formatted, someFormattedDateToDate).then((response) => {
         let retunData = response.json();
         if (retunData.statusCode == 200) {
-          this.InvoiceList = retunData.result;
-          this.purchaseOrderService.loadPurchaseOrderList(this.InvoiceList);
+          this.purchaseOrderList = retunData.result;
+          this.purchaseOrderService.loadPurchaseOrderList(this.purchaseOrderList);
         }
       });
     }
@@ -140,17 +141,13 @@ export class PurchaseOrderListComponent implements OnInit {
         class: "xxx",
         style: 'padding: 117px'
       };
-  
-    //  // const activeEditModal = this.modalService.open(InvoiceEditComponent, options);
-    //   activeEditModal.componentInstance.invoiceId = id;
-    //   activeEditModal.componentInstance.invoiceNumber = invoiceNumber;
     }
   
     getInvoiceByDate() {
   
       if (this.toDate!=null && this.fromDate!=null) {
         let today = new Date(this.toDate.formatted);
-        today.setDate(today.getDate() + 1);
+        today.setDate(today.getDate());
   
         let dd = today.getDate();
         let mm = today.getMonth() + 1;
@@ -160,8 +157,8 @@ export class PurchaseOrderListComponent implements OnInit {
         this.purchaseOrderService.getAllPurchaseOrderByDate(this.fromDate.formatted, someFormattedDateToDate).then((response) => {
           let retunData = response.json();
           if (retunData.statusCode == 200) {
-            this.InvoiceList = retunData.result;
-            this.purchaseOrderService.loadPurchaseOrderList(this.InvoiceList);
+            this.purchaseOrderList = retunData.result;
+            this.purchaseOrderService.loadPurchaseOrderList(this.purchaseOrderList);
           }
         });
       }else{
@@ -170,6 +167,4 @@ export class PurchaseOrderListComponent implements OnInit {
   
   
     }
-
-
 }

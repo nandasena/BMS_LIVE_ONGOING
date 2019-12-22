@@ -29,4 +29,8 @@ export class PurchaseOrderService {
         return this.commonsService.apiGet('purchaseOrder/fromDate/' + fromDate + '/toDate/' + toDate + '/');
     }
 
+    getPurchaseOrderDetailById(id){
+        return this.commonsService.apiGet('purchaseOrder/getPurchaseOrderDetailById/'+ id +'/');
+    }
+
 }

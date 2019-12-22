@@ -9,7 +9,7 @@ import { InventoryModule } from './inventory/inventory.module';
 import { SettingsModule } from './settings/settings.module';
 import { BusinessSelfieModule } from './business-selfie/business-selfie.module';
 import {PaymentModule}from './payment/payment.module';
-import {PurchaseOrderModal} from './purchase-order/purchase-order.module'
+import {PurchaseOrderModal} from './purchase-order/purchase-order.module';
 
 
 const PAGES_COMPONENTS = [
