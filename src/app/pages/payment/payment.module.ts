@@ -5,35 +5,26 @@ import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { SmartTableService } from '../../@core/data/smart-table.service';
 import { MyDatePickerModule } from 'mydatepicker';
 import { NgxSpinnerModule } from 'ngx-spinner';
-import {PaymentComponent} from '../../pages/payment/payment.component'
-import {PaymentDetailComponent} from '../../pages/payment/payment-detail-list/payment-detail.component'
-import { from } from 'rxjs/observable/from';
-import {DoubleNumberDirective} from '../../models/double-number-directive'
-// import {Config}from '../../config/config.service';
-// import {CommonService} from '../../commonService/common.service';
+import {PaymentComponent} from '../../pages/payment/payment.component';
+import {PaymentDetailComponent} from '../../pages/payment/payment-detail-list/payment-detail.component';
+import {NumberModal} from '../../models/number.module';
 
 @NgModule({
   imports: [
     ThemeModule,
     Ng2SmartTableModule,
     MyDatePickerModule,
-    NgxSpinnerModule
+    NgxSpinnerModule,
+    NumberModal
   ],
   declarations: [
-    // NumberOnlyDirective,
-    // NumberDirectiveDiscount,
     PaymentComponent,
     PaymentDetailComponent,
-    DoubleNumberDirective
-
   ],
   entryComponents: [
   ],
   providers: [
     SmartTableService,
-    // Config,
-    // CommonService
-
   ]
 })
 export class PaymentModule { }

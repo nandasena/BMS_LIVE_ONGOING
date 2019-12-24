@@ -14,23 +14,28 @@ export const MENU_ITEMS: NbMenuItem[] = [
   },
   {
     title: 'Inventory',
-    icon: 'nb-pause',
+    icon: 'nb-compose',
     link: '/pages/inventory',
   },
   {
     title: 'Credit',
-    icon: 'nb-gear',
+    icon: 'nb-person',
     link: '/pages/payment',
- },
+  },
+  {
+    title: 'Purchase Order',
+    icon: 'nb-paper-plane',
+    link: '/pages/purchase-order',
+  },
   // {
   //   title: 'Business Selfie',
   //   icon: 'nb-sunny',
   //   link: '/pages/business-selfie',
   // },
   {
-     title: 'Settings',
-     icon: 'nb-gear',
-     link: '/pages/settings',
+    title: 'Settings',
+    icon: 'nb-gear',
+    link: '/pages/settings',
   },
-  
+
 ];

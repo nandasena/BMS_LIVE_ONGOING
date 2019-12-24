@@ -26,7 +26,10 @@ export class PaymentDetailComponent implements OnInit {
   myDatePickerOptions: IMyDpOptions = {
     dateFormat: 'yyyy-mm-dd',
   };
-
+  chequeDatePickerOptions: IMyDpOptions = {
+    dateFormat: 'yyyy-mm-dd',
+  };
+  chequeDate=null;
   creditList = [];
   modalReference: NgbModalRef;
   showChequeFild: boolean = false;
@@ -49,6 +52,9 @@ export class PaymentDetailComponent implements OnInit {
   paymentDetailId:number;
   fildName = '';
   type = '';
+  bankList;
+  selectedBankId:number=-1;
+  chequeDescription:string='';
   
 
   settings = {
@@ -141,6 +147,14 @@ export class PaymentDetailComponent implements OnInit {
 
     this.selectPaymentType('CH')
 
+    this.invoiceService.getBankList().then((responce) => {
+      let result = responce.json();
+      if (result.success) {
+        this.bankList = result.result
+      }
+
+    });
+
   }
 
   getInvoiceByDate() {
@@ -166,7 +180,7 @@ export class PaymentDetailComponent implements OnInit {
 
   openModalWindow(content, selectedRow) {
     console.log("selected row", selectedRow)
-    this.type = selectedRow.typeCode;
+    this.type = 'CH';
     this.paymentDetailId =selectedRow.paymentDetailId;
     this.invoiceAmount = selectedRow.amount;
     this.totalPayment = selectedRow.paidAmount;
@@ -182,6 +196,9 @@ export class PaymentDetailComponent implements OnInit {
     this.cardRefNo = '';
     this.isShowCashFild = true;
     this.amount = 0.00;
+    this.chequeDescription = '';
+    this.selectedBankId=-1;
+    this.chequeDate=null;
     this.modalReference = this.modalService.open(content, { size: 'lg' });
   }
 
@@ -193,12 +210,14 @@ export class PaymentDetailComponent implements OnInit {
     this.showChequeFild = false;
     this.showCardFild = false;
     this.paymentType = values;
-    this.paymentDetail = new PaymentModal();
-    this.paymentDetail.typeCode = this.paymentType;
+    this.type = this.paymentType;
     if (this.paymentType == 'LN') {
       this.isShowCashFild = false;
       this.chequeNo = '';
       this.cardRefNo = '';
+      this.chequeDescription = '';
+      this.selectedBankId = -1;
+      this.chequeDate=null;
     }
     if (this.paymentType == 'CQ') {
       this.showChequeFild = true;
@@ -211,6 +230,9 @@ export class PaymentDetailComponent implements OnInit {
       this.isShowCashFild = true;
       this.chequeNo = '';
       this.fildName = 'Amount';
+      this.chequeDescription = '';
+      this.selectedBankId = -1;
+      this.chequeDate=null;
 
     }
     if (this.paymentType == 'CH') {
@@ -218,12 +240,18 @@ export class PaymentDetailComponent implements OnInit {
       this.cardRefNo = '';
       this.isShowCashFild = true;
       this.fildName = 'Cash';
+      this.chequeDescription = '';
+      this.selectedBankId = -1;
+      this.chequeDate=null;
     }
     if (this.paymentType == 'DB') {
       this.showCardFild = true;
       this.isShowCashFild = true;
       this.chequeNo = '';
       this.fildName = 'Amount';
+      this.chequeDescription = '';
+      this.selectedBankId = -1;
+      this.chequeDate=null;
     }
   }
 
@@ -242,6 +270,18 @@ export class PaymentDetailComponent implements OnInit {
         this.alertify.error('Please add cheque number....');
         return false;
       }
+      if(this.chequeDate==null){
+        this.alertify.error('Please add cheque date....');
+        return false;
+      }
+      if(this.chequeDescription==''){
+        this.alertify.error('Please add Description....');
+        return false;
+      }
+      if(this.selectedBankId == -1){
+        this.alertify.error('Please select bank....');
+        return false;
+      }
     }
     if (this.showCardFild) {
       if (this.cardRefNo == "") {
@@ -250,12 +290,16 @@ export class PaymentDetailComponent implements OnInit {
       }
     }
     let innerThis = this;
+    console.log("payment type is ---",this.type);
     this.alertify.confirm('Create Invoice', 'Are you sure you want to create invoice', function () {
       innerThis.creditPaymentObject.amount = innerThis.amount;
       innerThis.creditPaymentObject.cardNumber = innerThis.cardRefNo;
       innerThis.creditPaymentObject.chequeNumber = innerThis.chequeNo;
       innerThis.creditPaymentObject.typeCode = innerThis.type;
       innerThis.creditPaymentObject.paymentDetailId =innerThis.paymentDetailId
+      innerThis.creditPaymentObject.bankId = innerThis.selectedBankId==-1?null:innerThis.selectedBankId;
+      innerThis.creditPaymentObject.description = innerThis.chequeDescription ==''?null:innerThis.chequeDescription;
+      innerThis.creditPaymentObject.chequeDate =innerThis.chequeDate == null ? null:innerThis.chequeDate.formatted;
 
       innerThis.invoiceService.saveCreditPayment(innerThis.creditPaymentObject).then((response) => {
         innerThis.spinner.show();
@@ -299,4 +343,8 @@ export class PaymentDetailComponent implements OnInit {
   onDelete(){
     
   }
+  setSelectedBank(selectedBankId) {
+    this.selectedBankId =selectedBankId
+  }
+  
 }

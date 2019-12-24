@@ -4,4 +4,7 @@ export class PaymentModal {
     chequeNumber:string;
     cardNumber: String;
     paymentDetailId:number;
+    chequeDate:string;
+    description:string;
+    bankId:number;
 }

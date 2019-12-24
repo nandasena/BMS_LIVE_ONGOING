@@ -7,6 +7,7 @@ import { InvoiceComponent } from './invoice/invoice.component';
 import { InvoiceAddComponent } from './invoice/invoice-add/invoice-add.component';
 import { InventoryComponent } from './inventory/inventory.component';
 import {PaymentComponent}from './payment/payment.component';
+import {PurchaseOrderComponent} from './purchase-order/purchase-order.component'
 import { SettingsComponent } from './settings/settings.component';
 import { BusinessSelfieComponent } from './business-selfie/business-selfie.component';
 import { TeamComponent } from './dashboard/team/team.component';
@@ -41,6 +42,10 @@ const routes: Routes = [{
   {
     path:'payment',
     component:PaymentComponent,
+  },
+  {
+    path:'purchase-order',
+    component:PurchaseOrderComponent,
   },
   {
     path: '',

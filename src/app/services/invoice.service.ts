@@ -14,8 +14,10 @@ export class InvoiceService {
     private tableList: any[] = [];
     private sharedDataObject = new BehaviorSubject(this.tableList);
     private sharedInvoiceCreditObject = new BehaviorSubject(this.tableList);
+    private sharedPurchaseOrderObject =new BehaviorSubject(this.tableList);
     modifiedDataList = this.sharedDataObject.asObservable();
     modifiedCreditList =this.sharedInvoiceCreditObject.asObservable();
+    modifiedPurchaseOrderObject =this.sharedPurchaseOrderObject.asObservable();
     constructor(private http: Http , private commonsService: CommonService ) {}
 
     getInvoice(){
@@ -77,5 +79,9 @@ export class InvoiceService {
     }
     getInvoiceDetailForReprintById(id){
       return this.commonsService.apiGet('invoice/getInvoiceReprintData/'+id);
+    }
+
+    getBankList(){
+      return this.commonsService.apiGet('bank/getAllBank/');
     }
 }
