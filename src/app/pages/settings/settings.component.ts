@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { InviteUserComponent } from './invite-user/invite-user.component';
 import { CategoryEditorComponent } from './category-editor/category-editor.component';
+import { ItemEditorComponent } from './item-editor/item-editor.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
@@ -31,6 +32,10 @@ export class SettingsComponent implements OnInit {
    const editorModel = this.modalService.open(CategoryEditorComponent, {size:'lg', container: 'nb-layout'});
    editorModel.componentInstance.selectedTask = this.data;
   }
-
+  showItemEditorWindow() {
+    //this.data.category = 'mainCategory';
+    const editorModel = this.modalService.open(ItemEditorComponent, {size:'lg', container: 'nb-layout'});
+    editorModel.componentInstance.selectedTask = this.data;
+  }
 
 }

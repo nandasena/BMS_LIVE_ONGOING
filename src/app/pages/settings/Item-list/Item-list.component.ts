@@ -2,19 +2,23 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { LocalDataSource, ViewCell } from 'ng2-smart-table';
 import { SmartTableService } from '../../../@core/data/smart-table.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Category } from "../../../models/category_model";
+import { AlertifyService } from "../../../services/alertify.service";
+import { SettingsService } from "../../../services/settings.service";
+import * as _ from 'lodash';
 
 @Component({
-  selector: 'u-o-m-list',
-  templateUrl: './u-o-m-list.component.html',
-  styleUrls: ['./u-o-m-list.component.scss']
+  selector: 'Item-list',
+  templateUrl: './Item-list.component.html',
+  styleUrls: ['./Item-list.component.scss']
 })
-export class UOMListComponent implements OnInit {
+export class ItemListComponent implements OnInit {
 
   settings = {
     mode: 'external',
     hideSubHeader: true,
     actions: {
-      position: 'right',
+      position: "right"
     },
     add: {
       addButtonContent: '<i class="nb-plus"></i>',
@@ -28,7 +32,7 @@ export class UOMListComponent implements OnInit {
       deleteButtonContent: '<i class="nb-trash"></i>',
       confirmDelete: true,
     },
-    
+
     columns: {
       id: {
         title: 'Identifier Code',
@@ -45,14 +49,34 @@ export class UOMListComponent implements OnInit {
     },
   };
 
+  mainCategoryList = [];
+  subCategoryList = [];
+  selectedCategory: Category;
+  selectedSubCategory: Category;
+  changebleSubCategoryList: Category[] = [];
+  categoryName: string;
+  private initcategory: Category = {
+    name: "Select Category",
+    categoryName: "",
+    mainCategoryName: "",
+    subCategoryId: 0,
+    mainCategoryId: 0,
+    id: 0
+  };
+
   source: LocalDataSource = new LocalDataSource();
 
-  constructor(private service: SmartTableService, private modalService: NgbModal) {
+  constructor(private service: SmartTableService, private modalService: NgbModal , private alertifyService: AlertifyService,
+    private settingsservice: SettingsService) {
     const data = this.service.getUOMList();
     this.source.load(data);
+    this.selectedCategory = this.selectedSubCategory = this.initcategory;
   }
 
   ngOnInit() {
+
+
   }
+
 
 }

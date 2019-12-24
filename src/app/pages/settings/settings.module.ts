@@ -5,7 +5,7 @@ import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { ThemeModule } from '../../@theme/theme.module';
 import { SmartTableService } from '../../@core/data/smart-table.service';
 import { SettingsComponent } from './settings.component';
-import { UOMListComponent } from './u-o-m-list/u-o-m-list.component';
+import { ItemListComponent } from './Item-list/Item-list.component';
 import { CategoryListComponent } from './category-list/category-list.component';
 
 import { RockTypeListComponent } from './rock-type-list/rock-type-list.component';
@@ -15,6 +15,7 @@ import { InviteUserComponent } from './invite-user/invite-user.component';
 import { CategoryEditorComponent } from './category-editor/category-editor.component';
 import { FormsModule } from '@angular/forms';
 import { SubCategoryListComponent } from './subCategory-list/subCategory-list.component';
+import { ItemEditorComponent } from './item-editor/item-editor.component';
 
 @NgModule({
   imports: [
@@ -24,7 +25,7 @@ import { SubCategoryListComponent } from './subCategory-list/subCategory-list.co
   ],
   declarations: [
     SettingsComponent,
-    UOMListComponent,
+    ItemListComponent,
     RockTypeListComponent,
     UserListComponent,
     InviteRenderButtonComponent,
@@ -32,9 +33,10 @@ import { SubCategoryListComponent } from './subCategory-list/subCategory-list.co
     CategoryListComponent,
     CategoryEditorComponent,
     SubCategoryListComponent,
+    ItemEditorComponent,
   ],
   entryComponents: [
-    UOMListComponent,
+    ItemListComponent,
     RockTypeListComponent,
     UserListComponent,
     InviteRenderButtonComponent,
@@ -42,6 +44,7 @@ import { SubCategoryListComponent } from './subCategory-list/subCategory-list.co
     CategoryListComponent,
     CategoryEditorComponent,
     SubCategoryListComponent,
+    ItemEditorComponent,
   ],
   providers: [
     SmartTableService
