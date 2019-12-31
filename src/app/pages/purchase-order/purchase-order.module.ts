@@ -10,6 +10,7 @@ import { NgxSpinnerModule } from 'ngx-spinner';
 import {PurchaseOrderListComponent} from './purchase-order-list/purchase-order-list.component';
 import {PurchaseOrderDetailButtonComponent} from './purchase-order-detail-button.component';
 import {PurchaseOrderDetailComponent}from './purchase-order-detail-modal-window/purchase-order-detail-modal-window.component';
+import {PurchaseOrderCreateComponent} from './create-purchase-order/purchase-order-create.component'
 
 @NgModule({
   imports: [
@@ -22,12 +23,14 @@ import {PurchaseOrderDetailComponent}from './purchase-order-detail-modal-window/
     PurchaseOrderComponent,
     PurchaseOrderListComponent,
     PurchaseOrderDetailButtonComponent,
-    PurchaseOrderDetailComponent
+    PurchaseOrderDetailComponent,
+    PurchaseOrderCreateComponent
   ],
   entryComponents: [
     PurchaseOrderListComponent,
     PurchaseOrderDetailButtonComponent,
-    PurchaseOrderDetailComponent
+    PurchaseOrderDetailComponent,
+    PurchaseOrderCreateComponent
   ],
   providers: [
     SmartTableService,

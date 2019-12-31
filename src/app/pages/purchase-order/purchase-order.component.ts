@@ -22,5 +22,8 @@ export class PurchaseOrderComponent  {
 
   ngOnInit(){
   }
+  showModal() {
+    this.router.navigate(['/pages/invoice-add']);
+}
   
 }
