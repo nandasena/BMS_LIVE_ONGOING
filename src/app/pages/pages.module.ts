@@ -10,6 +10,7 @@ import { SettingsModule } from './settings/settings.module';
 import { BusinessSelfieModule } from './business-selfie/business-selfie.module';
 import {PaymentModule}from './payment/payment.module';
 import {PurchaseOrderModal} from './purchase-order/purchase-order.module';
+import { CreateModule } from './create/create.module'
 
 
 const PAGES_COMPONENTS = [
@@ -26,7 +27,8 @@ const PAGES_COMPONENTS = [
     SettingsModule,
     BusinessSelfieModule,
     PaymentModule,
-    PurchaseOrderModal
+    PurchaseOrderModal,
+    CreateModule,
   ],
   declarations: [
     ...PAGES_COMPONENTS,

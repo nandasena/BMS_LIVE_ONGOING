@@ -11,6 +11,7 @@ import {PurchaseOrderComponent} from './purchase-order/purchase-order.component'
 import { SettingsComponent } from './settings/settings.component';
 import { BusinessSelfieComponent } from './business-selfie/business-selfie.component';
 import { TeamComponent } from './dashboard/team/team.component';
+import { CreateComponent } from './create/create.component'
 
 const routes: Routes = [{
   path: '',
@@ -46,6 +47,10 @@ const routes: Routes = [{
   {
     path:'purchase-order',
     component:PurchaseOrderComponent,
+  },
+  {
+    path:'create',
+    component:CreateComponent,
   },
   {
     path: '',

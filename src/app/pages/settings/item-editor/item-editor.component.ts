@@ -170,4 +170,11 @@ export class ItemEditorComponent implements OnInit {
     this.temp_itemcount = 0;
     this.activeModal.close();
   }
+  saveCategory(){
+
+  }
+
+  bindCategoryList(){
+    
+  }
 }
