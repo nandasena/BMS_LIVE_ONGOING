@@ -6,6 +6,7 @@ import { Category } from "../../../models/category_model";
 import { AlertifyService } from "../../../services/alertify.service";
 import { SettingsService } from "../../../services/settings.service";
 import * as _ from 'lodash';
+import { ItemBtnComponent } from './item-btn.component';
 
 @Component({
   selector: 'Item-list',
@@ -45,6 +46,11 @@ export class ItemListComponent implements OnInit {
       count: {
         title: 'Count',
         type: 'string',
+      },
+      button: {
+        title: '',
+        type: 'custom',
+        renderComponent: ItemBtnComponent,
       },
     },
   };
