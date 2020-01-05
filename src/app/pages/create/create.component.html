@@ -1,11 +1,72 @@
 <nb-card size="large" style="height: 100%">
     <nb-tabset>
       <nb-tab tabTitle="Customers">
-              
- 
+
       </nb-tab>
       <nb-tab tabTitle="Suppliers">
 
-</nb-tab>
+      </nb-tab>
+      <nb-tab tabTitle="Category">
+        <div class="row">
+          <div class="col-md-12 margin-bottom-30">
+            <div class="row margin-bottom-15">
+              <div class="col-md-3">
+                <b>Main Category</b>
+              </div>
+              <div class="col-md-7">
+                &nbsp;
+              </div>
+              <div class="col-md-2">
+                <button class="btn btn-success input-group-text pull-right" (click)="showCategoryEditorWindow()">
+                  + Add
+                </button>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <category-list></category-list>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12 margin-bottom-30">
+            <div class="row margin-bottom-15">
+              <div class="col-md-3">
+                <b>Sub Category</b>
+              </div>
+              <div class="col-md-7">
+                &nbsp;
+              </div>
+              <div class="col-md-2">
+                <button class="btn btn-success input-group-text pull-right" (click)="showSubCategoryEditorWindow()">
+                  + Add
+                </button>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <subCategory-list></subCategory-list>
+              </div>
+            </div>
+          </div>
+        </div>
+      </nb-tab>
+      <nb-tab tabTitle="Items">
+        <div class="row">
+          <div class="col-md-12 margin-bottom-30">
+            <div class="row margin-bottom-15">
+        <div class="col-md-12">
+          <button class="btn btn-success input-group-text pull-right" (click)="showItemEditorWindow()">
+            + Add
+          </button>
+        </div>
+      </div>
+      </div>
+      </div>
+        <form class="margin-bottom-30">
+            <Item-list></Item-list>
+          </form>
+    </nb-tab>
     </nb-tabset>
 </nb-card>
