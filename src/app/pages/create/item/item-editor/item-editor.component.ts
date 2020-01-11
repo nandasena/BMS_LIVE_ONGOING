@@ -1,12 +1,12 @@
 import { Component, OnInit, Input } from "@angular/core";
 import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
-import { BiguserService } from "../../../services/biguser.service";
+import { BiguserService } from "../../../../services/biguser.service";
 import { LocalDataSource, ViewCell } from "ng2-smart-table";
-import { SmartTableService } from "../../../@core/data/smart-table.service";
-import { Category } from "../../../models/category_model";
-import { Item } from "../../../models/item_modal";
-import { AlertifyService } from "../../../services/alertify.service";
-import { SettingsService } from "../../../services/settings.service";
+import { SmartTableService } from "../../../../@core/data/smart-table.service";
+import { Category } from "../../../../models/category_model";
+import { Item } from "../../../../models/item_modal";
+import { AlertifyService } from "../../../../services/alertify.service";
+import { SettingsService } from "../../../../services/settings.service";
 import * as _ from "lodash";
 import { NgxSpinnerService } from "ngx-spinner";
 import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
@@ -175,6 +175,6 @@ export class ItemEditorComponent implements OnInit {
   }
 
   bindCategoryList(){
-    
+
   }
 }

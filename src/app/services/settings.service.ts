@@ -29,4 +29,11 @@ export class SettingsService {
   DeleteMainCategory(CateGoryId: number) {
    // return this.commonService.apid("issue//task/"+taskId);
   }
+
+  getItemList() {
+    return this.commonsService.apiGet('item/item/');
+  }
+  saveItemList(itemList: any) {
+    return this.commonsService.apiPost(itemList, 'item/item/');
+  }
 }

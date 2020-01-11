@@ -16,6 +16,8 @@ import { CategoryEditorComponent } from './category-editor/category-editor.compo
 import { FormsModule } from '@angular/forms';
 import { SubCategoryListComponent } from './subCategory-list/subCategory-list.component';
 import { ItemEditorComponent } from './item-editor/item-editor.component';
+import { ItemBtnComponent } from './Item-list/item-btn.component';
+import { ItemDetailsComponent } from './item-detail/item-detail.component';
 
 @NgModule({
   imports: [
@@ -34,6 +36,8 @@ import { ItemEditorComponent } from './item-editor/item-editor.component';
     CategoryEditorComponent,
     SubCategoryListComponent,
     ItemEditorComponent,
+    ItemBtnComponent,
+    ItemDetailsComponent,
   ],
   entryComponents: [
     ItemListComponent,
@@ -45,6 +49,8 @@ import { ItemEditorComponent } from './item-editor/item-editor.component';
     CategoryEditorComponent,
     SubCategoryListComponent,
     ItemEditorComponent,
+    ItemBtnComponent,
+    ItemDetailsComponent,
   ],
   providers: [
     SmartTableService

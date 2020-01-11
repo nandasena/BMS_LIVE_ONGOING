@@ -2,9 +2,11 @@ import { Component, OnInit, Input } from '@angular/core';
 // import { InviteUserComponent } from './invite-user/invite-user.component';
 // import { CategoryEditorComponent } from './category-editor/category-editor.component';
 // import { ItemEditorComponent } from './item-editor/item-editor.component';
-import {InvoiceService} from '../../services/invoice.service';
-import {CusomerSupplierService} from '../../services/customer-supplier.service'
+import { InvoiceService } from '../../services/invoice.service';
+import { CusomerSupplierService } from '../../services/customer-supplier.service'
 import { LocalDataSource, ViewCell } from 'ng2-smart-table';
+import { CategoryEditorComponent } from './category/category-editor/category-editor.component';
+import { ItemEditorComponent } from './item/item-editor/item-editor.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import * as _ from 'lodash';
 
@@ -18,12 +20,12 @@ export class CreateComponent implements OnInit {
   data = {
     category: '',
   }
-  customerList=[];
+  customerList = [];
   selectedCustomerId: number;
   selectedCustomerName: string = '';
   @Input() on = true;
   source: LocalDataSource = new LocalDataSource();
-  constructor(private modalService: NgbModal ,private invoiceService:InvoiceService ,private cusomerSupplierService:CusomerSupplierService ) { }
+  constructor(private modalService: NgbModal, private invoiceService: InvoiceService, private cusomerSupplierService: CusomerSupplierService) { }
 
   settings = {
     mode: 'external',
@@ -31,7 +33,7 @@ export class CreateComponent implements OnInit {
     actions: {
       position: 'right',
     },
-    
+
     add: {
       addButtonContent: '<i class="nb-plus"></i>',
       createButtonContent: '<i class="nb-checkmark"></i>',
@@ -80,7 +82,7 @@ export class CreateComponent implements OnInit {
   ngOnInit() {
     this.invoiceService.getCustomerList().then((response) => {
       this.customerList = response.json().result;
-      console.log("this.customerList=====",this.customerList);
+      console.log("this.customerList=====", this.customerList);
     })
   }
 
@@ -92,13 +94,13 @@ export class CreateComponent implements OnInit {
     if (customerId == -1) {
       this.selectedCustomerName = '';
     } else {
- 
-      this.cusomerSupplierService.getCustomerPaymentDetail(customerId).then((responce)=>{
 
-         console.log("customer payment list",responce.json().result);
-         this.source.load(responce.json().result);
+      this.cusomerSupplierService.getCustomerPaymentDetail(customerId).then((responce) => {
+
+        console.log("customer payment list", responce.json().result);
+        this.source.load(responce.json().result);
       })
-      
+
 
       let selectedCustomer = _.find(this.customerList, { 'customerId': customerId });
       if (selectedCustomer != null) {
@@ -109,5 +111,23 @@ export class CreateComponent implements OnInit {
 
     }
   }
+  showCategoryEditorWindow() {
+    this.data.category = 'mainCategory';
+    const editorModel = this.modalService.open(CategoryEditorComponent, {size:'lg', container: 'nb-layout'});
+    editorModel.componentInstance.selectedTask = this.data;
+  }
+  showSubCategoryEditorWindow() {
+    this.data.category = 'subCategory';
+   const editorModel = this.modalService.open(CategoryEditorComponent, {size:'lg', container: 'nb-layout'});
+   editorModel.componentInstance.selectedTask = this.data;
+  }
+  showItemEditorWindow() {
+    //this.data.category = 'mainCategory';
+    const editorModel = this.modalService.open(ItemEditorComponent, {size:'lg', container: 'nb-layout'});
+    editorModel.componentInstance.selectedTask = this.data;
+  }
 
 }
+
+  
+

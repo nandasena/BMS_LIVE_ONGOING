@@ -1,10 +1,10 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { LocalDataSource, ViewCell } from 'ng2-smart-table';
-import { SmartTableService } from '../../../@core/data/smart-table.service';
+import { SmartTableService } from '../../../../@core/data/smart-table.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { Category } from "../../../models/category_model";
-import { AlertifyService } from "../../../services/alertify.service";
-import { SettingsService } from "../../../services/settings.service";
+import { Category } from "../../../../models/category_model";
+import { AlertifyService } from "../../../../services/alertify.service";
+import { SettingsService } from "../../../../services/settings.service";
 import * as _ from 'lodash';
 import { ItemBtnComponent } from './item-btn.component';
 
