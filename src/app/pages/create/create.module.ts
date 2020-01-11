@@ -23,6 +23,13 @@ import { ItemListComponent } from './item/Item-list/Item-list.component';
     ],
     declarations: [
         CreateComponent,
+        CategoryEditorComponent,
+        CategoryListComponent,
+        SubCategoryListComponent,
+        ItemEditorComponent,
+        ItemBtnComponent,
+        ItemDetailsComponent,
+        ItemListComponent,
     ],
     entryComponents: [
         CreateComponent,
