@@ -6,6 +6,8 @@ import { SmartTableService } from '../../@core/data/smart-table.service';
 import { FormsModule } from '@angular/forms';
 
 import { CreateComponent } from './create.component';
+import {CustomerPaymentComponent} from './payment/customer-payment/customer-payment.component'
+import { from } from 'rxjs/observable/from';
 @NgModule({
     imports: [
       ThemeModule,
@@ -14,9 +16,11 @@ import { CreateComponent } from './create.component';
     ],
     declarations: [
         CreateComponent,
+        CustomerPaymentComponent
     ],
     entryComponents: [
         CreateComponent,
+        CustomerPaymentComponent
     ],
     providers: [
       SmartTableService
