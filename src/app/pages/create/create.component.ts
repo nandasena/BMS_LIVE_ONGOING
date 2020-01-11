@@ -32,6 +32,9 @@ export class CreateComponent implements OnInit {
     hideSubHeader: true,
     actions: {
       position: 'right',
+      add: false,
+      edit: false,
+      delete: false,
     },
 
     add: {
@@ -56,24 +59,24 @@ export class CreateComponent implements OnInit {
         title: 'Invoice NO',
         type: 'number',
       },
-      invoiceDateOfString: {
-        title: 'Invoice Date',
+      paymentDate: {
+        title: 'Payment Date',
         type: 'string',
       },
       paymentType: {
         title: 'Payment Type',
         type: 'string',
       },
-      customerName: {
-        title: 'Customer Name',
+      description: {
+        title: 'Description',
         type: 'string',
       },
-      totalAmount: {
-        title: 'Total Amount',
+      debitAmount: {
+        title: 'Debit Amount',
         valuePrepareFunction: (value) => { return value === 'Total' ? value : Intl.NumberFormat("ja-JP", { style: "decimal", currency: "JPY", minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(value) }
       },
-      invoiceDiscount: {
-        title: 'Invoice Discount',
+      creditAmount: {
+        title: 'Credit Amount',
         valuePrepareFunction: (value) => { return value === 'Total' ? value : Intl.NumberFormat("ja-JP", { style: "decimal", currency: "JPY", minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(value) }
       }
     },
