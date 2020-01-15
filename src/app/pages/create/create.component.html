@@ -1,72 +1,72 @@
 <nb-card size="large" style="height: 100%">
-    <nb-tabset>
-      <nb-tab tabTitle="Customers">
+  <nb-tabset>
+    <nb-tab tabTitle="Customers">
 
-      </nb-tab>
-      <nb-tab tabTitle="Suppliers">
+    </nb-tab>
+    <nb-tab tabTitle="Suppliers">
 
-      </nb-tab>
-      <nb-tab tabTitle="Category">
-        <div class="row">
-          <div class="col-md-12 margin-bottom-30">
-            <div class="row margin-bottom-15">
-              <div class="col-md-3">
-                <b>Main Category</b>
-              </div>
-              <div class="col-md-7">
-                &nbsp;
-              </div>
-              <div class="col-md-2">
-                <button class="btn btn-success input-group-text pull-right" (click)="showCategoryEditorWindow()">
-                  + Add
-                </button>
-              </div>
+    </nb-tab>
+    <nb-tab tabTitle="Category">
+      <div class="row">
+        <div class="col-md-12 margin-bottom-30">
+          <div class="row margin-bottom-15">
+            <div class="col-md-3">
+              <b>Main Category</b>
             </div>
-            <div class="row">
-              <div class="col-md-12">
-                <category-list></category-list>
-              </div>
+            <div class="col-md-7">
+              &nbsp;
+            </div>
+            <div class="col-md-2">
+              <button class="btn btn-success input-group-text pull-right" (click)="showCategoryEditorWindow()">
+                + Add
+              </button>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <category-list></category-list>
             </div>
           </div>
         </div>
-        <div class="row">
-          <div class="col-md-12 margin-bottom-30">
-            <div class="row margin-bottom-15">
-              <div class="col-md-3">
-                <b>Sub Category</b>
-              </div>
-              <div class="col-md-7">
-                &nbsp;
-              </div>
-              <div class="col-md-2">
-                <button class="btn btn-success input-group-text pull-right" (click)="showSubCategoryEditorWindow()">
-                  + Add
-                </button>
-              </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12 margin-bottom-30">
+          <div class="row margin-bottom-15">
+            <div class="col-md-3">
+              <b>Sub Category</b>
             </div>
-            <div class="row">
-              <div class="col-md-12">
-                <subCategory-list></subCategory-list>
-              </div>
+            <div class="col-md-7">
+              &nbsp;
+            </div>
+            <div class="col-md-2">
+              <button class="btn btn-success input-group-text pull-right" (click)="showSubCategoryEditorWindow()">
+                + Add
+              </button>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <subCategory-list></subCategory-list>
             </div>
           </div>
         </div>
-      </nb-tab>
-      <nb-tab tabTitle="Items">
-        <div class="row">
-          <div class="col-md-12 margin-bottom-30">
-            <div class="row margin-bottom-15">
-        <div class="col-md-12">
-          <button class="btn btn-success input-group-text pull-right" (click)="showItemEditorWindow()">
-            + Add
-          </button>
+      </div>
+    </nb-tab>
+    <nb-tab tabTitle="Items">
+      <div class="row">
+        <div class="col-md-12 margin-bottom-30">
+          <div class="row margin-bottom-15">
+            <div class="col-md-12">
+              <button class="btn btn-success input-group-text pull-right" (click)="showItemEditorWindow()">
+                + Add
+              </button>
+            </div>
+          </div>
         </div>
       </div>
-      </div>
-      </div>
-        <form class="margin-bottom-30">
-            <Item-list></Item-list>
-          </form>
+      <form class="margin-bottom-30">
+        <Item-list></Item-list>
+      </form>
     </nb-tab>
     <nb-tab tabTitle="Customer Payment">
       <div class="col-sm-2 col-form-label">
@@ -80,7 +80,33 @@
       <div style="padding-top: 32px; padding-left: 10px;padding-right: 10px;">
         <ng2-smart-table [settings]="settings" [source]="source" (edit)="onEdit($event)" (delete)="onDelete($event)">
         </ng2-smart-table>
+        <div style="padding-top: 100px;">
+
+        
+        <div class="row" style="padding-top: 10px;">
+          <div class="col-md-2">
+          
+          </div>
+          <div class="col-md-1">
+            <label>Debit</label>
+          </div>
+          <div class="col-md-1">
+            <label>Credit</label>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-2">
+            <label>Total Amount </label>
+          </div>
+          <div class="col-md-1">
+            <label>{{totalDebitAmount | number : '1.2-2' }}</label>
+          </div>
+          <div class="col-md-1">
+            <label>{{totalCreditPayment | number : '1.2-2'}}</label>
+          </div>
+        </div>
+      </div>
       </div>
     </nb-tab>
-    </nb-tabset>
+  </nb-tabset>
 </nb-card>

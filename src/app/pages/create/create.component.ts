@@ -24,6 +24,10 @@ export class CreateComponent implements OnInit {
   selectedCustomerId: number;
   selectedCustomerName: string = '';
   @Input() on = true;
+  customerDebtorList = [];
+  totalCreditPayment: number = 0.00;
+  totalDebitAmount: number = 0.00;
+
   source: LocalDataSource = new LocalDataSource();
   constructor(private modalService: NgbModal, private invoiceService: InvoiceService, private cusomerSupplierService: CusomerSupplierService) { }
 
@@ -55,10 +59,7 @@ export class CreateComponent implements OnInit {
     },
 
     columns: {
-      invoiceNumber: {
-        title: 'Invoice NO',
-        type: 'number',
-      },
+
       paymentDate: {
         title: 'Payment Date',
         type: 'string',
@@ -70,6 +71,10 @@ export class CreateComponent implements OnInit {
       description: {
         title: 'Description',
         type: 'string',
+      },
+      invoiceId: {
+        title: 'Invoice NO',
+        type: 'number',
       },
       debitAmount: {
         title: 'Debit Amount',
@@ -99,9 +104,15 @@ export class CreateComponent implements OnInit {
     } else {
 
       this.cusomerSupplierService.getCustomerPaymentDetail(customerId).then((responce) => {
-
-        console.log("customer payment list", responce.json().result);
-        this.source.load(responce.json().result);
+        this.totalCreditPayment = 0;
+        this.totalDebitAmount=0;
+        this.customerDebtorList = responce.json().result
+        console.log("customer payment list", this.customerDebtorList);
+        this.source.load(this.customerDebtorList);
+        this.customerDebtorList.forEach(debtor => {
+          this.totalCreditPayment += debtor.creditAmount;
+          this.totalDebitAmount+=debtor.debitAmount;
+        });
       })
 
 
@@ -116,21 +127,21 @@ export class CreateComponent implements OnInit {
   }
   showCategoryEditorWindow() {
     this.data.category = 'mainCategory';
-    const editorModel = this.modalService.open(CategoryEditorComponent, {size:'lg', container: 'nb-layout'});
+    const editorModel = this.modalService.open(CategoryEditorComponent, { size: 'lg', container: 'nb-layout' });
     editorModel.componentInstance.selectedTask = this.data;
   }
   showSubCategoryEditorWindow() {
     this.data.category = 'subCategory';
-   const editorModel = this.modalService.open(CategoryEditorComponent, {size:'lg', container: 'nb-layout'});
-   editorModel.componentInstance.selectedTask = this.data;
+    const editorModel = this.modalService.open(CategoryEditorComponent, { size: 'lg', container: 'nb-layout' });
+    editorModel.componentInstance.selectedTask = this.data;
   }
   showItemEditorWindow() {
     //this.data.category = 'mainCategory';
-    const editorModel = this.modalService.open(ItemEditorComponent, {size:'lg', container: 'nb-layout'});
+    const editorModel = this.modalService.open(ItemEditorComponent, { size: 'lg', container: 'nb-layout' });
     editorModel.componentInstance.selectedTask = this.data;
   }
 
 }
 
-  
+
 
