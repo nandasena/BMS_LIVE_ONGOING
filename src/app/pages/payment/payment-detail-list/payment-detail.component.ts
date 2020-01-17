@@ -55,6 +55,7 @@ export class PaymentDetailComponent implements OnInit {
   bankList;
   selectedBankId:number=-1;
   chequeDescription:string='';
+  paymentDate
   
 
   settings = {
@@ -118,6 +119,15 @@ export class PaymentDetailComponent implements OnInit {
     }
 
     this.toDate = {
+      "date": {
+        year: moment().year(),
+        month: moment().month() + 1,
+        day: moment().date()
+      },
+      formatted: moment().year() + '-' + (moment().month() + 1) + '-' + moment().date()
+    }
+
+    this.paymentDate ={
       "date": {
         year: moment().year(),
         month: moment().month() + 1,
@@ -289,6 +299,10 @@ export class PaymentDetailComponent implements OnInit {
         return false;
       }
     }
+    if(this.paymentDate==null){
+      this.alertify.error('Please add payment date....');
+      return false;
+    }
     let innerThis = this;
     console.log("payment type is ---",this.type);
     this.alertify.confirm('Create Invoice', 'Are you sure you want to create invoice', function () {
@@ -300,6 +314,7 @@ export class PaymentDetailComponent implements OnInit {
       innerThis.creditPaymentObject.bankId = innerThis.selectedBankId==-1?null:innerThis.selectedBankId;
       innerThis.creditPaymentObject.description = innerThis.chequeDescription ==''?null:innerThis.chequeDescription;
       innerThis.creditPaymentObject.chequeDate =innerThis.chequeDate == null ? null:innerThis.chequeDate.formatted;
+      innerThis.creditPaymentObject.paymentDate=innerThis.paymentDate==null ? null :innerThis.paymentDate.formatted;
 
       innerThis.invoiceService.saveCreditPayment(innerThis.creditPaymentObject).then((response) => {
         innerThis.spinner.show();
