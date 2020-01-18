@@ -93,6 +93,9 @@
           <div class="col-md-1">
             <label>Credit</label>
           </div>
+          <div class="col-md-2">
+            <label>Payable Amount</label>
+          </div>
         </div>
         <div class="row">
           <div class="col-md-2">
@@ -104,8 +107,25 @@
           <div class="col-md-1">
             <label>{{totalCreditPayment | number : '1.2-2'}}</label>
           </div>
+          <div class="col-md-2">
+            <label>{{ totalDebitAmount - totalCreditPayment | number : '1.2-2'}}</label>
+          </div>
         </div>
       </div>
+      </div>
+    </nb-tab>
+    <nb-tab tabTitle="Supplier Payment">
+      <div class="col-sm-2 col-form-label">
+        <input list="supplier" autocomplete="off" class="form-control" id="selectedSupplier"
+          [(ngModel)]="selectedSupplier" name="supplier" (change)="addSupplierName($event.target.value,$event)"
+          placeholder="Select Supplier" style="width: 100%; height: 36px;padding-left: 8px;">
+        <datalist id="supplier">
+          <option *ngFor="let supplier of supplierList" [value]="supplier.supplierId">{{ supplier.firstName }}</option>
+        </datalist>
+      </div>
+      <div style="padding-top: 32px; padding-left: 10px;padding-right: 10px;">
+        <ng2-smart-table [settings]="supplierTable" [source]="supplierSource" (edit)="onEdit($event)" (delete)="onDelete($event)">
+        </ng2-smart-table>
       </div>
     </nb-tab>
   </nb-tabset>

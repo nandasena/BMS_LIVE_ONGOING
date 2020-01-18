@@ -84,4 +84,7 @@ export class InvoiceService {
     getBankList(){
       return this.commonsService.apiGet('bank/getAllBank/');
     }
+    getSupplierList(){
+      return this.commonsService.apiGet('supplier/');
+    }
 }

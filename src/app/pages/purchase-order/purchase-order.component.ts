@@ -23,7 +23,7 @@ export class PurchaseOrderComponent  {
   ngOnInit(){
   }
   showModal() {
-    this.router.navigate(['/pages/invoice-add']);
+    this.router.navigate(['/pages/create-purchase-order']);
 }
   
 }
