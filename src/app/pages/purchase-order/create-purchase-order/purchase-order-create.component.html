@@ -9,9 +9,15 @@
     <div class="form-group row">
       <div class="col-sm-8 col-form-label">
         <div class="row">
-          <label for="inputEmail1" class="col-sm-3" style="padding-top: 3px;">Purchase Order No:</label>
-          <div class="col-sm-3" style="padding:0px;">
-            <input type="email" class="form-control-sm" placeholder="Purchase Order No" style="padding-left: 19px;">
+         <label for="inputEmail1" class="col-sm-2" style="padding-top: 3px;">Select Branch:</label>
+          <div class="col-md-3" style="padding: 0px;padding-right:5px;">
+            <select class="form-control-sm" #selectedBranch (change)="addSelectedBranch($event.target.value)"
+              style="width: 100%">
+              <option selected [value]="-1">Select Branch</option>
+              <option *ngFor="let branch of this.branchList" [value]="branch.id">
+                {{ branch.name }}
+              </option>
+            </select>
           </div>
           <label for="inputEmail1" class="col-sm-1 col-form-label" style="padding-top: 3px;">Date:</label>
           <div class="col-sm-3">
@@ -88,7 +94,7 @@
             <th style="font-weight: bold;">Category</th>
             <th>Items</th>
             <th>Qty</th>
-            <th>Available</th>
+            <!-- <th>Available</th> -->
             <th>Discount %</th>
             <th>Price</th>
             <th>Total</th>
@@ -104,11 +110,15 @@
               <input type="text" ng-maxlength="3" class="table-number " name="tblQty" value="{{item.sellingQuantity}}"
                 (change)=changeQty(item.itemDetailId,$event.target.value,$event) numbersOnly>
             </td>
-            <td>{{item.availableQuantity}}</td>
+            <!-- <td>{{item.availableQuantity}}</td> -->
             <td><input id="amountReceived" type="number" name="amountReceived" placeholder="%"
                 (change)="setDiscount($event.target.value,item.itemDetailId)" value="{{item.discountPercentage}}"
                 OnlyNumber="true" numbersOnlyDiscount></td>
-            <td>{{item.price | number:'1.2-2' }}</td>
+            <!-- <td>{{item.price | number:'1.2-2' }}</td> -->
+            <td>
+              <input type="text" ng-maxlength="3" class="table-number " name="tblQty" value="{{item.price | number:'1.2-2' }}"
+                (change)=changePrice(item.itemDetailId,$event.target.value,$event) numericType="decimal" double-number-directive>
+            </td>
             <td>{{item.total | number:'1.2-2' }}</td>
             <td style="padding: 0px;padding-top:7px;">
               <button type="button" class="btn btn-default main-buttons-sub" style="height: 35px;padding-top: 14px;"
@@ -117,12 +127,23 @@
               </button>
             </td>
           </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>{{( totalAmountWithDiscount- totalAmount) | number:'1.2-2'}}</td>
+            <td></td>
+            <td>{{totalAmount | number:'1.2-2'  }}</td>
+            <td></td>
+          </tr>
         </tbody>
       </table>
     </div>
 
     <div class="col-md-3" style="height: 70px;">
-      <button class="btn btn-md btn-success" (click)="openModalWindow(content)">Pay</button>
+      <!-- <button class="btn btn-md btn-success" (click)="openModalWindow(content)">Pay</button> -->
+      <button class="btn btn-md btn-success" (click)="createPurchaseOrder()">Create Purchase Order</button>
     </div>
   </form>
 </div>
@@ -130,18 +151,24 @@
 
 
 <div id="myModal" class="modal"
-  style="position: absolute; top: 263px; right:400px; bottom: 0; left:400px; z-index: 10040; overflow: auto; overflow-y: auto;">
+  style="position: absolute; top: 263px; right:400px; bottom: 0; left:400px; z-index: 10040; overflow: auto; overflow-y: auto; width: 50%;">
   <div class="modal-content" style="padding: 10px;">
     <span class="close" (click)="closeModal()">&times;</span>
     <p>Price List</p>
     <select class="form-control-sm" #ItemDetails (change)="selectedItemDetails($event.target.value)">
       <option selected disabled>Select Price</option>
       <option *ngFor="let itemDetail of itemDetailList" [value]="itemDetail.itemDetailId"> Price
-        {{ itemDetail.mrpPrice }} Quantity {{ itemDetail.quantity }}
+        {{ itemDetail.mrpPrice }} Quantity {{ itemDetail.availableQuantity }}
       </option>
     </select>
   </div>
 </div>
+
+
+
+
+
+
 
 
 <!-- ------------------- this is  payment modal window ------------------------------------------------------------------------------ -->

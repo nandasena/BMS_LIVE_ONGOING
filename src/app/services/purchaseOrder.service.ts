@@ -33,4 +33,8 @@ export class PurchaseOrderService {
         return this.commonsService.apiGet('purchaseOrder/getPurchaseOrderDetailById/'+ id +'/');
     }
 
+    getBranchList(){
+        return this.commonsService.apiGet('purchaseOrder/getBranch/');
+    }
+
 }
