@@ -10,6 +10,8 @@ import { ItemEditorComponent } from './item/item-editor/item-editor.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import * as _ from 'lodash';
 
+import { CustomerListComponent } from './customer/customer-list/customer-list.component';
+
 @Component({
   selector: 'settings',
   templateUrl: './create.component.html',
@@ -127,7 +129,19 @@ export class CreateComponent implements OnInit {
     editorModel.componentInstance.selectedTask = this.data;
   }
 
+  showCustomerEditorWindow() {
+    //this.data.category = 'mainCategory';
+    const editorModel = this.modalService.open(ItemEditorComponent, {size:'lg', container: 'nb-layout'});
+    editorModel.componentInstance.selectedTask = this.data;
+  }
+
+  showSupplierEditorWindow() {
+    //this.data.category = 'mainCategory';
+    const editorModel = this.modalService.open(ItemEditorComponent, {size:'lg', container: 'nb-layout'});
+    editorModel.componentInstance.selectedTask = this.data;
+  }
+
 }
 
-  
+
 

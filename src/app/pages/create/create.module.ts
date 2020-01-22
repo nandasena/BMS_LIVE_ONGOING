@@ -15,6 +15,11 @@ import { ItemEditorComponent } from './item/item-editor/item-editor.component';
 import { ItemBtnComponent } from './item/Item-list/item-btn.component';
 import { ItemDetailsComponent } from './item/item-detail/item-detail.component';
 import { ItemListComponent } from './item/Item-list/Item-list.component';
+import { CustomerListComponent } from './customer/customer-list/customer-list.component';
+import { SupplierListComponent } from './supplier/supplier-list/supplier-list.component';
+import { SupplierEditorComponent } from './supplier/supplier-editor/supplier-editor.component';
+import { CustomerEditorComponent } from './customer/customer-editor/customer-editor.component';
+
 @NgModule({
     imports: [
       ThemeModule,
@@ -30,6 +35,9 @@ import { ItemListComponent } from './item/Item-list/Item-list.component';
         ItemBtnComponent,
         ItemDetailsComponent,
         ItemListComponent,
+        CustomerListComponent,
+        SupplierListComponent,
+        SupplierEditorComponent,
     ],
     entryComponents: [
         CreateComponent,
@@ -40,6 +48,9 @@ import { ItemListComponent } from './item/Item-list/Item-list.component';
         ItemBtnComponent,
         ItemDetailsComponent,
         ItemListComponent,
+        CustomerListComponent,
+        SupplierListComponent,
+        SupplierEditorComponent,
     ],
     providers: [
       SmartTableService
