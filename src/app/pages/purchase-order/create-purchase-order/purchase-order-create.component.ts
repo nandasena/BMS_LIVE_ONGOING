@@ -1,12 +1,11 @@
 
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { PurchaseOrderService } from '../../../services/purchaseOrder.service';
-import { LocalDataSource, ViewCell } from 'ng2-smart-table';
 import { Component, OnInit, ElementRef, HostListener } from '@angular/core';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { KpiModel } from '../../../models/kpi-model';
 import { InvoiceService } from '../../../services/invoice.service';
 import { Item } from '../../../models/item_modal';
+import {PurchaseOrderModel} from '../../../models/purchase-order-modal'
 import { PaymentModal } from '../../../models/payment-modal';
 import { InvoiceModel } from '../../../models/invoice-modal';
 import { AlertifyService } from '../../../services/alertify.service';
@@ -32,15 +31,14 @@ export class PurchaseOrderCreateComponent implements OnInit {
   subCategoryList = [];
   selectedSubCategory = [];
   itemDetailList = [];
-  invoiceToSave: InvoiceModel;
   itemToSave: Item[] = [];
   selectedItem;
   totalAmount: number = 0.00;
   totalAmountWithDiscount: number = 0.00
   x: number = 0.00;
-  model = { date: {}, formatted: '' };
+  purchaseDate = { date: {}, formatted: '' };
   myDatePickerOptions: IMyDpOptions = {
-    dateFormat: 'yyyy/mm/dd',
+    dateFormat: 'yyyy-mm-dd',
   };
   chequeDatePickerOptions: IMyDpOptions = {
     dateFormat: 'yyyy-mm-dd',
@@ -70,7 +68,7 @@ export class PurchaseOrderCreateComponent implements OnInit {
 
 
 
-  constructor(private invoiceService: InvoiceService, private alertify: AlertifyService, private spinner: NgxSpinnerService, private el: ElementRef, private modalService: NgbModal, private purchaseOrderService: PurchaseOrderService) { }
+  constructor(private invoiceService: InvoiceService, private alertify: AlertifyService, private spinner: NgxSpinnerService, private el: ElementRef,private purchaseOrderService: PurchaseOrderService) { }
 
   ngOnInit() {
     var modal = document.getElementById("myModal");
@@ -101,7 +99,7 @@ export class PurchaseOrderCreateComponent implements OnInit {
     });
 
 
-    this.model = {
+    this.purchaseDate = {
       date: {
         year: moment().year(),
         month: (moment().month() + 1),
@@ -285,7 +283,7 @@ export class PurchaseOrderCreateComponent implements OnInit {
       if (selectedSupplier != null) {
         this.selectedSupplierName = selectedSupplier.firstName;
         event.target.value = this.selectedSupplierName;
-        this.selectedSupplierId = selectedSupplier.customerId;
+        this.selectedSupplierId = selectedSupplier.supplierId;
       }
 
     }
@@ -382,7 +380,7 @@ export class PurchaseOrderCreateComponent implements OnInit {
 
   createPurchaseOrder() {
     if(this.itemToSave.length==0){
-      this.alertify.error('Please add at lease one item to card to Process purchase order');
+      this.alertify.error('Please add at least one item to card to Process purchase order');
       return false;
     }
     if(this.selectedBranch==-1){
@@ -393,25 +391,30 @@ export class PurchaseOrderCreateComponent implements OnInit {
       this.alertify.error('Please select Supplier');
       return false;
     }
-
+    if(this.purchaseDate ==null){
+      this.alertify.error('Please select date');
+      return false;
+    }
+    console.log("supplier id ======",this.selectedSupplierId);
     let innerThis = this;
     this.alertify.confirm('Create Invoice', 'Are you sure you want to create invoice', function () {
-      let invoiceTosave = new InvoiceModel;
-      invoiceTosave.totalAmount = innerThis.totalAmount;
-      invoiceTosave.itemList = innerThis.itemToSave;
-      invoiceTosave.balanceAmount = 0.00;
-      invoiceTosave.customerName = innerThis.selectedSupplierName;
-      invoiceTosave.customerId = innerThis.selectedSupplierId;
-      invoiceTosave.paymentDetailList = innerThis.paymentDetailList;
+      let purchaseOrder = new PurchaseOrderModel;
+      purchaseOrder.totalAmount = innerThis.totalAmount;
+      purchaseOrder.itemVOList = innerThis.itemToSave;
+      purchaseOrder.supplierId = innerThis.selectedSupplierId;
+      purchaseOrder.purchaseOrderDate = innerThis.purchaseDate.formatted;
+      purchaseOrder.estimateReceiveDate =innerThis.purchaseDate.formatted;
+      purchaseOrder.userId =1;
+      purchaseOrder.branchId=Number(innerThis.selectedBranch);
 
-      invoiceTosave.invoiceDate = innerThis.model.formatted;
-      innerThis.invoiceService.saveInvoice(invoiceTosave).then((response) => {
+
+      innerThis.purchaseOrderService.savePurchaseOrder(purchaseOrder).then((response) => {
         innerThis.spinner.show();
         let resultObj = response.json();
         if (resultObj.statusCode == 200 && resultObj.success) {
 
           innerThis.spinner.hide();
-          innerThis.printInvoice(invoiceTosave, resultObj.result);
+         // innerThis.printInvoice(purchaseOrder, resultObj.result);
           innerThis.alertify.success('Create successfull');
           innerThis.itemToSave = [];
           innerThis.totalAmount = 0.00;
