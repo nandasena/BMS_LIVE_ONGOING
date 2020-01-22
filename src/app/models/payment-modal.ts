@@ -7,4 +7,5 @@ export class PaymentModal {
     chequeDate:string;
     description:string;
     bankId:number;
+    paymentDate:string;
 }

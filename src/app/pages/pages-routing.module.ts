@@ -7,11 +7,13 @@ import { InvoiceComponent } from './invoice/invoice.component';
 import { InvoiceAddComponent } from './invoice/invoice-add/invoice-add.component';
 import { InventoryComponent } from './inventory/inventory.component';
 import {PaymentComponent}from './payment/payment.component';
-import {PurchaseOrderComponent} from './purchase-order/purchase-order.component'
+import {PurchaseOrderComponent} from './purchase-order/purchase-order.component';
+import { PurchaseOrderCreateComponent} from './purchase-order/create-purchase-order/purchase-order-create.component'
 import { SettingsComponent } from './settings/settings.component';
 import { BusinessSelfieComponent } from './business-selfie/business-selfie.component';
 import { TeamComponent } from './dashboard/team/team.component';
 import { CreateComponent } from './create/create.component'
+import { from } from 'rxjs/observable/from';
 
 const routes: Routes = [{
   path: '',
@@ -47,6 +49,10 @@ const routes: Routes = [{
   {
     path:'purchase-order',
     component:PurchaseOrderComponent,
+  },
+  {
+    path:'create-purchase-order',
+    component: PurchaseOrderCreateComponent,
   },
   {
     path:'create',

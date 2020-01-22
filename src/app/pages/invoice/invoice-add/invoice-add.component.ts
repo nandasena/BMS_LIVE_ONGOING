@@ -1,6 +1,5 @@
 import { Component, OnInit, ElementRef, HostListener } from '@angular/core';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { KpiModel } from '../../../models/kpi-model';
 import { InvoiceService } from '../../../services/invoice.service';
 import { Item } from '../../../models/item_modal';
 import { PaymentModal } from '../../../models/payment-modal';
@@ -12,12 +11,11 @@ import * as _ from 'lodash';
 import { NgxSpinnerService } from 'ngx-spinner';
 // import { NgxSpinnerService } from 'ngx-spinner';
 @Component({
-  selector: 'kpi-add',
+  selector: 'invoice-add',
   templateUrl: './invoice-add.component.html',
   styleUrls: ['./invoice-add.component.scss']
 })
 export class InvoiceAddComponent implements OnInit {
-  kpiName: string;
   uom: number;
   description: string;
   itemList = [];

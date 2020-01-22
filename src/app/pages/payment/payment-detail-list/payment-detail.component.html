@@ -38,26 +38,37 @@
     </div>
     <div class="row" style="height:665px;">
       <div class="col-md-12" style="height: 70px;">
-        <fieldset id="payment_method">
-          <legend style="padding-left: 19px;">Payment Method</legend>
-          <div class="fieldgroup">
-            <input type="radio" name="gender" value="CH" (click)="selectPaymentType($event.target.value)" [checked]="isCheckedCash" >
-            Cash<br>
+        <div class="row" style="padding-right: 20px;">
+          <div class="col-md-9">
+            <fieldset id="payment_method">
+              <legend style="padding-left: 19px;">Payment Method</legend>
+              <div class="fieldgroup">
+                <input type="radio" name="gender" value="CH" (click)="selectPaymentType($event.target.value)" [checked]="isCheckedCash" >
+                Cash<br>
+              </div>
+              <div class="fieldgroup">
+                <input type="radio" name="gender" value="CD" (click)="selectPaymentType($event.target.value)" [checked]="isCheckedCreditCard"> Credit Card<br>
+              </div>
+              <div class="fieldgroup">
+                <input type="radio" name="gender" value="DB" (click)="selectPaymentType($event.target.value)" [checked]="isCheckedDebitCard"> Debit Card<br>
+              </div>
+              <!-- <div class="fieldgroup">
+                <input type="radio" name="gender" value="LN" (click)="selectPaymentType($event.target.value)" [checked]="isCheckedCredit"> Credit<br>
+              </div> -->
+              <div class="fieldgroup">
+                <input type="radio" name="gender" value="CQ" (click)="selectPaymentType($event.target.value)" [checked]="isCheckedCheque"> Cheque<br>
+              </div>
+             
+            </fieldset>
           </div>
-          <div class="fieldgroup">
-            <input type="radio" name="gender" value="CD" (click)="selectPaymentType($event.target.value)" [checked]="isCheckedCreditCard"> Credit Card<br>
+          <div class="col-md-3" style="padding-top: 32px;">
+            <div>
+              <my-date-picker name="paymentDate" [options]="myDatePickerOptions" [(ngModel)]="paymentDate" required></my-date-picker>
+            </div>
           </div>
-          <div class="fieldgroup">
-            <input type="radio" name="gender" value="DB" (click)="selectPaymentType($event.target.value)" [checked]="isCheckedDebitCard"> Debit Card<br>
-          </div>
-          <!-- <div class="fieldgroup">
-            <input type="radio" name="gender" value="LN" (click)="selectPaymentType($event.target.value)" [checked]="isCheckedCredit"> Credit<br>
-          </div> -->
-          <div class="fieldgroup">
-            <input type="radio" name="gender" value="CQ" (click)="selectPaymentType($event.target.value)" [checked]="isCheckedCheque"> Cheque<br>
-          </div>
-        </fieldset>
-        <div style="padding: 10px; padding-top: 60px;">
+        </div>
+        
+        <div style="padding: 10px; padding-top: 50px;">
           <div class="row">
             <div class="col-md-8" style="height: 70px;">
               <div class="row form-group">

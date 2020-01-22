@@ -23,10 +23,18 @@ export class CreateComponent implements OnInit {
     category: '',
   }
   customerList = [];
+  supplierList = [];
   selectedCustomerId: number;
   selectedCustomerName: string = '';
+  selectedSupplierId:number;
+  selectedSupplierName:string='';
   @Input() on = true;
+  customerDebtorList = [];
+  totalCreditPayment: number = 0.00;
+  totalDebitAmount: number = 0.00;
+
   source: LocalDataSource = new LocalDataSource();
+  supplierSource: LocalDataSource = new LocalDataSource();
   constructor(private modalService: NgbModal, private invoiceService: InvoiceService, private cusomerSupplierService: CusomerSupplierService) { }
 
   settings = {
@@ -34,6 +42,9 @@ export class CreateComponent implements OnInit {
     hideSubHeader: true,
     actions: {
       position: 'right',
+      add: false,
+      edit: false,
+      delete: false,
     },
 
     add: {
@@ -54,28 +65,84 @@ export class CreateComponent implements OnInit {
     },
 
     columns: {
-      invoiceNumber: {
-        title: 'Invoice NO',
-        type: 'number',
-      },
-      invoiceDateOfString: {
-        title: 'Invoice Date',
+
+      paymentDate: {
+        title: 'Payment Date',
         type: 'string',
       },
       paymentType: {
         title: 'Payment Type',
         type: 'string',
       },
-      customerName: {
-        title: 'Customer Name',
+      description: {
+        title: 'Description',
         type: 'string',
       },
-      totalAmount: {
-        title: 'Total Amount',
+      invoiceId: {
+        title: 'Invoice NO',
+        type: 'number',
+      },
+      debitAmount: {
+        title: 'Debit Amount',
         valuePrepareFunction: (value) => { return value === 'Total' ? value : Intl.NumberFormat("ja-JP", { style: "decimal", currency: "JPY", minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(value) }
       },
-      invoiceDiscount: {
-        title: 'Invoice Discount',
+      creditAmount: {
+        title: 'Credit Amount',
+        valuePrepareFunction: (value) => { return value === 'Total' ? value : Intl.NumberFormat("ja-JP", { style: "decimal", currency: "JPY", minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(value) }
+      }
+    },
+  };
+  supplierTable = {
+    mode: 'external',
+    hideSubHeader: true,
+    actions: {
+      position: 'right',
+      add: false,
+      edit: false,
+      delete: false,
+    },
+
+    add: {
+      addButtonContent: '<i class="nb-plus"></i>',
+      createButtonContent: '<i class="nb-checkmark"></i>',
+      cancelButtonContent: '<i class="nb-close"></i>',
+    },
+    edit: {
+      editButtonContent: '<i class="fa fa-arrows-alt"></i>',
+    },
+    delete: {
+      deleteButtonContent: '<i class="nb-trash"></i>',
+      confirmDelete: true,
+    },
+    pager: {
+      display: true,
+      perPage: 15
+    },
+
+    columns: {
+
+      paymentDate: {
+        title: 'Payment Date',
+        type: 'string',
+      },
+      paymentType: {
+        title: 'Payment Type',
+        type: 'string',
+      },
+      description: {
+        title: 'Description',
+        type: 'string',
+      },
+      invoiceId: {
+        title: 'Purchase Order NO',
+        type: 'number',
+      },
+      debitAmount: {
+        title: 'Debit Amount',
+        valuePrepareFunction: (value) => { return value === 'Total' ? value : Intl.NumberFormat("ja-JP", { style: "decimal", currency: "JPY", minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(value) }
+      },
+      creditAmount: {
+        title: 'Credit Amount',
         valuePrepareFunction: (value) => { return value === 'Total' ? value : Intl.NumberFormat("ja-JP", { style: "decimal", currency: "JPY", minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(value) }
       }
     },
@@ -84,7 +151,10 @@ export class CreateComponent implements OnInit {
   ngOnInit() {
     this.invoiceService.getCustomerList().then((response) => {
       this.customerList = response.json().result;
-      console.log("this.customerList=====", this.customerList);
+    });
+
+    this.invoiceService.getSupplierList().then((response) => {
+      this.supplierList = response.json().result;
     })
   }
 
@@ -98,9 +168,15 @@ export class CreateComponent implements OnInit {
     } else {
 
       this.cusomerSupplierService.getCustomerPaymentDetail(customerId).then((responce) => {
-
-        console.log("customer payment list", responce.json().result);
-        this.source.load(responce.json().result);
+        this.totalCreditPayment = 0;
+        this.totalDebitAmount = 0;
+        this.customerDebtorList = responce.json().result
+        console.log("customer payment list", this.customerDebtorList);
+        this.source.load(this.customerDebtorList);
+        this.customerDebtorList.forEach(debtor => {
+          this.totalCreditPayment += debtor.creditAmount;
+          this.totalDebitAmount += debtor.debitAmount;
+        });
       })
 
 
@@ -115,18 +191,49 @@ export class CreateComponent implements OnInit {
   }
   showCategoryEditorWindow() {
     this.data.category = 'mainCategory';
-    const editorModel = this.modalService.open(CategoryEditorComponent, {size:'lg', container: 'nb-layout'});
+    const editorModel = this.modalService.open(CategoryEditorComponent, { size: 'lg', container: 'nb-layout' });
     editorModel.componentInstance.selectedTask = this.data;
   }
   showSubCategoryEditorWindow() {
     this.data.category = 'subCategory';
-   const editorModel = this.modalService.open(CategoryEditorComponent, {size:'lg', container: 'nb-layout'});
-   editorModel.componentInstance.selectedTask = this.data;
+    const editorModel = this.modalService.open(CategoryEditorComponent, { size: 'lg', container: 'nb-layout' });
+    editorModel.componentInstance.selectedTask = this.data;
   }
   showItemEditorWindow() {
     //this.data.category = 'mainCategory';
-    const editorModel = this.modalService.open(ItemEditorComponent, {size:'lg', container: 'nb-layout'});
+    const editorModel = this.modalService.open(ItemEditorComponent, { size: 'lg', container: 'nb-layout' });
     editorModel.componentInstance.selectedTask = this.data;
+  }
+  addSupplierName(supplierId, event) {
+    event.target.value = '';
+    this.selectedSupplierId = null;
+    this.selectedSupplierName = '';
+    supplierId = Number(supplierId);
+    if (supplierId == -1) {
+      this.selectedSupplierName = '';
+    } else {
+
+      // this.cusomerSupplierService.getCustomerPaymentDetail(supplierId).then((responce) => {
+      //   this.totalCreditPayment = 0;
+      //   this.totalDebitAmount = 0;
+      //   this.customerDebtorList = responce.json().result
+      //   console.log("customer payment list", this.customerDebtorList);
+      //   this.source.load(this.customerDebtorList);
+      //   this.customerDebtorList.forEach(debtor => {
+      //     this.totalCreditPayment += debtor.creditAmount;
+      //     this.totalDebitAmount += debtor.debitAmount;
+      //   });
+      // })
+
+
+      let selectedSupplier = _.find(this.supplierList, { 'supplierId': supplierId });
+      if (selectedSupplier != null) {
+        this.selectedSupplierName = selectedSupplier.firstName;
+        event.target.value = this.selectedSupplierName;
+        this.selectedSupplierId = selectedSupplier.customerId;
+      }
+
+    }
   }
 
   showCustomerEditorWindow() {

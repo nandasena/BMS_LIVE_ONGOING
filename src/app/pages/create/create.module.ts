@@ -7,7 +7,6 @@ import { FormsModule } from '@angular/forms';
 
 import { CreateComponent } from './create.component';
 import { from } from 'rxjs/observable/from';
-
 import { CategoryEditorComponent } from './category/category-editor/category-editor.component'
 import { CategoryListComponent } from './category/category-list/category-list.component'
 import { SubCategoryListComponent } from './category/subCategory-list/subCategory-list.component'
