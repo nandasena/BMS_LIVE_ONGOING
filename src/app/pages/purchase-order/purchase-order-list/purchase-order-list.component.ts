@@ -45,7 +45,7 @@ export class PurchaseOrderListComponent implements OnInit {
           title: 'Purchase Order NO',
           type: 'number',
         },
-        estimationDate: {
+        estimateReceiveDate: {
           title: 'Receive Date',
           type: 'string',
         },
@@ -61,8 +61,8 @@ export class PurchaseOrderListComponent implements OnInit {
           title: 'Total Amount',
           valuePrepareFunction: (value) => { return value === 'Total' ? value : Intl.NumberFormat("ja-JP", { style: "decimal", currency: "JPY", minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(value) }
         },
-        invoiceDiscount: {
-          title: 'Invoice Discount',
+        totalDiscount: {
+          title: 'Discount',
           valuePrepareFunction: (value) => { return value === 'Total' ? value : Intl.NumberFormat("ja-JP", { style: "decimal", currency: "JPY", minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(value) }
         },
         print: {

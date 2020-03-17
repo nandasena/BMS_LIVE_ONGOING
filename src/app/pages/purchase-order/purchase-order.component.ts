@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 
-import {InvoiceService}from '../../services/invoice.service';
+import { InvoiceService } from '../../services/invoice.service';
 import { Router } from '@angular/router';
 
 
@@ -13,17 +13,20 @@ import { Router } from '@angular/router';
   templateUrl: './purchase-order.component.html',
 })
 
-export class PurchaseOrderComponent  {
+export class PurchaseOrderComponent {
   constructor(
-     private modalService: NgbModal,
-     private invoiceService:InvoiceService,
-     private router: Router
-     ) {}
+    private modalService: NgbModal,
+    private invoiceService: InvoiceService,
+    private router: Router
+  ) { }
 
-  ngOnInit(){
+  ngOnInit() {
   }
   showModal() {
     this.router.navigate(['/pages/create-purchase-order']);
-}
-  
+  }
+  showGoodReveivedModal() {
+    this.router.navigate(['/pages/good-received']);
+  }
+
 }

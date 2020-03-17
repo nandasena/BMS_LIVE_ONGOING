@@ -40,5 +40,8 @@ export class PurchaseOrderService {
     savePurchaseOrder(purchaseOrderData){
         return this.commonsService.apiPost(purchaseOrderData,'purchaseOrder/');
     }
+    getPurchaseOrderIdList(){
+        return this.commonsService.apiGet('purchaseOrder/getPurchaseOrderIds/');
+    }
 
 }

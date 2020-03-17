@@ -8,7 +8,8 @@ import { InvoiceAddComponent } from './invoice/invoice-add/invoice-add.component
 import { InventoryComponent } from './inventory/inventory.component';
 import {PaymentComponent}from './payment/payment.component';
 import {PurchaseOrderComponent} from './purchase-order/purchase-order.component';
-import { PurchaseOrderCreateComponent} from './purchase-order/create-purchase-order/purchase-order-create.component'
+import { PurchaseOrderCreateComponent} from './purchase-order/create-purchase-order/purchase-order-create.component';
+import { GoodReceived} from './purchase-order/good-received/good-received.component'
 import { SettingsComponent } from './settings/settings.component';
 import { BusinessSelfieComponent } from './business-selfie/business-selfie.component';
 import { TeamComponent } from './dashboard/team/team.component';
@@ -54,6 +55,11 @@ const routes: Routes = [{
     path:'create-purchase-order',
     component: PurchaseOrderCreateComponent,
   },
+  {
+    path:'good-received',
+    component: GoodReceived,
+  },
+  
   {
     path:'create',
     component:CreateComponent,
