@@ -11,6 +11,7 @@ import {PurchaseOrderListComponent} from './purchase-order-list/purchase-order-l
 import {PurchaseOrderDetailButtonComponent} from './purchase-order-detail-button.component';
 import {PurchaseOrderDetailComponent}from './purchase-order-detail-modal-window/purchase-order-detail-modal-window.component';
 import {PurchaseOrderCreateComponent} from './create-purchase-order/purchase-order-create.component';
+import {GoodReceived} from './good-received/good-received.component'
 import {NumberModal} from '../../models/number.module';
 
 @NgModule({
@@ -26,13 +27,15 @@ import {NumberModal} from '../../models/number.module';
     PurchaseOrderListComponent,
     PurchaseOrderDetailButtonComponent,
     PurchaseOrderDetailComponent,
-    PurchaseOrderCreateComponent
+    PurchaseOrderCreateComponent,
+    GoodReceived,
   ],
   entryComponents: [
     PurchaseOrderListComponent,
     PurchaseOrderDetailButtonComponent,
     PurchaseOrderDetailComponent,
-    PurchaseOrderCreateComponent
+    PurchaseOrderCreateComponent,
+    GoodReceived
   ],
   providers: [
     SmartTableService,

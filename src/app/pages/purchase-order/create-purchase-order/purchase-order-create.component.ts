@@ -130,7 +130,7 @@ export class PurchaseOrderCreateComponent implements OnInit {
       return false
     }
     this.selectedItem = _.find(this.categoryWiseItemList, { 'itemId': id })
-    this.closeModal()
+    
 
     if (typeof this.selectedItem.itemDetailList[0] != 'undefined') {
 
@@ -204,13 +204,13 @@ export class PurchaseOrderCreateComponent implements OnInit {
       this.calculateTotal();
     }
 
-    this.closeModal()
+    
   }
 
-  closeModal() {
-    var modal = document.getElementById("myModal");
-    modal.style.display = "none";
-  }
+  // closeModal() {
+  //   var modal = document.getElementById("myModal");
+  //   modal.style.display = "none";
+  // }
   changeQty(itemDetailId, qty, event) {
     this.selectedItemId = itemDetailId;
     if (qty == 0 || qty == null) {
@@ -300,8 +300,7 @@ export class PurchaseOrderCreateComponent implements OnInit {
           modal.style.display = "block";
 
         } else {
-          this.closeModal()
-
+          
           if (typeof this.selectedItem.itemDetailList[0] != 'undefined') {
 
             if (this.selectedItem.itemDetailList[0].availableQuantity >= 1) {
@@ -407,19 +406,21 @@ export class PurchaseOrderCreateComponent implements OnInit {
       purchaseOrder.userId =1;
       purchaseOrder.branchId=Number(innerThis.selectedBranch);
 
-
+      // console.log("asasssssass",purchaseOrder);
+      // return false;
       innerThis.purchaseOrderService.savePurchaseOrder(purchaseOrder).then((response) => {
         innerThis.spinner.show();
         let resultObj = response.json();
         if (resultObj.statusCode == 200 && resultObj.success) {
 
           innerThis.spinner.hide();
-         // innerThis.printInvoice(purchaseOrder, resultObj.result);
+          innerThis.printInvoice(purchaseOrder, resultObj.result);
           innerThis.alertify.success('Create successfull');
           innerThis.itemToSave = [];
           innerThis.totalAmount = 0.00;
           innerThis.balance = 0.00;
-          innerThis.selectedSupplier = ""
+          innerThis.selectedSupplier = "";
+          innerThis.totalAmountWithDiscount =0.00
           innerThis.invoiceService.getItemList().then((response) => {
             innerThis.itemList = response.json().result;
           });
@@ -442,18 +443,18 @@ export class PurchaseOrderCreateComponent implements OnInit {
     });
   }
 
-  printInvoice(invoiceTosave, insertObject) {
+  printInvoice(savedPurchaseOrder, insertObject) {
     var invoiceWindow = window.open("", "print-window");
     //invoiceWindow.document.open();
-    for (var x = 0; x < invoiceTosave.itemList.length; x++) {
-      this.printDetails = this.printDetails + '<tr><td style="height:20px;width:33%;text-align:left;">' + invoiceTosave.itemList[x].name + '</td><td style="height:20px;width:15%;text-align:right;">' +
-        parseFloat(invoiceTosave.itemList[x].price.toString()).toFixed(2).replace(/./g, function (c, i, a) {
+    for (var x = 0; x < savedPurchaseOrder.itemVOList.length; x++) {
+      this.printDetails = this.printDetails + '<tr><td style="height:20px;width:33%;text-align:left;">' + savedPurchaseOrder.itemVOList[x].name + '</td><td style="height:20px;width:15%;text-align:right;">' +
+        parseFloat(savedPurchaseOrder.itemVOList[x].price.toString()).toFixed(2).replace(/./g, function (c, i, a) {
           return i && c !== "." && ((a.length - i) % 3 === 0) ? ',' + c : c;
-        }) + '</td><td style="height:20px;width:14%;text-align:right;">' + invoiceTosave.itemList[x].sellingQuantity + '</td>' +
-        '</td><td style="height:20px;width:18%;text-align:right;">' + parseFloat((invoiceTosave.itemList[x].sellingQuantity * invoiceTosave.itemList[x].discountPercentage * invoiceTosave.itemList[x].price / 100).toString()).toFixed(2).replace(/./g, function (c, i, a) {
+        }) + '</td><td style="height:20px;width:14%;text-align:right;">' + savedPurchaseOrder.itemVOList[x].sellingQuantity + '</td>' +
+        '</td><td style="height:20px;width:18%;text-align:right;">' + parseFloat((savedPurchaseOrder.itemVOList[x].sellingQuantity * savedPurchaseOrder.itemVOList[x].discountPercentage * savedPurchaseOrder.itemVOList[x].price / 100).toString()).toFixed(2).replace(/./g, function (c, i, a) {
           return i && c !== "." && ((a.length - i) % 3 === 0) ? ',' + c : c;
         }) + '</td>' +
-        '</td><td style="height:20px;width:20%;text-align:right;">' + parseFloat(invoiceTosave.itemList[x].total).toFixed(2).replace(/./g, function (c, i, a) {
+        '</td><td style="height:20px;width:20%;text-align:right;">' + parseFloat(savedPurchaseOrder.itemVOList[x].total).toFixed(2).replace(/./g, function (c, i, a) {
           return i && c !== "." && ((a.length - i) % 3 === 0) ? ',' + c : c;
         }) + '</td>' +
         '</tr>'
@@ -464,7 +465,7 @@ export class PurchaseOrderCreateComponent implements OnInit {
       `<table style="width:100%;">
                       <br><br><br><br><br><br><br><br><br><br>
                   
-                      <tr style="width:100%; height:50px; text-align:center;"><td >INVOICE</td></tr>
+                      <tr style="width:100%; height:50px; text-align:center;"><td >PURCHASE ORDER</td></tr>
                   </table>
   
                   <br/>
@@ -475,11 +476,11 @@ export class PurchaseOrderCreateComponent implements OnInit {
                       <tr>
                         <th style="text-align:left;height:15px;width:30%;">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspInvoice Number :
                         </th>
-                        <th style="text-align:left;height:15px;width:20%;  ">`+ insertObject.invoiceNumber +
+                        <th style="text-align:left;height:15px;width:20%;  ">`+ insertObject.purchaseCode +
       `</th> 
                         <th style="text-align:left;height:15px;width:20%;">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspDate :
                         </th>
-                        <th style="text-align:left;height:15px;width:30%; ">`+ invoiceTosave.invoiceDate +
+                        <th style="text-align:left;height:15px;width:30%; ">`+ savedPurchaseOrder.purchaseOrderDate +
       `</th>
                       </tr>
                      </thead>
@@ -491,7 +492,7 @@ export class PurchaseOrderCreateComponent implements OnInit {
                      <tr>
                       <th style="text-align:left;height: 15px; width:30%; ">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspCustomer Name :
                       </th>
-                      <th style="text-align:left; height: 15px; width:70%;  ">`+ insertObject.customerName +
+                      <th style="text-align:left; height: 15px; width:70%;  ">`+ insertObject.supplierName +
       `</th>
                      </tr>  
                     </thead>
@@ -526,14 +527,14 @@ export class PurchaseOrderCreateComponent implements OnInit {
                    <thead  > <tr>
                    <th style= " text-align:right; height: 20px; width:48%;">Total
                    </th>
-                  <th style=" text-align:right;height: 20px; width:24%;">`+ parseFloat(invoiceTosave.totalAmount + insertObject.invoiceDiscount).toFixed(2).replace(/./g, function (c, i, a) {
+                  <th style=" text-align:right;height: 20px; width:24%;">`+ parseFloat(insertObject.totalAmount).toFixed(2).replace(/./g, function (c, i, a) {
         return i && c !== "." && ((a.length - i) % 3 === 0) ? ',' + c : c;
       }) +
       `</th></tr> 
                     <tr>
                     <th style=" text-align:right; height: 20px; width:48%; "> Discount
                     </th>  
-                     <th style=" text-align:right;height: 20px; width:22%; ">`+ parseFloat(insertObject.invoiceDiscount).toFixed(2).replace(/./g, function (c, i, a) {
+                     <th style=" text-align:right;height: 20px; width:22%; ">`+ parseFloat(insertObject.totalDiscount).toFixed(2).replace(/./g, function (c, i, a) {
         return i && c !== "." && ((a.length - i) % 3 === 0) ? ',' + c : c;
       }) +
       `</th> 
@@ -541,7 +542,7 @@ export class PurchaseOrderCreateComponent implements OnInit {
                      <tr>
                      <th style="text-align:right; height: 20px; width:48%; ">Net Total
                      </th> 
-                      <th style=" text-align:right;height: 20px; width:22%; ">`+ (parseFloat(invoiceTosave.totalAmount)).toFixed(2).replace(/./g, function (c, i, a) {
+                      <th style=" text-align:right;height: 20px; width:22%; ">`+ parseFloat((insertObject.totalAmount - insertObject.totalDiscount).toString()).toFixed(2).replace(/./g, function (c, i, a) {
         return i && c !== "." && ((a.length - i) % 3 === 0) ? ',' + c : c;
       }) +
       `</th>
