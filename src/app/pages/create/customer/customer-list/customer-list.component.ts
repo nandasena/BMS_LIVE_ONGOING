@@ -3,6 +3,7 @@ import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { AlertifyService } from "../../../../services/alertify.service";
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { LocalDataSource } from "ng2-smart-table";
+import { CustomerSupplierService } from "../../../../services/customer-supplier.service";
 
 @Component({
   selector: 'customer-list',
@@ -31,15 +32,15 @@ export class CustomerListComponent implements OnInit {
     },
 
     columns: {
-      customerid: {
+      customerId: {
         title: 'Customer Id',
         type: 'number',
       },
-      name: {
+      firstName: {
         title: 'Name',
         type: 'string',
       },
-      address: {
+      address1: {
         title: 'Address',
         type: 'string',
       },
@@ -53,13 +54,18 @@ export class CustomerListComponent implements OnInit {
   source: LocalDataSource = new LocalDataSource();
 
 
-  constructor(private service: SettingsService,
+  constructor(private service: CustomerSupplierService,
     private modalService: NgbModal,
     private alertifyService: AlertifyService ) {}
 
 
     ngOnInit() {
-
+      this.service.getCustomerList().then((response) => {
+        this.init_data = response.json().result;
+        this.source.load(this.init_data);
+      }).catch((ex) => {
+        this.init_data;
+      });
   }
 
   onEdit(event) {}

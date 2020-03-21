@@ -11,7 +11,7 @@
                 &nbsp;
               </div>
               <div class="col-md-2">
-                <button class="btn btn-success input-group-text pull-right" (click)="showCategoryEditorWindow()">
+                <button class="btn btn-success input-group-text pull-right" (click)="showCustomerEditorWindow()">
                   + Add
                 </button>
               </div>
@@ -35,7 +35,7 @@
                 &nbsp;
               </div>
               <div class="col-md-2">
-                <button class="btn btn-success input-group-text pull-right" (click)="showCategoryEditorWindow()">
+                <button class="btn btn-success input-group-text pull-right" (click)="showSupplierEditorWindow()">
                   + Add
                 </button>
               </div>
@@ -64,37 +64,36 @@
                 </button>
               </div>
             </div>
-          </div>
-          <div class="row">
-            <div class="col-md-12">
-              <category-list></category-list>
-            </div>
-          </div>
-
-      </div>
-      <div class="row">
-        <div class="col-md-12 margin-bottom-30">
-          <div class="row margin-bottom-15">
-            <div class="col-md-3">
-              <b>Sub Category</b>
-            </div>
-            <div class="col-md-7">
-              &nbsp;
-            </div>
-            <div class="col-md-2">
-              <button class="btn btn-success input-group-text pull-right" (click)="showSubCategoryEditorWindow()">
-                + Add
-              </button>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-md-12">
-              <subCategory-list></subCategory-list>
+            <div class="row">
+              <div class="col-md-12">
+                <category-list></category-list>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </nb-tab>
+        <div class="row">
+          <div class="col-md-12 margin-bottom-30">
+            <div class="row margin-bottom-15">
+              <div class="col-md-3">
+                <b>Sub Category</b>
+              </div>
+              <div class="col-md-7">
+                &nbsp;
+              </div>
+              <div class="col-md-2">
+                <button class="btn btn-success input-group-text pull-right" (click)="showSubCategoryEditorWindow()">
+                  + Add
+                </button>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <subCategory-list></subCategory-list>
+              </div>
+            </div>
+          </div>
+        </div>
+</nb-tab>
     <nb-tab tabTitle="Items">
       <div class="row">
         <div class="col-md-12 margin-bottom-30">

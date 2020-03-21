@@ -3,6 +3,11 @@ export class Supplier {
   name: string;
   address1: string;
   address2: string;
-  phoneNumber: string;
+  address3: string;
+  contactNumber: string;
+  NICNumber: string;
+  email: string;
+  remark: string;
+
 }
 

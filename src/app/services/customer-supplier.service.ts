@@ -11,11 +11,25 @@ import { BehaviorSubject } from 'rxjs';
 
 
 @Injectable()
-export class CusomerSupplierService {
+export class CustomerSupplierService {
 
     constructor(private http: Http , private commonsService: CommonService ) {}
 
     getCustomerPaymentDetail(id){
         return this.commonsService.apiGet('CreditAndDebitAccountPayment/'+id);
+    }
+
+    getSupplierList() {
+      return this.commonsService.apiGet('supplier/');
+    }
+    getCustomerList() {
+      return this.commonsService.apiGet('customer/');
+    }
+
+    SaveSupplierList(supplierList: any) {
+      return this.commonsService.apiPost(supplierList, 'supplier/');
+    }
+    SaveCustomerList(customerList: any) {
+      return this.commonsService.apiPost(customerList, 'customer/');
     }
 }

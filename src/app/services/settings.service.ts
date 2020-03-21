@@ -20,6 +20,7 @@ export class SettingsService {
     return this.commonsService.apiGet('category/subCategory/');
   }
   saveMainCategoryList(CategoryList: any) {
+    debugger;
     return this.commonsService.apiPost(CategoryList, 'category/mainCategory/');
   }
   saveSubCategoryList(CategoryList: any) {

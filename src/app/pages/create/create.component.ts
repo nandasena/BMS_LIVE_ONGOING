@@ -3,10 +3,12 @@ import { Component, OnInit, Input } from '@angular/core';
 // import { CategoryEditorComponent } from './category-editor/category-editor.component';
 // import { ItemEditorComponent } from './item-editor/item-editor.component';
 import { InvoiceService } from '../../services/invoice.service';
-import { CusomerSupplierService } from '../../services/customer-supplier.service'
+import { CustomerSupplierService } from '../../services/customer-supplier.service'
 import { LocalDataSource, ViewCell } from 'ng2-smart-table';
 import { CategoryEditorComponent } from './category/category-editor/category-editor.component';
 import { ItemEditorComponent } from './item/item-editor/item-editor.component';
+import { SupplierEditorComponent } from './supplier/supplier-editor/supplier-editor.component';
+import { CustomerEditorComponent } from './customer/customer-editor/customer-editor.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import * as _ from 'lodash';
 
@@ -35,7 +37,7 @@ export class CreateComponent implements OnInit {
 
   source: LocalDataSource = new LocalDataSource();
   supplierSource: LocalDataSource = new LocalDataSource();
-  constructor(private modalService: NgbModal, private invoiceService: InvoiceService, private cusomerSupplierService: CusomerSupplierService) { }
+  constructor(private modalService: NgbModal, private invoiceService: InvoiceService, private cusomerSupplierService: CustomerSupplierService) { }
 
   settings = {
     mode: 'external',
@@ -238,13 +240,13 @@ export class CreateComponent implements OnInit {
 
   showCustomerEditorWindow() {
     //this.data.category = 'mainCategory';
-    const editorModel = this.modalService.open(ItemEditorComponent, {size:'lg', container: 'nb-layout'});
+    const editorModel = this.modalService.open(CustomerEditorComponent, {size:'lg', container: 'nb-layout'});
     editorModel.componentInstance.selectedTask = this.data;
   }
 
   showSupplierEditorWindow() {
     //this.data.category = 'mainCategory';
-    const editorModel = this.modalService.open(ItemEditorComponent, {size:'lg', container: 'nb-layout'});
+    const editorModel = this.modalService.open(SupplierEditorComponent, {size:'lg', container: 'nb-layout'});
     editorModel.componentInstance.selectedTask = this.data;
   }
 

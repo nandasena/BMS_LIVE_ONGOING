@@ -17,7 +17,7 @@ import { of as observableOf} from 'rxjs/observable/of';
 import { RoleProviderService } from './services/role-provider.service';
 import {CommonService} from './commonService/common.service';
 import {InvoiceService} from './services/invoice.service';
-import {CusomerSupplierService}from './services/customer-supplier.service'
+import {CustomerSupplierService}from './services/customer-supplier.service'
 import {PurchaseOrderService} from './services/purchaseOrder.service'
 import { HttpModule } from '@angular/http';
 import {Config} from './config/config.service';
@@ -110,7 +110,7 @@ import {InventoryService} from './services/inventory.service';
     AlertifyService,
     InventoryService,
     PurchaseOrderService,
-    CusomerSupplierService
+    CustomerSupplierService,
   ],
 })
 export class AppModule {

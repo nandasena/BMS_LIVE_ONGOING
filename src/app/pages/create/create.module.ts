@@ -37,6 +37,7 @@ import { CustomerEditorComponent } from './customer/customer-editor/customer-edi
         CustomerListComponent,
         SupplierListComponent,
         SupplierEditorComponent,
+        CustomerEditorComponent,
     ],
     entryComponents: [
         CreateComponent,
@@ -50,6 +51,7 @@ import { CustomerEditorComponent } from './customer/customer-editor/customer-edi
         CustomerListComponent,
         SupplierListComponent,
         SupplierEditorComponent,
+        CustomerEditorComponent,
     ],
     providers: [
       SmartTableService
