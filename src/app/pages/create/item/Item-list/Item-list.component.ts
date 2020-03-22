@@ -7,6 +7,8 @@ import { AlertifyService } from "../../../../services/alertify.service";
 import { SettingsService } from "../../../../services/settings.service";
 import * as _ from 'lodash';
 import { ItemBtnComponent } from './item-btn.component';
+import { Item } from '../../../../models/item_modal';
+import { ItemDetail } from '../../../../models/itemDetail_model';
 
 @Component({
   selector: 'Item-list',
@@ -22,9 +24,9 @@ export class ItemListComponent implements OnInit {
       position: "right"
     },
     add: {
-      addButtonContent: '<i class="nb-plus"></i>',
-      createButtonContent: '<i class="nb-checkmark"></i>',
-      cancelButtonContent: '<i class="nb-close"></i>',
+      addButtonContent: '<i class=""></i>',
+      createButtonContent: '<i class=""></i>',
+      cancelButtonContent: '<i class=""></i>',
     },
     edit: {
       editButtonContent: '<i class="nb-edit"></i>',
@@ -35,17 +37,17 @@ export class ItemListComponent implements OnInit {
     },
 
     columns: {
-      id: {
-        title: 'Identifier Code',
+      itemCode: {
+        title: 'Item Code',
         type: 'number',
       },
-      name: {
-        title: 'Name',
+      itemName: {
+        title: 'Item Name',
         type: 'string',
       },
-      count: {
-        title: 'Count',
-        type: 'string',
+      subCategoryId: {
+        title: 'sub Category',
+        type: 'number',
       },
       button: {
         title: '',
@@ -59,6 +61,7 @@ export class ItemListComponent implements OnInit {
   subCategoryList = [];
   selectedCategory: Category;
   selectedSubCategory: Category;
+  selectedItemDetail: Item;
   changebleSubCategoryList: Category[] = [];
   categoryName: string;
   private initcategory: Category = {
@@ -70,12 +73,37 @@ export class ItemListComponent implements OnInit {
     id: 0
   };
 
+  private initItem: Item = {
+    itemId: 0 ,
+    itemDetailId:  0,
+    sellingQuantity: 0 ,
+    itemName:  "",
+    description: "",
+    categoryName: "",
+    subCategoryId: 0,
+    SellingQuantity: 0,
+    price: 0,
+    itemDiscount: 0,
+    total: 0,
+    itemCode: "",
+    orderQuantity: 0,
+    discountPercentage: 0,
+    itemdetailList: new ItemDetail(),
+  };
+  initItem_data = [];
   source: LocalDataSource = new LocalDataSource();
 
   constructor(private service: SmartTableService, private modalService: NgbModal , private alertifyService: AlertifyService,
     private settingsservice: SettingsService) {
-    const data = this.service.getUOMList();
-    this.source.load(data);
+
+
+     this.settingsservice.getItemList().then((response) => {
+      this.initItem_data = response.json().result;
+
+      this.source.load(this.initItem_data);
+    }).catch((ex) => {
+       this.initItem_data;
+    });
     this.selectedCategory = this.selectedSubCategory = this.initcategory;
   }
 

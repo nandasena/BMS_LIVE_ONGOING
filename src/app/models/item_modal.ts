@@ -1,18 +1,19 @@
+import { ItemDetail } from "./itemDetail_model";
+
 export class Item {
-    itemId:number;
-    itemDetailId:number;
-    sellingQuantity:number;
-    name:string;
-    categoryName:string;
-    subCategoryId:number;
-    qty:number;
-    availableQuantity:number;
-    price:number;
-    id:number;
-    discountPercentage:number;
-    total:number;
-    fabricatorPrice:number;
-    cost:number;
-    itemCode:string;
-    
+    itemId: number;
+    itemDetailId: number;
+    sellingQuantity: number;
+    itemName: string;
+    description: string;
+    categoryName: string;
+    subCategoryId: number;
+    SellingQuantity: number;
+    price: number;
+    itemDiscount: number;
+    total: number;
+    itemCode: string;
+    orderQuantity: number;
+    discountPercentage: number;
+    itemdetailList: ItemDetail;
 }

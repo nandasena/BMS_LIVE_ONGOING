@@ -5,3 +5,7 @@ nb-card {
   ng2-smart-table /deep/ thead th:last-child {
     text-align: center;
   }
+
+  .ItemDetailsWindow .modal-dialog.modal-lg {
+    max-width: 900px !important;
+}

@@ -10,6 +10,7 @@ import { SettingsService } from "../../../../services/settings.service";
 import * as _ from "lodash";
 import { NgxSpinnerService } from "ngx-spinner";
 import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
+import { ItemDetail } from "../../../../models/itemDetail_model";
 
 @Component({
   selector: "item-editor",
@@ -105,14 +106,19 @@ export class ItemEditorComponent implements OnInit {
   bindItemList() {
     if (!this.validation()){
       return;
-    }
-    else{
+    }else {
       const item = new Item();
       item.itemId = this.temp_itemcount++;
-      item.name = this.itemName;
+      item.itemName = this.itemName;
       item.itemCode = 'ss';
       item.subCategoryId = this.selectedSubCategory.subCategoryId;
       item.categoryName = this.selectedSubCategory.name;
+      item.itemDiscount = 0.0;
+      item.discountPercentage = 0.0;
+      item.total = 0.0;
+      item.price = 0.0;
+      item.orderQuantity = 0.0;
+      item.itemdetailList = new ItemDetail();
       this.itemToSave.push(item);
       this.source.load(this.itemToSave);
     }

@@ -1,11 +1,14 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import * as _ from 'lodash';
+import { Category } from "../../../../models/category_model";
+import { Item } from "../../../../models/item_modal";
 import { AlertifyService } from '../../../../services/alertify.service';
 import { LocalDataSource, ViewCell } from "ng2-smart-table";
 import { SmartTableService } from "../../../../@core/data/smart-table.service";
 import { SettingsService } from "../../../../services/settings.service";
 import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
+import { ItemDetail } from '../../../../models/itemDetail_model';
 
 @Component({
   selector: 'item-detail',
@@ -37,32 +40,77 @@ export class ItemDetailsComponent implements OnInit {
     },
 
     columns: {
-      id: {
+      itemDetailId: {
         title: 'Identifier Code',
         type: 'number',
       },
-      name: {
-        title: 'Name',
+      fabricatorPrice: {
+        title: 'Fabricator Price',
         type: 'string',
       },
-      count: {
-        title: 'Count',
+      customerPrice: {
+        title: 'Customer price',
+        type: 'string',
+      },
+      availableQuantity: {
+        title: 'available Qty',
         type: 'string',
       },
     },
   };
+
+  private initItemDetail: ItemDetail = {
+    itemDetailId: 0,
+    fabricatorPrice: 0,
+    mrpPrice: 0,
+    itemId: 0,
+    customerPrice: 0,
+    costprice: 0,
+    quantity: 0,
+    availableQuantity: 0,
+    companyId: 0,
+    purchaseData: (new Date()),
+    isDelete: false,
+    itemName: "",
+    totalItemAmount: 0,
+    totalItemDiscount: 0,
+    receivedQuantity: 0,
+  };
+
+  selectedItemDetail: Category;
+
+  ItemName ="";
+  ItemCode = "";
+  initItemDetailList = [];
+  modalReference: NgbModalRef;
+
   source: LocalDataSource = new LocalDataSource();
   constructor(
     private service: SmartTableService,
     private modalService: NgbModal ,
     private alertifyService: AlertifyService,
     private activeModal: NgbActiveModal,
-    private settingsservice: SettingsService
+    private settingsservice: SettingsService,
   ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+
+    this.ItemName = this.rowData.itemName;
+    this.ItemCode = this.rowData.itemCode;
+
+/*    this.rowData.forEach(element => {
+      this.initItemDetailList.push(element.itemdetailList)
+    });*/
+
+    this.source.load(this.rowData.itemDetailList);
+
+
+  }
 
   closeModal() {
-    //this.temp_itemcount = 0;
+    this.activeModal.close();
+  }
+  saveItems() {
+
   }
 }

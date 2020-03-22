@@ -6,7 +6,7 @@ import { ItemDetailsComponent } from '../item-detail/item-detail.component';
 @Component({
   template: `
   <div style="text-align: center; color: #787878;"  onMouseOver="this.style.color='#40dc7e'"
-  onMouseOut="this.style.color='#787878'" (click)="addItemDetails()"><i class="fa fa-user-plus fa-2" aria-hidden="true"></i></div>
+  onMouseOut="this.style.color='#787878'" (click)="addItemDetails()"><i class="fa fa-table fa-2" aria-hidden="true"></i></div>
   `,
 })
 
@@ -24,7 +24,8 @@ export class ItemBtnComponent implements ViewCell, OnInit {
   }
 
   addItemDetails() {
-    const activeModal = this.modalService.open(ItemDetailsComponent, { size: 'lg', container: 'nb-layout' });
+
+    const activeModal = this.modalService.open(ItemDetailsComponent, { size: 'lg', container: 'nb-layout',windowClass:'ItemDetailsWindow' });
     activeModal.componentInstance.rowData = this.rowData;
   }
 }

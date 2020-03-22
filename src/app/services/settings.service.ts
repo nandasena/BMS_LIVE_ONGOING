@@ -20,7 +20,7 @@ export class SettingsService {
     return this.commonsService.apiGet('category/subCategory/');
   }
   saveMainCategoryList(CategoryList: any) {
-    debugger;
+
     return this.commonsService.apiPost(CategoryList, 'category/mainCategory/');
   }
   saveSubCategoryList(CategoryList: any) {
@@ -32,9 +32,9 @@ export class SettingsService {
   }
 
   getItemList() {
-    return this.commonsService.apiGet('item/item/');
+    return this.commonsService.apiGet('item/');
   }
   saveItemList(itemList: any) {
-    return this.commonsService.apiPost(itemList, 'item/item/');
+    return this.commonsService.apiPost(itemList, 'item/');
   }
 }
