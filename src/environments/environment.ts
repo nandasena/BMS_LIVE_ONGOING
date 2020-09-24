@@ -10,5 +10,7 @@
 
 export const environment = {
   production: false,
-  apiBaseUrl: 'http://3.13.160.89:8080/sivilima/',
+  apiBaseUrl: 'http://localhost:8080/sivilima_api/',
+  // apiBaseUrl: 'http://3.13.160.89:8080/sivilima/',
+  
 };

@@ -49,6 +49,7 @@ export class GoodReceived {
     if (id != -1) {
       this.purchaseOrderService.getPurchaseOrderDetailById(id).then(response => {
         this.purchaseOrderDetailList = response.json().result;
+        console.log("purchase Order details ========",this.purchaseOrderDetailList);
       })
       this.receivedItemList = [];
     } else {

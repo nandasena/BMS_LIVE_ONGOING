@@ -2,9 +2,11 @@ import { ItemDetail } from "./itemDetail_model";
 
 export class Item {
     itemId: number;
+    id:number;
     itemDetailId: number;
     sellingQuantity: number;
     itemName: string;
+    name:string;
     description: string;
     categoryName: string;
     subCategoryId: number;
@@ -16,4 +18,7 @@ export class Item {
     orderQuantity: number;
     discountPercentage: number;
     itemdetailList: ItemDetail;
+    availableQuantity:number;
+    fabricatorPrice:number;
+    cost:number;
 }
