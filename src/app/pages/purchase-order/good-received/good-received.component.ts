@@ -4,6 +4,7 @@ import { PurchaseOrderService } from '../../../services/purchaseOrder.service';
 import { Router } from '@angular/router';
 import * as _ from 'lodash';
 import { ReceiveModale } from '../../../models/item-received-modal';
+import { GoodReceivedModal } from '../../../models/good-received-modal';
 import { AlertifyService } from '../../../services/alertify.service';
 import { IMyDpOptions } from 'mydatepicker';
 import * as moment from 'moment';
@@ -17,12 +18,14 @@ import * as moment from 'moment';
 export class GoodReceived {
 
   purchaseOrderIdList = [];
+  purchaseOrderId:number;
   purchaseOrderDetailList = [];
   receivedItemList: ReceiveModale[] = [];
   purchaseDate = { date: {}, formatted: '' };
   myDatePickerOptions: IMyDpOptions = {
     dateFormat: 'yyyy-mm-dd',
   };
+  goodReceivedModal = new GoodReceivedModal;
 
   constructor(
     private modalService: NgbModal,
@@ -47,9 +50,10 @@ export class GoodReceived {
 
   getPurchaseOrderDetail(id) {
     if (id != -1) {
+      this.purchaseOrderId =id;
       this.purchaseOrderService.getPurchaseOrderDetailById(id).then(response => {
         this.purchaseOrderDetailList = response.json().result;
-        console.log("purchase Order details ========",this.purchaseOrderDetailList);
+        console.log("purchase Order details ========", this.purchaseOrderDetailList);
       })
       this.receivedItemList = [];
     } else {
@@ -63,14 +67,17 @@ export class GoodReceived {
     let isFound = _.find(this.receivedItemList, { 'itemId': id });
     _.remove(this.receivedItemList, { 'itemId': id });
     if (typeof isFound === 'undefined') {
-      let receiveModale = new ReceiveModale;
-      receiveModale.itemId = Item.itemId;
-      receiveModale.itemName = Item.itemName;
-      receiveModale.orderQty = Item.quantity;
-      receiveModale.receivedQty = Item.receivedQuantity;
-      receiveModale.receiveQty = 0;
-      this.receivedItemList.push(receiveModale);
-
+      if(Item.quantity > Item.receivedQuantity){
+        let receiveModale = new ReceiveModale;
+        receiveModale.itemId = Item.itemId;
+        receiveModale.itemName = Item.itemName;
+        receiveModale.orderQty = Item.quantity;
+        receiveModale.receivedQty = Item.receivedQuantity;
+        receiveModale.receiveQuantity = 0;
+        this.receivedItemList.push(receiveModale);
+      }else{
+        this.alertify.error('All item is received');  
+      }
     } else {
       this.receivedItemList.push(isFound);
     }
@@ -80,20 +87,38 @@ export class GoodReceived {
     _.remove(this.receivedItemList, { 'itemId': id });
   }
 
-  changeQty(id, receiveQty,event) {
+  changeQty(id, receiveQty, event) {
     let Found = _.findLast(this.receivedItemList, { 'itemId': id });
     if ((Found.orderQty - Found.receivedQty) < Number(receiveQty)) {
-      Found.receiveQty = 1;
+      Found.receiveQuantity = 1;
       _.remove(this.receivedItemList, { 'itemId': id });
       this.receivedItemList.push(Found);
-      event.target.value =1;
+      event.target.value = 1;
       this.alertify.error('Entered quantity is more than order quantity');
     } else {
-      Found.receiveQty = Number(receiveQty);
+      Found.receiveQuantity = Number(receiveQty);
       _.remove(this.receivedItemList, { 'itemId': id });
       this.receivedItemList.push(Found);
     }
 
+
+  }
+  saveRecevedQuantity() {
+    if (typeof this.receivedItemList === 'undefined') {
+    } else {
+      this.goodReceivedModal.itemDetailsVOList =this.receivedItemList
+      this.goodReceivedModal.purchaseOrderId = this.purchaseOrderId;
+      this.goodReceivedModal.receivedDate=this.purchaseDate.formatted;
+      this.purchaseOrderService.saveGoodReceived(this.goodReceivedModal).then(response=>{
+        if(response.json().statusCode ==200){
+          this.purchaseOrderService.getPurchaseOrderDetailById(this.purchaseOrderId).then(response => {
+            this.purchaseOrderDetailList = response.json().result;
+          })
+          this.receivedItemList = [];
+        }
+        
+      })
+    }
 
   }
 

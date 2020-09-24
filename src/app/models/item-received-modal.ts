@@ -4,5 +4,5 @@ export class ReceiveModale {
     description:string;
     receivedQty: number;
     orderQty:number;
-    receiveQty:number;
+    receiveQuantity:number;
 }

@@ -43,5 +43,8 @@ export class PurchaseOrderService {
     getPurchaseOrderIdList(){
         return this.commonsService.apiGet('purchaseOrder/getPurchaseOrderIds/');
     }
+    saveGoodReceived(goodReceivedDetails){
+        return this.commonsService.apiPost(goodReceivedDetails,'purchaseOrder/goodReceive/');
+    }
 
 }
