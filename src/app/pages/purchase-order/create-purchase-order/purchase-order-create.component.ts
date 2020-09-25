@@ -5,7 +5,7 @@ import { Component, OnInit, ElementRef, HostListener } from '@angular/core';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { InvoiceService } from '../../../services/invoice.service';
 import { Item } from '../../../models/item_modal';
-import {PurchaseOrderModel} from '../../../models/purchase-order-modal'
+import { PurchaseOrderModel } from '../../../models/purchase-order-modal'
 import { PaymentModal } from '../../../models/payment-modal';
 import { InvoiceModel } from '../../../models/invoice-modal';
 import { AlertifyService } from '../../../services/alertify.service';
@@ -52,7 +52,7 @@ export class PurchaseOrderCreateComponent implements OnInit {
   supplierList = [];
   branchList = [];
   selectedSupplierName: string = '';
-  selectedSupplierId: number= -1;
+  selectedSupplierId: number = -1;
   selectedSupplier
   showChequeFild: boolean = false;
   showCardFild: boolean = false;
@@ -68,7 +68,7 @@ export class PurchaseOrderCreateComponent implements OnInit {
 
 
 
-  constructor(private invoiceService: InvoiceService, private alertify: AlertifyService, private spinner: NgxSpinnerService, private el: ElementRef,private purchaseOrderService: PurchaseOrderService) { }
+  constructor(private invoiceService: InvoiceService, private alertify: AlertifyService, private spinner: NgxSpinnerService, private el: ElementRef, private purchaseOrderService: PurchaseOrderService) { }
 
   ngOnInit() {
     var modal = document.getElementById("myModal");
@@ -106,7 +106,7 @@ export class PurchaseOrderCreateComponent implements OnInit {
         day: moment().date()
       }, formatted: moment().year() + '-' + (moment().month() + 1) + '-' + moment().date()
     };
-    
+
     this.invoiceService.getBankList().then((responce) => {
       let result = responce.json();
       if (result.success) {
@@ -130,42 +130,50 @@ export class PurchaseOrderCreateComponent implements OnInit {
       return false
     }
     this.selectedItem = _.find(this.categoryWiseItemList, { 'itemId': id })
-    
+
 
     if (typeof this.selectedItem.itemDetailList[0] != 'undefined') {
 
-      let foundItem = _.find(this.itemToSave, { 'itemDetailId': this.selectedItem.itemDetailList[0].itemDetailId })
-      _.remove(this.itemToSave, { 'itemDetailId': this.selectedItem.itemDetailList[0].itemDetailId })
-      let length = this.itemToSave.length;
-      if (foundItem == null) {
-        let item = new Item();
-        item.subCategoryId = Number(this.selectedItem.subCategoryId);
-        item.name = this.selectedItem.description;
-        item.itemDetailId = this.selectedItem.itemDetailList[0].itemDetailId;
-        item.sellingQuantity = 1
-        item.availableQuantity = this.selectedItem.itemDetailList[0].availableQuantity;
-        item.price = this.selectedItem.itemDetailList[0].costPrice;
-        item.id = length + 1;
-        item.itemId = this.selectedItem.itemId;
-        item.discountPercentage = 0;
-        item.total = this.selectedItem.itemDetailList[0].costPrice * 1
-        this.itemToSave.push(item);
-        this.calculateTotal();
+      if (this.selectedItem.itemDetailList.length > 1) {
+        var modal = document.getElementById("myModal");
+        this.itemDetailList = this.selectedItem.itemDetailList;
+        modal.style.display = "block";
+
       } else {
-        let price = foundItem.price
-        let qty = foundItem.sellingQuantity;
-        foundItem.sellingQuantity++
-        foundItem.total = price * (++qty) * _.round(1 - (foundItem.discountPercentage / 100), 4)
-        this.itemToSave.push(foundItem);
-        this.calculateTotal();
+        let foundItem = _.find(this.itemToSave, { 'itemDetailId': this.selectedItem.itemDetailList[0].itemDetailId })
+        _.remove(this.itemToSave, { 'itemDetailId': this.selectedItem.itemDetailList[0].itemDetailId })
+        let length = this.itemToSave.length;
+        if (foundItem == null) {
+          let item = new Item();
+          item.subCategoryId = Number(this.selectedItem.subCategoryId);
+          item.name = this.selectedItem.description;
+          item.itemDetailId = this.selectedItem.itemDetailList[0].itemDetailId;
+          item.sellingQuantity = 1
+          item.availableQuantity = this.selectedItem.itemDetailList[0].availableQuantity;
+          item.price = this.selectedItem.itemDetailList[0].costPrice;
+          item.id = length + 1;
+          item.itemId = this.selectedItem.itemId;
+          item.discountPercentage = 0;
+          item.total = this.selectedItem.itemDetailList[0].costPrice * 1
+          this.itemToSave.push(item);
+          this.calculateTotal();
+        } else {
+          let price = foundItem.price
+          let qty = foundItem.sellingQuantity;
+          foundItem.sellingQuantity++
+          foundItem.total = price * (++qty) * _.round(1 - (foundItem.discountPercentage / 100), 4)
+          this.itemToSave.push(foundItem);
+          this.calculateTotal();
+        }
       }
     } else {
       this.alertify.error('Item not here');
     }
- 
+
 
   }
   selectedItemDetails(itemDetailId) {
+    this.closeModal();
     itemDetailId = Number(itemDetailId);
     let foundItem = _.find(this.itemToSave, { 'itemDetailId': itemDetailId })
     _.remove(this.itemToSave, { 'itemDetailId': itemDetailId })
@@ -204,13 +212,13 @@ export class PurchaseOrderCreateComponent implements OnInit {
       this.calculateTotal();
     }
 
-    
+
   }
 
-  // closeModal() {
-  //   var modal = document.getElementById("myModal");
-  //   modal.style.display = "none";
-  // }
+  closeModal() {
+    var modal = document.getElementById("myModal");
+    modal.style.display = "none";
+  }
   changeQty(itemDetailId, qty, event) {
     this.selectedItemId = itemDetailId;
     if (qty == 0 || qty == null) {
@@ -225,7 +233,7 @@ export class PurchaseOrderCreateComponent implements OnInit {
     findItem.sellingQuantity = qty;
     this.itemToSave.push(findItem);
     this.calculateTotal();
-    
+
   }
 
   removeItem(itemDetailId) {
@@ -250,7 +258,7 @@ export class PurchaseOrderCreateComponent implements OnInit {
     this.itemToSave = _.orderBy(this.itemToSave, ['id'], ['desc']);
 
   }
-  
+
   getBalanceAmount(cash) {
     this.cash = cash;
     this.balance = this.totalAmount - this.cash
@@ -300,7 +308,7 @@ export class PurchaseOrderCreateComponent implements OnInit {
           modal.style.display = "block";
 
         } else {
-          
+
           if (typeof this.selectedItem.itemDetailList[0] != 'undefined') {
 
             if (this.selectedItem.itemDetailList[0].availableQuantity >= 1) {
@@ -356,15 +364,15 @@ export class PurchaseOrderCreateComponent implements OnInit {
   }
   changePrice(id, value, event) {
     let foundItem = _.find(this.itemToSave, { 'itemDetailId': id });
-    
+
     if (value == '') {
       foundItem.price = Number(foundItem.price);
       event.target.value = foundItem.price.toFixed(2);
       this.calculateTotal();
 
     } else {
-      
-      value =parseFloat(value.replace(/,/g, ''));
+
+      value = parseFloat(value.replace(/,/g, ''));
       _.remove(this.itemToSave, { 'itemDetailId': id });
       foundItem.price = Number(value);
       let price = foundItem.price;
@@ -374,29 +382,30 @@ export class PurchaseOrderCreateComponent implements OnInit {
       foundItem.sellingQuantity++
       foundItem.sellingQuantity = qty;
       this.itemToSave.push(foundItem);
+      console.log("Item list======",this.itemToSave);
       this.calculateTotal();
 
     }
   }
 
   createPurchaseOrder() {
-    if(this.itemToSave.length==0){
+    if (this.itemToSave.length == 0) {
       this.alertify.error('Please add at least one item to card to Process purchase order');
       return false;
     }
-    if(this.selectedBranch==-1){
+    if (this.selectedBranch == -1) {
       this.alertify.error('Please select Branch');
       return false;
     }
-    if(this.selectedSupplierId == -1){
+    if (this.selectedSupplierId == -1) {
       this.alertify.error('Please select Supplier');
       return false;
     }
-    if(this.purchaseDate ==null){
+    if (this.purchaseDate == null) {
       this.alertify.error('Please select date');
       return false;
     }
-    console.log("supplier id ======",this.selectedSupplierId);
+    console.log("supplier id ======", this.selectedSupplierId);
     let innerThis = this;
     this.alertify.confirm('Create Invoice', 'Are you sure you want to create invoice', function () {
       let purchaseOrder = new PurchaseOrderModel;
@@ -404,9 +413,9 @@ export class PurchaseOrderCreateComponent implements OnInit {
       purchaseOrder.itemVOList = innerThis.itemToSave;
       purchaseOrder.supplierId = innerThis.selectedSupplierId;
       purchaseOrder.purchaseOrderDate = innerThis.purchaseDate.formatted;
-      purchaseOrder.estimateReceiveDate =innerThis.purchaseDate.formatted;
-      purchaseOrder.userId =1;
-      purchaseOrder.branchId=Number(innerThis.selectedBranch);
+      purchaseOrder.estimateReceiveDate = innerThis.purchaseDate.formatted;
+      purchaseOrder.userId = 1;
+      purchaseOrder.branchId = Number(innerThis.selectedBranch);
 
       // console.log("asasssssass",purchaseOrder);
       // return false;
@@ -422,7 +431,7 @@ export class PurchaseOrderCreateComponent implements OnInit {
           innerThis.totalAmount = 0.00;
           innerThis.balance = 0.00;
           innerThis.selectedSupplier = "";
-          innerThis.totalAmountWithDiscount =0.00
+          innerThis.totalAmountWithDiscount = 0.00
           innerThis.invoiceService.getItemList().then((response) => {
             innerThis.itemList = response.json().result;
           });

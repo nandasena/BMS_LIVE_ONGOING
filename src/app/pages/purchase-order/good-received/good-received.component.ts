@@ -18,7 +18,7 @@ import * as moment from 'moment';
 export class GoodReceived {
 
   purchaseOrderIdList = [];
-  purchaseOrderId:number;
+  purchaseOrderId: number;
   purchaseOrderDetailList = [];
   receivedItemList: ReceiveModale[] = [];
   purchaseDate = { date: {}, formatted: '' };
@@ -50,7 +50,7 @@ export class GoodReceived {
 
   getPurchaseOrderDetail(id) {
     if (id != -1) {
-      this.purchaseOrderId =id;
+      this.purchaseOrderId = id;
       this.purchaseOrderService.getPurchaseOrderDetailById(id).then(response => {
         this.purchaseOrderDetailList = response.json().result;
         console.log("purchase Order details ========", this.purchaseOrderDetailList);
@@ -65,18 +65,20 @@ export class GoodReceived {
   addItem(id) {
     let Item = _.find(this.purchaseOrderDetailList, { 'itemId': id });
     let isFound = _.find(this.receivedItemList, { 'itemId': id });
+    console.log("item details is ====",Item);
     _.remove(this.receivedItemList, { 'itemId': id });
     if (typeof isFound === 'undefined') {
-      if(Item.quantity > Item.receivedQuantity){
+      if (Item.quantity > Item.receivedQuantity) {
         let receiveModale = new ReceiveModale;
         receiveModale.itemId = Item.itemId;
+        receiveModale.itemDetailId = Item.itemDetailId;
         receiveModale.itemName = Item.itemName;
         receiveModale.orderQty = Item.quantity;
         receiveModale.receivedQty = Item.receivedQuantity;
         receiveModale.receiveQuantity = 0;
         this.receivedItemList.push(receiveModale);
-      }else{
-        this.alertify.error('All item is received');  
+      } else {
+        this.alertify.error('All item is received');
       }
     } else {
       this.receivedItemList.push(isFound);
@@ -106,18 +108,18 @@ export class GoodReceived {
   saveRecevedQuantity() {
     if (typeof this.receivedItemList === 'undefined') {
     } else {
-      this.goodReceivedModal.itemDetailsVOList =this.receivedItemList
+      this.goodReceivedModal.itemDetailsVOList = this.receivedItemList
       this.goodReceivedModal.purchaseOrderId = this.purchaseOrderId;
-      this.goodReceivedModal.receivedDate=this.purchaseDate.formatted;
-      this.purchaseOrderService.saveGoodReceived(this.goodReceivedModal).then(response=>{
-        if(response.json().statusCode ==200){
-          this.purchaseOrderService.getPurchaseOrderDetailById(this.purchaseOrderId).then(response => {
-            this.purchaseOrderDetailList = response.json().result;
-          })
-          this.receivedItemList = [];
-        }
-        
-      })
+      this.goodReceivedModal.receivedDate = this.purchaseDate.formatted;
+        this.purchaseOrderService.saveGoodReceived(this.goodReceivedModal).then(response => {
+          if (response.json().statusCode == 200) {
+            this.purchaseOrderService.getPurchaseOrderDetailById(this.purchaseOrderId).then(response => {
+              this.purchaseOrderDetailList = response.json().result;
+            })
+            this.receivedItemList = [];
+          }
+
+        })
     }
 
   }
