@@ -356,13 +356,15 @@ export class PurchaseOrderCreateComponent implements OnInit {
   }
   changePrice(id, value, event) {
     let foundItem = _.find(this.itemToSave, { 'itemDetailId': id });
-
+    
     if (value == '') {
       foundItem.price = Number(foundItem.price);
       event.target.value = foundItem.price.toFixed(2);
       this.calculateTotal();
 
     } else {
+      
+      value =parseFloat(value.replace(/,/g, ''));
       _.remove(this.itemToSave, { 'itemDetailId': id });
       foundItem.price = Number(value);
       let price = foundItem.price;
