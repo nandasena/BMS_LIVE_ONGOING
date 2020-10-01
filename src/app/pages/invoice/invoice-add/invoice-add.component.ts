@@ -32,7 +32,7 @@ export class InvoiceAddComponent implements OnInit {
   totalAmount: number = 0.00;
   model = { date: {}, formatted: '' };
   myDatePickerOptions: IMyDpOptions = {
-    dateFormat: 'yyyy/mm/dd',
+    dateFormat: 'yyyy-mm-dd',
   };
   chequeDatePickerOptions: IMyDpOptions = {
     dateFormat: 'yyyy-mm-dd',

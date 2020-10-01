@@ -180,7 +180,7 @@ export class PurchaseOrderCreateComponent implements OnInit {
     if (foundItem == null) {
       let length = this.itemToSave.length;
       let selectedDetail = _.find(this.selectedItem.itemDetailList, { 'itemDetailId': itemDetailId })
-      if (selectedDetail.availableQuantity >= 1) {
+     // if (selectedDetail.availableQuantity >= 1) {
         let item = new Item();
         item.subCategoryId = Number(this.selectedItem.subCategoryId);
         item.name = this.selectedItem.description;
@@ -194,9 +194,9 @@ export class PurchaseOrderCreateComponent implements OnInit {
         item.id = length + 1;
         this.itemToSave.push(item);
         this.calculateTotal();
-      } else {
-        this.alertify.error('Quantity not avalable...');
-      }
+      // } else {
+      //   this.alertify.error('Quantity not avalable...');
+      // }
 
     } else {
       if (foundItem.availableQuantity > foundItem.sellingQuantity) {
@@ -382,7 +382,6 @@ export class PurchaseOrderCreateComponent implements OnInit {
       foundItem.sellingQuantity++
       foundItem.sellingQuantity = qty;
       this.itemToSave.push(foundItem);
-      console.log("Item list======",this.itemToSave);
       this.calculateTotal();
 
     }

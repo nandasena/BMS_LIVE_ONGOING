@@ -9,6 +9,7 @@ import { PaymentModal } from '../../../models/payment-modal';
 import * as moment from 'moment';
 import { IMyDpOptions } from 'mydatepicker';
 import { NgxSpinnerService } from 'ngx-spinner';
+import {CreditPaymentDetailButtonComponent} from '../credit-payment-detail-button.component'
 
 @Component({
   selector: 'payment-detail-list',
@@ -98,9 +99,14 @@ export class PaymentDetailComponent implements OnInit {
         title: 'Payment',
         valuePrepareFunction: (value) => { return value === 'Total' ? value : Intl.NumberFormat("ja-JP", { style: "decimal", currency: "JPY", minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(value) }
       },
-      invoiceDateOfString: {
+      invoiceDate: {
         title: 'Invoice Date',
         type: 'string',
+      },
+      PurchaseOrderDetail: {
+        title:'',
+        type: 'custom',
+        renderComponent:CreditPaymentDetailButtonComponent
       },
     },
   };
