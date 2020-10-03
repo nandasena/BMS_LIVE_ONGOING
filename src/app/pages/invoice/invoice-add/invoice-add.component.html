@@ -172,7 +172,7 @@
             [checked]="isCheckedDebitCard"> Debit Card<br>
         </div>
         <div class="fieldgroup">
-          <input type="radio" name="gender" value="LN" (click)="selectPaymentType($event.target.value)"
+          <input type="radio" name="gender" value="CR" (click)="selectPaymentType($event.target.value)"
             [checked]="isCheckedCredit"> Credit<br>
         </div>
         <div class="fieldgroup">
@@ -223,7 +223,7 @@
             </div>
             <div class="col-md-3 main-font form-group mb-2" style="padding: 0px;padding-right:5px;">
               <select class="form-control text-right" (change)="setSelectedBank($event.target.value)"
-                style="width: 100%;height: 40px;">
+                style="width: 100%;height: 40px;padding:7px;">
                 <option selected [value]="-1">Select Bank</option>
                 <option *ngFor="let bank of bankList" [value]="bank.bankId">
                   {{ bank.bankName }}

@@ -286,7 +286,7 @@ export class InvoiceAddComponent implements OnInit {
     this.paymentType = values;
     this.paymentDetail = new PaymentModal();
     this.paymentDetail.typeCode = this.paymentType;
-    if (this.paymentType == 'LN') {
+    if (this.paymentType == 'CR') {
       this.isShowCashFild = false;
       this.chequeNo = '';
       this.carsRefNo = '';
@@ -330,7 +330,7 @@ export class InvoiceAddComponent implements OnInit {
       if (this.model == null) {
         this.alertify.error('Please add date....');
         return false;
-      } if (this.paymentDetail.typeCode != 'LN') {
+      } if (this.paymentDetail.typeCode != 'CR') {
         if (this.balance > 0) {
           this.alertify.error('Balance amount more than total amount ....');
           return false;
@@ -361,7 +361,7 @@ export class InvoiceAddComponent implements OnInit {
         }
 
       }
-      if (this.paymentDetail.typeCode == 'LN') {
+      if (this.paymentDetail.typeCode == 'CR') {
         if (this.selectedCustomerId == null) {
           this.alertify.error('Please select customer for credit invoice....');
           return false;

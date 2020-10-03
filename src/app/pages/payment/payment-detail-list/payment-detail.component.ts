@@ -149,7 +149,7 @@ export class PaymentDetailComponent implements OnInit {
     let mm = today.getMonth() + 1;
     let y = today.getFullYear();
     let toDate = y + '-' + mm + '-' + dd;
-    this.invoiceService.getInvoiceCreditList(this.fromDate.formatted, toDate, 'LN').then((response) => {
+    this.invoiceService.getInvoiceCreditList(this.fromDate.formatted, toDate, 'CR').then((response) => {
       let retunData = response.json();
       this.creditList = retunData.result;
       this.invoiceService.loadEditCreditList(this.creditList);
@@ -183,7 +183,7 @@ export class PaymentDetailComponent implements OnInit {
       let y = today.getFullYear();
 
       let toDate = y + '-' + mm + '-' + dd;
-      this.invoiceService.getInvoiceCreditList(this.fromDate.formatted, toDate, 'LN').then((response) => {
+      this.invoiceService.getInvoiceCreditList(this.fromDate.formatted, toDate, 'CR').then((response) => {
         let retunData = response.json();
         if (retunData.statusCode == 200) {
           this.invoiceService.loadEditCreditList(retunData.result);
@@ -227,7 +227,7 @@ export class PaymentDetailComponent implements OnInit {
     this.showCardFild = false;
     this.paymentType = values;
     this.type = this.paymentType;
-    if (this.paymentType == 'LN') {
+    if (this.paymentType == 'CR') {
       this.isShowCashFild = false;
       this.chequeNo = '';
       this.cardRefNo = '';
@@ -339,7 +339,7 @@ export class PaymentDetailComponent implements OnInit {
           let mm = today.getMonth() + 1;
           let y = today.getFullYear();
           let toDate = y + '-' + mm + '-' + dd;
-          innerThis.invoiceService.getInvoiceCreditList(innerThis.fromDate.formatted, toDate, 'LN').then((response) => {
+          innerThis.invoiceService.getInvoiceCreditList(innerThis.fromDate.formatted, toDate, 'CR').then((response) => {
             let retunData = response.json();
             if (retunData.statusCode == 200) {
               innerThis.invoiceService.loadEditCreditList(retunData.result);

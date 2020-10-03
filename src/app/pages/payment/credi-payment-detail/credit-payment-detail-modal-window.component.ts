@@ -36,21 +36,21 @@ export class CreditPaymentDetailModalWindowComponent implements OnInit {
         title: 'Amount',
         valuePrepareFunction: (value) => { return value === 'Total'? value : Intl.NumberFormat("ja-JP",{style: "decimal", currency: "JPY", minimumFractionDigits: 2, maximumFractionDigits: 2}).format(value)}
       },
-      quantity: {
-        title: 'Quantity',
+      cardNumber: {
+        title: 'Card No',
+        type:'string',
+      },
+      chequeNumber: {
+        title: 'Cheque No',
         type: 'string',
       },
-      totalItemAmount: {
-        title: 'Total',
-        valuePrepareFunction: (value) => { return value === 'Total'? value : Intl.NumberFormat("ja-JP",{style: "decimal", currency: "JPY", minimumFractionDigits: 2, maximumFractionDigits: 2}).format(value)}
+      chequeDate: {
+        title: 'Cheque Date',
+        type:'string'
       },
-      totalItemDiscount: {
-        title: 'Discount',
-        valuePrepareFunction: (value) => { return value === 'Total'? value : Intl.NumberFormat("ja-JP",{style: "decimal", currency: "JPY", minimumFractionDigits: 2, maximumFractionDigits: 2}).format(value)}
-      },
-      receivedQuantity: {
-        title: 'Received',
-        valuePrepareFunction: (value) => { return value === 'Total'? value : Intl.NumberFormat("ja-JP",{style: "decimal", currency: "JPY", minimumFractionDigits: 2, maximumFractionDigits: 2}).format(value)}
+      bankName: {
+        title: 'Bank Name',
+        type:'string'
       }
     },
   };
