@@ -8,7 +8,8 @@ import { NgxSpinnerModule } from 'ngx-spinner';
 import {PaymentComponent} from '../../pages/payment/payment.component';
 import {PaymentDetailComponent} from '../../pages/payment/payment-detail-list/payment-detail.component';
 import {CreditPaymentDetailButtonComponent} from '../../pages/payment/credit-payment-detail-button.component';
-import {CreditPaymentDetailModalWindowComponent} from '../../pages/payment/credi-payment-detail/credit-payment-detail-modal-window.component'
+import {CreditPaymentDetailModalWindowComponent} from '../../pages/payment/credi-payment-detail/credit-payment-detail-modal-window.component';
+import {ChequeClearStatusComponent} from '../payment/credi-payment-detail/cheque-clear-status.component'
 import {NumberModal} from '../../models/number.module';
 
 @NgModule({
@@ -23,11 +24,13 @@ import {NumberModal} from '../../models/number.module';
     PaymentComponent,
     PaymentDetailComponent,
     CreditPaymentDetailButtonComponent,
-    CreditPaymentDetailModalWindowComponent
+    CreditPaymentDetailModalWindowComponent,
+    ChequeClearStatusComponent
   ],
   entryComponents: [
     CreditPaymentDetailButtonComponent,
-    CreditPaymentDetailModalWindowComponent
+    CreditPaymentDetailModalWindowComponent,
+    ChequeClearStatusComponent
   ],
   providers: [
     SmartTableService,

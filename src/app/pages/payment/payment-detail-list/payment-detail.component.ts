@@ -356,7 +356,7 @@ export class PaymentDetailComponent implements OnInit {
     });
   }
   getBalanceAmount(values) {
-    this.amount = values;
+    this.amount = parseFloat(values.replace(/,/g, ''));
     if (this.payable < values) {
       this.alertify.error('Amount is more than to payable amount...');
     }

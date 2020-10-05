@@ -2,6 +2,7 @@ import { Component, OnInit,Input } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { PaymentDetailService} from '../../../services/paymentDetail.service';
 import { LocalDataSource, ViewCell } from 'ng2-smart-table';
+import {ChequeClearStatusComponent}from './cheque-clear-status.component'
 
 @Component({
   selector: 'credit-payment-detail-modal-window',
@@ -10,7 +11,7 @@ import { LocalDataSource, ViewCell } from 'ng2-smart-table';
 })
 export class CreditPaymentDetailModalWindowComponent implements OnInit {
 
-   
+  constructor(private activeModal: NgbActiveModal,private  paymentDetailService: PaymentDetailService) { }
   
   @Input() paymentDetailId;
   source: LocalDataSource = new LocalDataSource();
@@ -51,10 +52,15 @@ export class CreditPaymentDetailModalWindowComponent implements OnInit {
       bankName: {
         title: 'Bank Name',
         type:'string'
-      }
+      },
+      isClear:{
+        title: '',
+        type:'custom',
+        renderComponent:ChequeClearStatusComponent
+      },
     },
   };
-  constructor(private activeModal: NgbActiveModal,private  paymentDetailService: PaymentDetailService) { }
+  
 
   ngOnInit() {
       console.log("row data is ========",this.paymentDetailId);

@@ -260,7 +260,7 @@ export class PurchaseOrderCreateComponent implements OnInit {
   }
 
   getBalanceAmount(cash) {
-    this.cash = cash;
+    this.cash = parseFloat(cash.replace(/,/g, ''));
     this.balance = this.totalAmount - this.cash
   }
 
