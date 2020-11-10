@@ -60,6 +60,8 @@ export class ItemEditorComponent implements OnInit {
   selectedSubCategory: Category;
   changebleSubCategoryList: Category[] = [];
   itemName: string;
+  itemCode:string;
+  discription:string;
   private initcategory: Category = {
     name: "Select Category",
     categoryName: "",
@@ -110,11 +112,13 @@ export class ItemEditorComponent implements OnInit {
       const item = new Item();
       item.itemId = this.temp_itemcount++;
       item.itemName = this.itemName;
-      item.itemCode = 'ss';
+      item.itemCode = this.itemCode;
+
       item.subCategoryId = this.selectedSubCategory.subCategoryId;
       item.categoryName = this.selectedSubCategory.name;
       item.itemDiscount = 0.0;
       item.discountPercentage = 0.0;
+      item.description =this.discription;
       item.total = 0.0;
       item.price = 0.0;
       item.orderQuantity = 0.0;
@@ -127,7 +131,7 @@ export class ItemEditorComponent implements OnInit {
   }
   saveItems()  {
     if (this.itemToSave.length !== 0) {
-      debugger;
+    //  debugger;
       this.settingsservice
       .saveItemList(this.itemToSave)
       .then(response => {

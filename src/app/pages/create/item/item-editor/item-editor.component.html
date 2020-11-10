@@ -1,4 +1,3 @@
-
 <div class="modal-header">
   <span>Item</span>
   <button class="close" aria-label="Close" (click)="closeModal()">
@@ -6,51 +5,68 @@
   </button>
 </div>
 <div class="modal-body">
-<form>
+  <form>
 
-  <div class="form-group row">
-   <div class="col-md-3">
-     <label for="inputEmail1" class="col-form-label">Category</label>
-   </div>
-   <div class="col-md-9">
-     <div class="dropdown input-group-btn" ngbDropdown>
-       <button type="button" class="btn btn-outline-success dropdown-toggle" ngbDropdownToggle>
-         {{selectedCategory.name}}
-       </button>
-       <ul class="dropdown-menu" ngbDropdownMenu>
-         <li class="dropdown-item" *ngFor="let item of mainCategoryList" (click)="onChangeMainCategory(item)">{{item.name}}</li>
-       </ul>
-     </div>
-   </div>
- </div>
- <div class="form-group row">
-   <div class="col-md-3">
-     <label for="inputEmail1" class="col-form-label">Sub Category</label>
-   </div>
-   <div class="col-md-9">
-     <div class="dropdown input-group-btn" ngbDropdown>
-       <button type="button" class="btn btn-outline-success dropdown-toggle" ngbDropdownToggle>
-         {{selectedSubCategory.name}}
-       </button>
-       <ul class="dropdown-menu" ngbDropdownMenu>
-         <li class="dropdown-item" *ngFor="let item of changebleSubCategoryList" (click)="onChangeSubCategory(item)" >{{item.name}}</li>
-       </ul>
-     </div>
-   </div>
- </div>
- <div class="form-group row">
-   <label for="itemName" class="col-sm-3 col-form-label">Item Name</label>
-   <div class="col-sm-8">
-     <input [(ngModel)]="itemName" type="text" name="itemName" class="form-control" id="itemName" placeholder="CategoryName">
-   </div>
- </div>
- <div role="separator" class="dropdown-divider"></div>
- <div class="col-md-7">
-     &nbsp;
- </div>
- <button class="btn btn-success input-group-text pull-right" (click)="bindItemList()">Add</button>
+    <div class="form-group row">
+      <div class="col-md-3">
+        <label for="inputEmail1" class="col-form-label">Category</label>
+      </div>
+      <div class="col-md-9">
+        <div class="dropdown input-group-btn" ngbDropdown>
+          <button type="button" class="btn btn-outline-success dropdown-toggle" ngbDropdownToggle>
+            {{selectedCategory.name}}
+          </button>
+          <ul class="dropdown-menu" ngbDropdownMenu>
+            <li class="dropdown-item" *ngFor="let item of mainCategoryList" (click)="onChangeMainCategory(item)">
+              {{item.name}}</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="form-group row">
+      <div class="col-md-3">
+        <label for="inputEmail1" class="col-form-label">Sub Category</label>
+      </div>
+      <div class="col-md-9">
+        <div class="dropdown input-group-btn" ngbDropdown>
+          <button type="button" class="btn btn-outline-success dropdown-toggle" ngbDropdownToggle>
+            {{selectedSubCategory.name}}
+          </button>
+          <ul class="dropdown-menu" ngbDropdownMenu>
+            <li class="dropdown-item" *ngFor="let item of changebleSubCategoryList" (click)="onChangeSubCategory(item)">
+              {{item.name}}</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="itemName" class="col-sm-3 col-form-label">Item Name</label>
+      <div class="col-sm-8">
+        <input [(ngModel)]="itemName" type="text" name="itemName" class="form-control" id="itemName"
+          placeholder="Item Name">
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="itemName" class="col-sm-3 col-form-label">Item Code</label>
+      <div class="col-sm-8">
+        <input [(ngModel)]="itemCode" type="text" name="itemCode" class="form-control" id="itemCode"
+          placeholder="Item Code">
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="itemName" class="col-sm-3 col-form-label">Discription</label>
+      <div class="col-sm-8">
+        <input [(ngModel)]="discription" type="text" name="discription" class="form-control" id="discription"
+          placeholder="Discription">
+      </div>
+    </div>
+    <div role="separator" class="dropdown-divider"></div>
+    <div class="col-md-7">
+      &nbsp;
+    </div>
+    <button class="btn btn-success input-group-text pull-right" (click)="bindItemList()">Add</button>
 
-</form>
+  </form>
 </div>
 <ng2-smart-table [settings]="settings" [source]="source"> </ng2-smart-table>
 

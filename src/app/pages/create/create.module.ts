@@ -4,7 +4,7 @@ import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { ThemeModule } from '../../@theme/theme.module';
 import { SmartTableService } from '../../@core/data/smart-table.service';
 import { FormsModule } from '@angular/forms';
-
+import { MyDatePickerModule } from 'mydatepicker';
 import { CreateComponent } from './create.component';
 import { from } from 'rxjs/observable/from';
 import { CategoryEditorComponent } from './category/category-editor/category-editor.component'
@@ -18,12 +18,15 @@ import { CustomerListComponent } from './customer/customer-list/customer-list.co
 import { SupplierListComponent } from './supplier/supplier-list/supplier-list.component';
 import { SupplierEditorComponent } from './supplier/supplier-editor/supplier-editor.component';
 import { CustomerEditorComponent } from './customer/customer-editor/customer-editor.component';
+import {NumberModal} from '../../models/number.module';
 
 @NgModule({
     imports: [
       ThemeModule,
       Ng2SmartTableModule,
       FormsModule,
+      MyDatePickerModule,
+      NumberModal
     ],
     declarations: [
         CreateComponent,

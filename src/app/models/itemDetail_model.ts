@@ -7,11 +7,13 @@ export class ItemDetail {
   costprice: number;
   quantity: number;
   availableQuantity: number;
-  companyId: number;
-  purchaseData: Date;
+  purchaseDate: string;
   isDelete: boolean;
   itemName: string;
   totalItemAmount: number;
   totalItemDiscount: number;
   receivedQuantity: number;
+  companyId: number;
+  brandId:number;
+  supplierId:number;
 }

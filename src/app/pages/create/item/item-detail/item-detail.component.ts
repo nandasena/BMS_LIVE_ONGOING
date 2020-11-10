@@ -9,7 +9,8 @@ import { SmartTableService } from "../../../../@core/data/smart-table.service";
 import { SettingsService } from "../../../../services/settings.service";
 import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
 import { ItemDetail } from '../../../../models/itemDetail_model';
-
+import { IMyDpOptions } from 'mydatepicker';
+import * as moment from 'moment';
 @Component({
   selector: 'item-detail',
   templateUrl: './item-detail.component.html',
@@ -19,6 +20,16 @@ import { ItemDetail } from '../../../../models/itemDetail_model';
 export class ItemDetailsComponent implements OnInit {
 
   @Input() rowData
+  costprice:number;
+  availableQuantity:number;
+  cost:string;
+  customerPrice:number;
+  fabricatorPrice:number;
+  mrpPrice:number;
+  itemDetailDate = { date: {}, formatted: '' };
+  itemDetailDatePickerOptions: IMyDpOptions = {
+    dateFormat: 'yyyy-mm-dd',
+  };
 
   settings = {
     mode: 'external',
@@ -59,24 +70,6 @@ export class ItemDetailsComponent implements OnInit {
     },
   };
 
-  private initItemDetail: ItemDetail = {
-    itemDetailId: 0,
-    fabricatorPrice: 0,
-    mrpPrice: 0,
-    itemId: 0,
-    customerPrice: 0,
-    costprice: 0,
-    quantity: 0,
-    availableQuantity: 0,
-    companyId: 0,
-    purchaseData: (new Date()),
-    isDelete: false,
-    itemName: "",
-    totalItemAmount: 0,
-    totalItemDiscount: 0,
-    receivedQuantity: 0,
-  };
-
   selectedItemDetail: Category;
 
   ItemName ="";
@@ -97,6 +90,13 @@ export class ItemDetailsComponent implements OnInit {
 
     this.ItemName = this.rowData.itemName;
     this.ItemCode = this.rowData.itemCode;
+    this.itemDetailDate = {
+      date: {
+        year: moment().year(),
+        month: (moment().month() + 1),
+        day: moment().date()
+      }, formatted: moment().year() + '-' + (moment().month() + 1) + '-' + moment().date()
+    };
 
 /*    this.rowData.forEach(element => {
       this.initItemDetailList.push(element.itemdetailList)
@@ -111,6 +111,29 @@ export class ItemDetailsComponent implements OnInit {
     this.activeModal.close();
   }
   saveItems() {
+    let itemDetail : ItemDetail = {
+      itemDetailId: 0,
+      fabricatorPrice: this.fabricatorPrice,
+      mrpPrice: this.mrpPrice,
+      itemId: this.rowData.itemId,
+      customerPrice: this.customerPrice,
+      costprice: this.costprice,
+      quantity: 0,
+      availableQuantity: this.availableQuantity,
+      companyId: 1,
+      purchaseDate:this.itemDetailDate.formatted,
+      isDelete: false,
+      itemName: "",
+      totalItemAmount: 0,
+      totalItemDiscount: 0,
+      receivedQuantity: 0,
+      brandId:1,
+      supplierId:1
+    }
 
+    console.log("details is ============",itemDetail);
+    this.settingsservice.saveItemDetail(itemDetail).then(response=>{
+
+    })
   }
 }
