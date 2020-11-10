@@ -2,6 +2,7 @@ import { Component, OnInit, ElementRef, HostListener } from '@angular/core';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { InvoiceService } from '../../../services/invoice.service';
 import { Item } from '../../../models/item_modal';
+import {PriceList} from '../../../models/price-list.modal'
 import { PaymentModal } from '../../../models/payment-modal';
 import { InvoiceModel } from '../../../models/invoice-modal';
 import { AlertifyService } from '../../../services/alertify.service';
@@ -131,28 +132,49 @@ export class InvoiceAddComponent implements OnInit {
   }
 
   addSelectedItemToTable(id, event) {
+    let priceList: PriceList[] = [] ;
     id = Number(id)
     if (id == -1) {
       this.alertify.error('Please select item');
       return false
     }
-    this.selectedItem = _.find(this.categoryWiseItemList, { 'itemId': id })
-
+    this.selectedItem = _.find(this.categoryWiseItemList, { 'itemId': id }) 
     if (this.selectedItem.itemDetailList.length > 1) {
       var modal = document.getElementById("myModal");
       this.itemDetailList = this.selectedItem.itemDetailList;
       modal.style.display = "block";
 
     } else {
-      this.closeModal()
 
       if (typeof this.selectedItem.itemDetailList[0] != 'undefined') {
+
+      console.log("selected item is =====",this.selectedItem);  
+      this.closeModal()
+
+      let price1 = new PriceList;
+      price1.paymentId=1;
+      price1.price =this.selectedItem.itemDetailList[0].mrpPrice;
+      price1.priceName="MRP"
+      priceList.push(price1);
+
+      let price = new PriceList;
+      price.paymentId=2;
+      price.price =this.selectedItem.itemDetailList[0].fabricatorPrice;;
+      price.priceName="Fabric"
+      priceList.push(price);
+
+      let price2 = new PriceList;
+      price2.paymentId=3;
+      price2.price =this.selectedItem.itemDetailList[0].customerPrice;;
+      price2.priceName="Customer"
+      priceList.push(price2);
 
         if (this.selectedItem.itemDetailList[0].availableQuantity >= 1) {
           let foundItem = _.find(this.itemToSave, { 'itemDetailId': this.selectedItem.itemDetailList[0].itemDetailId })
           _.remove(this.itemToSave, { 'itemDetailId': this.selectedItem.itemDetailList[0].itemDetailId })
           let length = this.itemToSave.length;
           if (foundItem == null) {
+
             let item = new Item();
             item.subCategoryId = Number(this.selectedItem.subCategoryId);
             item.name = this.selectedItem.description;
@@ -160,11 +182,15 @@ export class InvoiceAddComponent implements OnInit {
             item.sellingQuantity = 1
             item.availableQuantity = this.selectedItem.itemDetailList[0].availableQuantity;
             item.price = this.selectedItem.itemDetailList[0].mrpPrice;
+            item.typeOfPrice = 1;
             item.id = length + 1;
             item.itemId = this.selectedItem.itemId;
             item.discountPercentage = 0;
-            item.total = this.selectedItem.itemDetailList[0].mrpPrice * 1
+            item.total = this.selectedItem.itemDetailList[0].mrpPrice * 1;
+            item.priceList =priceList;
+            item.priceName ='MRP';
             this.itemToSave.push(item);
+            console.log("test====",this.itemToSave);
             this.calculateTotal();
           } else {
             if (this.selectedItem.itemDetailList[0].availableQuantity > foundItem.sellingQuantity) {
@@ -188,13 +214,49 @@ export class InvoiceAddComponent implements OnInit {
     }
 
   }
+
+  changePrice(value,item){
+    value =Number(value);
+    let priceList =item.priceList;
+    let selectedPrice = _.find(priceList, { 'paymentId': value });
+    let foundItem = _.find(this.itemToSave, { 'itemDetailId': item.itemDetailId })
+          _.remove(this.itemToSave, { 'itemDetailId': item.itemDetailId })
+        foundItem.price = Number(selectedPrice.price);
+        foundItem.typeOfPrice =selectedPrice.paymentId;
+        foundItem.priceName =selectedPrice.priceName;
+        foundItem.total =foundItem.sellingQuantity * Number(selectedPrice.price);
+        this.itemToSave.push(foundItem);
+        this.calculateTotal();
+  }
+
   selectedItemDetails(itemDetailId) {
     itemDetailId = Number(itemDetailId);
     let foundItem = _.find(this.itemToSave, { 'itemDetailId': itemDetailId })
     _.remove(this.itemToSave, { 'itemDetailId': itemDetailId })
     if (foundItem == null) {
       let length = this.itemToSave.length;
-      let selectedDetail = _.find(this.selectedItem.itemDetailList, { 'itemDetailId': itemDetailId })
+      let selectedDetail = _.find(this.selectedItem.itemDetailList, { 'itemDetailId': itemDetailId });
+
+      let priceList: PriceList[] = [] ;
+      let price1 = new PriceList;
+      price1.paymentId=1;
+      price1.price =selectedDetail.mrpPrice;
+      price1.priceName="MRP"
+      priceList.push(price1);
+
+      let price = new PriceList;
+      price.paymentId=2;
+      price.price =selectedDetail.fabricatorPrice;;
+      price.priceName="Fabric"
+      priceList.push(price);
+
+      let price2 = new PriceList;
+      price2.paymentId=3;
+      price2.price =selectedDetail.customerPrice;;
+      price2.priceName="Customer"
+      priceList.push(price2);
+
+      
       if (selectedDetail.availableQuantity >= 1) {
         let item = new Item();
         item.subCategoryId = Number(this.selectedItem.subCategoryId);
@@ -205,7 +267,10 @@ export class InvoiceAddComponent implements OnInit {
         item.price = selectedDetail.mrpPrice;
         item.itemId = this.selectedItem.itemId;
         item.discountPercentage = 0;
-        item.total = item.price * item.sellingQuantity
+        item.total = item.price * item.sellingQuantity;
+        item.priceList = priceList;
+        item.typeOfPrice = 1
+        item.priceName='MRP';
         item.id = length + 1;
         this.itemToSave.push(item);
         this.calculateTotal();
@@ -273,6 +338,7 @@ export class InvoiceAddComponent implements OnInit {
 
   calculateTotal() {
     this.totalAmount = 0.00;
+    console.log("calculateTotal",this.itemToSave);
     this.itemToSave.forEach(item => {
       this.totalAmount += (item.sellingQuantity * item.price * _.round(1 - (item.discountPercentage / 100), 4))
     });

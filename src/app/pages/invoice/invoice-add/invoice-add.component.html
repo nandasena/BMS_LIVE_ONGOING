@@ -108,7 +108,17 @@
             <td><input id="amountReceived" type="number" name="amountReceived" placeholder="%"
                 (change)="setDiscount($event.target.value,item.itemDetailId)" value="{{item.discountPercentage}}"
                 OnlyNumber="true" numbersOnlyDiscount></td>
-            <td>{{item.price | number:'1.2-2' }}</td>
+                
+            <td>
+              <!-- {{item.price | number:'1.2-2' }} -->
+              <select ng-model="selectedColor" #selectedPrice (change)="changePrice($event.target.value,item)">
+                <option *ngFor="let price of item.priceList" [value]="price.paymentId" (onClick)="test()">
+                {{price.priceName}} {{ price.price | number:'1.2-2' }}
+              </option>     
+              </select>
+                      
+
+            </td>
             <td>{{item.total | number:'1.2-2' }}</td>
             <td style="padding: 0px;padding-top:7px;">
               <button type="button" class="btn btn-default main-buttons-sub" style="height: 35px;padding-top: 14px;"
@@ -127,7 +137,7 @@
   </form>
 </div>
 
-
+<!-- ------------------- this is  price modal ------------------------------------------------------------------------------ -->
 
 <div id="myModal" class="modal"
   style="position: absolute; top: 263px; right:400px; bottom: 0; left:400px; z-index: 10040; overflow: auto; overflow-y: auto;">
@@ -137,7 +147,7 @@
     <select class="form-control-sm" #ItemDetails (change)="selectedItemDetails($event.target.value)">
       <option selected disabled>Select Price</option>
       <option *ngFor="let itemDetail of itemDetailList" [value]="itemDetail.itemDetailId"> Price
-        {{ itemDetail.mrpPrice }} Quantity {{ itemDetail.quantity }}
+        {{ itemDetail.mrpPrice }} Quantity {{ itemDetail.availableQuantity }}
       </option>
     </select>
   </div>
