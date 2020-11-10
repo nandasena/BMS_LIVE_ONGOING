@@ -8,11 +8,6 @@ export const MENU_ITEMS: NbMenuItem[] = [
   //   home: true,
   // },
   {
-    title: 'Create',
-    icon: 'nb-paper-plane',
-    link: '/pages/create',
-  },
-  {
     title: 'Invoice',
     icon: 'nb-bar-chart',
     link: '/pages/invoice'
@@ -32,15 +27,20 @@ export const MENU_ITEMS: NbMenuItem[] = [
     icon: 'nb-paper-plane',
     link: '/pages/purchase-order',
   },
+  {
+    title: 'Create',
+    icon: 'nb-paper-plane',
+    link: '/pages/create',
+  },
   // {
   //   title: 'Business Selfie',
   //   icon: 'nb-sunny',
   //   link: '/pages/business-selfie',
   // },
-  {
-    title: 'Settings',
-    icon: 'nb-gear',
-    link: '/pages/settings',
-  },
+  // {
+  //   title: 'Settings',
+  //   icon: 'nb-gear',
+  //   link: '/pages/settings',
+  // },
 
 ];
