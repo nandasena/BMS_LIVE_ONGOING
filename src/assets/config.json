@@ -1,5 +1,6 @@
 {
-    "apiBasePath":"http://localhost:8080/big-api/",
+    "apiBasePathOfLive":"http://3.133.97.39:8080/sivilima/",
+    "apiBasePathOfLocal":"http://localhost:8080/sivilima_api/",
     "uploadedImagesPath":"api/src/files/"
     
 }

@@ -35,6 +35,10 @@ export class SettingsService {
     return this.commonsService.apiGet('item/');
   }
   saveItemList(itemList: any) {
-    return this.commonsService.apiPost(itemList, 'item/');
+    return this.commonsService.apiPost(itemList, 'item/itemList/');
+  }
+
+  saveItemDetail(itemList: any) {
+    return this.commonsService.apiPost(itemList, 'itemDetail/');
   }
 }
