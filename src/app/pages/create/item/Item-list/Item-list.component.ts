@@ -93,6 +93,10 @@ export class ItemListComponent implements OnInit {
     availableQuantity:0,
     cost:0,
     fabricatorPrice:0,
+    typeOfPrice : 0,
+    typeOfDiscount : 0,
+    priceName : '',
+    priceList:[],
     itemdetailList: new ItemDetail(),
   };
   initItem_data = [];

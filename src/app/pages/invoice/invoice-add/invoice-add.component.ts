@@ -272,6 +272,7 @@ export class InvoiceAddComponent implements OnInit {
         item.typeOfPrice = 1
         item.priceName='MRP';
         item.id = length + 1;
+        item.typeOfDiscount =0;
         this.itemToSave.push(item);
         this.calculateTotal();
       } else {
