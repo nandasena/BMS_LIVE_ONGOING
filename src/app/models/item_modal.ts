@@ -25,5 +25,7 @@ export class Item {
     typeOfPrice:number;
     typeOfDiscount:number;
     priceName:string;
+    priceDiscount:number;
     priceList: PriceList[];
+   
 }

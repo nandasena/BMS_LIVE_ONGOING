@@ -89,7 +89,8 @@
             <th>Items</th>
             <th>Qty</th>
             <th>Available</th>
-            <th>Discount %</th>
+            <th> Dis Type
+            <th>Discount</th>
             <th>Price</th>
             <th>Total</th>
             <th>Remove</th>
@@ -101,23 +102,38 @@
             <td>{{item.subCategoryId}}</td>
             <td>{{item.name}}</td>
             <td>
-              <input type="text" ng-maxlength="3" class="table-number " name="tblQty" value="{{item.sellingQuantity}}"
+              <input type="text" style="width: 110px;" ng-maxlength="3" class="table-number " name="tblQty" value="{{item.sellingQuantity}}"
                 (change)=changeQty(item.itemDetailId,$event.target.value,$event) numbersOnly>
             </td>
             <td>{{item.availableQuantity}}</td>
-            <td><input id="amountReceived" type="number" name="amountReceived" placeholder="%"
+            <td> 
+              <select ng-model="selectedColor" #selectedDiscount (change)="changeDiscountType($event.target.value,item)">
+              <option selected [value]="1">Cash Discount</option> 
+              <option [value]="2">Discount</option>  
+              </select> 
+            </td>
+
+<!-- --------------------------------------------------------------------------------------------------------------------------------- -->
+
+            <td *ngIf ="item.typeOfDiscount == 1">
+              <input id="amountReceived" type="number" name="amountReceived" placeholder="0"
+                (change)="setPriceDiscount($event.target.value,item.itemDetailId)" value="{{item.priceDiscount}}"
+                numericType="decimal" OnlyNumber="true" double-number-directive>
+            </td>  
+            
+             <td *ngIf ="item.typeOfDiscount == 2" ><input id="amountReceived" type="number" name="amountReceived" placeholder="%"
                 (change)="setDiscount($event.target.value,item.itemDetailId)" value="{{item.discountPercentage}}"
-                OnlyNumber="true" numbersOnlyDiscount></td>
-                
+                OnlyNumber="true" numbersOnlyDiscount>
+            </td> 
+
+
+<!-- ---------------------------- END ------------------------------------------------------------------------------------------------- -->
             <td>
-              <!-- {{item.price | number:'1.2-2' }} -->
               <select ng-model="selectedColor" #selectedPrice (change)="changePrice($event.target.value,item)">
                 <option *ngFor="let price of item.priceList" [value]="price.paymentId" (onClick)="test()">
                 {{price.priceName}} {{ price.price | number:'1.2-2' }}
               </option>     
               </select>
-                      
-
             </td>
             <td>{{item.total | number:'1.2-2' }}</td>
             <td style="padding: 0px;padding-top:7px;">
@@ -131,13 +147,25 @@
       </table>
     </div>
 
-    <div class="col-md-3" style="height: 70px;">
-      <button class="btn btn-md btn-success" (click)="openModalWindow(content)">Pay</button>
+    <div class="row">
+
+      <div class="col-md-8" style="height: 70px;">
+        <button class="btn btn-md btn-success" (click)="openModalWindow(content)">Pay</button>
+        
+      </div>
+      <div class="col-md-4">
+        <input type="text" style="float:right;" value="{{totalAmount | number:'1.2-2'}}" readonly>
+        <label style="color: black;float:right;padding-top: 3px; padding-right: 10px;">Total Amount</label>
+        <input type="text" style="float:right;" value="{{totalDiscount | number:'1.2-2'}}"readonly>
+        <label style="color: black;float:right;padding-top: 3px; padding-right: 10px;">Total Discount</label>
+        
+      </div>
     </div>
+   
   </form>
 </div>
 
-<!-- ------------------- this is  price modal ------------------------------------------------------------------------------ -->
+<!-- ------------------- price modal ------------------------------------------------------------------------------ -->
 
 <div id="myModal" class="modal"
   style="position: absolute; top: 263px; right:400px; bottom: 0; left:400px; z-index: 10040; overflow: auto; overflow-y: auto;">
@@ -154,7 +182,10 @@
 </div>
 
 
-<!-- ------------------- this is  payment modal window ------------------------------------------------------------------------------ -->
+<!-- ------------------------------------------------------------------------------------------------------------------------- -->
+
+
+<!-- -------------------  payment modal window ------------------------------------------------------------------------------ -->
 
 
 <ng-template id="paymentModalWindow" #content let-modal>
