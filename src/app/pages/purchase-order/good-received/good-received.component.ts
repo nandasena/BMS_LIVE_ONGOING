@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PurchaseOrderService } from '../../../services/purchaseOrder.service';
+import { CustomerSupplierService } from '../../../services/customer-supplier.service'
 import { Router } from '@angular/router';
 import * as _ from 'lodash';
 import { ReceiveModale } from '../../../models/item-received-modal';
@@ -8,6 +9,7 @@ import { GoodReceivedModal } from '../../../models/good-received-modal';
 import { AlertifyService } from '../../../services/alertify.service';
 import { IMyDpOptions } from 'mydatepicker';
 import * as moment from 'moment';
+import { from } from 'rxjs/observable/from';
 @Component({
   selector: 'good-received',
   styleUrls: ['./good-received.component.scss'],
@@ -18,6 +20,8 @@ import * as moment from 'moment';
 export class GoodReceived {
 
   purchaseOrderIdList = [];
+  supplierWisePurchaseOrder =[];
+  supplierList = [];
   purchaseOrderId: number;
   purchaseOrderDetailList = [];
   receivedItemList: ReceiveModale[] = [];
@@ -30,15 +34,21 @@ export class GoodReceived {
   constructor(
     private modalService: NgbModal,
     private purchaseOrderService: PurchaseOrderService,
+    private customerSupplierService: CustomerSupplierService,
     private router: Router,
     private alertify: AlertifyService,
   ) { }
 
   ngOnInit() {
+
+    this.customerSupplierService.getSupplierList().then(response => {
+      this.supplierList = response.json().result;
+    })
+
     this.purchaseOrderService.getPurchaseOrderIdList().then(response => {
       this.purchaseOrderIdList = response.json().result;
+    });
 
-    })
     this.purchaseDate = {
       date: {
         year: moment().year(),
@@ -65,7 +75,7 @@ export class GoodReceived {
   addItem(id) {
     let Item = _.find(this.purchaseOrderDetailList, { 'itemId': id });
     let isFound = _.find(this.receivedItemList, { 'itemId': id });
-    console.log("item details is ====",Item);
+    console.log("item details is ====", Item);
     _.remove(this.receivedItemList, { 'itemId': id });
     if (typeof isFound === 'undefined') {
       if (Item.quantity > Item.receivedQuantity) {
@@ -75,6 +85,7 @@ export class GoodReceived {
         receiveModale.itemName = Item.itemName;
         receiveModale.orderQty = Item.quantity;
         receiveModale.receivedQty = Item.receivedQuantity;
+        receiveModale.costPrice = Item.costPrice;
         receiveModale.receiveQuantity = 0;
         this.receivedItemList.push(receiveModale);
       } else {
@@ -111,17 +122,23 @@ export class GoodReceived {
       this.goodReceivedModal.itemDetailsVOList = this.receivedItemList
       this.goodReceivedModal.purchaseOrderId = this.purchaseOrderId;
       this.goodReceivedModal.receivedDate = this.purchaseDate.formatted;
-        this.purchaseOrderService.saveGoodReceived(this.goodReceivedModal).then(response => {
-          if (response.json().statusCode == 200) {
-            this.purchaseOrderService.getPurchaseOrderDetailById(this.purchaseOrderId).then(response => {
-              this.purchaseOrderDetailList = response.json().result;
-            })
-            this.receivedItemList = [];
-          }
+      this.purchaseOrderService.saveGoodReceived(this.goodReceivedModal).then(response => {
+        if (response.json().statusCode == 200) {
+          this.purchaseOrderService.getPurchaseOrderDetailById(this.purchaseOrderId).then(response => {
+            this.purchaseOrderDetailList = response.json().result;
+          })
+          this.receivedItemList = [];
+        }
 
-        })
+      })
     }
 
+  }
+
+  findPurchaseOrderOfSupplier(supplierId){
+    console.log("supplier id ======",supplierId);
+    this.supplierWisePurchaseOrder = _.filter(this.purchaseOrderIdList,{'supplierId': Number(supplierId)});
+    console.log("selected List ====",this.supplierWisePurchaseOrder);
   }
 
 }

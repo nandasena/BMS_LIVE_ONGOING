@@ -28,10 +28,16 @@ export const MENU_ITEMS: NbMenuItem[] = [
     link: '/pages/purchase-order',
   },
   {
+    title: 'Good Received',
+    icon: 'nb-paper-plane',
+    link: '/pages/good-received',
+  },
+  {
     title: 'Create',
     icon: 'nb-paper-plane',
     link: '/pages/create',
   },
+ 
   // {
   //   title: 'Business Selfie',
   //   icon: 'nb-sunny',

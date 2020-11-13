@@ -5,5 +5,6 @@ export class ReceiveModale {
     receivedQty: number;
     orderQty:number;
     receiveQuantity:number;
+    costPrice:number;
     itemDetailId:number;
 }

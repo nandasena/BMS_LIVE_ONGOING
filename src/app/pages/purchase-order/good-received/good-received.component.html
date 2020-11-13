@@ -6,16 +6,25 @@
       </div>
       <div class="row">
         <div class="col-md-3" style="padding: 22px;">
+          <select class="form-control-sm" #selectedBranch (change)="findPurchaseOrderOfSupplier($event.target.value)"
+            style="width: 100%">
+            <option selected [value]="-1">Select Supplier</option>
+            <option *ngFor="let supplier of this.supplierList" [value]="supplier.supplierId">
+              {{ supplier.firstName }}
+            </option>
+          </select>
+        </div>
+        <div class="col-md-3" style="padding: 22px;">
           <select class="form-control-sm" #selectedBranch (change)="getPurchaseOrderDetail($event.target.value)"
             style="width: 100%">
             <option selected [value]="-1">Select Purchase order Id</option>
-            <option *ngFor="let purchaseOrder of this.purchaseOrderIdList" [value]="purchaseOrder.purchaseOrderId">
+            <option *ngFor="let purchaseOrder of this.supplierWisePurchaseOrder" [value]="purchaseOrder.purchaseOrderId">
               {{ purchaseOrder.purchaseCode }}
             </option>
           </select>
         </div>
-        <label for="inputEmail1" class="col-sm-1 col-form-label" style="padding-top: 3px;">Date:</label>
-          <div class="col-sm-3">
+        <label for="inputEmail1" class="col-sm-1 col-form-label" style="padding: 25px;">Date:</label>
+          <div class="col-sm-3" style="padding:17px;">
             <my-date-picker name="mydate" [options]="myDatePickerOptions" [(ngModel)]="purchaseDate" required></my-date-picker>
           </div>
       </div>
@@ -35,7 +44,7 @@
               <tbody>
                 <tr *ngFor="let item of purchaseOrderDetailList let i = index" aria-required="true" style="height: 5%;">
                   <td>{{i+1}}</td>
-                  <td>{{item.itemName}}</td>
+                  <td>{{item.itemName}} <a> Price:-{{item.costPrice | number:'1.2-2'}}</a> </td>
                   <td>{{item.quantity}}</td>
                   <td>{{item.receivedQuantity}}</td>
                   <td style="padding: 0px;padding-top:5px;">
