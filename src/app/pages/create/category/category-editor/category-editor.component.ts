@@ -102,7 +102,7 @@ export class CategoryEditorComponent implements OnInit {
   itemList = [];
   itemToSave: Category[] = [];
   categoryName: string;
-  temp_itemcount: number = 0;
+  temp_itemcount: number = 1;
   modalReference: NgbModalRef;
   message: string;
   selectedCategory: Category;
@@ -152,6 +152,15 @@ export class CategoryEditorComponent implements OnInit {
             if (resultObj.statusCode === 200 && resultObj.success) {
               this.spinner.hide();
               this.alertifyService.success("Create successfull");
+
+              this.settingsservice.getMainCategoryList().then((response) => {
+                let init_data = response.json().result;
+                this.settingsservice.loadCategoryList(init_data);
+                this.closeModal();
+
+              }).catch((ex) => {
+                let init_data;
+              });
               this.itemToSave = [];
               this.closeModalWindow();
             } else {
@@ -191,20 +200,10 @@ export class CategoryEditorComponent implements OnInit {
 
   Categorydelete(event) {
     _.remove(this.itemToSave, { id: event.data.id });
+    this.itemToSave.forEach(function (item, i) {
+      item.id = i + 1;
+    });
     this.source.load(this.itemToSave);
-    /*this.alertifyService.confirm('Delete Category - ' + event.data.name, 'Are you sure you want to delete this issue?', function () {
-      innerthis.settingsservice.delete(event.data.).then((response) => {
-        let message = response.json();
-        if (message.statusCode == 200) {
-          innerthis.alertifyService.success('Deleted Successfully!');
-          let id = event.data.pkId;
-          _.remove(innerthis.sortedList, { 'pkId': id });
-          innerthis.source.load(innerthis.sortedList);
-        } else {
-          innerthis.alertifyService.error('somthing went wrong!');
-        }
-      });
-    });*/
   }
   closeModalWindow() {
     this.modalReference.close();
@@ -248,12 +247,14 @@ export class CategoryEditorComponent implements OnInit {
         this.categoryName != null
       ) {
         this.categoryName.trim;
-        if (_.find(this.itemToSave, { categoryName: this.categoryName })) {
-          this.alertifyService.warning("category name is already taken");
-          return;
+        let findItem = _.find(this.itemToSave, { 'name': this.categoryName })
+        if (findItem != null) {
+          this.alertifyService.warning("category name is already added");
+          return false;
         }
+        this.temp_itemcount =this.itemToSave.length +1;
         const item = new Category();
-        item.id = this.temp_itemcount++;
+        item.id = this.temp_itemcount;
         item.name = this.categoryName;
         item.subCategoryId = 0;
         this.itemToSave.push(item);

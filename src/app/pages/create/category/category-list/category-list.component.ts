@@ -66,7 +66,10 @@ export class CategoryListComponent implements OnInit {
     }).catch((ex) => {
        this.init_data;
     });
-
+    this.service.getNewCategoryList().subscribe(response=>{
+      this.init_data =response;
+      this.source.load( this.init_data);
+    })
 
   }
 

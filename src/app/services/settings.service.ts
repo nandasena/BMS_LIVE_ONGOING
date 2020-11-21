@@ -13,7 +13,9 @@ import { BehaviorSubject } from 'rxjs';
 export class SettingsService {
   private tableList: any[] = [];
   private sharedItemObject = new BehaviorSubject(this.tableList);
+  private sharedCategoryObject =new BehaviorSubject(this.tableList);
   modifiedSharedItemObject = this.sharedItemObject.asObservable();
+  modifiedSharedCategoryObject = this.sharedCategoryObject.asObservable(); 
 
   constructor(private http: Http , private commonsService: CommonService) {}
 
@@ -51,5 +53,11 @@ export class SettingsService {
   }
   loadItemList(editObject: any){
     this.sharedItemObject.next(editObject);
+  }
+  getNewCategoryList(){
+    return this.modifiedSharedCategoryObject;
+  }
+  loadCategoryList(editObject: any){
+    this.sharedCategoryObject.next(editObject);
   }
 }

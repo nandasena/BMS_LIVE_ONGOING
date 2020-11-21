@@ -162,8 +162,6 @@ export class ItemEditorComponent implements OnInit {
 
   }
   validation(): boolean {
-
-
     if (this.selectedCategory === undefined || this.selectedCategory === null
       || this.selectedCategory.name === 'Select Category') {
         this.alertifyService.error("Please select the category ");
