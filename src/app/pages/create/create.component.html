@@ -59,7 +59,7 @@
                 &nbsp;
               </div>
               <div class="col-md-2">
-                <button class="btn btn-success input-group-text pull-right" (click)="showCategoryEditorWindow()">
+                <button class="btn btn-success input-group-text pull-right" (click)="showCategoryAddWindow()">
                   + Add
                 </button>
               </div>
@@ -81,7 +81,7 @@
                 &nbsp;
               </div>
               <div class="col-md-2">
-                <button class="btn btn-success input-group-text pull-right" (click)="showSubCategoryEditorWindow()">
+                <button class="btn btn-success input-group-text pull-right" (click)="showSubCategoryAddWindow()">
                   + Add
                 </button>
               </div>
@@ -99,7 +99,7 @@
         <div class="col-md-12 margin-bottom-30">
           <div class="row margin-bottom-15">
             <div class="col-md-12">
-              <button class="btn btn-success input-group-text pull-right" (click)="showItemEditorWindow()">
+              <button class="btn btn-success input-group-text pull-right" (click)="showItemAddWindow()">
                 + Add
               </button>
             </div>
@@ -120,7 +120,7 @@
         </datalist>
       </div>
       <div style="padding-top: 32px; padding-left: 10px;padding-right: 10px;">
-        <ng2-smart-table [settings]="settings" [source]="source" (edit)="onEdit($event)" (delete)="onDelete($event)">
+        <ng2-smart-table [settings]="settings" [source]="customerSource" (edit)="onEdit($event)" (delete)="onDelete($event)">
         </ng2-smart-table>
         <div style="padding-top: 100px;">
 
@@ -136,7 +136,7 @@
             <label>Credit</label>
           </div>
           <div class="col-md-2">
-            <label>Payable Amount</label>
+            <label>Receivable Amount</label>
           </div>
         </div>
         <div class="row">
@@ -168,6 +168,38 @@
       <div style="padding-top: 32px; padding-left: 10px;padding-right: 10px;">
         <ng2-smart-table [settings]="supplierTable" [source]="supplierSource" (edit)="onEdit($event)" (delete)="onDelete($event)">
         </ng2-smart-table>
+        <div style="padding-top: 100px;">
+
+
+          <div class="row" style="padding-top: 10px;">
+            <div class="col-md-2">
+  
+            </div>
+            <div class="col-md-1">
+              <label>Debit</label>
+            </div>
+            <div class="col-md-1">
+              <label>Credit</label>
+            </div>
+            <div class="col-md-2">
+              <label>Payble Amount</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-2">
+              <label>Total Amount </label>
+            </div>
+            <div class="col-md-1">
+              <label>{{totalCreditPaymentOfSupplier | number : '1.2-2' }}</label>
+            </div>
+            <div class="col-md-1">
+              <label>{{totalDebitAmountOfSupplier | number : '1.2-2'}}</label>
+            </div>
+            <div class="col-md-2">
+              <label>{{ totalCreditPaymentOfSupplier - totalDebitAmountOfSupplier | number : '1.2-2'}}</label>
+            </div>
+          </div>
+        </div>
       </div>
     </nb-tab>
   </nb-tabset>

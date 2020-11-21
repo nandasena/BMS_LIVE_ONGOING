@@ -32,4 +32,8 @@ export class CustomerSupplierService {
     SaveCustomerList(customerList: any) {
       return this.commonsService.apiPost(customerList, 'customer/');
     }
+
+    getSupplierPaymentDetails(id){
+      return this.commonsService.apiGet('CreditAndDebitAccountPayment/supplier/'+id);
+    }
 }

@@ -28,14 +28,17 @@ export class CreateComponent implements OnInit {
   supplierList = [];
   selectedCustomerId: number;
   selectedCustomerName: string = '';
-  selectedSupplierId:number;
-  selectedSupplierName:string='';
+  selectedSupplierId: number;
+  selectedSupplierName: string = '';
   @Input() on = true;
   customerDebtorList = [];
   totalCreditPayment: number = 0.00;
   totalDebitAmount: number = 0.00;
+  totalCreditPaymentOfSupplier: number = 0.00;
+  totalDebitAmountOfSupplier: number = 0.00;
 
-  source: LocalDataSource = new LocalDataSource();
+
+  customerSource: LocalDataSource = new LocalDataSource();
   supplierSource: LocalDataSource = new LocalDataSource();
   constructor(private modalService: NgbModal, private invoiceService: InvoiceService, private cusomerSupplierService: CustomerSupplierService) { }
 
@@ -135,8 +138,8 @@ export class CreateComponent implements OnInit {
         title: 'Description',
         type: 'string',
       },
-      invoiceId: {
-        title: 'Purchase Order NO',
+      goodReceivedId: {
+        title: 'Good Received NO',
         type: 'number',
       },
       debitAmount: {
@@ -167,14 +170,19 @@ export class CreateComponent implements OnInit {
     customerId = Number(customerId);
     if (customerId == -1) {
       this.selectedCustomerName = '';
-    } else {
+    } else if (customerId == 0) {
+      this.totalCreditPayment = 0;
+      this.totalDebitAmount = 0;
+      this.customerDebtorList = [];
+      this.customerSource.load(this.customerDebtorList);
 
+    } else {
       this.cusomerSupplierService.getCustomerPaymentDetail(customerId).then((responce) => {
         this.totalCreditPayment = 0;
         this.totalDebitAmount = 0;
         this.customerDebtorList = responce.json().result
         console.log("customer payment list", this.customerDebtorList);
-        this.source.load(this.customerDebtorList);
+        this.customerSource.load(this.customerDebtorList);
         this.customerDebtorList.forEach(debtor => {
           this.totalCreditPayment += debtor.creditAmount;
           this.totalDebitAmount += debtor.debitAmount;
@@ -191,41 +199,49 @@ export class CreateComponent implements OnInit {
 
     }
   }
-  showCategoryEditorWindow() {
+  showCategoryAddWindow() {
     this.data.category = 'mainCategory';
     const editorModel = this.modalService.open(CategoryEditorComponent, { size: 'lg', container: 'nb-layout' });
     editorModel.componentInstance.selectedTask = this.data;
   }
-  showSubCategoryEditorWindow() {
+  showSubCategoryAddWindow() {
     this.data.category = 'subCategory';
     const editorModel = this.modalService.open(CategoryEditorComponent, { size: 'lg', container: 'nb-layout' });
     editorModel.componentInstance.selectedTask = this.data;
   }
-  showItemEditorWindow() {
+  showItemAddWindow() {
     //this.data.category = 'mainCategory';
     const editorModel = this.modalService.open(ItemEditorComponent, { size: 'lg', container: 'nb-layout' });
     editorModel.componentInstance.selectedTask = this.data;
   }
+
   addSupplierName(supplierId, event) {
+
     event.target.value = '';
     this.selectedSupplierId = null;
     this.selectedSupplierName = '';
     supplierId = Number(supplierId);
     if (supplierId == -1) {
       this.selectedSupplierName = '';
-    } else {
+    } else if (supplierId == 0) {
+      this.selectedSupplierName = '';
+      this.customerDebtorList =[];
+      this.totalCreditPaymentOfSupplier = 0;
+      this.totalDebitAmountOfSupplier = 0;
+      this.supplierSource.load(this.customerDebtorList);
+    }
+    else {
 
-      // this.cusomerSupplierService.getCustomerPaymentDetail(supplierId).then((responce) => {
-      //   this.totalCreditPayment = 0;
-      //   this.totalDebitAmount = 0;
-      //   this.customerDebtorList = responce.json().result
-      //   console.log("customer payment list", this.customerDebtorList);
-      //   this.source.load(this.customerDebtorList);
-      //   this.customerDebtorList.forEach(debtor => {
-      //     this.totalCreditPayment += debtor.creditAmount;
-      //     this.totalDebitAmount += debtor.debitAmount;
-      //   });
-      // })
+      this.cusomerSupplierService.getSupplierPaymentDetails(supplierId).then((responce) => {
+        this.totalCreditPaymentOfSupplier = 0;
+        this.totalDebitAmountOfSupplier = 0;
+        this.customerDebtorList = responce.json().result
+        this.supplierSource.load(this.customerDebtorList);
+        this.customerDebtorList.forEach(debtor => {
+          this.totalCreditPaymentOfSupplier += debtor.creditAmount;
+          this.totalDebitAmountOfSupplier += debtor.debitAmount;
+        });
+      })
 
 
       let selectedSupplier = _.find(this.supplierList, { 'supplierId': supplierId });
@@ -240,13 +256,13 @@ export class CreateComponent implements OnInit {
 
   showCustomerEditorWindow() {
     //this.data.category = 'mainCategory';
-    const editorModel = this.modalService.open(CustomerEditorComponent, {size:'lg', container: 'nb-layout'});
+    const editorModel = this.modalService.open(CustomerEditorComponent, { size: 'lg', container: 'nb-layout' });
     editorModel.componentInstance.selectedTask = this.data;
   }
 
   showSupplierEditorWindow() {
     //this.data.category = 'mainCategory';
-    const editorModel = this.modalService.open(SupplierEditorComponent, {size:'lg', container: 'nb-layout'});
+    const editorModel = this.modalService.open(SupplierEditorComponent, { size: 'lg', container: 'nb-layout' });
     editorModel.componentInstance.selectedTask = this.data;
   }
 
