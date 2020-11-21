@@ -84,7 +84,7 @@ export class ItemEditorComponent implements OnInit {
     this.selectedCategory = this.selectedSubCategory = this.initcategory;
   }
   ngOnInit() {
-
+    console.log("sasaasasas");
     this.settingsservice.getMainCategoryList().then(response => {
       this.mainCategoryList = response.json().result;
     });
@@ -140,23 +140,26 @@ export class ItemEditorComponent implements OnInit {
         if (resultObj.statusCode === 200 && resultObj.success) {
           this.spinner.hide();
           this.alertifyService.success("Create successfull");
+          this.settingsservice.getItemList().then((response) => {
+            let initItem_data = response.json().result;
+            this.settingsservice.loadItemList(initItem_data);
+            this.closeModal();
+          }).catch((ex) => {
+             let initItem_data;
+          });
           this.itemToSave = [];
-          this.closeModalWindow();
+          this.closeModal();
         } else {
           this.spinner.hide();
           this.alertifyService.error("Create un-successfull");
           this.itemToSave = [];
-          this.closeModalWindow();
+          this.closeModal();
         }
       });
     } else {
       this.alertifyService.error("Please add at lease one item");
     }
 
-  }
-
-  closeModalWindow() {
-    this.modalReference.close();
   }
   validation(): boolean {
 

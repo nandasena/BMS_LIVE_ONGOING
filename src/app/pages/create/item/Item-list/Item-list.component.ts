@@ -74,10 +74,10 @@ export class ItemListComponent implements OnInit {
   };
 
   private initItem: Item = {
-    itemId: 0 ,
-    itemDetailId:  0,
-    sellingQuantity: 0 ,
-    itemName:  "",
+    itemId: 0,
+    itemDetailId: 0,
+    sellingQuantity: 0,
+    itemName: "",
     description: "",
     categoryName: "",
     subCategoryId: 0,
@@ -88,38 +88,39 @@ export class ItemListComponent implements OnInit {
     itemCode: "",
     orderQuantity: 0,
     discountPercentage: 0,
-    id:0,
-    name:'',
-    availableQuantity:0,
-    cost:0,
-    fabricatorPrice:0,
-    typeOfPrice : 0,
-    typeOfDiscount : 0,
-    priceName : '',
-    priceDiscount:0,
-    priceList:[],
+    id: 0,
+    name: '',
+    availableQuantity: 0,
+    cost: 0,
+    fabricatorPrice: 0,
+    typeOfPrice: 0,
+    typeOfDiscount: 0,
+    priceName: '',
+    priceDiscount: 0,
+    priceList: [],
     itemdetailList: new ItemDetail(),
   };
   initItem_data = [];
   source: LocalDataSource = new LocalDataSource();
 
-  constructor(private service: SmartTableService, private modalService: NgbModal , private alertifyService: AlertifyService,
+  constructor(private service: SmartTableService, private modalService: NgbModal, private alertifyService: AlertifyService,
     private settingsservice: SettingsService) {
 
 
-     this.settingsservice.getItemList().then((response) => {
+    this.settingsservice.getItemList().then((response) => {
       this.initItem_data = response.json().result;
 
       this.source.load(this.initItem_data);
     }).catch((ex) => {
-       this.initItem_data;
+      this.initItem_data;
     });
     this.selectedCategory = this.selectedSubCategory = this.initcategory;
   }
 
   ngOnInit() {
-
-
+    this.settingsservice.getNewItemList().subscribe(itemList => {
+      this.source.load(itemList);
+    });
   }
 
 

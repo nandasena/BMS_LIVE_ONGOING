@@ -11,6 +11,10 @@ import { BehaviorSubject } from 'rxjs';
 
 @Injectable()
 export class SettingsService {
+  private tableList: any[] = [];
+  private sharedItemObject = new BehaviorSubject(this.tableList);
+  modifiedSharedItemObject = this.sharedItemObject.asObservable();
+
   constructor(private http: Http , private commonsService: CommonService) {}
 
   getMainCategoryList() {
@@ -40,5 +44,12 @@ export class SettingsService {
 
   saveItemDetail(itemList: any) {
     return this.commonsService.apiPost(itemList, 'itemDetail/');
+  }
+
+  getNewItemList():any {
+    return this.modifiedSharedItemObject;
+  }
+  loadItemList(editObject: any){
+    this.sharedItemObject.next(editObject);
   }
 }

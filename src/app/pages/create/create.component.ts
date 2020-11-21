@@ -3,6 +3,7 @@ import { Component, OnInit, Input } from '@angular/core';
 // import { CategoryEditorComponent } from './category-editor/category-editor.component';
 // import { ItemEditorComponent } from './item-editor/item-editor.component';
 import { InvoiceService } from '../../services/invoice.service';
+import { SettingsService } from '../../services/settings.service';
 import { CustomerSupplierService } from '../../services/customer-supplier.service'
 import { LocalDataSource, ViewCell } from 'ng2-smart-table';
 import { CategoryEditorComponent } from './category/category-editor/category-editor.component';
@@ -40,7 +41,8 @@ export class CreateComponent implements OnInit {
 
   customerSource: LocalDataSource = new LocalDataSource();
   supplierSource: LocalDataSource = new LocalDataSource();
-  constructor(private modalService: NgbModal, private invoiceService: InvoiceService, private cusomerSupplierService: CustomerSupplierService) { }
+  constructor(private modalService: NgbModal, private invoiceService: InvoiceService, private cusomerSupplierService: CustomerSupplierService,
+    private settingsService:SettingsService) { }
 
   settings = {
     mode: 'external',
@@ -160,7 +162,7 @@ export class CreateComponent implements OnInit {
 
     this.invoiceService.getSupplierList().then((response) => {
       this.supplierList = response.json().result;
-    })
+    });
   }
 
   addCustomerName(customerId, event) {
@@ -208,6 +210,7 @@ export class CreateComponent implements OnInit {
     this.data.category = 'subCategory';
     const editorModel = this.modalService.open(CategoryEditorComponent, { size: 'lg', container: 'nb-layout' });
     editorModel.componentInstance.selectedTask = this.data;
+  
   }
   showItemAddWindow() {
     //this.data.category = 'mainCategory';
