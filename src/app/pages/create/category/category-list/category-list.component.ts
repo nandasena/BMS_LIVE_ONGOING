@@ -57,9 +57,6 @@ export class CategoryListComponent implements OnInit {
 
 
   ngOnInit() {
-
-    /// ----------Data Populate To Smart Table
-
     this.service.getMainCategoryList().then((response) => {
       this.init_data = response.json().result;
       this.source.load(this.init_data);
@@ -69,7 +66,7 @@ export class CategoryListComponent implements OnInit {
     this.service.getNewCategoryList().subscribe(response=>{
       this.init_data =response;
       this.source.load( this.init_data);
-    })
+    });
 
   }
 
@@ -85,17 +82,6 @@ export class CategoryListComponent implements OnInit {
 
       _.remove( innerthis.init_data , { 'mainCategoryId': event.data.mainCategoryId });
       innerthis.source.load( innerthis.init_data );
-     /* innerthis.settingsservice.delete(event.data.).then((response) => {
-        let message = response.json();
-        if (message.statusCode == 200) {
-          innerthis.alertifyService.success('Deleted Successfully!');
-          let id = event.data.pkId;
-          _.remove(innerthis.sortedList, { 'pkId': id });
-          innerthis.source.load(innerthis.sortedList);
-        } else {
-          innerthis.alertifyService.error('somthing went wrong!');
-        }
-      });*/
     });
   }
 

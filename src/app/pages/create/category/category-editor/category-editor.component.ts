@@ -162,12 +162,12 @@ export class CategoryEditorComponent implements OnInit {
                 let init_data;
               });
               this.itemToSave = [];
-              this.closeModalWindow();
+              this.closeModal();
             } else {
               this.spinner.hide();
               this.alertifyService.error("Create un-successfull");
               this.itemToSave = [];
-              this.closeModalWindow();
+              this.closeModal();
             }
           });
       } else {
@@ -184,12 +184,20 @@ export class CategoryEditorComponent implements OnInit {
               this.spinner.hide();
               this.alertifyService.success("Create successfull");
               this.itemToSave = [];
-              this.closeModalWindow();
+              this.settingsservice.getSubCategoryList().then((response) => {
+                let init_data = response.json().result;
+                this.settingsservice.loadSubCategoryList(init_data);
+                this.closeModal();
+
+              }).catch((ex) => {
+                let init_data;
+              });
+              this.closeModal();
             } else {
               this.spinner.hide();
               this.alertifyService.error("Create un-successfull");
               this.itemToSave = [];
-              this.closeModalWindow();
+              this.closeModal();
             }
           });
       } else {
@@ -205,9 +213,9 @@ export class CategoryEditorComponent implements OnInit {
     });
     this.source.load(this.itemToSave);
   }
-  closeModalWindow() {
-    this.modalReference.close();
-  }
+  // closeModalWindow() {
+  //   this.modalReference.close();
+  // }
 
   getSubCategory(category: Category): void {
     this.selectedCategory = category;
@@ -266,12 +274,13 @@ export class CategoryEditorComponent implements OnInit {
     } else if (this.Categorytype === "subCategory") {
       if (this.formValidation()) {
         this.categoryName.trim;
-        if (_.find(this.itemToSave, { categoryName: this.categoryName })) {
+        if (_.find(this.itemToSave, { 'name': this.categoryName })) {
           this.alertifyService.warning("category name is already taken");
           return;
         }
+        this.temp_itemcount =this.itemToSave.length +1;
         const item = new Category();
-        item.id = this.temp_itemcount++;
+        item.id = this.temp_itemcount;
         item.name = this.categoryName;
         item.mainCategoryId = this.selectedCategory.mainCategoryId;
         item.mainCategoryName = this.selectedCategory.name;

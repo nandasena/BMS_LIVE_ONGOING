@@ -57,14 +57,17 @@ export class SubCategoryListComponent implements OnInit {
 
 
   ngOnInit() {
-
     /// ----------Data Populate To Smart Table
-
     this.service.getSubCategoryList().then((response) => {
       this.init_data = response.json().result;
       this.source.load(this.init_data);
     }).catch((ex) => {
        this.init_data;
+    });
+
+    this.service.getNewSubCategoryList().subscribe(response=>{
+      this.init_data = response;
+      this.source.load( this.init_data);
     });
 
 
