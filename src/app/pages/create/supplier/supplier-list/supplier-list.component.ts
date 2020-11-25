@@ -55,6 +55,7 @@ export class SupplierListComponent implements OnInit {
 
 
   constructor(private service: CustomerSupplierService,
+    private settingsService:SettingsService,
     private modalService: NgbModal,
     private alertifyService: AlertifyService ) {}
 
@@ -67,6 +68,11 @@ export class SupplierListComponent implements OnInit {
         this.source.load(this.init_data);
       }).catch((ex) => {
         this.init_data;
+      });
+
+      this.settingsService.getNewSupplierList().subscribe(response=>{
+        this.init_data = response;
+        this.source.load( this.init_data);
       });
   }
 

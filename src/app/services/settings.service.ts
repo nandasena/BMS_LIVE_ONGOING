@@ -15,11 +15,13 @@ export class SettingsService {
   private sharedItemObject = new BehaviorSubject(this.tableList);
   private sharedCategoryObject =new BehaviorSubject(this.tableList);
   private sharedSubCategoryObject =new BehaviorSubject(this.tableList);
-  private sharedSCustomerObject =new BehaviorSubject(this.tableList);
+  private sharedCustomerObject =new BehaviorSubject(this.tableList);
+  private sharedSupplierObject =new BehaviorSubject(this.tableList);
   modifiedSharedItemObject = this.sharedItemObject.asObservable();
   modifiedSharedCategoryObject = this.sharedCategoryObject.asObservable(); 
   modifiedSharedSubCategoryObject = this.sharedSubCategoryObject.asObservable();
-  modifiedCustomerObject = this.sharedSCustomerObject.asObservable();
+  modifiedCustomerObject = this.sharedCustomerObject.asObservable();
+  modifiedSupplierObject = this.sharedSupplierObject.asObservable();
 
   constructor(private http: Http , private commonsService: CommonService) {}
 
@@ -58,9 +60,14 @@ export class SettingsService {
   saveCustomer(customerDetails){
     return this.commonsService.apiPost(customerDetails, 'customer/');
   }
-
   getCustomerList(){
     return this.commonsService.apiGet('customer/');
+  }
+  saveSupplier(customerDetails){
+    return this.commonsService.apiPost(customerDetails, 'supplier/');
+  }
+  getSupplierList() {
+    return this.commonsService.apiGet('supplier/');
   }
 
 
@@ -87,12 +94,17 @@ export class SettingsService {
   loadSubCategoryList(editObject: any){
     this.sharedSubCategoryObject.next(editObject);
   }
-
   getNewCustomerList(){
     return this.modifiedCustomerObject;
   }
   loadCustomerList(editObject: any){
-    this.sharedSCustomerObject.next(editObject);
+    this.sharedCustomerObject.next(editObject);
+  }
+  getNewSupplierList(){
+    return this.modifiedSupplierObject;
+  }
+  loadSupplierList(editObject: any){
+    this.sharedSupplierObject.next(editObject);
   }
 
 

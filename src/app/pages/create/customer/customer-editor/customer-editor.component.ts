@@ -28,7 +28,8 @@ export class CustomerEditorComponent implements OnInit {
   address3:string;
   NICNumber:string;
   selectedType:string;
-  customerDetailsList:Customer[] =[];
+  customerDetailsList:Customer[] = [];
+  supplierDetailsList:Customer[] = [];
   remark:string;
   customerCreate:boolean;
   supplierCreate:boolean;
@@ -50,10 +51,11 @@ export class CustomerEditorComponent implements OnInit {
   }
 
   ngOnInit() {
+
+    this.settingsservice.getBranchList().then(response => {
+      this.branchList = response.json().result;
+    });
     if (this.selectedTask == "Customer_create") {
-      this.settingsservice.getBranchList().then(response => {
-        this.branchList = response.json().result;
-      });
       this.selectedType="Customer"
       this.customerCreate = true;
       this.supplierCreate = false;
@@ -72,7 +74,7 @@ export class CustomerEditorComponent implements OnInit {
   }
   save(){
  
-    if (this.customerCreate) {
+    
       if (this.branch.id ==-1) {
         this.alertifyService.warning("Please add branch.");
         return false;
@@ -114,6 +116,7 @@ export class CustomerEditorComponent implements OnInit {
         return false;
       }
 
+      if (this.customerCreate) {
       let innerThis = this;
       this.alertifyService.confirm('Create New Customer', 'Are you sure you want to create Customer', function () {
         let customerDetails : Customer = {
@@ -132,9 +135,8 @@ export class CustomerEditorComponent implements OnInit {
           branchId:innerThis.branch.id,
         };
         innerThis.customerDetailsList.push(customerDetails);
-
-      console.log("customer details=====",innerThis.customerDetailsList);
-      innerThis.settingsservice.saveCustomer(innerThis.customerDetailsList).then(response => {
+        innerThis.spinner.show();
+        innerThis.settingsservice.saveCustomer(innerThis.customerDetailsList).then(response => {
         let resultObj = response.json();
         if (resultObj.statusCode === 200 && resultObj.success) {
           innerThis.spinner.hide();
@@ -154,6 +156,49 @@ export class CustomerEditorComponent implements OnInit {
           innerThis.closeModal();
         }
       });
+      });
+    }else if(this.supplierCreate){
+      let innerThis = this;
+      this.alertifyService.confirm('Create New Supplier', 'Are you sure you want to create Supplier', function () {
+        let supplierDetails : Customer = {
+          supplierId:0,
+          customerId:0, 
+          firstName:innerThis.firstName,
+          lastName:innerThis.lastName,
+          email:innerThis.email,
+          address1:innerThis.address1,
+          address2:innerThis.address2,
+          address3:innerThis.address3,
+          contactNumber:innerThis.phoneNumber,
+          NIC:innerThis.NICNumber,
+          remark:innerThis.remark,
+          name:"",
+          branchId:innerThis.branch.id,
+        };
+        innerThis.supplierDetailsList.push(supplierDetails);
+        innerThis.spinner.show();
+
+        innerThis.settingsservice.saveSupplier(innerThis.supplierDetailsList).then(response => {
+          let resultObj = response.json();
+          if (resultObj.statusCode === 200 && resultObj.success) {
+            innerThis.spinner.hide();
+            innerThis.alertifyService.success("Create successfull");
+            innerThis.settingsservice.getSupplierList().then((response) => {
+              let init_data = response.json().result;
+              innerThis.settingsservice.loadSupplierList(init_data);
+              innerThis.closeModal();
+  
+            }).catch((ex) => {
+              let init_data;
+            });
+            innerThis.closeModal();
+          } else {
+            innerThis.spinner.hide();
+            innerThis.alertifyService.error("Create un-successfull");
+            innerThis.closeModal();
+          }
+        });
+
       });
     }
 
