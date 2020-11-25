@@ -260,13 +260,13 @@ export class CreateComponent implements OnInit {
   showCustomerEditorWindow() {
     //this.data.category = 'mainCategory';
     const editorModel = this.modalService.open(CustomerEditorComponent, { size: 'lg', container: 'nb-layout' });
-    editorModel.componentInstance.selectedTask = this.data;
+    editorModel.componentInstance.selectedTask = "Customer_create";
   }
 
   showSupplierEditorWindow() {
     //this.data.category = 'mainCategory';
-    const editorModel = this.modalService.open(SupplierEditorComponent, { size: 'lg', container: 'nb-layout' });
-    editorModel.componentInstance.selectedTask = this.data;
+    const editorModel = this.modalService.open(CustomerEditorComponent, { size: 'lg', container: 'nb-layout' });
+    editorModel.componentInstance.selectedTask = "Supplier_create";
   }
 
 }

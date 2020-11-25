@@ -15,9 +15,11 @@ export class SettingsService {
   private sharedItemObject = new BehaviorSubject(this.tableList);
   private sharedCategoryObject =new BehaviorSubject(this.tableList);
   private sharedSubCategoryObject =new BehaviorSubject(this.tableList);
+  private sharedSCustomerObject =new BehaviorSubject(this.tableList);
   modifiedSharedItemObject = this.sharedItemObject.asObservable();
   modifiedSharedCategoryObject = this.sharedCategoryObject.asObservable(); 
   modifiedSharedSubCategoryObject = this.sharedSubCategoryObject.asObservable();
+  modifiedCustomerObject = this.sharedSCustomerObject.asObservable();
 
   constructor(private http: Http , private commonsService: CommonService) {}
 
@@ -50,6 +52,22 @@ export class SettingsService {
     return this.commonsService.apiPost(itemList, 'itemDetail/');
   }
 
+  getBranchList() {
+    return this.commonsService.apiGet('purchaseOrder/getBranch/');
+  }
+  saveCustomer(customerDetails){
+    return this.commonsService.apiPost(customerDetails, 'customer/');
+  }
+
+  getCustomerList(){
+    return this.commonsService.apiGet('customer/');
+  }
+
+
+
+
+// ----------------- load data after add new entry to table --------------------------
+
   getNewItemList():any {
     return this.modifiedSharedItemObject;
   }
@@ -68,6 +86,13 @@ export class SettingsService {
   }
   loadSubCategoryList(editObject: any){
     this.sharedSubCategoryObject.next(editObject);
+  }
+
+  getNewCustomerList(){
+    return this.modifiedCustomerObject;
+  }
+  loadCustomerList(editObject: any){
+    this.sharedSCustomerObject.next(editObject);
   }
 
 

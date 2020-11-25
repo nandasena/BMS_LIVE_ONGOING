@@ -8,9 +8,10 @@ export class Customer {
   address2: string;
   address3: string;
   contactNumber: string;
-  NICNumber: string;
+  NIC: string;
   email: string;
   remark: string;
+  branchId:number;
 }
 
 

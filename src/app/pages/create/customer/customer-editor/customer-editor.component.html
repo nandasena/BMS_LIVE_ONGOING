@@ -1,6 +1,102 @@
 <div class="modal-header">
-  <span>Customer</span>
+  <span>{{selectedType}}</span>
   <button class="close" aria-label="Close" (click)="closeModal()">
     <span aria-hidden="true">&times;</span>
   </button>
+</div>
+<div class="modal-body" *ngIf="customerCreate">
+  <form>
+    <div class="form-group row">
+      <label for="inputEmail1" class="col-md-3 col-form-label">Branch</label>
+      <div class="col-md-9">
+        <div class="dropdown input-group-btn" ngbDropdown>
+          <button type="button" class="btn btn-outline-success dropdown-toggle" ngbDropdownToggle>
+            {{branch.name}}
+          </button>
+          <ul class="dropdown-menu" ngbDropdownMenu>
+            <li class="dropdown-item" *ngFor="let branch of branchList" (click)="selectBranch(branch)">{{branch.name}}
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="categoryName" class="col-sm-3 col-form-label">First Name</label>
+      <div class="col-sm-8">
+        <input [(ngModel)]="firstName" type="text" name="firstName" class="form-control" id="firstName"
+          placeholder="First Name" (keypress)="onlyEnterCharacters($event)">   
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="categoryName" class="col-sm-3 col-form-label">Last Name</label>
+      <div class="col-sm-8">
+        <input [(ngModel)]="lastName" type="text" name="lastName" class="form-control" id="lastName"
+          placeholder="Last Name" (keypress)="onlyEnterCharacters($event)">
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="categoryName" class="col-sm-3 col-form-label">Email</label>
+      <div class="col-sm-8">
+        <input [(ngModel)]="email" type="email" name="email" class="form-control" id="email"
+          placeholder="Email">
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="categoryName" class="col-sm-3 col-form-label">Phone Number</label>
+      <div class="col-sm-8">
+        <input [(ngModel)]="phoneNumber" type="text" name="phoneNumber" class="form-control" id="phoneNumber"
+          placeholder="Phone Number">
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="categoryName" class="col-sm-3 col-form-label">Address 1</label>
+      <div class="col-sm-8">
+        <input [(ngModel)]="address1" type="text" name="address1" class="form-control" id="address1"
+          placeholder="Address 1">
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="categoryName" class="col-sm-3 col-form-label">Address 2</label>
+      <div class="col-sm-8">
+        <input [(ngModel)]="address2" type="text" name="address2" class="form-control" id="address2"
+          placeholder="address 2">
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="categoryName" class="col-sm-3 col-form-label">address 3</label>
+      <div class="col-sm-8">
+        <input [(ngModel)]="address3" type="text" name="address3" class="form-control" id="address3"
+          placeholder="address 3">
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="categoryName" class="col-sm-3 col-form-label">NIC Number</label>
+      <div class="col-sm-8">
+        <input [(ngModel)]="NICNumber" type="text" name="NICNumber" class="form-control" id="NICNumber"
+          placeholder="NIC Number">
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label for="categoryName" class="col-sm-3 col-form-label">Remark</label>
+      <div class="col-sm-8">
+        <input [(ngModel)]="remark" type="text" name="remark" class="form-control" id="remark"
+          placeholder="Remark">
+      </div>
+    </div>
+    <div role="separator" class="dropdown-divider"></div>
+    <div class="col-md-7">
+      &nbsp;
+    </div>
+    <button class="btn btn-success input-group-text pull-right" (click)="save()">Add</button>
+  </form>
+
+  <!-- <ng2-smart-table [settings]="settings" [source]="source" (delete)="Categorydelete($event)">
+      </ng2-smart-table>
+
+  <div class="modal-footer">
+    <button class="btn btn-md btn-success" (click)="saveCategory()">Save</button>
+    <button class="btn btn-hero-secondary btn-demo" (click)="closeModal()">Close</button>
+  </div> -->
+
 </div>

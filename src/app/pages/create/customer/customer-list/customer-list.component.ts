@@ -55,6 +55,7 @@ export class CustomerListComponent implements OnInit {
 
 
   constructor(private service: CustomerSupplierService,
+    private settingsService :SettingsService,
     private modalService: NgbModal,
     private alertifyService: AlertifyService ) {}
 
@@ -66,6 +67,12 @@ export class CustomerListComponent implements OnInit {
       }).catch((ex) => {
         this.init_data;
       });
+      
+      this.settingsService.getNewCustomerList().subscribe(response=>{
+        this.init_data = response;
+        this.source.load( this.init_data);
+      });
+
   }
 
   onEdit(event) {}
