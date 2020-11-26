@@ -10,7 +10,8 @@ import { SettingsModule } from './settings/settings.module';
 import { BusinessSelfieModule } from './business-selfie/business-selfie.module';
 import {PaymentModule}from './payment/payment.module';
 import {PurchaseOrderModal} from './purchase-order/purchase-order.module';
-import { CreateModule } from './create/create.module'
+import { CreateModule } from './create/create.module';
+import { PaymentHandleComponent } from './payment-handle/payment-handle.component';
 
 
 const PAGES_COMPONENTS = [
@@ -32,6 +33,7 @@ const PAGES_COMPONENTS = [
   ],
   declarations: [
     ...PAGES_COMPONENTS,
+    PaymentHandleComponent,
   ],
 })
 export class PagesModule {

@@ -40,7 +40,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
   {
     title: 'Payment Handle',
     icon: 'nb-list',
-    link: '/pages/create',
+    link: '/pages/payment-handle',
   },
  
   // {

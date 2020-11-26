@@ -13,7 +13,8 @@ import { GoodReceived} from './purchase-order/good-received/good-received.compon
 import { SettingsComponent } from './settings/settings.component';
 import { BusinessSelfieComponent } from './business-selfie/business-selfie.component';
 import { TeamComponent } from './dashboard/team/team.component';
-import { CreateComponent } from './create/create.component'
+import { CreateComponent } from './create/create.component';
+import {PaymentHandleComponent} from './payment-handle/payment-handle.component'
 import { from } from 'rxjs/observable/from';
 
 const routes: Routes = [{
@@ -63,6 +64,10 @@ const routes: Routes = [{
   {
     path:'create',
     component:CreateComponent,
+  },
+  {
+    path:'payment-handle',
+    component:PaymentHandleComponent,
   },
   {
     path: '',
