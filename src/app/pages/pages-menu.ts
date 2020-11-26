@@ -37,6 +37,11 @@ export const MENU_ITEMS: NbMenuItem[] = [
     icon: 'nb-paper-plane',
     link: '/pages/create',
   },
+  {
+    title: 'Payment Handle',
+    icon: 'nb-list',
+    link: '/pages/create',
+  },
  
   // {
   //   title: 'Business Selfie',
