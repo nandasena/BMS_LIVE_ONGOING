@@ -53,6 +53,9 @@ export class SettingsService {
   saveItemDetail(itemList: any) {
     return this.commonsService.apiPost(itemList, 'itemDetail/');
   }
+  getItemDetailsById(itemId){
+    return this.commonsService.apiGet('itemDetail/'+itemId);
+  }
 
   getBranchList() {
     return this.commonsService.apiGet('purchaseOrder/getBranch/');
@@ -69,8 +72,6 @@ export class SettingsService {
   getSupplierList() {
     return this.commonsService.apiGet('supplier/');
   }
-
-
 
 
 // ----------------- load data after add new entry to table --------------------------

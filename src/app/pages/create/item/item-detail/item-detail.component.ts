@@ -11,6 +11,7 @@ import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
 import { ItemDetail } from '../../../../models/itemDetail_model';
 import { IMyDpOptions } from 'mydatepicker';
 import * as moment from 'moment';
+import { NgxSpinnerService } from "ngx-spinner";
 @Component({
   selector: 'item-detail',
   templateUrl: './item-detail.component.html',
@@ -20,12 +21,12 @@ import * as moment from 'moment';
 export class ItemDetailsComponent implements OnInit {
 
   @Input() rowData
-  costprice:number;
+  costprice:number =0;
   availableQuantity:number;
   cost:string;
-  customerPrice:number;
-  fabricatorPrice:number;
-  mrpPrice:number;
+  customerPrice:number =0;
+  fabricatorPrice:number =0;
+  mrpPrice:number =0;
   itemDetailDate = { date: {}, formatted: '' };
   itemDetailDatePickerOptions: IMyDpOptions = {
     dateFormat: 'yyyy-mm-dd',
@@ -74,6 +75,7 @@ export class ItemDetailsComponent implements OnInit {
 
   ItemName ="";
   ItemCode = "";
+  itemId;
   initItemDetailList = [];
   modalReference: NgbModalRef;
 
@@ -84,12 +86,14 @@ export class ItemDetailsComponent implements OnInit {
     private alertifyService: AlertifyService,
     private activeModal: NgbActiveModal,
     private settingsservice: SettingsService,
+    private spinner: NgxSpinnerService
   ) {}
 
   ngOnInit() {
 
     this.ItemName = this.rowData.itemName;
     this.ItemCode = this.rowData.itemCode;
+    this.itemId =this.rowData.itemId;
     this.itemDetailDate = {
       date: {
         year: moment().year(),
@@ -97,27 +101,63 @@ export class ItemDetailsComponent implements OnInit {
         day: moment().date()
       }, formatted: moment().year() + '-' + (moment().month() + 1) + '-' + moment().date()
     };
-
-/*    this.rowData.forEach(element => {
-      this.initItemDetailList.push(element.itemdetailList)
-    });*/
-
-    this.source.load(this.rowData.itemDetailList);
-
-
+    this.settingsservice.getItemDetailsById(this.itemId).then(response => {
+      let resultObj = response.json();
+      if (resultObj.statusCode === 200 && resultObj.success) {
+        this.source.load(resultObj.result);
+      }
+    });
   }
 
   closeModal() {
     this.activeModal.close();
   }
   saveItems() {
+    this.costprice =Number(String(this.costprice).replace(/\,/g,''));
+    this.customerPrice =Number(String(this.customerPrice).replace(/\,/g,''));
+    this.fabricatorPrice =Number(String(this.fabricatorPrice).replace(/\,/g,''));
+    this.mrpPrice =Number(String(this.mrpPrice).replace(/\,/g,''));
+
+    if (this.availableQuantity === undefined ) {
+      this.alertifyService.warning("Please add quantity");
+      return false;
+    }
+    if (this.costprice ==0) {
+      console.log("Please add cost ==",this.costprice)
+      this.alertifyService.warning("Please add cost.");
+      return false;
+    }
+    if (this.customerPrice == 0) {
+      this.alertifyService.warning("Please add customer price.");
+      return false;
+    }
+
+    if (this.fabricatorPrice == 0) {
+      this.alertifyService.warning("Please add fabricator price.");
+      return false;
+    }
+    if (this.mrpPrice == 0) {
+      this.alertifyService.warning("Please add MRP price.");
+      return false;
+    }
+    if (this.rowData.itemId == null) {
+      this.alertifyService.warning("Item id is null.");
+      return false;
+    }
+
+    if (this.itemDetailDate ==null ) {
+      this.alertifyService.warning("Please add date.");
+      return false;
+    }
+  
+
     let itemDetail : ItemDetail = {
       itemDetailId: 0,
       fabricatorPrice: this.fabricatorPrice,
       mrpPrice: this.mrpPrice,
       itemId: this.rowData.itemId,
       customerPrice: this.customerPrice,
-      costprice: this.costprice,
+      costPrice: this.costprice,
       quantity: 0,
       availableQuantity: this.availableQuantity,
       companyId: 1,
@@ -130,10 +170,28 @@ export class ItemDetailsComponent implements OnInit {
       brandId:1,
       supplierId:1
     }
+    // console.log("details is ============",itemDetail);
+    let innerThis =this;
+    this.alertifyService.confirm('Create New Item Detail', 'Are you sure you want to create Item Detail', function () {
+      innerThis.spinner.show();
+      innerThis.settingsservice.saveItemDetail(itemDetail).then(response=>{
+        let resultObj = response.json();
+        if (resultObj.statusCode === 200 && resultObj.success) {
+          innerThis.spinner.hide();
+          innerThis.alertifyService.success("Create successfull");
+          innerThis.mrpPrice =0;
+          innerThis.customerPrice = 0;
+          innerThis.costprice =0;
+          innerThis.availableQuantity =0;
+          innerThis.closeModal();
+        } else {
+          innerThis.spinner.hide();
+          innerThis.alertifyService.error("Create un-successfull");
+          innerThis.closeModal();
+        }
 
-    console.log("details is ============",itemDetail);
-    this.settingsservice.saveItemDetail(itemDetail).then(response=>{
-
-    })
+      });
+    });
+    
   }
 }

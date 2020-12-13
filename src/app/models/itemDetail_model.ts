@@ -4,7 +4,7 @@ export class ItemDetail {
   mrpPrice: number;
   itemId: number;
   customerPrice: number;
-  costprice: number;
+  costPrice: number;
   quantity: number;
   availableQuantity: number;
   purchaseDate: string;
