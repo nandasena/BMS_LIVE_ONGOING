@@ -97,6 +97,7 @@ export class ItemListComponent implements OnInit {
     typeOfDiscount: 0,
     priceName: '',
     priceDiscount: 0,
+    priceDiscountTotalItemWise :0,
     priceList: [],
     itemdetailList: new ItemDetail(),
   };
