@@ -35,96 +35,62 @@ export class InvoicePrintComponent implements ViewCell, OnInit {
 
   printReprint(invoiceDetail) {
     let ItemList =invoiceDetail.itemList;
-    var invoiceWindow = window.open("", "print-window");
+    var invoiceWindow = window.open("", "print-window","height=200px,width=200px");
     //invoiceWindow.document.open();
     for (var x = 0; x < ItemList.length; x++) {
 
-        this.printDetails = this.printDetails + '<tr><td style="height:20px;width:33%;text-align:left;">' + ItemList[x].itemName + '</td><td style="height:20px;width:15%;text-align:right;">' +
+        this.printDetails = this.printDetails + '<tr><td style="height:20px;width:51%;text-align:left;font-size:14px;padding-top:4px;">' + ItemList[x].itemName + '</td><td style="height:20px;width:21%;text-align:right;font-size:14px;padding-top:4px;">' +
         parseFloat(ItemList[x].price.toString()).toFixed(2).replace(/./g, function (c, i, a) {
           return i && c !== "." && ((a.length - i) % 3 === 0) ? ',' + c : c;
-        }) + '</td><td style="height:20px;width:14%;text-align:right;">' + ItemList[x].sellingQuantity + '</td>'+
-      '</td><td style="height:20px;width:18%;text-align:right;">' +  parseFloat(ItemList[x].itemDiscount.toString()).toFixed(2).replace(/./g, function (c, i, a) {
-        return i && c !== "." && ((a.length - i) % 3 === 0) ? ',' + c : c;
-        }) + '</td>' +
-      '</td><td style="height:20px;width:20%;text-align:right;">' + parseFloat(ItemList[x].total).toFixed(2).replace(/./g, function (c, i, a) {
+        }) + '</td><td style="height:15px;width:10%;text-align:right;font-size:14px;padding-top:4px;">' + ItemList[x].sellingQuantity + '</td>'+
+      // '</td><td style="height:20px;width:10%;text-align:right;font-size: 14px;padding-top:4px;">' +  parseFloat(ItemList[x].itemDiscount.toString()).toFixed(2).replace(/./g, function (c, i, a) {
+      //   return i && c !== "." && ((a.length - i) % 3 === 0) ? ',' + c : c;
+      //   }) + '</td>' +
+      '</td><td style="height:20px;width:20%;text-align:right;font-size: 14px;padding-top:4px;">' + parseFloat(ItemList[x].total).toFixed(2).replace(/./g, function (c, i, a) {
         return i && c !== "." && ((a.length - i) % 3 === 0) ? ',' + c : c;
         }) + '</td>' +
       '</tr>'
     }
 
     invoiceWindow.document.write (
-      '<div>' +
-            `<table style="width:100%;">
-                <br><br><br><br><br><br><br><br><br><br>
-            
-                <tr style="width:100%; height:50px; text-align:center;"><td >INVOICE REPRINT</td></tr>
-            </table>
+ 
+      // NEW PRINT FORMAT////////////////////////////////////////// 
 
+      '<div width=80>' +
+            `<table style="width:100%;">
+            <br><br><br><br><br><br>
+            <p style="font-size:14px;padding-left:25px;margin:2px;">`+ invoiceDetail.tempCustomerVO.firstName+` </p>
+            <p style="font-size:14px;padding-left:25px;margin:2px;">`+ invoiceDetail.tempCustomerVO.address1+`</p>
+            <p style="font-size:14px;padding-left:25px;margin:2px;">`+ invoiceDetail.tempCustomerVO.contactNumber+`</p>
+            <p style="font-size:14px;padding-left:25px;margin:2px;">`+ invoiceDetail.invoiceDate+`</p>
+            </table>
+            <br><br><br>
             <br/>
             <br/> 
-            
-              <table  style=" margin-left:2%; width:100%;">
-               <thead>
-                <tr>
-                  <th style="text-align:left;height:15px;width:30%;">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspInvoice Number :
-                  </th>
-                  <th style="text-align:left;height:15px;width:20%;  ">`+ invoiceDetail.invoiceNumber +
-                  `</th> 
-                  <th style="text-align:left;height:15px;width:20%;">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspDate :
-                  </th>
-                  <th style="text-align:left;height:15px;width:30%; ">`+ invoiceDetail.invoiceDate +
-                  `</th>
-                </tr>
-               </thead>
-              </table>
-
-        
-             <table  style=" margin-left:2%; width:100%;">
-              <thead>
-               <tr>
-                <th style="text-align:left;height: 15px; width:30%; ">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspCustomer Name :
-                </th>
-                <th style="text-align:left; height: 15px; width:70%;  ">`+ invoiceDetail.customerName +
-                `</th>
-               </tr>  
-              </thead>
-
-             </table>
-             <br/>
+            <br/>
            
 
-            <table  style="margin-left:11%;width:80%;text-align:right;">
-            
-              <tr>
+            <table  style="margin-left:8%;width:89%;text-align:right;">
 
-                <th style="text-align:left;width:33%;">Discription
-                </th>
-                <th style="text-align:right;width:15%;">Unit Price
-                </th> 
-                <th style="text-align:right;width:14%;">Quantity
-                </th>
-                <th style="text-align:right;width:18%;">Discount (Rs)
-                </th>
-                <th style="text-align:right;width:20%;">Amount (Rs)
-                </th>
-
-              </tr>
             <tbody > `+ this.printDetails + `</tbody>
             </table> 
 
 
             <div class="row">
 
-            <table style="margin-left:14%; width:77%;padding-top:50px;">
-             <thead  > <tr>
-             <th style= " text-align:right; height: 20px; width:48%;">Total
+            <table style="margin-left:8%;width:89%;text-align:right;">
+             <thead> 
+             <tr>
+             <th style= " text-align:left; height: 20px; width:48%;">Total
              </th>
             <th style=" text-align:right;height: 20px; width:24%;">`+ parseFloat(invoiceDetail.totalAmount+invoiceDetail.invoiceDiscount).toFixed(2).replace(/./g, function (c, i, a) {
             return i && c !== "." && ((a.length - i) % 3 === 0) ? ',' + c : c;
             }) +
-            `</th></tr> 
+            `</th>
+            
+            </tr> 
               <tr>
-              <th style=" text-align:right; height: 20px; width:48%; "> Discount
+              <th style=" text-align:left; height: 20px; width:48%; "> Discount
               </th>  
                <th style=" text-align:right;height: 20px; width:22%; ">`+ parseFloat(invoiceDetail.invoiceDiscount).toFixed(2).replace(/./g, function (c, i, a) {
             return i && c !== "." && ((a.length - i) % 3 === 0) ? ',' + c : c;
@@ -132,7 +98,7 @@ export class InvoicePrintComponent implements ViewCell, OnInit {
             `</th> 
                </tr>
                <tr>
-               <th style="text-align:right; height: 20px; width:48%; ">Net Total
+               <th style="text-align:left; height: 20px; width:48%; ">Net Total
                </th> 
                 <th style=" text-align:right;height: 20px; width:22%; ">`+ (parseFloat(invoiceDetail.totalAmount)).toFixed(2).replace(/./g, function (c, i, a) {
             return i && c !== "." && ((a.length - i) % 3 === 0) ? ',' + c : c;
@@ -152,7 +118,7 @@ export class InvoicePrintComponent implements ViewCell, OnInit {
             </th>
             <th style="text-align:left; height: 20px; width:10%;  ">`+ 'Pasan' +
             `</th>
-            <th style="text-align:center;height: 20px; width:55%;  ">
+            <th style="text-align:center;height: 20px; width:55%;">
             </th></tr>
             </thead>
             </table> 
@@ -164,7 +130,7 @@ export class InvoicePrintComponent implements ViewCell, OnInit {
          <th style="text-align:center;height: 20px; width:90%;  ">Thank You.!
          </th></tr>
          <tr>
-         <th style="text-align:center;height: 40px; width:90%;  ">
+         <th style="text-align:center;height: 40px; width:90%;">
          </th></tr></thead>
          </table>
          </div>
@@ -172,9 +138,7 @@ export class InvoicePrintComponent implements ViewCell, OnInit {
             setTimeout(function () { window.print(); }, 500);
           </script>
       </div>`
-          
-
-
+  
   )
     setTimeout(function () { invoiceWindow.close(); }, 1000);
     this.printDetails ='';

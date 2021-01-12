@@ -5,8 +5,11 @@ import { ThemeModule } from '../../@theme/theme.module';
 import { SmartTableService } from '../../@core/data/smart-table.service';
 import { FormsModule } from '@angular/forms';
 import { MyDatePickerModule } from 'mydatepicker';
-
+import { PagesRoutingModule } from '../pages-routing.module';
 import {NumberModal} from '../../models/number.module';
+import {PaymentHandleComponent} from './payment-handle.component';
+import { ChequeComponent } from './cheque/cheque.component';
+import { from } from 'rxjs/observable/from';
 
 @NgModule({
     imports: [
@@ -14,13 +17,14 @@ import {NumberModal} from '../../models/number.module';
       Ng2SmartTableModule,
       FormsModule,
       MyDatePickerModule,
-      NumberModal
+      NumberModal,
+      PagesRoutingModule
     ],
     declarations: [
-    
-    ],
+      ChequeComponent
+  ],
     entryComponents: [
- 
+      ChequeComponent
     ],
     providers: [
       SmartTableService

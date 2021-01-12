@@ -1,5 +1,6 @@
 import {Item} from './item_modal'
-import{PaymentModal}from './payment-modal'
+import{PaymentModal}from './payment-modal';
+import {Customer} from './customer_model';
 export class InvoiceModel {
     totalAmount:number;
     invoiceDate:string;
@@ -8,4 +9,5 @@ export class InvoiceModel {
     customerId:number;
     itemList:Item[];
     paymentDetailList:PaymentModal[];
+    tempCustomerVO:Customer;
 }

@@ -12,6 +12,7 @@ import {PaymentModule}from './payment/payment.module';
 import {PurchaseOrderModal} from './purchase-order/purchase-order.module';
 import { CreateModule } from './create/create.module';
 import { PaymentHandleComponent } from './payment-handle/payment-handle.component';
+import {PaymentHandleModule} from './payment-handle/payment-handle.module';
 
 
 const PAGES_COMPONENTS = [
@@ -30,10 +31,11 @@ const PAGES_COMPONENTS = [
     PaymentModule,
     PurchaseOrderModal,
     CreateModule,
+    PaymentHandleModule
   ],
   declarations: [
     ...PAGES_COMPONENTS,
-    PaymentHandleComponent,
+     PaymentHandleComponent,
   ],
 })
 export class PagesModule {
