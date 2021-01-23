@@ -8,4 +8,5 @@ export class PaymentModal {
     description:string;
     bankId:number;
     paymentDate:string;
+    advancePayment:number;
 }

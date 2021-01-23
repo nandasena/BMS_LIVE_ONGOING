@@ -10,7 +10,7 @@
 
 export const environment = {
   production: false,
-  apiBaseUrl: 'http://3.133.97.39:8080/sivilima/',
+  apiBaseUrl: 'http://18.218.225.81:8080/sivilima/',
   envirementType:'1'
   // apiBaseUrl:'http://ec2-3-138-244-131.us-east-2.compute.amazonaws.com:8080/sivilima/'
   

@@ -237,6 +237,22 @@
             </div>
           </div>
         </div>
+
+        <div class="row" *ngIf="isShowCashFild">
+          <div class="col-md-8" style="height: 70px;">
+            <div class="row form-group">
+              <div class="col-md-4 main-font hidden-sm" style="padding-top: 20px;">
+                <label for="amount">Advance</label>
+              </div>
+              <div class="col-md-8 main-font form-group mb-2">
+                <input class="text-right form-control" (change)="getBalanceAmount($event.target.value,1)" id="advance"
+                  type="text" style="height: 40px;" name="advance" value="{{advance | number:'1.2-2'}}" placeholder="0.00"
+                  numericType="decimal" double-number-directive>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <div class="row" *ngIf="isShowCashFild">
           <div class="col-md-8" style="height: 70px;">
             <div class="row form-group">
@@ -244,7 +260,7 @@
                 <label for="amount">Cash</label>
               </div>
               <div class="col-md-8 main-font form-group mb-2">
-                <input class="text-right form-control" (change)="getBalanceAmount($event.target.value)" id="cash"
+                <input class="text-right form-control" (change)="getBalanceAmount($event.target.value,2)" id="cash"
                   type="text" style="height: 40px;" name="cash" value="{{cash | number:'1.2-2'}}" placeholder="0.00"
                   numericType="decimal" double-number-directive>
               </div>

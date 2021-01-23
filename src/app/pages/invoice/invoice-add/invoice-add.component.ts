@@ -44,6 +44,7 @@ export class InvoiceAddComponent implements OnInit {
   chequeDate=null;
   balance: number = 0.00;
   cash: number = 0.00;
+  advance:number = 0.00;
   selectedBankId=-1;
   selectedItemId: number;
   customerList = [];
@@ -523,6 +524,7 @@ export class InvoiceAddComponent implements OnInit {
       let innerThis = this;
       this.paymentDetailList.pop();
       this.paymentDetail.amount = this.totalAmount;
+      this.paymentDetail.advancePayment =this.advance;
       this.chequeNo == '' ? this.paymentDetail.chequeNumber = null : this.paymentDetail.chequeNumber = this.chequeNo;
       this.carsRefNo == "" ? this.paymentDetail.cardNumber = null : this.paymentDetail.cardNumber = this.carsRefNo;
       this.chequeDescription=='' ? this.paymentDetail.description=null: this.paymentDetail.description = this.chequeDescription;
@@ -553,6 +555,11 @@ export class InvoiceAddComponent implements OnInit {
             innerThis.totalAmount = 0.00;
             innerThis.balance = 0.00;
             innerThis.cash = 0.00;
+            innerThis.advance =0.00;
+            innerThis.customerName ='';
+            innerThis.customerAddress ='';
+            innerThis.customerTelephone ='';
+
             innerThis.selectedCustomer = ""
             innerThis.invoiceService.getItemList().then((response) => {
               innerThis.itemList = response.json().result;
@@ -582,9 +589,18 @@ export class InvoiceAddComponent implements OnInit {
 
   }
 
-  getBalanceAmount(cash) {
-    this.cash = parseFloat(cash.replace(/,/g, ''));
-    this.balance = this.totalAmount - this.cash
+  getBalanceAmount(cash,type) {
+    if(cash ==""){
+      cash = '0';
+      console.log("send data is =====",cash);  
+    }
+    if(type ==1){
+      this.advance = parseFloat(cash.replace(/,/g, ''));
+    }else{
+      this.cash = parseFloat(cash.replace(/,/g, ''));
+      
+    }
+    this.balance = this.totalAmount - (this.cash + this.advance);
   }
 
   getSubCategory(id) {
@@ -713,8 +729,6 @@ export class InvoiceAddComponent implements OnInit {
 
   printInvoice(invoiceTosave,insertObject) {
     var invoiceWindow = window.open("", "print-window");
-    // NEW CODE ......................
-
     let ItemList =invoiceTosave.itemList;
     for (var x = 0; x < ItemList.length; x++) {
 
@@ -722,9 +736,6 @@ export class InvoiceAddComponent implements OnInit {
       parseFloat(ItemList[x].price.toString()).toFixed(2).replace(/./g, function (c, i, a) {
         return i && c !== "." && ((a.length - i) % 3 === 0) ? ',' + c : c;
       }) + '</td><td style="height:20px;width:10%;text-align:right;font-size:14px;padding-top:4px;">' + ItemList[x].sellingQuantity + '</td>'+
-    // '</td><td style="height:20px;width:10%;text-align:right;font-size: 14px;padding-top:4px;">' +  parseFloat(ItemList[x].itemDiscount.toString()).toFixed(2).replace(/./g, function (c, i, a) {
-    //   return i && c !== "." && ((a.length - i) % 3 === 0) ? ',' + c : c;
-    //   }) + '</td>' +
     '</td><td style="height:20px;width:20%;text-align:right;font-size: 14px;padding-top:4px;">' + parseFloat(ItemList[x].total).toFixed(2).replace(/./g, function (c, i, a) {
       return i && c !== "." && ((a.length - i) % 3 === 0) ? ',' + c : c;
       }) + '</td>' +
@@ -754,7 +765,7 @@ export class InvoiceAddComponent implements OnInit {
 
             <div class="row">
 
-            <table style="margin-left:8%;width:89%;text-align:right;">
+            <table style="margin-left:8%;width:93%;text-align:right;">
              <thead  > <tr>
              <th style= " text-align:left; height: 20px; width:48%;">Total
              </th>
@@ -776,6 +787,26 @@ export class InvoiceAddComponent implements OnInit {
                 <th style=" text-align:right;height: 20px; width:22%; ">`+ (parseFloat(invoiceTosave.totalAmount)).toFixed(2).replace(/./g, function (c, i, a) {
             return i && c !== "." && ((a.length - i) % 3 === 0) ? ',' + c : c;
             }) +
+            `</th>`
+            +
+            `</th> 
+               </tr>
+               <tr>
+               <th style="text-align:left; height: 20px; width:48%; ">Advance Amount
+               </th> 
+                <th style=" text-align:right;height: 20px; width:22%; ">`+ (parseFloat(insertObject.advanceAmount)).toFixed(2).replace(/./g, function (c, i, a) {
+            return i && c !== "." && ((a.length - i) % 3 === 0) ? ',' + c : c;
+            }) +
+            `</th>`
+            +
+            `</th> 
+               </tr>
+               <tr>
+               <th style="text-align:left; height: 20px; width:48%; ">Balance Amount
+               </th> 
+                <th style=" text-align:right;height: 20px; width:22%; ">`+ (parseFloat(invoiceTosave.totalAmount) -parseFloat(insertObject.advanceAmount) ).toFixed(2).replace(/./g, function (c, i, a) {
+            return i && c !== "." && ((a.length - i) % 3 === 0) ? ',' + c : c;
+            }) +
             `</th>
                 </tr> 
               </thead>
@@ -783,29 +814,7 @@ export class InvoiceAddComponent implements OnInit {
               </tbody>
               </table>
              </div><br/>
-             <div class="row" style="  ">
-            <table  style="margin-left:2%; width:90%;">
-            <thead  >
-            <tr>
-            <th style="text-align:right;height: 20px; width:25%; ">Authorized By :
-            </th>
-            <th style="text-align:left; height: 20px; width:10%;  ">`+ 'Pasan' +
-            `</th>
-            <th style="text-align:center;height: 20px; width:55%;">
-            </th></tr>
-            </thead>
-            </table> 
-         </div>
-         <div class="row" style="  ">
-         <table  style="margin-left:5%; width:90%;">
-         <thead>
-         <tr>
-         <th style="text-align:center;height: 20px; width:90%;  ">Thank You.!
-         </th></tr>
-         <tr>
-         <th style="text-align:center;height: 40px; width:90%;">
-         </th></tr></thead>
-         </table>
+             <div class="row" style=""> 
          </div>
          <script>
             setTimeout(function () { window.print(); }, 500);

@@ -70,7 +70,7 @@ export class InvoicePrintComponent implements ViewCell, OnInit {
             <br/>
            
 
-            <table  style="margin-left:8%;width:89%;text-align:right;">
+            <table  style="margin-left:8%;width:93%;text-align:right;">
 
             <tbody > `+ this.printDetails + `</tbody>
             </table> 
@@ -78,7 +78,7 @@ export class InvoicePrintComponent implements ViewCell, OnInit {
 
             <div class="row">
 
-            <table style="margin-left:8%;width:89%;text-align:right;">
+            <table style="margin-left:8%;width:93%;text-align:right;">
              <thead> 
              <tr>
              <th style= " text-align:left; height: 20px; width:48%;">Total
@@ -103,37 +103,32 @@ export class InvoicePrintComponent implements ViewCell, OnInit {
                 <th style=" text-align:right;height: 20px; width:22%; ">`+ (parseFloat(invoiceDetail.totalAmount)).toFixed(2).replace(/./g, function (c, i, a) {
             return i && c !== "." && ((a.length - i) % 3 === 0) ? ',' + c : c;
             }) +
-            `</th>
-                </tr> 
+            `</th>`
+            +
+            `</th> 
+               </tr>
+               <tr>
+               <th style="text-align:left; height: 20px; width:48%; ">Advance Amount
+               </th> 
+                <th style=" text-align:right;height: 20px; width:22%; ">`+ (parseFloat(invoiceDetail.advanceAmount)).toFixed(2).replace(/./g, function (c, i, a) {
+            return i && c !== "." && ((a.length - i) % 3 === 0) ? ',' + c : c;
+            }) +
+            `</th>`
+            +
+            `</th> 
+               </tr>
+               <tr>
+               <th style="text-align:left; height: 20px; width:48%; ">Balance Amount
+               </th> 
+                <th style=" text-align:right;height: 20px; width:22%; ">`+ (parseFloat(invoiceDetail.totalAmount) -parseFloat(invoiceDetail.advanceAmount) ).toFixed(2).replace(/./g, function (c, i, a) {
+            return i && c !== "." && ((a.length - i) % 3 === 0) ? ',' + c : c;
+            }) +
+                `</tr> 
               </thead>
               <tbody > 
               </tbody>
               </table>
              </div><br/>
-             <div class="row" style="  ">
-            <table  style="margin-left:2%; width:90%;">
-            <thead  >
-            <tr>
-            <th style="text-align:right;height: 20px; width:25%; ">Authorized By :
-            </th>
-            <th style="text-align:left; height: 20px; width:10%;  ">`+ 'Pasan' +
-            `</th>
-            <th style="text-align:center;height: 20px; width:55%;">
-            </th></tr>
-            </thead>
-            </table> 
-         </div>
-         <div class="row" style="  ">
-         <table  style="margin-left:5%; width:90%;">
-         <thead>
-         <tr>
-         <th style="text-align:center;height: 20px; width:90%;  ">Thank You.!
-         </th></tr>
-         <tr>
-         <th style="text-align:center;height: 40px; width:90%;">
-         </th></tr></thead>
-         </table>
-         </div>
          <script>
             setTimeout(function () { window.print(); }, 500);
           </script>
