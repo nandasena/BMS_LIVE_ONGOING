@@ -784,7 +784,7 @@ export class InvoiceAddComponent implements OnInit {
             <br/>
            
 
-            <table  style="margin-left:8%;width:93%;text-align:right;">
+            <table  style="margin-left:9%;width:92%;text-align:right;">
 
             <tbody > `+ this.printDetails + `</tbody>
             </table> 
@@ -792,7 +792,7 @@ export class InvoiceAddComponent implements OnInit {
 
             <div class="row">
 
-            <table style="margin-left:8%;width:93%;text-align:right;">
+            <table style="margin-left:9%;width:92%;text-align:right;">
              <thead  > <tr>
              <th style= " text-align:left; height: 20px; width:48%;">Total
              </th>
