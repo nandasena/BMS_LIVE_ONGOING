@@ -77,7 +77,32 @@
               <span class="" style="color: black;">&#x2b;</span>
             </button>
           </div>
+
         </div>
+      </div>
+      <div class="col-sm-4 col-form-label">
+        <!-- Add new Radio button  -->
+        <div class="row">
+        <div class="col-md-3">
+          <div>
+            <input id="MRPPrice" type="radio" value="MRPPrice" name="priceType">
+            <label for="MRPPrice">MRP</label>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div>
+            <input id="FabricationPrice" type="radio" value="FabricationPrice" name="priceType">
+            <label for="FabricationPrice">Fabrication</label>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div>
+            <input id="CustomerPrice" type="radio" value="CustomerPrice" name="priceType">
+            <label for="CustomerPrice">Customer</label>
+          </div>
+        </div>
+      </div>
+        <!-- ---------------END -->
       </div>
     </div>
     <div class="row form-group" style="height: 400px;overflow-y: auto;">
@@ -102,37 +127,39 @@
             <td>{{item.subCategoryId}}</td>
             <td>{{item.name}}</td>
             <td>
-              <input type="text" style="width: 110px;" ng-maxlength="3" class="table-number " name="tblQty" value="{{item.sellingQuantity}}"
-                (change)=changeQty(item.itemDetailId,$event.target.value,$event) numbersOnly>
+              <input type="text" style="width: 110px;" ng-maxlength="3" class="table-number " name="tblQty"
+                value="{{item.sellingQuantity}}" (change)=changeQty(item.itemDetailId,$event.target.value,$event)
+                numbersOnly>
             </td>
             <td>{{item.availableQuantity}}</td>
-            <td> 
-              <select ng-model="selectedColor" #selectedDiscount (change)="changeDiscountType($event.target.value,item)">
-              <option selected [value]="1">Cash Discount</option> 
-              <option [value]="2">Discount</option>  
-              </select> 
+            <td>
+              <select ng-model="selectedColor" #selectedDiscount
+                (change)="changeDiscountType($event.target.value,item)">
+                <option selected [value]="1">Cash Discount</option>
+                <option [value]="2">Discount</option>
+              </select>
             </td>
 
-<!-- --------------------------------------------------------------------------------------------------------------------------------- -->
+            <!-- --------------------------------------------------------------------------------------------------------------------------------- -->
 
-            <td *ngIf ="item.typeOfDiscount == 1">
+            <td *ngIf="item.typeOfDiscount == 1">
               <input id="amountReceived" type="number" name="amountReceived" placeholder="0"
                 (change)="setPriceDiscount($event.target.value,item.itemDetailId)" value="{{item.priceDiscount}}"
                 numericType="decimal" OnlyNumber="true" double-number-directive>
-            </td>  
-            
-             <td *ngIf ="item.typeOfDiscount == 2" ><input id="amountReceived" type="number" name="amountReceived" placeholder="%"
-                (change)="setDiscount($event.target.value,item.itemDetailId)" value="{{item.discountPercentage}}"
-                OnlyNumber="true" numbersOnlyDiscount>
-            </td> 
+            </td>
+
+            <td *ngIf="item.typeOfDiscount == 2"><input id="amountReceived" type="number" name="amountReceived"
+                placeholder="%" (change)="setDiscount($event.target.value,item.itemDetailId)"
+                value="{{item.discountPercentage}}" OnlyNumber="true" numbersOnlyDiscount>
+            </td>
 
 
-<!-- ---------------------------- END ------------------------------------------------------------------------------------------------- -->
+            <!-- ---------------------------- END ------------------------------------------------------------------------------------------------- -->
             <td>
               <select ng-model="selectedColor" #selectedPrice (change)="changePrice($event.target.value,item)">
                 <option *ngFor="let price of item.priceList" [value]="price.paymentId" (onClick)="test()">
-                {{price.priceName}} {{ price.price | number:'1.2-2' }}
-              </option>     
+                  {{price.priceName}} {{ price.price | number:'1.2-2' }}
+                </option>
               </select>
             </td>
             <td>{{item.total | number:'1.2-2' }}</td>
@@ -151,19 +178,19 @@
 
       <div class="col-md-8" style="height: 70px;">
         <button class="btn btn-md btn-success" (click)="openModalWindow(content)">Pay</button>
-        
+
       </div>
       <div class="col-md-4">
         <input type="text" style="float:right;" value="{{totalAmount + totalDiscount | number:'1.2-2'}}" readonly>
         <label style="color: black;float:right;padding-top: 3px; padding-right: 10px;">Total Amount</label>
-        <input type="text" style="float:right;" value="{{totalDiscount | number:'1.2-2'}}"readonly>
+        <input type="text" style="float:right;" value="{{totalDiscount | number:'1.2-2'}}" readonly>
         <label style="color: black;float:right;padding-top: 3px; padding-right: 10px;">Total Discount</label>
         <input type="text" style="float:right;" value="{{totalAmount | number:'1.2-2'}}" readonly>
         <label style="color: black;float:right;padding-top: 3px; padding-right: 10px;">Net Amount</label>
-        
+
       </div>
     </div>
-   
+
   </form>
 </div>
 
@@ -246,8 +273,8 @@
               </div>
               <div class="col-md-8 main-font form-group mb-2">
                 <input class="text-right form-control" (change)="getBalanceAmount($event.target.value,1)" id="advance"
-                  type="text" style="height: 40px;" name="advance" value="{{advance | number:'1.2-2'}}" placeholder="0.00"
-                  numericType="decimal" double-number-directive>
+                  type="text" style="height: 40px;" name="advance" value="{{advance | number:'1.2-2'}}"
+                  placeholder="0.00" numericType="decimal" double-number-directive>
               </div>
             </div>
           </div>
@@ -295,8 +322,8 @@
                   <label for="amount">Description</label>
                 </div>
                 <div class="col-md-8 main-font form-group mb-2">
-                  <input class="text-right form-control" id="chequeDescription" [(ngModel)]="chequeDescription" type="text"
-                    style="height: 40px;" name="chequeNo" value="">
+                  <input class="text-right form-control" id="chequeDescription" [(ngModel)]="chequeDescription"
+                    type="text" style="height: 40px;" name="chequeNo" value="">
                 </div>
               </div>
             </div>
@@ -308,7 +335,8 @@
                   <label for="inputEmail1" style="padding-top: 3px;">Cheque Date:</label>
                 </div>
                 <div class="col-md-8 main-font form-group mb-2">
-                  <my-date-picker name="chequeDate" [options]="chequeDatePickerOptions" [(ngModel)]="chequeDate" required>
+                  <my-date-picker name="chequeDate" [options]="chequeDatePickerOptions" [(ngModel)]="chequeDate"
+                    required>
                   </my-date-picker>
                 </div>
               </div>
@@ -355,22 +383,22 @@
             <div class="col-4">
               <p>Customer Name :- </p>
             </div>
-           <div class="col-4">
-            <input class="text-right form-control" id="customerName"
-            type="text" style="height: 40px;" name="customerName" [(ngModel)]="customerName"  placeholder="Customer Name">
-           </div>
-           
+            <div class="col-4">
+              <input class="text-right form-control" id="customerName" type="text" style="height: 40px;"
+                name="customerName" [(ngModel)]="customerName" placeholder="Customer Name">
+            </div>
+
           </div>
 
           <div class="row" style="padding: 7px;">
             <div class="col-4">
               <p>Address :- </p>
             </div>
-           
+
             <div class="col-4">
-              <input class="text-right form-control" id="customerAddress"
-              type="text" style="height: 40px;" name="customerAddress" [(ngModel)]="customerAddress"  placeholder="Customer Address">
-             </div>
+              <input class="text-right form-control" id="customerAddress" type="text" style="height: 40px;"
+                name="customerAddress" [(ngModel)]="customerAddress" placeholder="Customer Address">
+            </div>
           </div>
 
           <div class="row" style="padding: 7px;">
@@ -378,11 +406,11 @@
               <p>Telephone No :- </p>
             </div>
             <div class="col-4">
-              <input class="text-right form-control" id="customerTelephone"
-              type="text" style="height: 40px;" name="customerTelephone" [(ngModel)]="customerTelephone" placeholder="Phone Number">
-             </div>
+              <input class="text-right form-control" id="customerTelephone" type="text" style="height: 40px;"
+                name="customerTelephone" [(ngModel)]="customerTelephone" placeholder="Phone Number">
+            </div>
           </div>
-          
+
         </div>
       </div>
       <div class="col-md-3" style="height: 70px;">

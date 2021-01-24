@@ -18,7 +18,6 @@ import { NgxSpinnerService } from 'ngx-spinner';
   styleUrls: ['./invoice-add.component.scss']
 })
 export class InvoiceAddComponent implements OnInit {
-
   uom: number;
   description: string;
   itemList = [];
