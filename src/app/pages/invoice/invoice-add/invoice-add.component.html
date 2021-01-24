@@ -83,25 +83,25 @@
       <div class="col-sm-4 col-form-label">
         <!-- Add new Radio button  -->
         <div class="row">
-        <div class="col-md-3">
-          <div>
-            <input id="MRPPrice" type="radio" value="MRPPrice" name="priceType">
-            <label for="MRPPrice">MRP</label>
+          <div class="col-md-2">
+            <div>
+              <input id="MRP" type="radio" value="MRP" name="priceType" checked="checked" (change)="changePriceType($event.target.value)">
+              <label for="MRP">MRP</label>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div>
+              <input id="FabricationPrice" type="radio" value="Fabric" name="priceType" (change)="changePriceType($event.target.value)">
+              <label for="FabricationPrice">Fabrication</label>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div>
+              <input id="ShowroomPrice" type="radio" value="Showroom" name="priceType" (change)="changePriceType($event.target.value)">
+              <label for="ShowroomPrice">Showroom</label>
+            </div>
           </div>
         </div>
-        <div class="col-md-3">
-          <div>
-            <input id="FabricationPrice" type="radio" value="FabricationPrice" name="priceType">
-            <label for="FabricationPrice">Fabrication</label>
-          </div>
-        </div>
-        <div class="col-md-3">
-          <div>
-            <input id="CustomerPrice" type="radio" value="CustomerPrice" name="priceType">
-            <label for="CustomerPrice">Customer</label>
-          </div>
-        </div>
-      </div>
         <!-- ---------------END -->
       </div>
     </div>
@@ -136,7 +136,7 @@
               <select ng-model="selectedColor" #selectedDiscount
                 (change)="changeDiscountType($event.target.value,item)">
                 <option selected [value]="1">Cash Discount</option>
-                <option [value]="2">Discount</option>
+                <option [value]="2">Discount %</option>
               </select>
             </td>
 
@@ -156,11 +156,15 @@
 
             <!-- ---------------------------- END ------------------------------------------------------------------------------------------------- -->
             <td>
-              <select ng-model="selectedColor" #selectedPrice (change)="changePrice($event.target.value,item)">
+              <!-- <select ng-model="selectedColor" #selectedPrice (change)="changePrice($event.target.value,item)">
                 <option *ngFor="let price of item.priceList" [value]="price.paymentId" (onClick)="test()">
                   {{price.priceName}} {{ price.price | number:'1.2-2' }}
                 </option>
-              </select>
+              </select> -->
+              <input id="amountReceived" type="number" name="amountReceived" placeholder="0"
+                value="{{item.price}}"
+                numericType="decimal" OnlyNumber="true" readonly>
+
             </td>
             <td>{{item.total | number:'1.2-2' }}</td>
             <td style="padding: 0px;padding-top:7px;">

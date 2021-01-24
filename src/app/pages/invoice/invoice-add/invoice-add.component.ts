@@ -2,10 +2,10 @@ import { Component, OnInit, ElementRef, HostListener } from '@angular/core';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { InvoiceService } from '../../../services/invoice.service';
 import { Item } from '../../../models/item_modal';
-import {PriceList} from '../../../models/price-list.modal'
+import { PriceList } from '../../../models/price-list.modal'
 import { PaymentModal } from '../../../models/payment-modal';
 import { InvoiceModel } from '../../../models/invoice-modal';
-import {Customer} from '../../../models/customer_model';
+import { Customer } from '../../../models/customer_model';
 import { AlertifyService } from '../../../services/alertify.service';
 import * as moment from 'moment';
 import { IMyDpOptions } from 'mydatepicker';
@@ -32,7 +32,7 @@ export class InvoiceAddComponent implements OnInit {
   itemToSave: Item[] = [];
   selectedItem;
   totalAmount: number = 0.00;
-  totalDiscount:number =0.00;
+  totalDiscount: number = 0.00;
   model = { date: {}, formatted: '' };
   myDatePickerOptions: IMyDpOptions = {
     dateFormat: 'yyyy-mm-dd',
@@ -41,11 +41,11 @@ export class InvoiceAddComponent implements OnInit {
     dateFormat: 'yyyy-mm-dd',
   };
   // chequeDate = { date: {}, formatted: '' };
-  chequeDate=null;
+  chequeDate = null;
   balance: number = 0.00;
   cash: number = 0.00;
-  advance:number = 0.00;
-  selectedBankId=-1;
+  advance: number = 0.00;
+  selectedBankId = -1;
   selectedItemId: number;
   customerList = [];
   selectedCustomerName: string = '';
@@ -59,7 +59,7 @@ export class InvoiceAddComponent implements OnInit {
   paymentDetail;
   chequeNo: string = '';
   carsRefNo: string = '';
-  chequeDescription:string='';
+  chequeDescription: string = '';
   isCheckedCash: boolean = true;
   isCheckedCheque: boolean = false;
   isCheckedCreditCard: boolean = false;
@@ -68,10 +68,12 @@ export class InvoiceAddComponent implements OnInit {
   isShowCashFild: boolean = true;
   printDetails: String = '';
   bankList = [];
-  customerName:string ='';
-  customerAddress:string ='';
-  customerTelephone:string ='';
-  customerDetails:Customer = new Customer;
+  customerName: string = '';
+  customerAddress: string = '';
+  customerTelephone: string = '';
+  customerDetails: Customer = new Customer;
+  selectedPrice: number;
+  selectedPriceType: String = 'MRP';
 
 
 
@@ -139,13 +141,13 @@ export class InvoiceAddComponent implements OnInit {
   }
 
   addSelectedItemToTable(id, event) {
-    let priceList: PriceList[] = [] ;
+    let priceList: PriceList[] = [];
     id = Number(id)
     if (id == -1) {
       this.alertify.error('Please select item');
       return false
     }
-    this.selectedItem = _.find(this.categoryWiseItemList, { 'itemId': id }) 
+    this.selectedItem = _.find(this.categoryWiseItemList, { 'itemId': id })
     if (this.selectedItem.itemDetailList.length > 1) {
       var modal = document.getElementById("myModal");
       this.itemDetailList = this.selectedItem.itemDetailList;
@@ -155,26 +157,36 @@ export class InvoiceAddComponent implements OnInit {
 
       if (typeof this.selectedItem.itemDetailList[0] != 'undefined') {
 
-      console.log("selected item is =====",this.selectedItem);  
-      this.closeModal()
+        console.log("selected item is =====", this.selectedItem);
+        this.closeModal()
+        if (this.selectedPriceType == 'MRP') {
+          this.selectedPrice = this.selectedItem.itemDetailList[0].mrpPrice;
 
-      let price1 = new PriceList;
-      price1.paymentId=1;
-      price1.price =this.selectedItem.itemDetailList[0].mrpPrice;
-      price1.priceName="MRP"
-      priceList.push(price1);
+        } else if (this.selectedPriceType == 'Fabric') {
+          this.selectedPrice = this.selectedItem.itemDetailList[0].fabricatorPrice;
 
-      let price = new PriceList;
-      price.paymentId=2;
-      price.price =this.selectedItem.itemDetailList[0].fabricatorPrice;;
-      price.priceName="Fabric"
-      priceList.push(price);
+        } else if (this.selectedPriceType == 'Showroom') {
+          this.selectedPrice = this.selectedItem.itemDetailList[0].customerPrice;
 
-      let price2 = new PriceList;
-      price2.paymentId=3;
-      price2.price =this.selectedItem.itemDetailList[0].customerPrice;;
-      price2.priceName="Customer"
-      priceList.push(price2);
+        }
+
+        let price1 = new PriceList;
+        price1.paymentId = 1;
+        price1.price = this.selectedItem.itemDetailList[0].mrpPrice;
+        price1.priceName = "MRP"
+        priceList.push(price1);
+
+        let price = new PriceList;
+        price.paymentId = 2;
+        price.price = this.selectedItem.itemDetailList[0].fabricatorPrice;;
+        price.priceName = "Fabric"
+        priceList.push(price);
+
+        let price2 = new PriceList;
+        price2.paymentId = 3;
+        price2.price = this.selectedItem.itemDetailList[0].customerPrice;;
+        price2.priceName = "Showroom"
+        priceList.push(price2);
 
         if (this.selectedItem.itemDetailList[0].availableQuantity >= 1) {
           let foundItem = _.find(this.itemToSave, { 'itemDetailId': this.selectedItem.itemDetailList[0].itemDetailId })
@@ -188,35 +200,35 @@ export class InvoiceAddComponent implements OnInit {
             item.itemDetailId = this.selectedItem.itemDetailList[0].itemDetailId;
             item.sellingQuantity = 1
             item.availableQuantity = this.selectedItem.itemDetailList[0].availableQuantity;
-            item.price = this.selectedItem.itemDetailList[0].mrpPrice;
+            item.price = this.selectedPrice;
             item.typeOfPrice = 1;
             item.id = length + 1;
             item.itemId = this.selectedItem.itemId;
             item.discountPercentage = 0;
             item.total = this.selectedItem.itemDetailList[0].mrpPrice * 1;
-            item.priceList =priceList;
-            item.priceName ='MRP';
-            item.typeOfDiscount =1;
-            item.priceDiscount =0;
-            item.priceDiscountTotalItemWise =0;
+            item.priceList = priceList;
+            item.priceName = 'MRP';
+            item.typeOfDiscount = 1;
+            item.priceDiscount = 0;
+            item.priceDiscountTotalItemWise = 0;
 
             this.itemToSave.push(item);
             // console.log("test====",this.itemToSave);
             this.calculateTotal();
           } else {
             if (this.selectedItem.itemDetailList[0].availableQuantity > foundItem.sellingQuantity) {
-              if(foundItem.typeOfDiscount ==2){
+              if (foundItem.typeOfDiscount == 2) {
                 let price = foundItem.price;
                 let qty = foundItem.sellingQuantity;
                 foundItem.sellingQuantity++;
                 foundItem.total = price * (++qty) * _.round(1 - (foundItem.discountPercentage / 100), 4)
-              }else{
+              } else {
                 let price = foundItem.price;
                 foundItem.sellingQuantity++;
-                foundItem.priceDiscountTotalItemWise =foundItem.priceDiscount * (foundItem.sellingQuantity);
+                foundItem.priceDiscountTotalItemWise = foundItem.priceDiscount * (foundItem.sellingQuantity);
                 foundItem.total = price * (foundItem.sellingQuantity) - foundItem.priceDiscountTotalItemWise;
               }
-              
+
 
             } else {
               this.alertify.error('Quantity not enough...');
@@ -235,7 +247,7 @@ export class InvoiceAddComponent implements OnInit {
   }
 
 
-// --------------------------------------------------------------------------------------------------------------------------
+  // --------------------------------------------------------------------------------------------------------------------------
 
   changePrice(value, item) {
     value = Number(value);
@@ -255,7 +267,28 @@ export class InvoiceAddComponent implements OnInit {
     this.calculateTotal();
   };
 
- 
+  changePriceType(value) {
+    this.selectedPriceType = value;
+
+    this.itemToSave.forEach(item => {
+      console.log("Item List .........", item);
+      let priceList = item.priceList;
+      if(this.selectedPriceType == "MRP"){
+        item.price =priceList[0].price;
+
+      }else if(this.selectedPriceType == "Fabric"){
+        item.price =priceList[1].price;
+
+      }else if(this.selectedPriceType == "Showroom"){
+        item.price =priceList[2].price;
+
+      }
+
+    });
+    this.calculateItemWiseTotal();
+    this.calculateTotal();
+  }
+
   changeDiscountType(value, item) {
     let foundItem = _.find(this.itemToSave, { 'itemDetailId': item.itemDetailId });
     _.remove(this.itemToSave, { 'itemDetailId': item.itemDetailId });
@@ -271,14 +304,14 @@ export class InvoiceAddComponent implements OnInit {
 
     let price = foundItem.price
     let qty = foundItem.sellingQuantity;
-    foundItem.priceDiscount =value;
-    foundItem.priceDiscountTotalItemWise =value*qty;
-    foundItem.total = (price * qty) - value*qty;
+    foundItem.priceDiscount = value;
+    foundItem.priceDiscountTotalItemWise = value * qty;
+    foundItem.total = (price * qty) - value * qty;
     this.itemToSave.push(foundItem);
     this.calculateTotal();
   }
 
-// ---------------------------------------------------------------------------------------------------------------------------
+  // ---------------------------------------------------------------------------------------------------------------------------
 
 
   selectedItemDetails(itemDetailId) {
@@ -289,26 +322,26 @@ export class InvoiceAddComponent implements OnInit {
       let length = this.itemToSave.length;
       let selectedDetail = _.find(this.selectedItem.itemDetailList, { 'itemDetailId': itemDetailId });
 
-      let priceList: PriceList[] = [] ;
+      let priceList: PriceList[] = [];
       let price1 = new PriceList;
-      price1.paymentId=1;
-      price1.price =selectedDetail.mrpPrice;
-      price1.priceName="MRP"
+      price1.paymentId = 1;
+      price1.price = selectedDetail.mrpPrice;
+      price1.priceName = "MRP"
       priceList.push(price1);
 
       let price = new PriceList;
-      price.paymentId=2;
-      price.price =selectedDetail.fabricatorPrice;;
-      price.priceName="Fabric"
+      price.paymentId = 2;
+      price.price = selectedDetail.fabricatorPrice;;
+      price.priceName = "Fabric"
       priceList.push(price);
 
       let price2 = new PriceList;
-      price2.paymentId=3;
-      price2.price =selectedDetail.customerPrice;;
-      price2.priceName="Customer"
+      price2.paymentId = 3;
+      price2.price = selectedDetail.customerPrice;;
+      price2.priceName = "Showroom"
       priceList.push(price2);
 
-      
+
       if (selectedDetail.availableQuantity >= 1) {
         let item = new Item();
         item.subCategoryId = Number(this.selectedItem.subCategoryId);
@@ -322,11 +355,11 @@ export class InvoiceAddComponent implements OnInit {
         item.total = item.price * item.sellingQuantity;
         item.priceList = priceList;
         item.typeOfPrice = 1
-        item.priceName='MRP';
+        item.priceName = 'MRP';
         item.id = length + 1;
-        item.typeOfDiscount =1;
-        item.priceDiscount =0
-        item.priceDiscountTotalItemWise =0;
+        item.typeOfDiscount = 1;
+        item.priceDiscount = 0
+        item.priceDiscountTotalItemWise = 0;
         this.itemToSave.push(item);
         this.calculateTotal();
       } else {
@@ -365,7 +398,7 @@ export class InvoiceAddComponent implements OnInit {
       let price = findItem.price;
       findItem.sellingQuantity++;
       if (findItem.typeOfDiscount == 1) {
-        console.log("Change QTY",findItem);
+        console.log("Change QTY", findItem);
         findItem.priceDiscountTotalItemWise = findItem.priceDiscount * qty;
         findItem.total = (price * qty) - (findItem.priceDiscountTotalItemWise);
       } else {
@@ -399,22 +432,36 @@ export class InvoiceAddComponent implements OnInit {
 
   calculateTotal() {
     this.totalAmount = 0.00;
-    this.totalDiscount =0.00;
-    console.log("calculateTotal",this.itemToSave);
+    this.totalDiscount = 0.00;
+    console.log("calculateTotal", this.itemToSave);
     this.itemToSave.forEach(item => {
-      if(item.typeOfDiscount == 1){
+      if (item.typeOfDiscount == 1) {
         this.totalAmount += (item.sellingQuantity * item.price) - Number(item.priceDiscountTotalItemWise);
         this.totalDiscount += Number(item.priceDiscountTotalItemWise);
-      }else{
+      } else {
         this.totalAmount += (item.sellingQuantity * item.price * _.round(1 - (item.discountPercentage / 100), 4));
         this.totalDiscount += (item.sellingQuantity * item.price * _.round((item.discountPercentage / 100), 4));
       }
-      
+
     });
     this.balance = this.totalAmount;
     this.itemToSave = _.orderBy(this.itemToSave, ['id'], ['desc']);
 
   }
+  calculateItemWiseTotal(){
+    this.itemToSave.forEach(item => {
+      let price = item.price;
+      if (item.typeOfDiscount == 1) {
+        console.log("Itemwise total===========", item);
+        item.priceDiscountTotalItemWise = item.priceDiscount * item.sellingQuantity;
+        item.total = (price * item.sellingQuantity) - (item.priceDiscountTotalItemWise);
+      } else {
+        item.total = price * item.sellingQuantity * _.round(1 - (item.discountPercentage / 100), 4)
+      }
+  
+    });
+  }
+
   selectPaymentType(values) {
     this.showChequeFild = false;
     this.showCardFild = false;
@@ -427,7 +474,7 @@ export class InvoiceAddComponent implements OnInit {
       this.carsRefNo = '';
       this.chequeDescription = '';
       this.selectedBankId = -1;
-      this.chequeDate=null;
+      this.chequeDate = null;
     }
     if (this.paymentType == 'CQ') {
       this.showChequeFild = true;
@@ -440,7 +487,7 @@ export class InvoiceAddComponent implements OnInit {
       this.chequeNo = '';
       this.chequeDescription = '';
       this.selectedBankId = -1;
-      this.chequeDate=null;
+      this.chequeDate = null;
 
     }
     if (this.paymentType == 'CH') {
@@ -449,7 +496,7 @@ export class InvoiceAddComponent implements OnInit {
       this.chequeDescription = '';
       this.selectedBankId = -1;
       this.isShowCashFild = true;
-      this.chequeDate=null;
+      this.chequeDate = null;
     }
     if (this.paymentType == 'DB') {
       this.showCardFild = true;
@@ -457,7 +504,7 @@ export class InvoiceAddComponent implements OnInit {
       this.chequeNo = '';
       this.selectedBankId = -1;
       this.chequeDescription = '';
-      this.chequeDate=null;
+      this.chequeDate = null;
     }
   }
   saveInvoice() {
@@ -484,8 +531,8 @@ export class InvoiceAddComponent implements OnInit {
         }
 
         this.customerName.replace(/ {2,}/g, ' ').trim();
-        this.customerDetails.firstName =this.customerName;
-        this.customerDetails.contactNumber =this.customerTelephone;
+        this.customerDetails.firstName = this.customerName;
+        this.customerDetails.contactNumber = this.customerTelephone;
         this.customerDetails.address1 = this.customerAddress;
 
 
@@ -495,15 +542,15 @@ export class InvoiceAddComponent implements OnInit {
           this.alertify.error('Please add cheque number....');
           return false;
         }
-        if(this.chequeDate==null){
+        if (this.chequeDate == null) {
           this.alertify.error('Please add cheque date....');
           return false;
         }
-        if(this.chequeDescription==''){
+        if (this.chequeDescription == '') {
           this.alertify.error('Please add Description....');
           return false;
         }
-        if(this.selectedBankId == -1){
+        if (this.selectedBankId == -1) {
           this.alertify.error('Please select bank....');
           return false;
         }
@@ -524,12 +571,12 @@ export class InvoiceAddComponent implements OnInit {
       let innerThis = this;
       this.paymentDetailList.pop();
       this.paymentDetail.amount = this.totalAmount;
-      this.paymentDetail.advancePayment =this.advance;
+      this.paymentDetail.advancePayment = this.advance;
       this.chequeNo == '' ? this.paymentDetail.chequeNumber = null : this.paymentDetail.chequeNumber = this.chequeNo;
       this.carsRefNo == "" ? this.paymentDetail.cardNumber = null : this.paymentDetail.cardNumber = this.carsRefNo;
-      this.chequeDescription=='' ? this.paymentDetail.description=null: this.paymentDetail.description = this.chequeDescription;
-      this.selectedBankId == -1 ? this.paymentDetail.bankId =null : this.paymentDetail.bankId =this.selectedBankId;
-      this.paymentDetail.chequeDate = this.chequeDate==null?null:this.chequeDate.formatted;
+      this.chequeDescription == '' ? this.paymentDetail.description = null : this.paymentDetail.description = this.chequeDescription;
+      this.selectedBankId == -1 ? this.paymentDetail.bankId = null : this.paymentDetail.bankId = this.selectedBankId;
+      this.paymentDetail.chequeDate = this.chequeDate == null ? null : this.chequeDate.formatted;
 
       this.paymentDetailList.push(this.paymentDetail);
       this.alertify.confirm('Create Invoice', 'Are you sure you want to create invoice', function () {
@@ -541,7 +588,7 @@ export class InvoiceAddComponent implements OnInit {
         invoiceTosave.customerName = innerThis.selectedCustomerName;
         invoiceTosave.customerId = innerThis.selectedCustomerId;
         invoiceTosave.paymentDetailList = innerThis.paymentDetailList;
-        invoiceTosave.tempCustomerVO =innerThis.customerDetails;
+        invoiceTosave.tempCustomerVO = innerThis.customerDetails;
         invoiceTosave.invoiceDate = innerThis.model.formatted;
         innerThis.invoiceService.saveInvoice(invoiceTosave).then((response) => {
           innerThis.spinner.show();
@@ -555,10 +602,10 @@ export class InvoiceAddComponent implements OnInit {
             innerThis.totalAmount = 0.00;
             innerThis.balance = 0.00;
             innerThis.cash = 0.00;
-            innerThis.advance =0.00;
-            innerThis.customerName ='';
-            innerThis.customerAddress ='';
-            innerThis.customerTelephone ='';
+            innerThis.advance = 0.00;
+            innerThis.customerName = '';
+            innerThis.customerAddress = '';
+            innerThis.customerTelephone = '';
 
             innerThis.selectedCustomer = ""
             innerThis.invoiceService.getItemList().then((response) => {
@@ -589,16 +636,16 @@ export class InvoiceAddComponent implements OnInit {
 
   }
 
-  getBalanceAmount(cash,type) {
-    if(cash ==""){
+  getBalanceAmount(cash, type) {
+    if (cash == "") {
       cash = '0';
-      console.log("send data is =====",cash);  
+      console.log("send data is =====", cash);
     }
-    if(type ==1){
+    if (type == 1) {
       this.advance = parseFloat(cash.replace(/,/g, ''));
-    }else{
+    } else {
       this.cash = parseFloat(cash.replace(/,/g, ''));
-      
+
     }
     this.balance = this.totalAmount - (this.cash + this.advance);
   }
@@ -709,8 +756,8 @@ export class InvoiceAddComponent implements OnInit {
     this.carsRefNo = '';
     this.isShowCashFild = true;
     this.chequeDescription = '';
-    this.selectedBankId=-1;
-    this.chequeDate=null;
+    this.selectedBankId = -1;
+    this.chequeDate = null;
     this.modalReference = this.modalService.open(content, { size: 'lg' });
   }
   closeModalWindow() {
@@ -724,32 +771,32 @@ export class InvoiceAddComponent implements OnInit {
 
   setSelectedBank(selectedBankId) {
     console.log("selected Bank is =====", selectedBankId)
-    this.selectedBankId =selectedBankId
+    this.selectedBankId = selectedBankId
   }
 
-  printInvoice(invoiceTosave,insertObject) {
+  printInvoice(invoiceTosave, insertObject) {
     var invoiceWindow = window.open("", "print-window");
-    let ItemList =invoiceTosave.itemList;
+    let ItemList = invoiceTosave.itemList;
     for (var x = 0; x < ItemList.length; x++) {
 
       this.printDetails = this.printDetails + '<tr><td style="height:20px;width:51%;text-align:left;font-size:14px;padding-top:4px;">' + ItemList[x].name + '</td><td style="height:20px;width:21%;text-align:right;font-size:14px;padding-top:4px;">' +
-      parseFloat(ItemList[x].price.toString()).toFixed(2).replace(/./g, function (c, i, a) {
-        return i && c !== "." && ((a.length - i) % 3 === 0) ? ',' + c : c;
-      }) + '</td><td style="height:20px;width:10%;text-align:right;font-size:14px;padding-top:4px;">' + ItemList[x].sellingQuantity + '</td>'+
-    '</td><td style="height:20px;width:20%;text-align:right;font-size: 14px;padding-top:4px;">' + parseFloat(ItemList[x].total).toFixed(2).replace(/./g, function (c, i, a) {
-      return i && c !== "." && ((a.length - i) % 3 === 0) ? ',' + c : c;
-      }) + '</td>' +
-    '</tr>'
-  }
+        parseFloat(ItemList[x].price.toString()).toFixed(2).replace(/./g, function (c, i, a) {
+          return i && c !== "." && ((a.length - i) % 3 === 0) ? ',' + c : c;
+        }) + '</td><td style="height:20px;width:10%;text-align:right;font-size:14px;padding-top:4px;">' + ItemList[x].sellingQuantity + '</td>' +
+        '</td><td style="height:20px;width:20%;text-align:right;font-size: 14px;padding-top:4px;">' + parseFloat(ItemList[x].total).toFixed(2).replace(/./g, function (c, i, a) {
+          return i && c !== "." && ((a.length - i) % 3 === 0) ? ',' + c : c;
+        }) + '</td>' +
+        '</tr>'
+    }
 
-     invoiceWindow.document.write(
-    '<div width=80>' +
-            `<table style="width:100%;">
+    invoiceWindow.document.write(
+      '<div width=80>' +
+      `<table style="width:100%;">
             <br><br><br><br><br><br>
-            <p style="font-size:14px;padding-left:25px;margin:2px;">`+  insertObject.tempCustomerVO.firstName +` </p>
-            <p style="font-size:14px;padding-left:25px;margin:2px;">`+  insertObject.tempCustomerVO.address1 + `</p>
-            <p style="font-size:14px;padding-left:25px;margin:2px;">` + insertObject.tempCustomerVO.contactNumber +`</p>
-            <p style="font-size:14px;padding-left:25px;margin:2px;">` + insertObject.invoiceDate +`</p>
+            <p style="font-size:14px;padding-left:25px;margin:2px;">`+ insertObject.tempCustomerVO.firstName + ` </p>
+            <p style="font-size:14px;padding-left:25px;margin:2px;">`+ insertObject.tempCustomerVO.address1 + `</p>
+            <p style="font-size:14px;padding-left:25px;margin:2px;">` + insertObject.tempCustomerVO.contactNumber + `</p>
+            <p style="font-size:14px;padding-left:25px;margin:2px;">` + insertObject.invoiceDate + `</p>
             </table>
             <br><br><br>
             <br/>
@@ -769,45 +816,45 @@ export class InvoiceAddComponent implements OnInit {
              <thead  > <tr>
              <th style= " text-align:left; height: 20px; width:48%;">Total
              </th>
-            <th style=" text-align:right;height: 20px; width:24%;">`+ parseFloat(invoiceTosave.totalAmount+insertObject.invoiceDiscount).toFixed(2).replace(/./g, function (c, i, a) {
-            return i && c !== "." && ((a.length - i) % 3 === 0) ? ',' + c : c;
-            }) +
-            `</th></tr> 
+            <th style=" text-align:right;height: 20px; width:24%;">`+ parseFloat(invoiceTosave.totalAmount + insertObject.invoiceDiscount).toFixed(2).replace(/./g, function (c, i, a) {
+        return i && c !== "." && ((a.length - i) % 3 === 0) ? ',' + c : c;
+      }) +
+      `</th></tr> 
               <tr>
               <th style=" text-align:left; height: 20px; width:48%; "> Discount
               </th>  
                <th style=" text-align:right;height: 20px; width:22%; ">`+ parseFloat(insertObject.invoiceDiscount).toFixed(2).replace(/./g, function (c, i, a) {
-            return i && c !== "." && ((a.length - i) % 3 === 0) ? ',' + c : c;
-            }) +
-            `</th> 
+        return i && c !== "." && ((a.length - i) % 3 === 0) ? ',' + c : c;
+      }) +
+      `</th> 
                </tr>
                <tr>
                <th style="text-align:left; height: 20px; width:48%; ">Net Total
                </th> 
                 <th style=" text-align:right;height: 20px; width:22%; ">`+ (parseFloat(invoiceTosave.totalAmount)).toFixed(2).replace(/./g, function (c, i, a) {
-            return i && c !== "." && ((a.length - i) % 3 === 0) ? ',' + c : c;
-            }) +
-            `</th>`
-            +
-            `</th> 
+        return i && c !== "." && ((a.length - i) % 3 === 0) ? ',' + c : c;
+      }) +
+      `</th>`
+      +
+      `</th> 
                </tr>
                <tr>
                <th style="text-align:left; height: 20px; width:48%; ">Advance Amount
                </th> 
                 <th style=" text-align:right;height: 20px; width:22%; ">`+ (parseFloat(insertObject.advanceAmount)).toFixed(2).replace(/./g, function (c, i, a) {
-            return i && c !== "." && ((a.length - i) % 3 === 0) ? ',' + c : c;
-            }) +
-            `</th>`
-            +
-            `</th> 
+        return i && c !== "." && ((a.length - i) % 3 === 0) ? ',' + c : c;
+      }) +
+      `</th>`
+      +
+      `</th> 
                </tr>
                <tr>
                <th style="text-align:left; height: 20px; width:48%; ">Balance Amount
                </th> 
-                <th style=" text-align:right;height: 20px; width:22%; ">`+ (parseFloat(invoiceTosave.totalAmount) -parseFloat(insertObject.advanceAmount) ).toFixed(2).replace(/./g, function (c, i, a) {
-            return i && c !== "." && ((a.length - i) % 3 === 0) ? ',' + c : c;
-            }) +
-            `</th>
+                <th style=" text-align:right;height: 20px; width:22%; ">`+ (parseFloat(invoiceTosave.totalAmount) - parseFloat(insertObject.advanceAmount)).toFixed(2).replace(/./g, function (c, i, a) {
+        return i && c !== "." && ((a.length - i) % 3 === 0) ? ',' + c : c;
+      }) +
+      `</th>
                 </tr> 
               </thead>
               <tbody > 
@@ -822,7 +869,7 @@ export class InvoiceAddComponent implements OnInit {
       </div>`
 
 
-     )
+    )
     setTimeout(function () { invoiceWindow.close(); }, 1000);
     this.printDetails = '';
   }
