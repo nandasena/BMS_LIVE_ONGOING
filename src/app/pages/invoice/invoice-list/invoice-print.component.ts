@@ -36,16 +36,12 @@ export class InvoicePrintComponent implements ViewCell, OnInit {
   printReprint(invoiceDetail) {
     let ItemList =invoiceDetail.itemList;
     var invoiceWindow = window.open("", "print-window","height=200px,width=200px");
-    //invoiceWindow.document.open();
     for (var x = 0; x < ItemList.length; x++) {
 
         this.printDetails = this.printDetails + '<tr><td style="height:20px;width:51%;text-align:left;font-size:14px;padding-top:4px;">' + ItemList[x].itemName + '</td><td style="height:20px;width:21%;text-align:right;font-size:14px;padding-top:4px;">' +
         parseFloat(ItemList[x].price.toString()).toFixed(2).replace(/./g, function (c, i, a) {
           return i && c !== "." && ((a.length - i) % 3 === 0) ? ',' + c : c;
         }) + '</td><td style="height:15px;width:10%;text-align:right;font-size:14px;padding-top:4px;">' + ItemList[x].sellingQuantity + '</td>'+
-      // '</td><td style="height:20px;width:10%;text-align:right;font-size: 14px;padding-top:4px;">' +  parseFloat(ItemList[x].itemDiscount.toString()).toFixed(2).replace(/./g, function (c, i, a) {
-      //   return i && c !== "." && ((a.length - i) % 3 === 0) ? ',' + c : c;
-      //   }) + '</td>' +
       '</td><td style="height:20px;width:20%;text-align:right;font-size: 14px;padding-top:4px;">' + parseFloat(ItemList[x].total).toFixed(2).replace(/./g, function (c, i, a) {
         return i && c !== "." && ((a.length - i) % 3 === 0) ? ',' + c : c;
         }) + '</td>' +
@@ -53,9 +49,6 @@ export class InvoicePrintComponent implements ViewCell, OnInit {
     }
 
     invoiceWindow.document.write (
- 
-      // NEW PRINT FORMAT////////////////////////////////////////// 
-
       '<div width=80>' +
             `<table style="width:100%;">
             <br><br><br><br><br><br>
@@ -70,7 +63,7 @@ export class InvoicePrintComponent implements ViewCell, OnInit {
             <br/>
            
 
-            <table  style="margin-left:8%;width:93%;text-align:right;">
+            <table  style="margin-left:9%;width:92%;text-align:right;">
 
             <tbody > `+ this.printDetails + `</tbody>
             </table> 
@@ -78,7 +71,7 @@ export class InvoicePrintComponent implements ViewCell, OnInit {
 
             <div class="row">
 
-            <table style="margin-left:8%;width:93%;text-align:right;">
+            <table style="margin-left:9%;width:92%;text-align:right;">
              <thead> 
              <tr>
              <th style= " text-align:left; height: 20px; width:48%;">Total
@@ -135,7 +128,7 @@ export class InvoicePrintComponent implements ViewCell, OnInit {
       </div>`
   
   )
-    setTimeout(function () { invoiceWindow.close(); }, 1000);
+    // setTimeout(function () { invoiceWindow.close(); }, 1000);
     this.printDetails ='';
   }
 }
