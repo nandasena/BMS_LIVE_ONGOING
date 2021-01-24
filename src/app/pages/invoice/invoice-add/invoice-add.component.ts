@@ -11,7 +11,6 @@ import * as moment from 'moment';
 import { IMyDpOptions } from 'mydatepicker';
 import * as _ from 'lodash';
 import { NgxSpinnerService } from 'ngx-spinner';
-// import { NgxSpinnerService } from 'ngx-spinner';
 @Component({
   selector: 'invoice-add',
   templateUrl: './invoice-add.component.html',
@@ -40,7 +39,6 @@ export class InvoiceAddComponent implements OnInit {
   chequeDatePickerOptions: IMyDpOptions = {
     dateFormat: 'yyyy-mm-dd',
   };
-  // chequeDate = { date: {}, formatted: '' };
   chequeDate = null;
   balance: number = 0.00;
   cash: number = 0.00;
@@ -113,15 +111,6 @@ export class InvoiceAddComponent implements OnInit {
         day: moment().date()
       }, formatted: moment().year() + '-' + (moment().month() + 1) + '-' + moment().date()
     };
-
-    // this.chequeDate = {
-    //   date: {
-    //     year: moment().year(),
-    //     month: (moment().month() + 1),
-    //     day: moment().date()
-    //   }, formatted: moment().year() + '-' + (moment().month() + 1) + '-' + moment().date()
-    // };
-
     this.selectPaymentType('CH')
 
     this.invoiceService.getBankList().then((responce) => {
@@ -156,8 +145,6 @@ export class InvoiceAddComponent implements OnInit {
     } else {
 
       if (typeof this.selectedItem.itemDetailList[0] != 'undefined') {
-
-        console.log("selected item is =====", this.selectedItem);
         this.closeModal()
         if (this.selectedPriceType == 'MRP') {
           this.selectedPrice = this.selectedItem.itemDetailList[0].mrpPrice;
@@ -213,7 +200,6 @@ export class InvoiceAddComponent implements OnInit {
             item.priceDiscountTotalItemWise = 0;
 
             this.itemToSave.push(item);
-            // console.log("test====",this.itemToSave);
             this.calculateTotal();
           } else {
             if (this.selectedItem.itemDetailList[0].availableQuantity > foundItem.sellingQuantity) {
@@ -271,7 +257,6 @@ export class InvoiceAddComponent implements OnInit {
     this.selectedPriceType = value;
 
     this.itemToSave.forEach(item => {
-      console.log("Item List .........", item);
       let priceList = item.priceList;
       if(this.selectedPriceType == "MRP"){
         item.price =priceList[0].price;
@@ -398,7 +383,6 @@ export class InvoiceAddComponent implements OnInit {
       let price = findItem.price;
       findItem.sellingQuantity++;
       if (findItem.typeOfDiscount == 1) {
-        console.log("Change QTY", findItem);
         findItem.priceDiscountTotalItemWise = findItem.priceDiscount * qty;
         findItem.total = (price * qty) - (findItem.priceDiscountTotalItemWise);
       } else {
@@ -433,7 +417,6 @@ export class InvoiceAddComponent implements OnInit {
   calculateTotal() {
     this.totalAmount = 0.00;
     this.totalDiscount = 0.00;
-    console.log("calculateTotal", this.itemToSave);
     this.itemToSave.forEach(item => {
       if (item.typeOfDiscount == 1) {
         this.totalAmount += (item.sellingQuantity * item.price) - Number(item.priceDiscountTotalItemWise);
@@ -452,7 +435,6 @@ export class InvoiceAddComponent implements OnInit {
     this.itemToSave.forEach(item => {
       let price = item.price;
       if (item.typeOfDiscount == 1) {
-        console.log("Itemwise total===========", item);
         item.priceDiscountTotalItemWise = item.priceDiscount * item.sellingQuantity;
         item.total = (price * item.sellingQuantity) - (item.priceDiscountTotalItemWise);
       } else {
@@ -639,7 +621,6 @@ export class InvoiceAddComponent implements OnInit {
   getBalanceAmount(cash, type) {
     if (cash == "") {
       cash = '0';
-      console.log("send data is =====", cash);
     }
     if (type == 1) {
       this.advance = parseFloat(cash.replace(/,/g, ''));
@@ -770,7 +751,6 @@ export class InvoiceAddComponent implements OnInit {
 
 
   setSelectedBank(selectedBankId) {
-    console.log("selected Bank is =====", selectedBankId)
     this.selectedBankId = selectedBankId
   }
 
