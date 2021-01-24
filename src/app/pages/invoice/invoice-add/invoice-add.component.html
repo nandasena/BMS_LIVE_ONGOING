@@ -156,11 +156,6 @@
 
             <!-- ---------------------------- END ------------------------------------------------------------------------------------------------- -->
             <td>
-              <!-- <select ng-model="selectedColor" #selectedPrice (change)="changePrice($event.target.value,item)">
-                <option *ngFor="let price of item.priceList" [value]="price.paymentId" (onClick)="test()">
-                  {{price.priceName}} {{ price.price | number:'1.2-2' }}
-                </option>
-              </select> -->
               <input id="amountReceived" type="number" name="amountReceived" placeholder="0"
                 value="{{item.price}}"
                 numericType="decimal" OnlyNumber="true" readonly>
