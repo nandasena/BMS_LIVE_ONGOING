@@ -80,6 +80,7 @@ export class InvoiceAddComponent implements OnInit {
   constructor(private invoiceService: InvoiceService, private alertify: AlertifyService, private spinner: NgxSpinnerService, private el: ElementRef, private modalService: NgbModal) { }
 
   ngOnInit() {
+    console.log("ASASASASKKKKKKK");
     var modal = document.getElementById("myModal");
     window.onclick = function (event) {
       if (event.target == modal) {
@@ -757,13 +758,15 @@ export class InvoiceAddComponent implements OnInit {
   printInvoice(invoiceTosave, insertObject) {
     var invoiceWindow = window.open("", "print-window");
     let ItemList = invoiceTosave.itemList;
+    //parseFloat(ItemList[x].price)* parseFloat(ItemList[x].sellingQuantity)
+    console.log("Item list =======",ItemList);
     for (var x = 0; x < ItemList.length; x++) {
 
       this.printDetails = this.printDetails + '<tr><td style="height:20px;width:51%;text-align:left;font-size:14px;padding-top:4px;">' + ItemList[x].name + '</td><td style="height:20px;width:21%;text-align:right;font-size:14px;padding-top:4px;">' +
         parseFloat(ItemList[x].price.toString()).toFixed(2).replace(/./g, function (c, i, a) {
           return i && c !== "." && ((a.length - i) % 3 === 0) ? ',' + c : c;
         }) + '</td><td style="height:20px;width:10%;text-align:right;font-size:14px;padding-top:4px;">' + ItemList[x].sellingQuantity + '</td>' +
-        '</td><td style="height:20px;width:20%;text-align:right;font-size: 14px;padding-top:4px;">' + parseFloat(ItemList[x].total).toFixed(2).replace(/./g, function (c, i, a) {
+        '</td><td style="height:20px;width:20%;text-align:right;font-size: 14px;padding-top:4px;">' + parseFloat((parseFloat(ItemList[x].price)* parseFloat(ItemList[x].sellingQuantity)).toString()).toFixed(2).replace(/./g, function (c, i, a) {
           return i && c !== "." && ((a.length - i) % 3 === 0) ? ',' + c : c;
         }) + '</td>' +
         '</tr>'

@@ -35,6 +35,7 @@ export class InvoicePrintComponent implements ViewCell, OnInit {
 
   printReprint(invoiceDetail) {
     let ItemList =invoiceDetail.itemList;
+    console.log("Item list =======",ItemList);
     var invoiceWindow = window.open("", "print-window","height=200px,width=200px");
     for (var x = 0; x < ItemList.length; x++) {
 
@@ -42,7 +43,7 @@ export class InvoicePrintComponent implements ViewCell, OnInit {
         parseFloat(ItemList[x].price.toString()).toFixed(2).replace(/./g, function (c, i, a) {
           return i && c !== "." && ((a.length - i) % 3 === 0) ? ',' + c : c;
         }) + '</td><td style="height:15px;width:10%;text-align:right;font-size:14px;padding-top:4px;">' + ItemList[x].sellingQuantity + '</td>'+
-      '</td><td style="height:20px;width:20%;text-align:right;font-size: 14px;padding-top:4px;">' + parseFloat(ItemList[x].total).toFixed(2).replace(/./g, function (c, i, a) {
+      '</td><td style="height:20px;width:20%;text-align:right;font-size: 14px;padding-top:4px;">' + parseFloat((parseFloat(ItemList[x].price)* parseFloat(ItemList[x].sellingQuantity)).toString()).toFixed(2).replace(/./g, function (c, i, a) {
         return i && c !== "." && ((a.length - i) % 3 === 0) ? ',' + c : c;
         }) + '</td>' +
       '</tr>'
@@ -128,7 +129,7 @@ export class InvoicePrintComponent implements ViewCell, OnInit {
       </div>`
   
   )
-    // setTimeout(function () { invoiceWindow.close(); }, 1000);
+    setTimeout(function () { invoiceWindow.close(); }, 1000);
     this.printDetails ='';
   }
 }

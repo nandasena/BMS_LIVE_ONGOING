@@ -1,6 +1,13 @@
+// {
+//     "apiBasePathOfLive":"http://18.218.225.81:8080/sivilima/",
+//     "apiBasePathOfLocal":"http://18.218.225.81:8080/sivilima/",
+//     "uploadedImagesPath":"api/src/files/"
+    
+// }
+
 {
-    "apiBasePathOfLive":"http://18.218.225.81:8080/sivilima/",
-    "apiBasePathOfLocal":"http://18.218.225.81:8080/sivilima/",
+    "apiBasePathOfLive":"http://localhost:8080/sivilima_api/",
+    "apiBasePathOfLocal":"http://localhost:8080/sivilima_api/",
     "uploadedImagesPath":"api/src/files/"
     
 }

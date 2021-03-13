@@ -29,6 +29,7 @@ import { environment } from '../environments/environment';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { SettingsService } from './services/settings.service';
 import {InventoryService} from './services/inventory.service';
+import { JwtHelper } from 'angular2-jwt';
 
 @NgModule({
   declarations: [AppComponent],
@@ -86,7 +87,7 @@ import {InventoryService} from './services/inventory.service';
         guest: {
           view: ['targets', 'business-selfie', 'company-ratings'],
         },
-        user: {
+        admin: {
           view: ['invoice', 'rocks', 'targets', 'teams', 'business-selfie'],
         }
       },
@@ -104,7 +105,7 @@ import {InventoryService} from './services/inventory.service';
     RoleProviderService,
     CommonService,
     InvoiceService,
-     PaymentDetailService,
+    PaymentDetailService,
     SettingsService,
     Config,
     BiguserService,
@@ -113,6 +114,11 @@ import {InventoryService} from './services/inventory.service';
     InventoryService,
     PurchaseOrderService,
     CustomerSupplierService,
+    {
+      provide: NbRoleProvider,
+      useClass: RoleProviderService
+    },
+    JwtHelper
   ],
 })
 export class AppModule {

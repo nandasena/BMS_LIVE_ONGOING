@@ -6,8 +6,8 @@
 
 export const environment = {
   production: true,
-  apiBaseUrl: 'http://18.218.225.81:8080/sivilima/',
-  nvirementType:'1'
+  // apiBaseUrl: 'http://18.218.225.81:8080/sivilima/',
+  nvirementType:'1',
 //  apiBaseUrl:'http://ec2-3-138-244-131.us-east-2.compute.amazonaws.com:8080/sivilima/'
-  // apiBaseUrl: 'http://localhost:8080/sivilima_api/',
+  apiBaseUrl: 'http://localhost:8080/sivilima_api/',
 };
