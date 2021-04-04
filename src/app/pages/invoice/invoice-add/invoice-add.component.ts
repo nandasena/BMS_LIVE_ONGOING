@@ -657,6 +657,9 @@ export class InvoiceAddComponent implements OnInit {
     } else {
       let selectedCustomer = _.find(this.customerList, { 'customerId': customerId });
       if (selectedCustomer != null) {
+        this.customerName = selectedCustomer.firstName + " "+ selectedCustomer.lastName;
+        this.customerAddress =selectedCustomer.address1 + (selectedCustomer.address2 == null ?" ": ", "+selectedCustomer.address2);
+        this.customerTelephone =selectedCustomer.contactNumber;
         this.selectedCustomerName = selectedCustomer.firstName;
         event.target.value = this.selectedCustomerName;
         this.selectedCustomerId = selectedCustomer.customerId;
@@ -853,7 +856,7 @@ export class InvoiceAddComponent implements OnInit {
 
 
     )
-    setTimeout(function () { invoiceWindow.close(); }, 1000);
+    setTimeout(function () { invoiceWindow.close(); }, 2000);
     this.printDetails = '';
   }
 
