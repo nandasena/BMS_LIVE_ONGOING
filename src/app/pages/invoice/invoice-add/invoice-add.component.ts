@@ -496,10 +496,10 @@ export class InvoiceAddComponent implements OnInit {
         this.alertify.error('Please add date....');
         return false;
       } if (this.paymentDetail.typeCode != 'CR') {
-        if (this.balance > 0) {
-          this.alertify.error('Balance amount more than total amount ....');
-          return false;
-        }
+        // if (this.balance > 0) {
+        //   this.alertify.error('Balance amount more than total amount ....');
+        //   return false;
+        // }
         if (this.customerName == '') {
           this.alertify.error('Please add customer name ....');
           return false;

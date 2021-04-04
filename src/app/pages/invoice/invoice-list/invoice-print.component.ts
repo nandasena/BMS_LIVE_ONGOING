@@ -129,7 +129,7 @@ export class InvoicePrintComponent implements ViewCell, OnInit {
       </div>`
   
   )
-    setTimeout(function () { invoiceWindow.close(); }, 1000);
+    setTimeout(function () { invoiceWindow.close(); }, 2000);
     this.printDetails ='';
   }
 }
