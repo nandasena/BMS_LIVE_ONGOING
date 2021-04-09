@@ -167,15 +167,26 @@ export class GoodReceived {
       this.calculate();
     }
   }
+  // calculate(){
+  //   this.totalAmount =0.00;
+  //   this.receivedItemList.forEach(item => {
+  //     this.totalAmount += item.receiveQuantity * item.costPrice;
+  //     this.balance =this.totalAmount;
+  //   });
+  //   this.balance =this.totalAmount;
+  //   console.log("aasaasaa",this.totalAmount);
+  // }
   calculate(){
     this.totalAmount =0.00;
     this.receivedItemList.forEach(item => {
-      this.totalAmount += item.receiveQuantity * item.costPrice;
-      this.balance =this.totalAmount;
+      const test = Math.pow(10,2);
+      this.totalAmount += Number(Math.round(Number((item.receiveQuantity * item.costPrice) + "e" + 2)) + "e-" + 2);
+      this.balance = Number(Math.round(Number((this.totalAmount) + "e" + 2)) + "e-" + 2);
     });
-    this.balance =this.totalAmount;
-    console.log("aasaasaa",this.totalAmount);
+    this.balance = Number(Math.round(Number((this.totalAmount) + "e" + 2)) + "e-" + 2);;
+    console.log("total amount",this.balance);
   }
+
   // saveRecevedQuantity() {
   //   if (typeof this.receivedItemList === 'undefined') {
   //   } else {
@@ -260,7 +271,7 @@ export class GoodReceived {
 
   getBalanceAmount(cash) {
     this.cash = parseFloat(cash.replace(/,/g, ''));
-    this.balance = this.totalAmount - this.cash
+    this.balance = Number(Math.round(Number((this.totalAmount) + "e" + 2)) + "e-" + 2) - Number(Math.round(Number((this.cash) + "e" + 2)) + "e-" + 2);
   }
 
   setSelectedBank(selectedBankId) {
