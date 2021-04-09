@@ -457,14 +457,14 @@ export class PurchaseOrderCreateComponent implements OnInit {
     var invoiceWindow = window.open("", "print-window");
     //invoiceWindow.document.open();
     for (var x = 0; x < savedPurchaseOrder.itemVOList.length; x++) {
-      this.printDetails = this.printDetails + '<tr><td style="height:20px;width:33%;text-align:left;">' + savedPurchaseOrder.itemVOList[x].name + '</td><td style="height:20px;width:15%;text-align:right;">' +
+      this.printDetails = this.printDetails + '<tr>'+
+      '<td style="height:20px;width:50%;text-align:left;">' + savedPurchaseOrder.itemVOList[x].name + '</td>'+
+      '<td style="height:20px;width:11%;text-align:right;">' + savedPurchaseOrder.itemVOList[x].sellingQuantity + '</td>' +
+      '<td style="height:20px;width:10%;text-align:right;">' +
         parseFloat(savedPurchaseOrder.itemVOList[x].price.toString()).toFixed(2).replace(/./g, function (c, i, a) {
           return i && c !== "." && ((a.length - i) % 3 === 0) ? ',' + c : c;
-        }) + '</td><td style="height:20px;width:14%;text-align:right;">' + savedPurchaseOrder.itemVOList[x].sellingQuantity + '</td>' +
-        '</td><td style="height:20px;width:18%;text-align:right;">' + parseFloat((savedPurchaseOrder.itemVOList[x].sellingQuantity * savedPurchaseOrder.itemVOList[x].discountPercentage * savedPurchaseOrder.itemVOList[x].price / 100).toString()).toFixed(2).replace(/./g, function (c, i, a) {
-          return i && c !== "." && ((a.length - i) % 3 === 0) ? ',' + c : c;
-        }) + '</td>' +
-        '</td><td style="height:20px;width:20%;text-align:right;">' + parseFloat(savedPurchaseOrder.itemVOList[x].total).toFixed(2).replace(/./g, function (c, i, a) {
+        }) + '</td>'+
+        '<td style="height:20px;width:15%;text-align:right;">' + parseFloat(savedPurchaseOrder.itemVOList[x].total).toFixed(2).replace(/./g, function (c, i, a) {
           return i && c !== "." && ((a.length - i) % 3 === 0) ? ',' + c : c;
         }) + '</td>' +
         '</tr>'
@@ -476,6 +476,7 @@ export class PurchaseOrderCreateComponent implements OnInit {
                       <br><br><br><br><br><br><br><br><br><br>
                   
                       <tr style="width:100%; height:50px; text-align:center;"><td >PURCHASE ORDER</td></tr>
+                      <tr style="width:100%; height:50px; text-align:center;"><td style="font-size: 40px;">Magnate Enterprises - Makola</td></tr>
                   </table>
   
                   <br/>
@@ -484,7 +485,7 @@ export class PurchaseOrderCreateComponent implements OnInit {
                     <table  style=" margin-left:2%; width:100%;">
                      <thead>
                       <tr>
-                        <th style="text-align:left;height:15px;width:30%;">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspInvoice Number :
+                        <th style="text-align:left;height:15px;width:30%;">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspPO Number :
                         </th>
                         <th style="text-align:left;height:15px;width:20%;  ">`+ insertObject.purchaseCode +
       `</th> 
@@ -517,12 +518,10 @@ export class PurchaseOrderCreateComponent implements OnInit {
   
                       <th style="text-align:left;width:33%;">Discription
                       </th>
-                      <th style="text-align:right;width:15%;">Unit Price
-                      </th> 
                       <th style="text-align:right;width:14%;">Quantity
                       </th>
-                      <th style="text-align:right;width:18%;">Discount (Rs)
-                      </th>
+                      <th style="text-align:right;width:15%;">Unit Price
+                      </th> 
                       <th style="text-align:right;width:20%;">Amount (Rs)
                       </th>
   
@@ -542,12 +541,6 @@ export class PurchaseOrderCreateComponent implements OnInit {
       }) +
       `</th></tr> 
                     <tr>
-                    <th style=" text-align:right; height: 20px; width:48%; "> Discount
-                    </th>  
-                     <th style=" text-align:right;height: 20px; width:22%; ">`+ parseFloat(insertObject.totalDiscount).toFixed(2).replace(/./g, function (c, i, a) {
-        return i && c !== "." && ((a.length - i) % 3 === 0) ? ',' + c : c;
-      }) +
-      `</th> 
                      </tr>
                      <tr>
                      <th style="text-align:right; height: 20px; width:48%; ">Net Total
@@ -568,7 +561,7 @@ export class PurchaseOrderCreateComponent implements OnInit {
                   <tr>
                   <th style="text-align:right;height: 20px; width:25%; ">Authorized By :
                   </th>
-                  <th style="text-align:left; height: 20px; width:10%;  ">`+ 'Pasan' +
+                  <th style="text-align:left; height: 20px; width:10%;  ">`+ 'Malshanthi' +
       `</th>
                   <th style="text-align:center;height: 20px; width:55%;  ">
                   </th></tr>

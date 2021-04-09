@@ -95,7 +95,7 @@
             <th>Items</th>
             <th>Qty</th>
             <!-- <th>Available</th> -->
-            <th>Discount %</th>
+            <!-- <th>Discount %</th> -->
             <th>Price</th>
             <th>Total</th>
             <th>Remove</th>
@@ -110,9 +110,9 @@
               <input type="text" ng-maxlength="3" class="table-number " name="tblQty" value="{{item.sellingQuantity}}"
                 (change)=changeQty(item.itemDetailId,$event.target.value,$event) numbersOnly style="width: 101px;">
             </td>
-            <td style="width: 120px;"><input id="amountReceived" type="number" name="amountReceived" placeholder="%"
+            <!-- <td style="width: 120px;"><input id="amountReceived" type="number" name="amountReceived" placeholder="%"
                 (change)="setDiscount($event.target.value,item.itemDetailId)" value="{{item.discountPercentage}}"
-                OnlyNumber="true" numbersOnlyDiscount style="width: 120px;"></td>
+                OnlyNumber="true" numbersOnlyDiscount style="width: 120px;"></td> -->
             <td style="width: 120px;">
               <input type="text" ng-maxlength="3" class="table-number " name="tblQty" value="{{item.price | number:'1.2-2' }}"
                 (change)=changePrice(item.itemDetailId,$event.target.value,$event) numericType="decimal" double-number-directive style="width: 120px;">
