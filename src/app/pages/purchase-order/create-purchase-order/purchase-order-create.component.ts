@@ -255,7 +255,7 @@ export class PurchaseOrderCreateComponent implements OnInit {
 
     });
     this.balance = this.totalAmount;
-    this.itemToSave = _.orderBy(this.itemToSave, ['id'], ['desc']);
+    this.itemToSave = _.orderBy(this.itemToSave, ['id'], ['asc']);
 
   }
 
@@ -501,7 +501,7 @@ export class PurchaseOrderCreateComponent implements OnInit {
                    <table  style=" margin-left:2%; width:100%;">
                     <thead>
                      <tr>
-                      <th style="text-align:left;height: 15px; width:30%; ">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspCustomer Name :
+                      <th style="text-align:left;height: 15px; width:30%; ">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspSupplier Name :
                       </th>
                       <th style="text-align:left; height: 15px; width:70%;  ">`+ insertObject.supplierName +
       `</th>
@@ -534,7 +534,7 @@ export class PurchaseOrderCreateComponent implements OnInit {
   
                   <table style="margin-left:14%; width:77%;padding-top:50px;">
                    <thead  > <tr>
-                   <th style= " text-align:right; height: 20px; width:48%;">Total
+                   <th style= " text-align:right; height: 20px; width:48%;">Total Amount
                    </th>
                   <th style=" text-align:right;height: 20px; width:24%;">`+ parseFloat(insertObject.totalAmount).toFixed(2).replace(/./g, function (c, i, a) {
         return i && c !== "." && ((a.length - i) % 3 === 0) ? ',' + c : c;
@@ -542,14 +542,6 @@ export class PurchaseOrderCreateComponent implements OnInit {
       `</th></tr> 
                     <tr>
                      </tr>
-                     <tr>
-                     <th style="text-align:right; height: 20px; width:48%; ">Net Total
-                     </th> 
-                      <th style=" text-align:right;height: 20px; width:22%; ">`+ parseFloat((insertObject.totalAmount - insertObject.totalDiscount).toString()).toFixed(2).replace(/./g, function (c, i, a) {
-        return i && c !== "." && ((a.length - i) % 3 === 0) ? ',' + c : c;
-      }) +
-      `</th>
-                      </tr> 
                     </thead>
                     <tbody > 
                     </tbody>
