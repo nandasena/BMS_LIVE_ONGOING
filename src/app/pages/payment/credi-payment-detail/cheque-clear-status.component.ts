@@ -4,7 +4,7 @@ import { ViewCell } from 'ng2-smart-table';
 @Component({
     template: `
     <div>
-      <span class="{{badgeClass}}"  [ngStyle]="{'cursor':cursorType}">{{buttonName}}</span>
+       <span class="{{badgeClass}}"  [ngStyle]="{'cursor':cursorType}">{{buttonName}}</span>
     </div>`,
   })
 
@@ -13,12 +13,15 @@ import { ViewCell } from 'ng2-smart-table';
     @Input() rowData: any;
     buttonName;
     badgeClass: string;
-
-    constructor() { }
+    cursorType:any;
+    
+    constructor() {
+    }
     
     ngOnInit() {
         this.buttonName = 'Pending';
         this.badgeClass = 'badge badge-info';
+        
     }
     
 
