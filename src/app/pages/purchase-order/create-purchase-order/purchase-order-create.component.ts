@@ -516,7 +516,7 @@ export class PurchaseOrderCreateComponent implements OnInit {
                   
                     <tr>
   
-                      <th style="text-align:left;width:33%;">Discription
+                      <th style="text-align:left;width:33%;">Item Name
                       </th>
                       <th style="text-align:right;width:14%;">Quantity
                       </th>

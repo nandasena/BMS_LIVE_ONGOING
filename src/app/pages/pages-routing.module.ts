@@ -15,7 +15,9 @@ import { BusinessSelfieComponent } from './business-selfie/business-selfie.compo
 import { TeamComponent } from './dashboard/team/team.component';
 import { CreateComponent } from './create/create.component';
 import {PaymentHandleComponent} from './payment-handle/payment-handle.component';
-import {ChequeComponent} from './payment-handle/cheque/cheque.component'
+import {ChequeComponent} from './payment-handle/cheque/cheque.component';
+import {ReportComponent} from './report/report.component';
+import {ProfitOnInvoiceComponent} from './report/profit-on-invoice/profit-on-invoice.component';
 import { from } from 'rxjs/observable/from';
 
 const routes: Routes = [{
@@ -69,6 +71,14 @@ const routes: Routes = [{
   {
     path:'payment-handle',
     component:PaymentHandleComponent,
+  },
+  {
+    path:'report',
+    component:ReportComponent,
+  },
+  {
+    path:'profit-on-invoice',
+    component:ProfitOnInvoiceComponent,
   },
   {
     path:'cheque-handle',

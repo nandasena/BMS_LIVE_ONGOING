@@ -13,6 +13,11 @@ import {PurchaseOrderModal} from './purchase-order/purchase-order.module';
 import { CreateModule } from './create/create.module';
 import { PaymentHandleComponent } from './payment-handle/payment-handle.component';
 import {PaymentHandleModule} from './payment-handle/payment-handle.module';
+import { ReportComponent } from './report/report.component';
+import { ProfitOnInvoiceComponent } from './report/profit-on-invoice/profit-on-invoice.component';
+import { MyDatePickerModule } from 'mydatepicker';
+import { Ng2SmartTableModule } from 'ng2-smart-table';
+import { StyleDirective } from './style.directive';
 
 
 const PAGES_COMPONENTS = [
@@ -31,12 +36,21 @@ const PAGES_COMPONENTS = [
     PaymentModule,
     PurchaseOrderModal,
     CreateModule,
-    PaymentHandleModule
+    PaymentHandleModule,
+    MyDatePickerModule,
+    Ng2SmartTableModule
   ],
   declarations: [
     ...PAGES_COMPONENTS,
      PaymentHandleComponent,
+     ReportComponent,
+     ProfitOnInvoiceComponent,
+     StyleDirective
   ],
+  providers: [
+    // Config,
+    // CommonService
+  ]
 })
 export class PagesModule {
 }

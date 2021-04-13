@@ -29,7 +29,9 @@ import { environment } from '../environments/environment';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { SettingsService } from './services/settings.service';
 import {InventoryService} from './services/inventory.service';
+import {ReportService} from './services/report.service';
 import { JwtHelper } from 'angular2-jwt';
+
 
 @NgModule({
   declarations: [AppComponent],
@@ -114,6 +116,7 @@ import { JwtHelper } from 'angular2-jwt';
     InventoryService,
     PurchaseOrderService,
     CustomerSupplierService,
+    ReportService,
     {
       provide: NbRoleProvider,
       useClass: RoleProviderService
