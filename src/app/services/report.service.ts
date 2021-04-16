@@ -18,4 +18,8 @@ export class ReportService {
     getInvoiceDetailsByDateRange(fromDate,toDate){
         return this.commonsService.apiGet('report/invoiceByDateRange/fromDate/'+fromDate+'/toDate/'+toDate+'/');
     }
+
+    getItemDetailsByDateRange(fromDate,toDate){
+        return this.commonsService.apiGet('report/itemDetailsByDateRange/fromDate/'+fromDate+'/toDate/'+toDate+'/');
+    }
 }

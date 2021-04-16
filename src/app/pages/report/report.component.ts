@@ -15,8 +15,10 @@ export class ReportComponent implements OnInit {
   }
 
   showProfitOnInvoicel(){
-    console.log("come here =====")
     this.router.navigate(['/pages/profit-on-invoice']);
+  }
+  showItemWisereport(){
+    this.router.navigate(['/pages/item-wise-profit']);
   }
 
 }
