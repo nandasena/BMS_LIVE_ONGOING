@@ -71,7 +71,8 @@ export class InvoiceAddComponent implements OnInit {
   customerTelephone: string = '';
   customerDetails: Customer = new Customer;
   selectedPrice: number;
-  selectedPriceType: String = 'MRP';
+  selectedPriceType: string = 'MRP';
+  paymentTypeId=1;
 
 
 
@@ -189,13 +190,13 @@ export class InvoiceAddComponent implements OnInit {
             item.sellingQuantity = 1
             item.availableQuantity = this.selectedItem.itemDetailList[0].availableQuantity;
             item.price = this.selectedPrice;
-            item.typeOfPrice = 1;
+            item.typeOfPrice = this.paymentTypeId;
             item.id = length + 1;
             item.itemId = this.selectedItem.itemId;
             item.discountPercentage = 0;
             item.total = this.selectedItem.itemDetailList[0].mrpPrice * 1;
             item.priceList = priceList;
-            item.priceName = 'MRP';
+            item.priceName = this.selectedPriceType;
             item.typeOfDiscount = 1;
             item.priceDiscount = 0;
             item.priceDiscountTotalItemWise = 0;
@@ -261,16 +262,23 @@ export class InvoiceAddComponent implements OnInit {
       let priceList = item.priceList;
       if(this.selectedPriceType == "MRP"){
         item.price =priceList[0].price;
+        item.typeOfPrice =1;
+        this.paymentTypeId =1;
 
       }else if(this.selectedPriceType == "Fabric"){
         item.price =priceList[1].price;
+        item.typeOfPrice =2;
+        this.paymentTypeId =2;
 
       }else if(this.selectedPriceType == "Showroom"){
         item.price =priceList[2].price;
+        item.typeOfPrice =3;
+        this.paymentTypeId =3;
 
       }
-
+      item.priceName =this.selectedPriceType;
     });
+
     this.calculateItemWiseTotal();
     this.calculateTotal();
   }
@@ -340,8 +348,8 @@ export class InvoiceAddComponent implements OnInit {
         item.discountPercentage = 0;
         item.total = item.price * item.sellingQuantity;
         item.priceList = priceList;
-        item.typeOfPrice = 1
-        item.priceName = 'MRP';
+        item.typeOfPrice = this.paymentTypeId;
+        item.priceName = this.selectedPriceType;
         item.id = length + 1;
         item.typeOfDiscount = 1;
         item.priceDiscount = 0
@@ -562,6 +570,7 @@ export class InvoiceAddComponent implements OnInit {
       this.paymentDetail.chequeDate = this.chequeDate == null ? null : this.chequeDate.formatted;
 
       this.paymentDetailList.push(this.paymentDetail);
+      console.log("Price List==========",this.itemToSave);
       this.alertify.confirm('Create Invoice', 'Are you sure you want to create invoice', function () {
         let invoiceTosave = new InvoiceModel;
 

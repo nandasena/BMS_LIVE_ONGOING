@@ -50,21 +50,22 @@ export class ProfitOnInvoiceComponent implements OnInit {
         type: 'string',
       },
       totalAmount: {
-        title: 'Total Amount',
+        title: 'Invoice Amount',
         valuePrepareFunction: (value) => { return value === 'Total' ? value : Intl.NumberFormat("ja-JP", { style: "decimal", currency: "JPY", minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(value) }
       },
       totalCost: {
-        title: 'Total Cost',
+        title: 'Invoice Cost',
+        valuePrepareFunction: (value) => { return value === 'Total' ? value : Intl.NumberFormat("ja-JP", { style: "decimal", currency: "JPY", minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(value) }
+      },
+      totalDiscount: {
+        title: 'Invoice Discount',
         valuePrepareFunction: (value) => { return value === 'Total' ? value : Intl.NumberFormat("ja-JP", { style: "decimal", currency: "JPY", minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(value) }
       },
       profitOrLost: {
         title: 'Profit Or Lost',
         valuePrepareFunction: (value) => { return value === 'Total' ? value : Intl.NumberFormat("ja-JP", { style: "decimal", currency: "JPY", minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(value) }
       },
-      invoiceDiscount: {
-        title: 'Invoice Discount',
-        valuePrepareFunction: (value) => { return value === 'Total' ? value : Intl.NumberFormat("ja-JP", { style: "decimal", currency: "JPY", minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(value) }
-      },
+ 
     },
   };
 

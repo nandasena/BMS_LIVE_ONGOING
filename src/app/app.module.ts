@@ -32,7 +32,6 @@ import {InventoryService} from './services/inventory.service';
 import {ReportService} from './services/report.service';
 import { JwtHelper } from 'angular2-jwt';
 
-
 @NgModule({
   declarations: [AppComponent],
   imports: [
