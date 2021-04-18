@@ -78,6 +78,7 @@ export class ItemDetailsComponent implements OnInit {
   itemId;
   initItemDetailList = [];
   modalReference: NgbModalRef;
+  isAddItem:boolean =true;
 
   source: LocalDataSource = new LocalDataSource();
   constructor(
@@ -104,6 +105,10 @@ export class ItemDetailsComponent implements OnInit {
     this.settingsservice.getItemDetailsById(this.itemId).then(response => {
       let resultObj = response.json();
       if (resultObj.statusCode === 200 && resultObj.success) {
+        let length =resultObj.result.length
+        if(length>0){
+          this.isAddItem =false;
+        }
         this.source.load(resultObj.result);
       }
     });
@@ -113,85 +118,90 @@ export class ItemDetailsComponent implements OnInit {
     this.activeModal.close();
   }
   saveItems() {
-    this.costprice =Number(String(this.costprice).replace(/\,/g,''));
-    this.customerPrice =Number(String(this.customerPrice).replace(/\,/g,''));
-    this.fabricatorPrice =Number(String(this.fabricatorPrice).replace(/\,/g,''));
-    this.mrpPrice =Number(String(this.mrpPrice).replace(/\,/g,''));
-
-    if (this.availableQuantity === undefined ) {
-      this.alertifyService.warning("Please add quantity");
-      return false;
-    }
-    if (this.costprice ==0) {
-      console.log("Please add cost ==",this.costprice)
-      this.alertifyService.warning("Please add cost.");
-      return false;
-    }
-    if (this.customerPrice == 0) {
-      this.alertifyService.warning("Please add customer price.");
-      return false;
-    }
-
-    if (this.fabricatorPrice == 0) {
-      this.alertifyService.warning("Please add fabricator price.");
-      return false;
-    }
-    if (this.mrpPrice == 0) {
-      this.alertifyService.warning("Please add MRP price.");
-      return false;
-    }
-    if (this.rowData.itemId == null) {
-      this.alertifyService.warning("Item id is null.");
-      return false;
-    }
-
-    if (this.itemDetailDate ==null ) {
-      this.alertifyService.warning("Please add date.");
-      return false;
-    }
+    if(this.isAddItem){
+      this.costprice =Number(String(this.costprice).replace(/\,/g,''));
+      this.customerPrice =Number(String(this.customerPrice).replace(/\,/g,''));
+      this.fabricatorPrice =Number(String(this.fabricatorPrice).replace(/\,/g,''));
+      this.mrpPrice =Number(String(this.mrpPrice).replace(/\,/g,''));
   
-
-    let itemDetail : ItemDetail = {
-      itemDetailId: 0,
-      fabricatorPrice: this.fabricatorPrice,
-      mrpPrice: this.mrpPrice,
-      itemId: this.rowData.itemId,
-      customerPrice: this.customerPrice,
-      costPrice: this.costprice,
-      quantity: 0,
-      availableQuantity: this.availableQuantity,
-      companyId: 1,
-      purchaseDate:this.itemDetailDate.formatted,
-      isDelete: false,
-      itemName: "",
-      totalItemAmount: 0,
-      totalItemDiscount: 0,
-      receivedQuantity: 0,
-      brandId:1,
-      supplierId:1
-    }
-    // console.log("details is ============",itemDetail);
-    let innerThis =this;
-    this.alertifyService.confirm('Create New Item Detail', 'Are you sure you want to create Item Detail', function () {
-      innerThis.spinner.show();
-      innerThis.settingsservice.saveItemDetail(itemDetail).then(response=>{
-        let resultObj = response.json();
-        if (resultObj.statusCode === 200 && resultObj.success) {
-          innerThis.spinner.hide();
-          innerThis.alertifyService.success("Create successfull");
-          innerThis.mrpPrice =0;
-          innerThis.customerPrice = 0;
-          innerThis.costprice =0;
-          innerThis.availableQuantity =0;
-          innerThis.closeModal();
-        } else {
-          innerThis.spinner.hide();
-          innerThis.alertifyService.error("Create un-successfull");
-          innerThis.closeModal();
-        }
-
+      if (this.availableQuantity === undefined ) {
+        this.alertifyService.warning("Please add quantity");
+        return false;
+      }
+      if (this.costprice ==0) {
+        console.log("Please add cost ==",this.costprice)
+        this.alertifyService.warning("Please add cost.");
+        return false;
+      }
+      if (this.customerPrice == 0) {
+        this.alertifyService.warning("Please add customer price.");
+        return false;
+      }
+  
+      if (this.fabricatorPrice == 0) {
+        this.alertifyService.warning("Please add fabricator price.");
+        return false;
+      }
+      if (this.mrpPrice == 0) {
+        this.alertifyService.warning("Please add MRP price.");
+        return false;
+      }
+      if (this.rowData.itemId == null) {
+        this.alertifyService.warning("Item id is null.");
+        return false;
+      }
+  
+      if (this.itemDetailDate ==null ) {
+        this.alertifyService.warning("Please add date.");
+        return false;
+      }
+    
+  
+      let itemDetail : ItemDetail = {
+        itemDetailId: 0,
+        fabricatorPrice: this.fabricatorPrice,
+        mrpPrice: this.mrpPrice,
+        itemId: this.rowData.itemId,
+        customerPrice: this.customerPrice,
+        costPrice: this.costprice,
+        quantity: 0,
+        availableQuantity: this.availableQuantity,
+        companyId: 1,
+        purchaseDate:this.itemDetailDate.formatted,
+        isDelete: false,
+        itemName: "",
+        totalItemAmount: 0,
+        totalItemDiscount: 0,
+        receivedQuantity: 0,
+        brandId:1,
+        supplierId:1
+      }
+      // console.log("details is ============",itemDetail);
+      let innerThis =this;
+      this.alertifyService.confirm('Create New Item Detail', 'Are you sure you want to create Item Detail', function () {
+        innerThis.spinner.show();
+        innerThis.settingsservice.saveItemDetail(itemDetail).then(response=>{
+          let resultObj = response.json();
+          if (resultObj.statusCode === 200 && resultObj.success) {
+            innerThis.spinner.hide();
+            innerThis.alertifyService.success("Create successfull");
+            innerThis.mrpPrice =0;
+            innerThis.customerPrice = 0;
+            innerThis.costprice =0;
+            innerThis.availableQuantity =0;
+            innerThis.closeModal();
+          } else {
+            innerThis.spinner.hide();
+            innerThis.alertifyService.error("Create un-successfull");
+            innerThis.closeModal();
+          }
+  
+        });
       });
-    });
+    }else{
+      this.alertifyService.error("You can'n add item more than one");
+    }
+   
     
   }
 }
