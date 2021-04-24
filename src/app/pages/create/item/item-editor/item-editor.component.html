@@ -68,7 +68,7 @@
 
   </form>
 </div>
-<ng2-smart-table [settings]="settings" [source]="source"> </ng2-smart-table>
+<ng2-smart-table [settings]="settings" [source]="source" (editConfirm)="onEditConfirm($event)"> </ng2-smart-table>
 
 <div class="modal-footer">
   <button class="btn btn-md btn-success" (click)="saveItems()">proceed</button>

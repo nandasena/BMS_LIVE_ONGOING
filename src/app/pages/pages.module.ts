@@ -19,6 +19,7 @@ import { MyDatePickerModule } from 'mydatepicker';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { StyleDirective } from './style.directive';
 import { ItemWiseProfitComponent } from './report/item-wise-profit/item-wise-profit.component';
+import { JobComponent } from './job/job.component';
 
 
 const PAGES_COMPONENTS = [
@@ -47,7 +48,8 @@ const PAGES_COMPONENTS = [
      ReportComponent,
      ProfitOnInvoiceComponent,
      StyleDirective,
-     ItemWiseProfitComponent
+     ItemWiseProfitComponent,
+     JobComponent
   ],
   providers: [
     // Config,

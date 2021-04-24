@@ -188,4 +188,7 @@ export class ItemEditorComponent implements OnInit {
   bindCategoryList(){
 
   }
+  onEditConfirm(){
+    console.log("ASasasasas");
+  }
 }
