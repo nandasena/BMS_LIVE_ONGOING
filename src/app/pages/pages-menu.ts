@@ -43,6 +43,11 @@ export const MENU_ITEMS: NbMenuItem[] = [
     link: '/pages/payment-handle',
   },
   {
+    title: 'Jobs Handle',
+    icon: 'nb-list',
+    link: '/pages/job-handle',
+  },
+  {
     title: 'Report',
     icon: 'nb-list',
     link: '/pages/report',

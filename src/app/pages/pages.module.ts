@@ -20,7 +20,10 @@ import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { StyleDirective } from './style.directive';
 import { ItemWiseProfitComponent } from './report/item-wise-profit/item-wise-profit.component';
 import { JobComponent } from './job/job.component';
-
+import { CreateJobComponent } from './job/create-job/create-job.component';
+import { EditJodComponent } from './job/edit-jod/edit-jod.component';
+import { NgxSpinnerModule } from 'ngx-spinner';
+import {NumberModal} from '../models/number.module';
 
 const PAGES_COMPONENTS = [
   PagesComponent,
@@ -40,7 +43,9 @@ const PAGES_COMPONENTS = [
     CreateModule,
     PaymentHandleModule,
     MyDatePickerModule,
-    Ng2SmartTableModule
+    Ng2SmartTableModule,
+    NgxSpinnerModule,
+    NumberModal
   ],
   declarations: [
     ...PAGES_COMPONENTS,
@@ -49,7 +54,9 @@ const PAGES_COMPONENTS = [
      ProfitOnInvoiceComponent,
      StyleDirective,
      ItemWiseProfitComponent,
-     JobComponent
+     JobComponent,
+     CreateJobComponent,
+     EditJodComponent
   ],
   providers: [
     // Config,

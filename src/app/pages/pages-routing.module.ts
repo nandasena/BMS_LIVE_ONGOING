@@ -19,6 +19,9 @@ import {ChequeComponent} from './payment-handle/cheque/cheque.component';
 import {ReportComponent} from './report/report.component';
 import {ProfitOnInvoiceComponent} from './report/profit-on-invoice/profit-on-invoice.component';
 import {ItemWiseProfitComponent}from './report/item-wise-profit/item-wise-profit.component';
+import {JobComponent} from './job/job.component';
+import {CreateJobComponent} from './job/create-job/create-job.component';
+import {EditJodComponent}from './job/edit-jod/edit-jod.component';
 import { from } from 'rxjs/observable/from';
 
 const routes: Routes = [{
@@ -89,6 +92,19 @@ const routes: Routes = [{
     path:'cheque-handle',
     component:ChequeComponent,
   },
+  {
+    path:'job-handle',
+    component:JobComponent,
+  },
+  {
+    path:'job-create',
+    component:CreateJobComponent,
+  },
+  {
+    path:'job-edit',
+    component:EditJodComponent,
+  },
+
   {
     path: '',
     redirectTo: 'dashboard',

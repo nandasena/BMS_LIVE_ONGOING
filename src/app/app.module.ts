@@ -28,6 +28,7 @@ import { AlertifyService } from './services/alertify.service';
 import { environment } from '../environments/environment';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { SettingsService } from './services/settings.service';
+import { JobService} from './services/job.service';
 import {InventoryService} from './services/inventory.service';
 import {ReportService} from './services/report.service';
 import { JwtHelper } from 'angular2-jwt';
@@ -116,6 +117,7 @@ import { JwtHelper } from 'angular2-jwt';
     PurchaseOrderService,
     CustomerSupplierService,
     ReportService,
+    JobService,
     {
       provide: NbRoleProvider,
       useClass: RoleProviderService
