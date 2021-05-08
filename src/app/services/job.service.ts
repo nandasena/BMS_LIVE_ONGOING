@@ -10,4 +10,8 @@ export class JobService{
     getAllRating(){
         return this.commonService.apiGet(this.controllerBaseURL+"/otherExpenses/")
     }
+
+    saveJob(jobToSave:any){
+        return this.commonService.apiPost(jobToSave,'job/createJob/');
+      }
 }

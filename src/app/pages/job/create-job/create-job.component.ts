@@ -38,6 +38,7 @@ export class CreateJobComponent implements OnInit {
   totalDiscount:number =0.00;
   model = { date: {}, formatted: '' };
   startDate = { date: {}, formatted: '' };
+  endDate =   { date: {}, formatted: '' }
   myDatePickerOptions: IMyDpOptions = {
     dateFormat: 'yyyy-mm-dd',
   };
@@ -79,7 +80,8 @@ export class CreateJobComponent implements OnInit {
   otherExpenses  =[];
   addedOtherExpenses=[];
   jobName:string ="";
-  ratePerSquareFeet:number;
+  ratePerSquareFeet:number =0.00;
+  squareFeet:number=0.00;
 
 
 
@@ -125,6 +127,13 @@ export class CreateJobComponent implements OnInit {
     };
 
     this.startDate ={
+      date: {
+        year: moment().year(),
+        month: (moment().month() + 1),
+        day: moment().date()
+      }, formatted: moment().year() + '-' + (moment().month() + 1) + '-' + moment().date()
+    };
+    this.endDate ={
       date: {
         year: moment().year(),
         month: (moment().month() + 1),
@@ -493,9 +502,21 @@ export class CreateJobComponent implements OnInit {
         this.alertify.error('Please add start date....');
         return false;
       }
+      if(this.endDate == null){
+        this.alertify.error('Please add end date....');
+        return false;
+      }
       if(this.jobName ==""){
         this.alertify.error('Please add job name....');
         return false;   
+      }
+      if(this.ratePerSquareFeet== 0){
+        this.alertify.error('Please add rate....');
+        return false; 
+      }
+      if(this.squareFeet == 0){
+        this.alertify.error('Please add square feet....');
+        return false;
       }
 
       if (this.paymentDetail.typeCode != 'CR') {
@@ -503,19 +524,7 @@ export class CreateJobComponent implements OnInit {
           this.alertify.error('Balance amount more than total amount ....');
           return false;
         }
-        if (this.customerName == '') {
-          this.alertify.error('Please add customer name ....');
-          return false;
-        }
-        if (this.customerAddress == '') {
-          this.alertify.error('Please add customer address....');
-          return false;
-        }
-        if (this.customerTelephone == '') {
-          this.alertify.error('Please add customer phone number ....');
-          return false;
-        }
-
+        
         this.customerName.replace(/ {2,}/g, ' ').trim();
         this.customerDetails.firstName =this.customerName;
         this.customerDetails.contactNumber =this.customerTelephone;
@@ -540,6 +549,11 @@ export class CreateJobComponent implements OnInit {
           this.alertify.error('Please select bank....');
           return false;
         }
+        if (this.selectedCustomerId == null) {
+          this.alertify.error('Please select customer....');
+          return false;
+        }
+
       }
       if (this.showCardFild) {
         if (this.carsRefNo == "") {
@@ -566,23 +580,28 @@ export class CreateJobComponent implements OnInit {
 
       this.paymentDetailList.push(this.paymentDetail);
       this.alertify.confirm('Create Invoice', 'Are you sure you want to create invoice', function () {
-        let invoiceTosave = new InvoiceModel;
+        let joibTosave = new Job;
 
-        invoiceTosave.totalAmount = innerThis.totalAmount;
-        invoiceTosave.itemList = innerThis.itemToSave;
-        invoiceTosave.balanceAmount = 0.00;
-        invoiceTosave.customerName = innerThis.selectedCustomerName;
-        invoiceTosave.customerId = innerThis.selectedCustomerId;
-        invoiceTosave.paymentDetailList = innerThis.paymentDetailList;
-        invoiceTosave.tempCustomerVO =innerThis.customerDetails;
-        invoiceTosave.invoiceDate = innerThis.model.formatted;
-        innerThis.invoiceService.saveInvoice(invoiceTosave).then((response) => {
+        joibTosave.amount = innerThis.totalAmount;
+        joibTosave.squareFeet = innerThis.squareFeet;
+        joibTosave.description="";
+        joibTosave.ratePerSquareFeet =innerThis.ratePerSquareFeet;
+        joibTosave.customerId = innerThis.selectedCustomerId;
+        joibTosave.startDate =innerThis.startDate.formatted;
+        joibTosave.endDate =innerThis.endDate.formatted;
+        joibTosave.jobDate = innerThis.model.formatted;
+        joibTosave.state =1;
+        joibTosave.name =innerThis.jobName;
+        joibTosave.itemVOList = innerThis.itemToSave;
+        joibTosave.paymentDetailList = innerThis.paymentDetailList;
+
+        innerThis.JobService.saveJob(joibTosave).then((response) => {
           innerThis.spinner.show();
           let resultObj = response.json();
           if (resultObj.statusCode == 200 && resultObj.success) {
 
             innerThis.spinner.hide();
-            innerThis.printInvoice(invoiceTosave, resultObj.result);
+            // innerThis.printInvoice(invoiceTosave, resultObj.result);
             innerThis.alertify.success('Create successfull');
             innerThis.itemToSave = [];
             innerThis.totalAmount = 0.00;
@@ -633,6 +652,7 @@ export class CreateJobComponent implements OnInit {
       this.cash = parseFloat(cash.replace(/,/g, ''));
       
     }
+    this.totalAmount = Math.round((this.totalAmount + Number.EPSILON) * 100) / 100;
     this.balance = this.totalAmount - (this.cash + this.advance);
   }
 
@@ -748,6 +768,7 @@ export class CreateJobComponent implements OnInit {
   }
   closeModalWindow() {
     this.balance = this.totalAmount;
+    this.advance=0.00;
     this.cash = 0.00;
     this.paymentDetail.typeCode = 'CH';
     this.isShowCashFild = true;
@@ -782,104 +803,104 @@ export class CreateJobComponent implements OnInit {
     this.selectedCustomer ="";
   }
 
-  printInvoice(invoiceTosave,insertObject) {
-    var invoiceWindow = window.open("", "print-window");
-    let ItemList =invoiceTosave.itemList;
-    for (var x = 0; x < ItemList.length; x++) {
+  // printInvoice(invoiceTosave,insertObject) {
+  //   var invoiceWindow = window.open("", "print-window");
+  //   let ItemList =invoiceTosave.itemList;
+  //   for (var x = 0; x < ItemList.length; x++) {
 
-      this.printDetails = this.printDetails + '<tr><td style="height:20px;width:51%;text-align:left;font-size:14px;padding-top:4px;">' + ItemList[x].name + '</td><td style="height:20px;width:21%;text-align:right;font-size:14px;padding-top:4px;">' +
-      parseFloat(ItemList[x].price.toString()).toFixed(2).replace(/./g, function (c, i, a) {
-        return i && c !== "." && ((a.length - i) % 3 === 0) ? ',' + c : c;
-      }) + '</td><td style="height:20px;width:10%;text-align:right;font-size:14px;padding-top:4px;">' + ItemList[x].sellingQuantity + '</td>'+
-    '</td><td style="height:20px;width:20%;text-align:right;font-size: 14px;padding-top:4px;">' + parseFloat(ItemList[x].total).toFixed(2).replace(/./g, function (c, i, a) {
-      return i && c !== "." && ((a.length - i) % 3 === 0) ? ',' + c : c;
-      }) + '</td>' +
-    '</tr>'
-    }
+  //     this.printDetails = this.printDetails + '<tr><td style="height:20px;width:51%;text-align:left;font-size:14px;padding-top:4px;">' + ItemList[x].name + '</td><td style="height:20px;width:21%;text-align:right;font-size:14px;padding-top:4px;">' +
+  //     parseFloat(ItemList[x].price.toString()).toFixed(2).replace(/./g, function (c, i, a) {
+  //       return i && c !== "." && ((a.length - i) % 3 === 0) ? ',' + c : c;
+  //     }) + '</td><td style="height:20px;width:10%;text-align:right;font-size:14px;padding-top:4px;">' + ItemList[x].sellingQuantity + '</td>'+
+  //   '</td><td style="height:20px;width:20%;text-align:right;font-size: 14px;padding-top:4px;">' + parseFloat(ItemList[x].total).toFixed(2).replace(/./g, function (c, i, a) {
+  //     return i && c !== "." && ((a.length - i) % 3 === 0) ? ',' + c : c;
+  //     }) + '</td>' +
+  //   '</tr>'
+  //   }
 
-     invoiceWindow.document.write(
-    '<div width=80>' +
-            `<table style="width:100%;">
-            <br><br><br><br><br><br>
-            <p style="font-size:14px;padding-left:25px;margin:2px;">`+  insertObject.tempCustomerVO.firstName +` </p>
-            <p style="font-size:14px;padding-left:25px;margin:2px;">`+  insertObject.tempCustomerVO.address1 + `</p>
-            <p style="font-size:14px;padding-left:25px;margin:2px;">` + insertObject.tempCustomerVO.contactNumber +`</p>
-            <p style="font-size:14px;padding-left:25px;margin:2px;">` + insertObject.invoiceDate +`</p>
-            </table>
-            <br><br><br>
-            <br/>
-            <br/> 
-            <br/>
+  //    invoiceWindow.document.write(
+  //   '<div width=80>' +
+  //           `<table style="width:100%;">
+  //           <br><br><br><br><br><br>
+  //           <p style="font-size:14px;padding-left:25px;margin:2px;">`+  insertObject.tempCustomerVO.firstName +` </p>
+  //           <p style="font-size:14px;padding-left:25px;margin:2px;">`+  insertObject.tempCustomerVO.address1 + `</p>
+  //           <p style="font-size:14px;padding-left:25px;margin:2px;">` + insertObject.tempCustomerVO.contactNumber +`</p>
+  //           <p style="font-size:14px;padding-left:25px;margin:2px;">` + insertObject.invoiceDate +`</p>
+  //           </table>
+  //           <br><br><br>
+  //           <br/>
+  //           <br/> 
+  //           <br/>
            
 
-            <table  style="margin-left:8%;width:93%;text-align:right;">
+  //           <table  style="margin-left:8%;width:93%;text-align:right;">
 
-            <tbody > `+ this.printDetails + `</tbody>
-            </table> 
-
-
-            <div class="row">
-
-            <table style="margin-left:8%;width:93%;text-align:right;">
-             <thead  > <tr>
-             <th style= " text-align:left; height: 20px; width:48%;">Total
-             </th>
-            <th style=" text-align:right;height: 20px; width:24%;">`+ parseFloat(invoiceTosave.totalAmount+insertObject.invoiceDiscount).toFixed(2).replace(/./g, function (c, i, a) {
-            return i && c !== "." && ((a.length - i) % 3 === 0) ? ',' + c : c;
-            }) +
-            `</th></tr> 
-              <tr>
-              <th style=" text-align:left; height: 20px; width:48%; "> Discount
-              </th>  
-               <th style=" text-align:right;height: 20px; width:22%; ">`+ parseFloat(insertObject.invoiceDiscount).toFixed(2).replace(/./g, function (c, i, a) {
-            return i && c !== "." && ((a.length - i) % 3 === 0) ? ',' + c : c;
-            }) +
-            `</th> 
-               </tr>
-               <tr>
-               <th style="text-align:left; height: 20px; width:48%; ">Net Total
-               </th> 
-                <th style=" text-align:right;height: 20px; width:22%; ">`+ (parseFloat(invoiceTosave.totalAmount)).toFixed(2).replace(/./g, function (c, i, a) {
-            return i && c !== "." && ((a.length - i) % 3 === 0) ? ',' + c : c;
-            }) +
-            `</th>`
-            +
-            `</th> 
-               </tr>
-               <tr>
-               <th style="text-align:left; height: 20px; width:48%; ">Advance Amount
-               </th> 
-                <th style=" text-align:right;height: 20px; width:22%; ">`+ (parseFloat(insertObject.advanceAmount)).toFixed(2).replace(/./g, function (c, i, a) {
-            return i && c !== "." && ((a.length - i) % 3 === 0) ? ',' + c : c;
-            }) +
-            `</th>`
-            +
-            `</th> 
-               </tr>
-               <tr>
-               <th style="text-align:left; height: 20px; width:48%; ">Balance Amount
-               </th> 
-                <th style=" text-align:right;height: 20px; width:22%; ">`+ (parseFloat(invoiceTosave.totalAmount) -parseFloat(insertObject.advanceAmount) ).toFixed(2).replace(/./g, function (c, i, a) {
-            return i && c !== "." && ((a.length - i) % 3 === 0) ? ',' + c : c;
-            }) +
-            `</th>
-                </tr> 
-              </thead>
-              <tbody > 
-              </tbody>
-              </table>
-             </div><br/>
-             <div class="row" style=""> 
-         </div>
-         <script>
-            setTimeout(function () { window.print(); }, 500);
-          </script>
-      </div>`
+  //           <tbody > `+ this.printDetails + `</tbody>
+  //           </table> 
 
 
-     )
-    setTimeout(function () { invoiceWindow.close(); }, 1000);
-    this.printDetails = '';
-  }
+  //           <div class="row">
+
+  //           <table style="margin-left:8%;width:93%;text-align:right;">
+  //            <thead  > <tr>
+  //            <th style= " text-align:left; height: 20px; width:48%;">Total
+  //            </th>
+  //           <th style=" text-align:right;height: 20px; width:24%;">`+ parseFloat(invoiceTosave.totalAmount+insertObject.invoiceDiscount).toFixed(2).replace(/./g, function (c, i, a) {
+  //           return i && c !== "." && ((a.length - i) % 3 === 0) ? ',' + c : c;
+  //           }) +
+  //           `</th></tr> 
+  //             <tr>
+  //             <th style=" text-align:left; height: 20px; width:48%; "> Discount
+  //             </th>  
+  //              <th style=" text-align:right;height: 20px; width:22%; ">`+ parseFloat(insertObject.invoiceDiscount).toFixed(2).replace(/./g, function (c, i, a) {
+  //           return i && c !== "." && ((a.length - i) % 3 === 0) ? ',' + c : c;
+  //           }) +
+  //           `</th> 
+  //              </tr>
+  //              <tr>
+  //              <th style="text-align:left; height: 20px; width:48%; ">Net Total
+  //              </th> 
+  //               <th style=" text-align:right;height: 20px; width:22%; ">`+ (parseFloat(invoiceTosave.totalAmount)).toFixed(2).replace(/./g, function (c, i, a) {
+  //           return i && c !== "." && ((a.length - i) % 3 === 0) ? ',' + c : c;
+  //           }) +
+  //           `</th>`
+  //           +
+  //           `</th> 
+  //              </tr>
+  //              <tr>
+  //              <th style="text-align:left; height: 20px; width:48%; ">Advance Amount
+  //              </th> 
+  //               <th style=" text-align:right;height: 20px; width:22%; ">`+ (parseFloat(insertObject.advanceAmount)).toFixed(2).replace(/./g, function (c, i, a) {
+  //           return i && c !== "." && ((a.length - i) % 3 === 0) ? ',' + c : c;
+  //           }) +
+  //           `</th>`
+  //           +
+  //           `</th> 
+  //              </tr>
+  //              <tr>
+  //              <th style="text-align:left; height: 20px; width:48%; ">Balance Amount
+  //              </th> 
+  //               <th style=" text-align:right;height: 20px; width:22%; ">`+ (parseFloat(invoiceTosave.totalAmount) -parseFloat(insertObject.advanceAmount) ).toFixed(2).replace(/./g, function (c, i, a) {
+  //           return i && c !== "." && ((a.length - i) % 3 === 0) ? ',' + c : c;
+  //           }) +
+  //           `</th>
+  //               </tr> 
+  //             </thead>
+  //             <tbody > 
+  //             </tbody>
+  //             </table>
+  //            </div><br/>
+  //            <div class="row" style=""> 
+  //        </div>
+  //        <script>
+  //           setTimeout(function () { window.print(); }, 500);
+  //         </script>
+  //     </div>`
+
+
+  //    )
+  //   setTimeout(function () { invoiceWindow.close(); }, 1000);
+  //   this.printDetails = '';
+  // }
 
 }

@@ -9,32 +9,30 @@
     <div class="form-group row">
       <div class="col-sm-12 col-form-label">
         <div class="row">
-          <label for="inputEmail1" class="col-sm-1" style="padding-top:3px;padding-left: 0px;">Job No:</label>
-          <div class="col-sm-2" style="padding:0px;">
-            <input type="email" class="form-control-sm" placeholder="Job No:" style="padding-left: 19px;">
-          </div>
-          <label for="inputEmail1" class="col-sm-1 col-form-label" style="padding-top: 3px;">Job Date:</label>
-          <div class="col-sm-2">
+          <label for="inputEmail1" class="col-sm-1 col-form-label" style="padding-top: 3px;padding: 0px;">Job Date:</label>
+          <div class="col-sm-2" style="padding-left: 0px;">
             <my-date-picker name="mydate" [options]="myDatePickerOptions" [(ngModel)]="model" required></my-date-picker>
           </div>
-          <div class="col-sm-1">
-
+          <label for="inputEmail1" class="col-sm-1 col-form-label" style="padding: 0px;padding-top: 8px;">Start
+            Date:</label>
+          <div class="col-sm-2" style="padding-left: 0px;">
+            <my-date-picker name="mydate" [options]="myDatePickerOptions" [(ngModel)]="startDate" required>
+            </my-date-picker>
+          </div>
+          <label for="inputEmail1" class="col-sm-1 col-form-label" style="padding: 0px;padding-top: 8px;">End
+            Date:</label>
+          <div class="col-sm-2" style="padding-left: 0px;">
+            <my-date-picker name="mydate" [options]="myDatePickerOptions" [(ngModel)]="endDate" required>
+            </my-date-picker>
           </div>
           <div class="col-sm-2">
             <input list="customer" autocomplete="off" class="form-control" id="selectedCustomer"
-              [(ngModel)]="selectedCustomer" name="customer" (change)="addCustomerName($event.target.value,$event)" (click)="clearName()"
-              placeholder="Select Customer" style="width: 100%; height: 36px;padding-left: 8px;">
+              [(ngModel)]="selectedCustomer" name="customer" (change)="addCustomerName($event.target.value,$event)"
+              (click)="clearName()" placeholder="Select Customer" style="width: 100%; height: 36px;padding-left: 8px;">
             <datalist id="customer">
-              <option *ngFor="let customer of customerList" [value]="customer.customerId">{{ customer.firstName }}</option>
+              <option *ngFor="let customer of customerList" [value]="customer.customerId">{{ customer.firstName }}
+              </option>
             </datalist>
-          </div>
-          <div class="col-sm-2">
-            <input autocomplete="off" class="form-control" name="itemCode"
-              (change)="getItemByItemCode($event.target.value,$event)" placeholder="Enter Item Code"
-              style="width: 100%; height: 36px;padding-left: 8px;">
-            <!-- <datalist id="customer">
-              <option *ngFor="let customer of customerList" [value]="customer.customerId">{{ customer.firstName }}</option>
-            </datalist> -->
           </div>
         </div>
 
@@ -45,22 +43,47 @@
     <div class="form-group row">
       <div class="col-sm-12 col-form-label">
         <div class="row">
-          <label for="inputEmail1" class="col-sm-1 col-form-label" style="padding: 0px;padding-top: 8px;">Start Date:</label>
-          <div class="col-sm-2" style="padding-left: 0px;">
-            <my-date-picker name="mydate" [options]="myDatePickerOptions" [(ngModel)]="startDate" required></my-date-picker>
-          </div>
-
-          <label for="inputEmail1" class="col-sm-1 col-form-label" style="padding: 0px;padding-top: 8px;">Job Name:</label>
+          <label for="inputEmail1" class="col-sm-1 col-form-label" style="padding: 0px;padding-top: 8px;">Job
+            Name:</label>
           <div class="col-sm-4" style="padding-left: 0px;">
-            <input class="text-right form-control" id="jobName" [(ngModel)]="jobName" type="text"
-                     name="jobName" value="">
+            <input class="text-right form-control" id="jobName" [(ngModel)]="jobName" type="text" name="jobName"
+              value="">
           </div>
-          <label for="inputEmail1" class="col-sm-2 col-form-label" style="padding: 0px;padding-top: 8px;padding-left: 10px;">Rate Pe/Sq/Feet:</label>
+          <div class="col-sm-2">
+            <div class="row">
+              <div class="col-sm-12">
+                <label for="inputEmail1" class="col-form-label"
+                style="padding: 0px;padding-top: 8px;padding-left: 10px;">Rate Pe/Sq/Feet:</label>
+              </div>
+            </div>  
+          </div>
           <div class="col-sm-1" style="padding-left: 0px;">
-            <input class="text-right form-control" id="ratePerSquareFeet" [(ngModel)]="ratePerSquareFeet" type="text"
-                     name="ratePerSquareFeet" value="">
+            <div class="row">
+              <div class="col-sm-12" >
+                <input class="text-right form-control" id="ratePerSquareFeet" style="padding: 0px;" [(ngModel)]="ratePerSquareFeet"
+                  type="number" name="ratePerSquareFeet" value="{{ratePerSquareFeet}}" numericType="decimal"
+                  OnlyNumber="true" double-number-directive>
+              </div>
+            </div>
           </div>
-        </div> 
+          <div class="col-sm-1">
+            <div class="row">
+              <div class="col-sm-12">
+                <label for="inputEmail1" class="col-form-label"
+                style="padding: 0px;padding-top: 8px;padding-left: 10px;">Sq/Feet:</label>
+              </div>
+            </div>  
+          </div>
+          <div class="col-sm-2" style="padding-left: 0px;">
+            <div class="row">
+              <div class="col-sm-12" >
+                <input class="text-right form-control" id="squareFeet"style="padding:0px;" [(ngModel)]="squareFeet"
+                  type="number" name="squareFeet" value="{{squareFeet}}" numericType="decimal"
+                  OnlyNumber="true" double-number-directive>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -68,7 +91,7 @@
     <div class="form-group row">
       <div class="col-sm-12 col-form-label">
         <div class="row">
-          <!-- <div class="col-sm-1" style="padding: 0px;"></div> -->
+          <div class="col-sm-1" style="padding: 0px;"></div>
           <div class="col-md-2" style="padding: 0px;padding-right:5px;">
             <select class="form-control-sm" #selectedCategory (change)="getSubCategory($event.target.value)"
               style="width: 100%">
@@ -104,7 +127,7 @@
             </button>
           </div>
 
-          <div class="col-md-2" style="padding-left: 0px;">
+          <!-- <div class="col-md-2" style="padding-left: 0px;">
             <div class="row">
               <div class="col-md-10">
                 <select class="form-control-sm" #selectedExpenses style="width: 100%;">
@@ -116,13 +139,13 @@
              
               <div class="col-md-2" style="padding-left: 10px;">
               <button type="button" class="btn btn-md btn-success btn-sm" style="height: 35px;padding-top:8px;"
-                (click)="addOtherExpenses(selectedExpenses.value,$event)">
+                (click)="addOtherExpenses(selectedExpenses.value)">
                 <span class="" style="color: black;">&#x2b;</span>
               </button>
             </div>
-            </div>
+            </div>Rate Pe/Sq/Feet:
        
-          </div>
+          </div> -->
         </div>
       </div>
     </div>
@@ -135,8 +158,8 @@
             <th>Items</th>
             <th>Qty</th>
             <th>Available</th>
-            <th> Dis Type
-            <th>Discount</th>
+            <!-- <th> Dis Type -->
+            <!-- <th>Discount</th> -->
             <th>Cost</th>
             <th>Total</th>
             <th>Remove</th>
@@ -153,17 +176,17 @@
                 numbersOnly>
             </td>
             <td>{{item.availableQuantity}}</td>
-            <td>
+            <!-- <td>
               <select ng-model="selectedColor" #selectedDiscount
                 (change)="changeDiscountType($event.target.value,item)">
                 <option selected [value]="1">Cash Discount</option>
                 <option [value]="2">Discount</option>
               </select>
-            </td>
+            </td> -->
 
             <!-- --------------------------------------------------------------------------------------------------------------------------------- -->
 
-            <td *ngIf="item.typeOfDiscount == 1">
+            <!-- <td *ngIf="item.typeOfDiscount == 1">
               <input id="amountReceived" type="number" name="amountReceived" placeholder="0"
                 (change)="setPriceDiscount($event.target.value,item.itemDetailId)" value="{{item.priceDiscount}}"
                 numericType="decimal" OnlyNumber="true" double-number-directive>
@@ -172,7 +195,7 @@
             <td *ngIf="item.typeOfDiscount == 2"><input id="amountReceived" type="number" name="amountReceived"
                 placeholder="%" (change)="setDiscount($event.target.value,item.itemDetailId)"
                 value="{{item.discountPercentage}}" OnlyNumber="true" numbersOnlyDiscount>
-            </td>
+            </td> -->
 
 
             <!-- ---------------------------- END ------------------------------------------------------------------------------------------------- -->
@@ -208,7 +231,7 @@
         <button class="btn btn-md btn-success" (click)="saveInvoice()">Save Job</button>
       </div>
       <div class="col-md-5" style="height: 70px;">
-      
+
 
       </div>
       <div class="col-md-4">
@@ -409,7 +432,7 @@
           </div>
 
         </div>
-        <div style="padding: 21px;">
+        <!-- <div style="padding: 21px;">
           <div class="row" style="padding: 7px;">
             <div class="col-4">
               <p>Customer Name :- </p>
@@ -442,7 +465,7 @@
             </div>
           </div>
 
-        </div>
+        </div> -->
       </div>
       <div class="col-md-3" style="height: 70px;">
       </div>
