@@ -61,7 +61,11 @@ export class ItemDetailsComponent implements OnInit {
         type: 'string',
       },
       customerPrice: {
-        title: 'Customer price',
+        title: 'Showroom price',
+        type: 'string',
+      },
+      mrpPrice: {
+        title: 'MRP price',
         type: 'string',
       },
       availableQuantity: {

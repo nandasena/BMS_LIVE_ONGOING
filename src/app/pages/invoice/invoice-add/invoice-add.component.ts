@@ -72,7 +72,7 @@ export class InvoiceAddComponent implements OnInit {
   customerDetails: Customer = new Customer;
   selectedPrice: number;
   selectedPriceType: string = 'MRP';
-  paymentTypeId=1;
+  paymentTypeId = 1;
 
 
 
@@ -260,23 +260,23 @@ export class InvoiceAddComponent implements OnInit {
 
     this.itemToSave.forEach(item => {
       let priceList = item.priceList;
-      if(this.selectedPriceType == "MRP"){
-        item.price =priceList[0].price;
-        item.typeOfPrice =1;
-        this.paymentTypeId =1;
+      if (this.selectedPriceType == "MRP") {
+        item.price = priceList[0].price;
+        item.typeOfPrice = 1;
+        this.paymentTypeId = 1;
 
-      }else if(this.selectedPriceType == "Fabric"){
-        item.price =priceList[1].price;
-        item.typeOfPrice =2;
-        this.paymentTypeId =2;
+      } else if (this.selectedPriceType == "Fabric") {
+        item.price = priceList[1].price;
+        item.typeOfPrice = 2;
+        this.paymentTypeId = 2;
 
-      }else if(this.selectedPriceType == "Showroom"){
-        item.price =priceList[2].price;
-        item.typeOfPrice =3;
-        this.paymentTypeId =3;
+      } else if (this.selectedPriceType == "Showroom") {
+        item.price = priceList[2].price;
+        item.typeOfPrice = 3;
+        this.paymentTypeId = 3;
 
       }
-      item.priceName =this.selectedPriceType;
+      item.priceName = this.selectedPriceType;
     });
 
     this.calculateItemWiseTotal();
@@ -440,7 +440,7 @@ export class InvoiceAddComponent implements OnInit {
     this.itemToSave = _.orderBy(this.itemToSave, ['id'], ['desc']);
 
   }
-  calculateItemWiseTotal(){
+  calculateItemWiseTotal() {
     this.itemToSave.forEach(item => {
       let price = item.price;
       if (item.typeOfDiscount == 1) {
@@ -449,7 +449,7 @@ export class InvoiceAddComponent implements OnInit {
       } else {
         item.total = price * item.sellingQuantity * _.round(1 - (item.discountPercentage / 100), 4)
       }
-  
+
     });
   }
 
@@ -570,7 +570,7 @@ export class InvoiceAddComponent implements OnInit {
       this.paymentDetail.chequeDate = this.chequeDate == null ? null : this.chequeDate.formatted;
 
       this.paymentDetailList.push(this.paymentDetail);
-      console.log("Price List==========",this.itemToSave);
+      console.log("Price List==========", this.itemToSave);
       this.alertify.confirm('Create Invoice', 'Are you sure you want to create invoice', function () {
         let invoiceTosave = new InvoiceModel;
 
@@ -666,9 +666,9 @@ export class InvoiceAddComponent implements OnInit {
     } else {
       let selectedCustomer = _.find(this.customerList, { 'customerId': customerId });
       if (selectedCustomer != null) {
-        this.customerName = selectedCustomer.firstName + " "+ selectedCustomer.lastName;
-        this.customerAddress =selectedCustomer.address1 + (selectedCustomer.address2 == null ?" ": ", "+selectedCustomer.address2);
-        this.customerTelephone =selectedCustomer.contactNumber;
+        this.customerName = selectedCustomer.firstName + " " + selectedCustomer.lastName;
+        this.customerAddress = selectedCustomer.address1 + (selectedCustomer.address2 == null ? " " : ", " + selectedCustomer.address2);
+        this.customerTelephone = selectedCustomer.contactNumber;
         this.selectedCustomerName = selectedCustomer.firstName;
         event.target.value = this.selectedCustomerName;
         this.selectedCustomerId = selectedCustomer.customerId;
@@ -771,14 +771,14 @@ export class InvoiceAddComponent implements OnInit {
     var invoiceWindow = window.open("", "print-window");
     let ItemList = invoiceTosave.itemList;
     //parseFloat(ItemList[x].price)* parseFloat(ItemList[x].sellingQuantity)
-    console.log("Item list =======",ItemList);
+    console.log("Item list =======", ItemList);
     for (var x = 0; x < ItemList.length; x++) {
 
       this.printDetails = this.printDetails + '<tr><td style="height:20px;width:51%;text-align:left;font-size:14px;padding-top:4px;">' + ItemList[x].name + '</td><td style="height:20px;width:21%;text-align:right;font-size:14px;padding-top:4px;">' +
         parseFloat(ItemList[x].price.toString()).toFixed(2).replace(/./g, function (c, i, a) {
           return i && c !== "." && ((a.length - i) % 3 === 0) ? ',' + c : c;
         }) + '</td><td style="height:20px;width:10%;text-align:right;font-size:14px;padding-top:4px;">' + ItemList[x].sellingQuantity + '</td>' +
-        '</td><td style="height:20px;width:20%;text-align:right;font-size: 14px;padding-top:4px;">' + parseFloat((parseFloat(ItemList[x].price)* parseFloat(ItemList[x].sellingQuantity)).toString()).toFixed(2).replace(/./g, function (c, i, a) {
+        '</td><td style="height:20px;width:20%;text-align:right;font-size: 14px;padding-top:4px;">' + parseFloat((parseFloat(ItemList[x].price) * parseFloat(ItemList[x].sellingQuantity)).toString()).toFixed(2).replace(/./g, function (c, i, a) {
           return i && c !== "." && ((a.length - i) % 3 === 0) ? ',' + c : c;
         }) + '</td>' +
         '</tr>'
