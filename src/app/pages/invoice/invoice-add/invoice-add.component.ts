@@ -638,6 +638,7 @@ export class InvoiceAddComponent implements OnInit {
       this.cash = parseFloat(cash.replace(/,/g, ''));
 
     }
+    this.totalAmount = Math.round((this.totalAmount + Number.EPSILON) * 100) / 100;
     this.balance = this.totalAmount - (this.cash + this.advance);
   }
 
