@@ -506,6 +506,10 @@ export class CreateJobComponent implements OnInit {
         this.alertify.error('Please add end date....');
         return false;
       }
+      if (this.selectedCustomerId == null) {
+        this.alertify.error('Please select customer....');
+        return false;
+      }
       if(this.jobName ==""){
         this.alertify.error('Please add job name....');
         return false;   
