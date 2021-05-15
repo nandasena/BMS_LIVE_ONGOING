@@ -14,4 +14,13 @@ export class JobService{
     saveJob(jobToSave:any){
         return this.commonService.apiPost(jobToSave,'job/createJob/');
       }
+    getJobList(){
+        return this.commonService.apiGet(this.controllerBaseURL+'/getJobList/');
+    }
+    getJobById(id){
+        return this.commonService.apiGet(this.controllerBaseURL+'/getJobListById/'+id);
+    }
+    saveExpenses(jobExepenses){
+        return this.commonService.apiPost(jobExepenses,'job/addExpensesById/');   
+    }
 }

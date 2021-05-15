@@ -1,6 +1,7 @@
 import { Item } from "./item_modal";
 import{PaymentModal}from './payment-modal';
 export class Job {
+    jobId:number;
     name : string;
     description : string;
     startDate :string;
@@ -16,4 +17,5 @@ export class Job {
     paymentType:number;
     itemVOList :Item[];
     paymentDetailList:PaymentModal[];
+    otherExpensesVOList=[]
 }
