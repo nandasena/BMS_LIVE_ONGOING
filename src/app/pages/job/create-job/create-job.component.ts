@@ -702,7 +702,7 @@ export class CreateJobComponent implements OnInit {
               });
               innerThis.isShow=false;
               innerThis.isEditTrue=false;
-              this.selectedJobNumber ='';
+              innerThis.selectedJobNumber ='';
   
             } else {
               innerThis.spinner.hide();

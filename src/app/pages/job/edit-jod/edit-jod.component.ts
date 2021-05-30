@@ -145,18 +145,22 @@ export class EditJodComponent implements OnInit {
 
         SelectedJobItemList.forEach(element => {
           if (_.find(this.SelectedJobItemList, { 'itemId': element.itemId }) == null) {
-            this.SelectedJobItemList.push(element);
+            element.sellingQuantity = element.sellingQuantity - element.receivedQuantity;
+            if(element.sellingQuantity !=0){
+              this.SelectedJobItemList.push(element);
+            }
+            
           } else {
             let findItem = _.find(this.SelectedJobItemList, { 'itemId': element.itemId });
             _.remove(this.SelectedJobItemList, { 'itemId': element.itemId });
-            findItem.sellingQuantity = findItem.sellingQuantity + element.sellingQuantity;
-            this.SelectedJobItemList.push(findItem);
+            findItem.sellingQuantity = findItem.sellingQuantity + element.sellingQuantity -element.receivedQuantity;
+            if(findItem.sellingQuantity){
+              this.SelectedJobItemList.push(findItem);
+            }
+            
           }
         });
       })
-
-
-
     } else {
       this.receivedItemList = [];
       this.SelectedJobItemList = [];
@@ -222,12 +226,13 @@ export class EditJodComponent implements OnInit {
       innerThis.jobService.addReceivedItem(job).then(response => {
         if (response.json().statusCode == 200) {
           innerThis.alertify.success('Create successfull');
-          // innerThis.addedExpenses = [];
-          // innerThis.selectedJob = {};
-          // innerThis.jobService.getJobList().then(response => {
-          //   innerThis.jobList = response.json().result;
-          // });
-          // innerThis.selectedJobNo = -1;
+          innerThis.jobService.getJobList().then(response => {
+            innerThis.jobList = response.json().result;
+          });
+          innerThis.receivedItemList = [];
+          innerThis.SelectedJobItemList = [];
+          innerThis.receivedItemList = [];
+          innerThis.selectedJobId = 0;
 
         } else {
           innerThis.alertify.error('Create un-successfull');
@@ -236,8 +241,6 @@ export class EditJodComponent implements OnInit {
       });
 
      });
-    
-
   }
 
 }
