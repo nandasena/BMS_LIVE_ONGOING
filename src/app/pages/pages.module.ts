@@ -24,6 +24,7 @@ import { CreateJobComponent } from './job/create-job/create-job.component';
 import { EditJodComponent } from './job/edit-jod/edit-jod.component';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import {NumberModal} from '../models/number.module';
+import { ItemModalWindowComponent } from './job/item-modal-window/item-modal-window.component';
 
 const PAGES_COMPONENTS = [
   PagesComponent,
@@ -56,7 +57,11 @@ const PAGES_COMPONENTS = [
      ItemWiseProfitComponent,
      JobComponent,
      CreateJobComponent,
-     EditJodComponent
+     EditJodComponent,
+     ItemModalWindowComponent
+  ],
+  entryComponents: [
+    ItemModalWindowComponent
   ],
   providers: [
     // Config,

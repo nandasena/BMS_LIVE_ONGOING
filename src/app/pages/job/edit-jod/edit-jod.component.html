@@ -1,11 +1,11 @@
 <nb-card>
   <div class="row">
-    <div class="col-sm-12">
+    <div class="col-sm-6">
       <div class="row">
-        <label style="color: black;padding-left: 26px;padding-top: 10px;">Job Edit</label>
+        <label style="color: black;padding-left: 26px;padding-top: 10px;font-weight: 800;">Add Expensess</label>
       </div>
       <div class="row">
-        <div class="col-md-3" style="padding: 22px;">
+        <div class="col-md-5" style="padding: 22px;">
           <select class="form-control-sm" #selectedBranch (change)="getJobDetailsById($event.target.value)"
             style="width: 100%">
             <option selected [value]="-1">Select Job</option>
@@ -14,14 +14,14 @@
             </option>
           </select>
         </div>
-        <div class="col-md-2" style="padding: 21px;">
+        <div class="col-md-4" style="padding: 21px;">
           <select class="form-control-sm" #selectedExpenses style="width: 100%;">
-            <option selected [value]="-1" disabled >Select Expenses</option>
+            <option selected [value]="-1" disabled>Select Expenses</option>
             <option *ngFor="let expenses of otherExpenses" [value]="expenses.id">
               {{ expenses.name }}</option>
           </select>
         </div>
-        <div class="col-md-2" style="padding: 21px;">
+        <div class="col-md-3" style="padding: 21px;">
           <button type="button" class="btn btn-md btn-success btn-sm" style="height: 35px;padding-top:8px;"
             (click)="addOtherExpenses(selectedExpenses.value)">
             <span class="" style="color: black;">&#x2b;</span>
@@ -29,28 +29,64 @@
         </div>
       </div>
     </div>
+
+    <div class="col-sm-6">
+      <div class="row">
+        <label style="color: black;padding-left: 26px;padding-top: 10px;font-weight: 800;">Add Received Item</label>
+      </div>
+      <div class="row">
+        <div class="col-md-5" style="padding: 22px;">
+          <select class="form-control-sm" #selectedBranch (change)="getItemListById($event.target.value)"
+            style="width: 100%">
+            <option selected [value]="-1">Select Job</option>
+            <option *ngFor="let job of this.jobList" [value]="job.jobId">
+              {{ job.name }}
+            </option>
+          </select>
+        </div>
+        <div class="col-md-5" style="padding: 21px;">
+          <select class="form-control-sm" #selectedItem style="width: 100%;">
+            <option selected [value]="-1" disabled>Select Item</option>
+            <option *ngFor="let item of SelectedJobItemList" [value]="item.itemId">
+              {{ item.itemName }}</option>
+          </select>
+        </div>
+        <div class="col-md-2" style="padding: 21px;padding-left: 0px;">
+          <button type="button" class="btn btn-md btn-success btn-sm" style="height: 35px;padding-top:8px;"
+            (click)="addReceviedItem(selectedItem.value)">
+            <span class="" style="color: black;">&#x2b;</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
   </div>
   <div class="row">
-    <div class="col-md-2" style="padding-left: 25px;padding-bottom: 11px;">
-      <Label style="font-weight: 800;">
-        Selected Job NO :
-      </Label>
-    </div>   
-    <div class="col-md-2" style="padding-left:0px;">
-
-      <Label style="font-weight: 800;padding-left: 0px;">
-        {{selectedJobNo ==-1 ?'' : selectedJobNo}}
-      </Label>
+    <div class="col-sm-6">
+      <div class="row">
+        <div class="col-md-2" style="padding-left: 25px;padding-bottom: 11px;padding-right: 0px;">
+          <Label style="font-weight: 800;">
+            Job NO :
+          </Label>
+        </div>
+        <div class="col-md-3" style="padding-left:0px;">
+    
+          <Label style="font-weight: 800;padding-left: 0px;">
+            {{selectedJobNo ==-1 ?'' : selectedJobNo}}
+          </Label>
+        </div>
+    
+        <div class="col-md-1" style="padding: 0px;">
+          <Label style="font-weight: 800; padding: 0px;">
+          Name :
+          </Label>
+        </div>
+        <div class="col-md-5" style="font-weight: 800;">
+          {{selectedJobName}}
+        </div>
+      </div>
     </div>
-
-    <div class="col-md-1">
-<Label style="font-weight: 800;">
-        Job Name :
-      </Label>
-    </div>
-    <div class="col-md-2" style="font-weight: 800;">
-     {{selectedJobName}}
-    </div>
+ 
   </div>
   <div class="row">
     <div class="col-md-6">
@@ -66,19 +102,19 @@
           </thead>
           <tbody>
             <tr *ngFor="let expense of addedExpenses let i = index" aria-required="true" style="height: 5%;">
-              
+
               <td>{{expense.name}}</td>
               <td style="padding: 0px;padding-top: 10px;">
-                <input type="text" ng-maxlength="3" class="table-number " name="description" value="{{expense.description}}"
-                (change)=changeDescription(expense.id,$event.target.value)>
+                <input type="text" ng-maxlength="3" class="table-number " name="description"
+                  value="{{expense.description}}" (change)=changeDescription(expense.id,$event.target.value)>
               </td>
               <td style="padding: 0px;padding-top: 10px;">
                 <input type="text" ng-maxlength="3" class="table-number " name="amount" value="{{expense.amount}}"
-                (change)=changeAmount(expense.id,$event.target.value) numbersOnly>
+                  (change)=changeAmount(expense.id,$event.target.value) numbersOnly>
               </td>
               <td style="padding: 0px;padding-top:5px;">
-                <button type="button" class="btn btn-default main-buttons-sub" style="height: 35px;padding-top: 15px;background-color: #4CAF50;"
-                  (click)="removeItem(expense.id)">
+                <button type="button" class="btn btn-default main-buttons-sub"
+                  style="height: 35px;padding-top: 15px;background-color: #4CAF50;" (click)="removeItem(expense.id)">
                   <span class="" style="color: black;">&#x203E;</span>
                 </button>
               </td>
@@ -92,6 +128,40 @@
         </button>
       </div>
     </div>
-
+    <div class="col-md-6">
+      <div class="row form-group" style="height: 400px;overflow-y:auto;padding-left:17px;padding-right: 16px;">
+        <table class="table table-striped table-fixed table-fixedResList">
+          <thead>
+            <tr>
+              <th style="width: 66%;">Name</th>
+              <th> QTY</th>
+              <th style="width: 20%;">Received QTY</th>
+              <th>Remove</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of receivedItemList let i = index" aria-required="true" style="height: 5%;">
+              <td style="width: 60%;">{{item.itemName}}</td>
+              <td style="width: 10%;">{{item.sellingQuantity}}</td>
+              <td style="width: 20%;">
+              <input type="text" ng-maxlength="3" class="table-number"  name="tblQty" value="{{item.receivedQuantity}}"
+                  (change)=addReceivedQTY(item.itemId,$event.target.value,$event) numbersOnly>
+              </td>
+              <td style="padding: 0px;padding-top:5px;width: 10%;">
+                <button type="button" class="btn btn-default main-buttons-sub"
+                  style="height: 35px;background-color: #4CAF50;" (click)="removeReceivedItem(item.itemId)">
+                  <span style="color: black;">&#x203E;</span>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="col-md-2" style="top: -12px;">
+        <button class="btn btn-success input-group-text pull-right btn-sm" (click)="addReceivedItem()">
+          Add
+        </button>
+      </div>
+    </div>
   </div>
 </nb-card>

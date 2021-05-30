@@ -23,4 +23,12 @@ export class JobService{
     saveExpenses(jobExepenses){
         return this.commonService.apiPost(jobExepenses,'job/addExpensesById/');   
     }
+    addNewItems(jobToSave:any){
+        return this.commonService.apiPost(jobToSave,'job/addItemsById/');
+    }
+
+    addReceivedItem(ItemList){
+        return this.commonService.apiPost(ItemList,'job/removeReceivedItemsById/');
+
+    }
 }

@@ -24,8 +24,12 @@ export class EditJodComponent implements OnInit {
   selectedJob;
   otherExpenses = [];
   addedExpenses = [];
-  selectedJobNo:number = -1;
+  selectedJobNo: number = -1;
   selectedJobName: string = '';
+  SelectedJobItemList = [];
+  receivedItemList = [];
+  receivedQuantity: number = 0;
+  selectedJobId: number = 0;
   constructor(private alertify: AlertifyService, private spinner: NgxSpinnerService, private el: ElementRef, private modalService: NgbModal, private jobService: JobService) { }
 
   ngOnInit() {
@@ -40,7 +44,7 @@ export class EditJodComponent implements OnInit {
   getJobDetailsById(id) {
     console.log("Job Id ====", id);
     id = Number(id);
-    this.selectedJobNo =id;
+    this.selectedJobNo = id;
     if (id != -1) {
       let selectedJob = _.find(this.jobList, { 'jobId': id });
       this.selectedJobNo = selectedJob.jobNumber;
@@ -100,7 +104,7 @@ export class EditJodComponent implements OnInit {
       this.alertify.error('Plase add expensess');
       return false;
     }
-    if(this.selectedJobNo ==-1){
+    if (this.selectedJobNo == -1) {
       this.alertify.error('Plase select job');
       return false;
     }
@@ -114,19 +118,125 @@ export class EditJodComponent implements OnInit {
 
         if (response.json().statusCode == 200) {
           innerThis.alertify.success('Create successfull');
-          innerThis.addedExpenses=[];
-          innerThis.selectedJob={};
+          innerThis.addedExpenses = [];
+          innerThis.selectedJob = {};
           innerThis.jobService.getJobList().then(response => {
             innerThis.jobList = response.json().result;
           });
-          innerThis.selectedJobNo =-1;
+          innerThis.selectedJobNo = -1;
 
         } else {
           innerThis.alertify.error('Create un-successfull');
         }
       });
-      console.log("Asasasasas", job);
     });
+
+  }
+  getItemListById(id) {
+    let SelectedJobItemList = [];
+    this.SelectedJobItemList = [];
+    this.receivedItemList = [];
+    this.selectedJobId = 0;
+
+    if (id != -1) {
+      this.jobService.getJobById(id).then(response => {
+        SelectedJobItemList = response.json().result.itemVOList;
+        this.selectedJobId = response.json().result.jobId;
+
+        SelectedJobItemList.forEach(element => {
+          if (_.find(this.SelectedJobItemList, { 'itemId': element.itemId }) == null) {
+            this.SelectedJobItemList.push(element);
+          } else {
+            let findItem = _.find(this.SelectedJobItemList, { 'itemId': element.itemId });
+            _.remove(this.SelectedJobItemList, { 'itemId': element.itemId });
+            findItem.sellingQuantity = findItem.sellingQuantity + element.sellingQuantity;
+            this.SelectedJobItemList.push(findItem);
+          }
+        });
+      })
+
+
+
+    } else {
+      this.receivedItemList = [];
+      this.SelectedJobItemList = [];
+      this.receivedItemList = [];
+      this.selectedJobId = 0;
+
+    }
+  }
+  addReceviedItem(id) {
+    id = Number(id);
+    if (id != -1 && id != 0) {
+      let findItem = _.find(this.SelectedJobItemList, { 'itemId': id });
+      console.log("find Item", findItem);
+      if (_.find(this.receivedItemList, { 'itemId': findItem.itemId }) == null) {
+        this.receivedItemList.push(findItem);
+        findItem.receivedQuantity = 1;
+      }
+
+    } else {
+      this.alertify.error('Select Job');
+    }
+  }
+  removeReceivedItem(id) {
+    id = Number(id);
+    if (_.find(this.receivedItemList, { 'itemId': id }) != null) {
+
+      _.remove(this.receivedItemList, { 'itemId': id });
+    }
+  }
+
+  addReceivedQTY(itemId, qty, event) {
+    itemId = Number(itemId);
+    qty = Number(qty);
+    let findItem = _.find(this.receivedItemList, { 'itemId': itemId });
+    _.remove(this.receivedItemList, { 'itemId': itemId });
+    if (findItem.sellingQuantity >= qty) {
+
+      findItem.receivedQuantity = qty;
+      this.receivedItemList.push(findItem);
+    } else {
+      this.alertify.error('Quantity more than send quantity');
+      findItem.receivedQuantity = 1;
+      this.receivedItemList.push(findItem);
+      event.target.value = 1;
+    }
+  }
+
+  addReceivedItem() {
+    if (this.selectedJobId == 0) {
+      this.alertify.error('Please select job');
+      return false;
+    }
+    if (this.receivedItemList.length == 0) {
+      this.alertify.error('Add at lease one item');
+      return false;
+    }
+    let innerThis = this;
+    this.alertify.confirm('Add Received Item', 'Are you sure you want to add Item', function () {
+      let job = new Job;
+      job.jobId = innerThis.selectedJobId;
+      job.itemVOList = innerThis.receivedItemList;
+      console.log("Item List===",job);
+      innerThis.jobService.addReceivedItem(job).then(response => {
+        if (response.json().statusCode == 200) {
+          innerThis.alertify.success('Create successfull');
+          // innerThis.addedExpenses = [];
+          // innerThis.selectedJob = {};
+          // innerThis.jobService.getJobList().then(response => {
+          //   innerThis.jobList = response.json().result;
+          // });
+          // innerThis.selectedJobNo = -1;
+
+        } else {
+          innerThis.alertify.error('Create un-successfull');
+        }
+
+      });
+
+     });
+    
 
   }
 
