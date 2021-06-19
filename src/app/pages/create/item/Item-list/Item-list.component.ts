@@ -9,6 +9,7 @@ import * as _ from 'lodash';
 import { ItemBtnComponent } from './item-btn.component';
 import { Item } from '../../../../models/item_modal';
 import { ItemDetail } from '../../../../models/itemDetail_model';
+import { ItemEditorComponent } from '../../../create/item/item-editor/item-editor.component';
 
 @Component({
   selector: 'Item-list',
@@ -105,23 +106,40 @@ export class ItemListComponent implements OnInit {
   source: LocalDataSource = new LocalDataSource();
 
   constructor(private service: SmartTableService, private modalService: NgbModal, private alertifyService: AlertifyService,
-    private settingsservice: SettingsService) {
+    private settingsservice: SettingsService,) {
 
 
     this.settingsservice.getItemList().then((response) => {
       this.initItem_data = response.json().result;
+     this.settingsservice.loadEditItemList(this.initItem_data);
+     
+     this.settingsservice.getEditItemList().subscribe(response=>{
+      this.source.load( response);
+    });
+
+
 
       this.source.load(this.initItem_data);
     }).catch((ex) => {
       this.initItem_data;
     });
     this.selectedCategory = this.selectedSubCategory = this.initcategory;
+
+    
   }
 
   ngOnInit() {
     this.settingsservice.getNewItemList().subscribe(itemList => {
       this.source.load(itemList);
     });
+  }
+
+  onEdit(event) {
+    console.log("asasasassasas");
+    const activeModal = this.modalService.open(ItemEditorComponent, { size: 'lg', container: 'nb-layout' });
+    activeModal.componentInstance.rowData = event;
+    // this.data.category = 'mainCategory';
+    // activeModal.componentInstance.selectedTask = this.data;
   }
 
 

@@ -17,11 +17,13 @@ export class SettingsService {
   private sharedSubCategoryObject =new BehaviorSubject(this.tableList);
   private sharedCustomerObject =new BehaviorSubject(this.tableList);
   private sharedSupplierObject =new BehaviorSubject(this.tableList);
+  private shareItemListObject =new BehaviorSubject(this.tableList);
   modifiedSharedItemObject = this.sharedItemObject.asObservable();
   modifiedSharedCategoryObject = this.sharedCategoryObject.asObservable(); 
   modifiedSharedSubCategoryObject = this.sharedSubCategoryObject.asObservable();
   modifiedCustomerObject = this.sharedCustomerObject.asObservable();
   modifiedSupplierObject = this.sharedSupplierObject.asObservable();
+  modifiedItemListObject =this.shareItemListObject.asObservable();
 
   constructor(private http: Http , private commonsService: CommonService) {}
 
@@ -107,6 +109,15 @@ export class SettingsService {
   loadSupplierList(editObject: any){
     this.sharedSupplierObject.next(editObject);
   }
+  saveItemDetails(itemDetail:any){
+    return this.commonsService.apiPost(itemDetail,'item/updateItem/');
+  }
+  loadEditItemList(editObject: any){
+    this.shareItemListObject.next(editObject);
+  }
 
+  getEditItemList(){
+    return this.modifiedItemListObject;
+  }
 
 }

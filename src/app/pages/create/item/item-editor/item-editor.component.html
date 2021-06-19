@@ -1,76 +1,46 @@
 <div class="modal-header">
-  <span>Item</span>
+  <span>Edit Item Details</span>
   <button class="close" aria-label="Close" (click)="closeModal()">
     <span aria-hidden="true">&times;</span>
   </button>
 </div>
-<div class="modal-body">
-  <form>
+  <div class="modal-body">
+    <form>
+      <div class="form-group row">
+        <label class="col-sm-12 col-form-label" style="font-weight: 800;" > {{itemCode}} :- {{itemName}}</label>
+      </div>
 
+    </form>
+  <form>
     <div class="form-group row">
-      <div class="col-md-3">
-        <label for="inputEmail1" class="col-form-label">Category</label>
-      </div>
-      <div class="col-md-9">
-        <div class="dropdown input-group-btn" ngbDropdown>
-          <button type="button" class="btn btn-outline-success dropdown-toggle" ngbDropdownToggle>
-            {{selectedCategory.name}}
-          </button>
-          <ul class="dropdown-menu" ngbDropdownMenu>
-            <li class="dropdown-item" *ngFor="let item of mainCategoryList" (click)="onChangeMainCategory(item)">
-              {{item.name}}</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-    <div class="form-group row">
-      <div class="col-md-3">
-        <label for="inputEmail1" class="col-form-label">Sub Category</label>
-      </div>
-      <div class="col-md-9">
-        <div class="dropdown input-group-btn" ngbDropdown>
-          <button type="button" class="btn btn-outline-success dropdown-toggle" ngbDropdownToggle>
-            {{selectedSubCategory.name}}
-          </button>
-          <ul class="dropdown-menu" ngbDropdownMenu>
-            <li class="dropdown-item" *ngFor="let item of changebleSubCategoryList" (click)="onChangeSubCategory(item)">
-              {{item.name}}</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-    <div class="form-group row">
-      <label for="itemName" class="col-sm-3 col-form-label">Item Name</label>
+      <label for="purchaseData" class="col-sm-3 col-form-label">Cost</label>
       <div class="col-sm-8">
-        <input [(ngModel)]="itemName" type="text" name="itemName" class="form-control" id="itemName"
-          placeholder="Item Name">
-      </div>
-    </div>
-    <div class="form-group row">
-      <label for="itemName" class="col-sm-3 col-form-label">Item Code</label>
-      <div class="col-sm-8">
-        <input [(ngModel)]="itemCode" type="text" name="itemCode" class="form-control" id="itemCode"
-          placeholder="Item Code">
-      </div>
-    </div>
-    <div class="form-group row">
-      <label for="itemName" class="col-sm-3 col-form-label">Discription</label>
-      <div class="col-sm-8">
-        <input [(ngModel)]="discription" type="text" name="discription" class="form-control" id="discription"
-          placeholder="Discription">
+        <input [(ngModel)]="costprice" type="text" name="costprice" class="form-control" id="costprice" placeholder="Cost" numericType="decimal" double-number-directive>
       </div>
     </div>
     <div role="separator" class="dropdown-divider"></div>
-    <div class="col-md-7">
-      &nbsp;
+    <div class="form-group row">
+      <label for="customerPrice" class="col-sm-3 col-form-label">Showroom Price</label>
+      <div class="col-sm-8">
+        <input [(ngModel)]="customerPrice" type="text" name="customerPrice" class="form-control" id="customerPrice" placeholder="Customer price" numericType="decimal" double-number-directive>
+      </div>
     </div>
-    <button class="btn btn-success input-group-text pull-right" (click)="bindItemList()">Add</button>
-
+    <div class="form-group row">
+      <label for="fabricatorPrice" class="col-sm-3 col-form-label">Fabricater Price</label>
+      <div class="col-sm-8">
+        <input [(ngModel)]="fabricatorPrice" type="text" name="fabricatorPrice" class="form-control" id="fabricatorPrice" placeholder="Fabricater Price" numericType="decimal" double-number-directive>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="mrpPrice" class="col-sm-3 col-form-label">MRP</label>
+      <div class="col-sm-8">
+        <input [(ngModel)]="mrpPrice" type="text" name="mrpPrice" class="form-control" id="mrpPrice" placeholder="Price" numericType="decimal" double-number-directive>
+      </div>
+    </div>
   </form>
 </div>
-<ng2-smart-table [settings]="settings" [source]="source" (editConfirm)="onEditConfirm()"> </ng2-smart-table>
 
 <div class="modal-footer">
-  <button class="btn btn-md btn-success" (click)="saveItems()">proceed</button>
+  <button class="btn btn-md btn-success" (click)="saveItemDetail()">proceed</button>
   <button class="btn btn-hero-secondary btn-demo" (click)="closeModal()">Close</button>
 </div>
