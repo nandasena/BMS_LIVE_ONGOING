@@ -1,0 +1,59 @@
+<div class="modal-header">
+  <span>Job Details / NO - {{jobNumber}}</span>
+  <button class="close" aria-label="Close" (click)="closeModal()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="form-group row">
+  <div class="col-sm-12 col-form-label">
+    <div class="row">
+      <div class="col-sm-2 col-form-label" style="padding: 0px;padding-top: 8px;padding-left: 27px;">
+        <label for="inputEmail1">Description :</label>
+      </div>
+      <div class="col-sm-10" style="padding-left: 0px;padding-right: 27px;padding-left: 23px;">
+        <input class="text-right form-control" id="description" [(ngModel)]="description" type="text" name="description" value="">
+      </div>
+    </div>
+  </div>
+</div>
+<div class="form-group row">
+  <div class="col-sm-12 col-form-label">
+    <div class="row">
+      <div class="col-sm-2">
+        <label for="inputEmail1" class="col-form-label"
+          style="padding: 0px;padding-top: 8px;padding-left: 10px;">Rate:</label>
+      </div>
+      <div class="col-sm-3" style="padding-left: 0px;">
+        <div class="row">
+          <div class="col-sm-12" style="padding-left: 0px;padding-right: 27px;padding-left: 37px;">
+            <input class="text-right form-control" id="ratePerSquareFeet" style="padding: 0px;"
+              [(ngModel)]="ratePerSquareFeet" type="number" name="ratePerSquareFeet" 
+              value="{{ratePerSquareFeet}}" numericType="decimal" OnlyNumber="true" double-number-directive>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-2">
+        <label for="inputEmail1" class="col-form-label"
+          style="padding: 0px;padding-top: 8px;padding-left: 10px;">Square Feet:</label>
+      </div>
+      <div class="col-sm-3" style="padding-left: 0px;">
+        <div class="row">
+          <div class="col-sm-12" style="padding-left: 0px;padding-right: 27px;padding-left: 37px;">
+            <input class="text-right form-control" id="squareFeet" style="padding: 0px;"
+              [(ngModel)]="squareFeet" type="number" name="squareFeet"
+              value="{{squareFeet}}" numericType="decimal" OnlyNumber="true" double-number-directive>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-2" style="padding-left: 24px;">
+        <button type="button" class="btn btn-md btn-success btn-sm" style="height: 35px;padding-top: 8px;" (click)="addSquareFeet()">
+          <span class="" style="color: black;">Add</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<div style="padding:10px;">
+  <ng2-smart-table [settings]="settings" [source]="source">
+  </ng2-smart-table>
+</div>

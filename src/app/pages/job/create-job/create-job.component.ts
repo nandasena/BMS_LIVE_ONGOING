@@ -14,6 +14,7 @@ import * as moment from 'moment';
 import { IMyDpOptions } from 'mydatepicker';
 import * as _ from 'lodash';
 import { NgxSpinnerService } from 'ngx-spinner';
+import {SquareFeetComponent} from '../add-square-feet/square-feet/square-feet.component';
 // import { NgxSpinnerService } from 'ngx-spinner';
 @Component({
   selector: 'invoice-add',
@@ -958,10 +959,28 @@ export class CreateJobComponent implements OnInit {
     const activeEditModal = this.modalService.open(ItemModalWindowComponent, options);
     activeEditModal.componentInstance.jobNumber = this.selectedJobNumber;
     activeEditModal.componentInstance.itemList = this.savedItemList;
+
   }
   calculateInvoiceAmount(){
     this.totalInvoiceAmount =this.ratePerSquareFeet*this.squareFeet;
     console.log("totalInvoiceAmount ===",this.totalInvoiceAmount);
+  }
+  addSquareFeet(){
+    let options: any = {
+      size: "lg modal-dialog my-modal",
+      container: 'nb-layout',
+      class: "xxx",
+      style: 'padding: 117px',
+      backdrop : 'static',
+      keyboard : false
+    };
+    const activeEditModal = this.modalService.open(SquareFeetComponent, options);
+    activeEditModal.componentInstance.jobNumber = this.selectedJobNumber;
+    activeEditModal.result.then((result) => {
+      if (result) {
+      console.log(result);
+      }
+      });
   }
 
   printInvoice(savedPurchaseOrder,insertObject) {
