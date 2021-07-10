@@ -15,7 +15,8 @@ import { IMyDpOptions } from 'mydatepicker';
 import * as _ from 'lodash';
 import { NgxSpinnerService } from 'ngx-spinner';
 import {SquareFeetComponent} from '../add-square-feet/square-feet/square-feet.component';
-// import { NgxSpinnerService } from 'ngx-spinner';
+
+
 @Component({
   selector: 'invoice-add',
   templateUrl: './create-job.component.html',
@@ -94,6 +95,7 @@ export class CreateJobComponent implements OnInit {
   selectedJobNumber:string ='';
   isShow:boolean=false;
   totalInvoiceAmount:number;
+  squareFeelList=[];
 
 
 
@@ -533,14 +535,14 @@ export class CreateJobComponent implements OnInit {
         this.alertify.error('Please add job name....');
         return false;   
       }
-      if(this.ratePerSquareFeet== 0 || this.ratePerSquareFeet==null){
-        this.alertify.error('Please add rate....');
-        return false; 
-      }
-      if(this.squareFeet == 0 || this.squareFeet==null){
-        this.alertify.error('Please add square feet....');
-        return false;
-      }
+      // if(this.ratePerSquareFeet== 0 || this.ratePerSquareFeet==null){
+      //   this.alertify.error('Please add rate....');
+      //   return false; 
+      // }
+      // if(this.squareFeet == 0 || this.squareFeet==null){
+      //   this.alertify.error('Please add square feet....');
+      //   return false;
+      // }
 
       if (this.paymentDetail.typeCode != 'CR') {
         if (this.balance > 0) {
@@ -618,6 +620,7 @@ export class CreateJobComponent implements OnInit {
         joibTosave.itemVOList = innerThis.itemToSave;
         joibTosave.paymentDetailList = innerThis.paymentDetailList;
         joibTosave.jobId =innerThis.selectedJobId;
+        joibTosave.jobSquareFeetDetailVOList =innerThis.squareFeelList;
 
         if(!innerThis.isEditTrue){
           innerThis.JobService.saveJob(joibTosave).then((response) => {
@@ -639,6 +642,7 @@ export class CreateJobComponent implements OnInit {
               innerThis.jobName ='';
               innerThis.squareFeet=0.00;
               innerThis.ratePerSquareFeet=0.00;
+              innerThis.squareFeelList=[];
   
               innerThis.selectedCustomer = ""
               innerThis.invoiceService.getItemList().then((response) => {
@@ -704,6 +708,7 @@ export class CreateJobComponent implements OnInit {
               innerThis.isShow=false;
               innerThis.isEditTrue=false;
               innerThis.selectedJobNumber ='';
+              innerThis.squareFeelList=[];
   
             } else {
               innerThis.spinner.hide();
@@ -899,7 +904,7 @@ export class CreateJobComponent implements OnInit {
 
       this.JobService.getJobById(id).then(response => {
         this.selectedJob = response.json().result;
-        console.log("selectedJob ====", selectedJob);
+        console.log("selectedJob ====", this.selectedJob);
         this.selectedJobNumber = this.selectedJob.jobNumber;
         this.jobName =this.selectedJob.name;
         this.ratePerSquareFeet =this.selectedJob.ratePerSquareFeet;
@@ -907,6 +912,8 @@ export class CreateJobComponent implements OnInit {
         let endDate = this.selectedJob.endDate.split("-");
         let startDate =this.selectedJob.startDate.split("-");
         this.savedItemList =this.selectedJob.itemVOList;
+        this.squareFeelList =this.selectedJob.jobSquareFeetDetailVOList;
+        this.calculateInvoiceAmount();
         _.remove(this.savedItemList, { 'itemId': null });
         this.isShow=true
         this.startDate ={
@@ -947,6 +954,8 @@ export class CreateJobComponent implements OnInit {
           day: moment().date()
         }, formatted: moment().year() + '-' + (moment().month() + 1) + '-' + moment().date()
       };
+      this.squareFeelList =[];
+      this.calculateInvoiceAmount();
     }
   }
   showItemList(){
@@ -962,7 +971,11 @@ export class CreateJobComponent implements OnInit {
 
   }
   calculateInvoiceAmount(){
-    this.totalInvoiceAmount =this.ratePerSquareFeet*this.squareFeet;
+    this.totalInvoiceAmount=0;
+    this.squareFeelList.forEach(object => {
+      this.totalInvoiceAmount += object.amount;
+    });
+    this.totalInvoiceAmount =  _.round(this.totalInvoiceAmount, 2);
     console.log("totalInvoiceAmount ===",this.totalInvoiceAmount);
   }
   addSquareFeet(){
@@ -976,11 +989,15 @@ export class CreateJobComponent implements OnInit {
     };
     const activeEditModal = this.modalService.open(SquareFeetComponent, options);
     activeEditModal.componentInstance.jobNumber = this.selectedJobNumber;
+    activeEditModal.componentInstance.SquareFeelList = this.squareFeelList;
+
     activeEditModal.result.then((result) => {
       if (result) {
-      console.log(result);
+      this.squareFeelList =result;
+      this.calculateInvoiceAmount();
       }
       });
+
   }
 
   printInvoice(savedPurchaseOrder,insertObject) {

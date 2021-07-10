@@ -17,5 +17,6 @@ export class Job {
     paymentType:number;
     itemVOList :Item[];
     paymentDetailList:PaymentModal[];
-    otherExpensesVOList=[]
+    otherExpensesVOList=[];
+    jobSquareFeetDetailVOList=[];
 }
