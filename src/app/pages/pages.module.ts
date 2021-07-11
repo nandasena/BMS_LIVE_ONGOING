@@ -26,6 +26,8 @@ import { NgxSpinnerModule } from 'ngx-spinner';
 import {NumberModal} from '../models/number.module';
 import { ItemModalWindowComponent } from './job/item-modal-window/item-modal-window.component';
 import { SquareFeetComponent } from './job/add-square-feet/square-feet/square-feet.component';
+import { ViewJobComponent } from './job/view-job/view-job.component';
+import { JobDetailComponent } from './job/job-detail/job-detail.component';
 
 const PAGES_COMPONENTS = [
   PagesComponent,
@@ -60,11 +62,14 @@ const PAGES_COMPONENTS = [
      CreateJobComponent,
      EditJodComponent,
      ItemModalWindowComponent,
-     SquareFeetComponent
+     SquareFeetComponent,
+     ViewJobComponent,
+     JobDetailComponent,
   ],
   entryComponents: [
     ItemModalWindowComponent,
-    SquareFeetComponent
+    SquareFeetComponent,
+    JobDetailComponent
   ],
   providers: [
     // Config,

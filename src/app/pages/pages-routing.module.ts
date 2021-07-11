@@ -22,6 +22,7 @@ import {ItemWiseProfitComponent}from './report/item-wise-profit/item-wise-profit
 import {JobComponent} from './job/job.component';
 import {CreateJobComponent} from './job/create-job/create-job.component';
 import {EditJodComponent}from './job/edit-jod/edit-jod.component';
+import {ViewJobComponent} from './job/view-job/view-job.component';
 import { from } from 'rxjs/observable/from';
 
 const routes: Routes = [{
@@ -103,6 +104,10 @@ const routes: Routes = [{
   {
     path:'job-edit',
     component:EditJodComponent,
+  },
+  {
+    path:'job-view',
+    component:ViewJobComponent,
   },
 
   {

@@ -1,0 +1,43 @@
+nb-card {
+    transform: translate3d(0, 0, 0);
+  }
+  
+  ng2-smart-table /deep/ thead th:last-child {
+    text-align: center;
+  }
+  
+  :host /deep/ ng2-smart-table table tr.ng2-smart-titles th {
+    padding: 0.6rem 0rem 0.6rem 0.2rem;
+  }
+  
+  :host /deep/ ng2-smart-table table tr.ng2-smart-titles th.ng2-smart-actions {
+    font-size: 13px;
+  }
+  
+  :host /deep/ ng2-smart-table table tr.ng2-smart-titles th a {
+    font-size: 13px;
+  }
+  
+  :host /deep/ ng2-smart-table table tr td {
+    padding: 0rem 0rem 0rem 0.2rem;
+    font-size: 13px;
+  }
+  
+  :host /deep/ ng2-smart-table table .ng2-smart-actions a.ng2-smart-action i.fa {
+    font-size: 18px !important;
+  }
+  :host-conext(.my-modal){
+    padding-top: 10px;
+  }  
+  // :host /deep/ ng2-smart-table tbody > tr > td{
+  //   text-align: right;
+  // }
+
+  :host /deep/ ng2-smart-table tbody > tr > td .cell_right {
+    text-align: right;
+    }
+
+    :host /deep/ .customformat{ 
+      text-align: right; 
+      padding-right: 5px;
+    } 

@@ -19,5 +19,8 @@ export class JobComponent implements OnInit {
   showEditJob(){
     this.router.navigate(['/pages/job-edit']);
   }
+  viewJobs(){
+    this.router.navigate(['/pages/job-view']);
+  }
 
 }
