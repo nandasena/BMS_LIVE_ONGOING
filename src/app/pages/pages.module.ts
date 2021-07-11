@@ -28,6 +28,8 @@ import { ItemModalWindowComponent } from './job/item-modal-window/item-modal-win
 import { SquareFeetComponent } from './job/add-square-feet/square-feet/square-feet.component';
 import { ViewJobComponent } from './job/view-job/view-job.component';
 import { JobDetailComponent } from './job/job-detail/job-detail.component';
+import { JobStatusChangeComponent } from './job/job-status-change/job-status-change.component';
+import { JobStatusDropdownComponent } from './job/job-status-dropdown/job-status-dropdown.component';
 
 const PAGES_COMPONENTS = [
   PagesComponent,
@@ -65,11 +67,15 @@ const PAGES_COMPONENTS = [
      SquareFeetComponent,
      ViewJobComponent,
      JobDetailComponent,
+     JobStatusChangeComponent,
+     JobStatusDropdownComponent,
   ],
   entryComponents: [
     ItemModalWindowComponent,
     SquareFeetComponent,
-    JobDetailComponent
+    JobDetailComponent,
+    JobStatusChangeComponent,
+    JobStatusDropdownComponent
   ],
   providers: [
     // Config,

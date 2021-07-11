@@ -5,8 +5,9 @@ import { IMyDpOptions } from 'mydatepicker';
 import { AlertifyService } from '../../../services/alertify.service';
 import { LocalDataSource, ViewCell } from 'ng2-smart-table';
 import * as moment from 'moment';
-import {JobService} from '../../../services/job.service';
-import {JobDetailComponent} from '../job-detail/job-detail.component';
+import { JobService } from '../../../services/job.service';
+import { JobDetailComponent } from '../job-detail/job-detail.component';
+import { JobStatusChangeComponent } from '../job-status-change/job-status-change.component';
 @Component({
   selector: 'view-job',
   templateUrl: './view-job.component.html',
@@ -21,7 +22,7 @@ export class ViewJobComponent implements OnInit {
   myDatePickerOptions: IMyDpOptions = {
     dateFormat: 'yyyy-mm-dd',
   };
-  constructor(private jobService:JobService,private modalService: NgbModal) { 
+  constructor(private jobService: JobService, private modalService: NgbModal) {
 
     let tempDate = moment().subtract(21, 'days').calendar().split('/');
     this.fromDate = {
@@ -45,24 +46,29 @@ export class ViewJobComponent implements OnInit {
     this.jobService.getJobDetailsByDate(this.fromDate.formatted, this.toDate.formatted).then((response) => {
       let retunData = response.json();
       if (retunData.statusCode == 200) {
-        console.log("Return Data ====== ",retunData);
-        this.source.load(retunData.result);
+        console.log("Return Data ====== ", retunData);
+        jobService.loadModifiedJobList(retunData.result);
+
       }
     });
+
+    this.jobService.getModifiedJobList().subscribe(response => {
+      this.source.load(response);
+    })
 
   }
 
   ngOnInit() {
 
   }
-  
+
   jobDetails = {
     mode: 'external',
     hideSubHeader: true,
     actions: {
       position: 'right',
     },
-    
+
     add: {
       addButtonContent: '<i class="nb-plus"></i>',
       createButtonContent: '<i class="nb-checkmark"></i>',
@@ -105,29 +111,29 @@ export class ViewJobComponent implements OnInit {
         title: 'Profit',
         valuePrepareFunction: (value) => { return value === 'Total' ? value : Intl.NumberFormat("ja-JP", { style: "decimal", currency: "JPY", minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(value) }
       },
-      // print: {
-      //   title:'',
-      //   type: 'custom',
-      //   renderComponent:InvoicePrintComponent
-      // },
+      print: {
+        title: '',
+        type: 'custom',
+        renderComponent: JobStatusChangeComponent
+      },
     },
   };
 
-  getjobByDate(){
+  getjobByDate() {
     this.jobService.getJobDetailsByDate(this.fromDate.formatted, this.toDate.formatted).then((response) => {
       let retunData = response.json();
       if (retunData.statusCode == 200) {
-        console.log("Return Data ====== ",retunData);
-        this.source.load(retunData.result);
+        console.log("Return Data ====== ", retunData);
+        this.jobService.loadModifiedJobList(retunData.result);
       }
     });
   }
-  viewJobDetails(event){
-    console.log("Event data",event.data);
-    this.showEditModal(event.data.itemVOList,event.data.jobNumber);
+  viewJobDetails(event) {
+    console.log("Event data", event.data);
+    this.showEditModal(event.data.itemVOList, event.data.jobNumber);
   }
 
-  showEditModal(itemList,jobNumber) {
+  showEditModal(itemList, jobNumber) {
     let options: any = {
       size: "lg modal-dialog my-modal",
       container: 'nb-layout',
@@ -136,10 +142,9 @@ export class ViewJobComponent implements OnInit {
     };
 
     const activeEditModal = this.modalService.open(JobDetailComponent, options);
-     activeEditModal.componentInstance.itemList = itemList;
-     activeEditModal.componentInstance.jobNumber =jobNumber;
-    // activeEditModal.componentInstance.invoiceNumber = invoiceNumber;
+    activeEditModal.componentInstance.itemList = itemList;
+    activeEditModal.componentInstance.jobNumber = jobNumber;
   }
-  
+
 
 }

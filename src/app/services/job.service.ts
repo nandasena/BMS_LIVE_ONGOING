@@ -1,10 +1,17 @@
 import { Injectable } from '@angular/core';
 import { CommonService } from '../commonService/common.service';
 import { Response } from '@angular/http';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable()
 export class JobService {
     private controllerBaseURL: string = 'job';
+
+
+    private tableList: any[] = [];
+    private sharedJobList = new BehaviorSubject(this.tableList);
+    modifiedJobList = this.sharedJobList.asObservable();
+
     constructor(private commonService: CommonService) {
     }
     getAllRating() {
@@ -34,4 +41,14 @@ export class JobService {
     getJobDetailsByDate(fromDate, toDate) {
         return this.commonService.apiGet('job/fromDate/' + fromDate + '/toDate/' + toDate);
     }
+    changeJobStatus(jobId,statusId){
+        return this.commonService.apiGet(this.controllerBaseURL+'/jobId/'+jobId+'/statusId/'+statusId+'/');
+    }
+    loadModifiedJobList(editObject: any): void {
+        this.sharedJobList.next(editObject);
+    }
+    getModifiedJobList(): any {
+        return this.modifiedJobList;
+  
+      }
 }

@@ -1,0 +1,29 @@
+<div>
+  <div class="row">
+    <div class="col-md-10">
+
+    </div>
+    <div class="col-md-2">
+      <button class="close" aria-label="Close" style="padding:3px;padding-right:6px;" (click)="closeModal()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    
+  </div>
+  <div class="col-md-12" style="padding: 21px;padding-top: 10px;">
+    <select class="form-control-sm" #selectedJobStatus style="width: 100%;">
+      <option selected [value]="-1" disabled>Select Expenses</option>
+      <option [value]="1">CREATE</option>
+      <option [value]="2">START</option>
+      <option [value]="3">FINISHED</option>
+      <option [value]="4">PENDING</option>
+      <option [value]="5">CANCELED</option>
+    </select>
+  </div>
+  <div class="col-md-12" style="top: -4px;padding-right: 22px;">
+    <button class="btn btn-success input-group-text pull-right btn-sm"
+      style="width: 80px;padding-left: 14px;height: 35px;" (click)="changeStatus(selectedJobStatus.value)">
+      Status
+    </button>
+  </div>
+</div>
