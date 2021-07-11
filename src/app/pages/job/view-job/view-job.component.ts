@@ -8,6 +8,7 @@ import * as moment from 'moment';
 import { JobService } from '../../../services/job.service';
 import { JobDetailComponent } from '../job-detail/job-detail.component';
 import { JobStatusChangeComponent } from '../job-status-change/job-status-change.component';
+import * as _ from 'lodash';
 @Component({
   selector: 'view-job',
   templateUrl: './view-job.component.html',
@@ -46,14 +47,14 @@ export class ViewJobComponent implements OnInit {
     this.jobService.getJobDetailsByDate(this.fromDate.formatted, this.toDate.formatted).then((response) => {
       let retunData = response.json();
       if (retunData.statusCode == 200) {
-        console.log("Return Data ====== ", retunData);
         jobService.loadModifiedJobList(retunData.result);
 
       }
     });
 
     this.jobService.getModifiedJobList().subscribe(response => {
-      this.source.load(response);
+      let orderedJobList =_.orderBy(response,['jobId'],['asc']);
+      this.source.load(orderedJobList);
     })
 
   }
@@ -123,7 +124,6 @@ export class ViewJobComponent implements OnInit {
     this.jobService.getJobDetailsByDate(this.fromDate.formatted, this.toDate.formatted).then((response) => {
       let retunData = response.json();
       if (retunData.statusCode == 200) {
-        console.log("Return Data ====== ", retunData);
         this.jobService.loadModifiedJobList(retunData.result);
       }
     });
