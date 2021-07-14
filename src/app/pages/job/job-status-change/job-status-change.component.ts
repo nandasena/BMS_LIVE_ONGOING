@@ -85,6 +85,7 @@ export class JobStatusChangeComponent implements OnInit {
          
         })
 
+        this.alertify.success('Status successfully updated');
         this.jobService.loadModifiedJobList(this.jobList);
        
        }
