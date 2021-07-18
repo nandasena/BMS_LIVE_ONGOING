@@ -3,18 +3,18 @@ import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { InvoiceService } from '../../../services/invoice.service';
 import { JobService } from '../../../services/job.service';
 import { Item } from '../../../models/item_modal';
-import {Job} from '../../../models/job.model'
-import {PriceList} from '../../../models/price-list.modal'
+import { Job } from '../../../models/job.model'
+import { PriceList } from '../../../models/price-list.modal'
 import { PaymentModal } from '../../../models/payment-modal';
 import { InvoiceModel } from '../../../models/invoice-modal';
-import {ItemModalWindowComponent} from '../item-modal-window/item-modal-window.component';
-import {Customer} from '../../../models/customer_model';
+import { ItemModalWindowComponent } from '../item-modal-window/item-modal-window.component';
+import { Customer } from '../../../models/customer_model';
 import { AlertifyService } from '../../../services/alertify.service';
 import * as moment from 'moment';
 import { IMyDpOptions } from 'mydatepicker';
 import * as _ from 'lodash';
 import { NgxSpinnerService } from 'ngx-spinner';
-import {SquareFeetComponent} from '../add-square-feet/square-feet/square-feet.component';
+import { SquareFeetComponent } from '../add-square-feet/square-feet/square-feet.component';
 
 
 @Component({
@@ -35,14 +35,14 @@ export class CreateJobComponent implements OnInit {
   itemDetailList = [];
   invoiceToSave: InvoiceModel;
   itemToSave: Item[] = [];
-  savedItemList:Item[]=[];
-  job:Job;;
+  savedItemList: Item[] = [];
+  job: Job;;
   selectedItem;
   totalAmount: number = 0.00;
-  totalDiscount:number =0.00;
+  totalDiscount: number = 0.00;
   model = { date: {}, formatted: '' };
   startDate = { date: {}, formatted: '' };
-  endDate =   { date: {}, formatted: '' }
+  endDate = { date: {}, formatted: '' }
   myDatePickerOptions: IMyDpOptions = {
     dateFormat: 'yyyy-mm-dd',
   };
@@ -50,11 +50,11 @@ export class CreateJobComponent implements OnInit {
     dateFormat: 'yyyy-mm-dd',
   };
   // chequeDate = { date: {}, formatted: '' };
-  chequeDate=null;
+  chequeDate = null;
   balance: number = 0.00;
   cash: number = 0.00;
-  advance:number = 0.00;
-  selectedBankId=-1;
+  advance: number = 0.00;
+  selectedBankId = -1;
   selectedItemId: number;
   customerList = [];
   selectedCustomerName: string = '';
@@ -68,7 +68,7 @@ export class CreateJobComponent implements OnInit {
   paymentDetail;
   chequeNo: string = '';
   carsRefNo: string = '';
-  chequeDescription:string='';
+  chequeDescription: string = '';
   isCheckedCash: boolean = true;
   isCheckedCheque: boolean = false;
   isCheckedCreditCard: boolean = false;
@@ -77,31 +77,31 @@ export class CreateJobComponent implements OnInit {
   isShowCashFild: boolean = true;
   printDetails: String = '';
   bankList = [];
-  customerName:string ='';
-  customerAddress:string ='';
-  customerTelephone:string ='';
-  customerDetails:Customer = new Customer;
-  otherExpenses  =[];
-  addedOtherExpenses=[];
-  jobName:string ="";
-  ratePerSquareFeet:number =0.00;
-  squareFeet:number=0.00;
+  customerName: string = '';
+  customerAddress: string = '';
+  customerTelephone: string = '';
+  customerDetails: Customer = new Customer;
+  otherExpenses = [];
+  addedOtherExpenses = [];
+  jobName: string = "";
+  ratePerSquareFeet: number = 0.00;
+  squareFeet: number = 0.00;
   jobList = [];
-  selectedJobNo:number = -1;
-  selectedJobId:number =-1;
+  selectedJobNo: number = -1;
+  selectedJobId: number = -1;
   selectedJobName: string = '';
   selectedJob;
-  isEditTrue=false;
-  selectedJobNumber:string ='';
-  isShow:boolean=false;
-  totalInvoiceAmount:number;
-  squareFeelList=[];
+  isEditTrue = false;
+  selectedJobNumber: string = '';
+  isShow: boolean = false;
+  totalInvoiceAmount: number;
+  squareFeelList = [];
 
 
 
 
   constructor(private invoiceService: InvoiceService, private alertify: AlertifyService, private spinner: NgxSpinnerService,
-             private el: ElementRef, private modalService: NgbModal,private JobService:JobService) { }
+    private el: ElementRef, private modalService: NgbModal, private JobService: JobService) { }
 
   ngOnInit() {
     var modal = document.getElementById("myModal");
@@ -132,7 +132,7 @@ export class CreateJobComponent implements OnInit {
       this.customerList = response.json().result;
     })
 
-    this.JobService.getAllRating().then((response) =>{
+    this.JobService.getAllRating().then((response) => {
       this.otherExpenses = response.json().result;
     })
 
@@ -144,14 +144,14 @@ export class CreateJobComponent implements OnInit {
       }, formatted: moment().year() + '-' + (moment().month() + 1) + '-' + moment().date()
     };
 
-    this.startDate ={
+    this.startDate = {
       date: {
         year: moment().year(),
         month: (moment().month() + 1),
         day: moment().date()
       }, formatted: moment().year() + '-' + (moment().month() + 1) + '-' + moment().date()
     };
-    this.endDate ={
+    this.endDate = {
       date: {
         year: moment().year(),
         month: (moment().month() + 1),
@@ -186,13 +186,13 @@ export class CreateJobComponent implements OnInit {
   }
 
   addSelectedItemToTable(id, event) {
-    let priceList: PriceList[] = [] ;
+    let priceList: PriceList[] = [];
     id = Number(id)
     if (id == -1) {
       this.alertify.error('Please select item');
       return false
     }
-    this.selectedItem = _.find(this.categoryWiseItemList, { 'itemId': id }) 
+    this.selectedItem = _.find(this.categoryWiseItemList, { 'itemId': id })
     if (this.selectedItem.itemDetailList.length > 1) {
       var modal = document.getElementById("myModal");
       this.itemDetailList = this.selectedItem.itemDetailList;
@@ -202,26 +202,26 @@ export class CreateJobComponent implements OnInit {
 
       if (typeof this.selectedItem.itemDetailList[0] != 'undefined') {
 
-      console.log("selected item is =====",this.selectedItem);  
-      this.closeModal()
+        console.log("selected item is =====", this.selectedItem);
+        this.closeModal()
 
-      let price1 = new PriceList;
-      price1.paymentId=1;
-      price1.price =this.selectedItem.itemDetailList[0].mrpPrice;
-      price1.priceName="MRP"
-      priceList.push(price1);
+        let price1 = new PriceList;
+        price1.paymentId = 1;
+        price1.price = this.selectedItem.itemDetailList[0].mrpPrice;
+        price1.priceName = "MRP"
+        priceList.push(price1);
 
-      let price = new PriceList;
-      price.paymentId=2;
-      price.price =this.selectedItem.itemDetailList[0].fabricatorPrice;;
-      price.priceName="Fabric"
-      priceList.push(price);
+        let price = new PriceList;
+        price.paymentId = 2;
+        price.price = this.selectedItem.itemDetailList[0].fabricatorPrice;;
+        price.priceName = "Fabric"
+        priceList.push(price);
 
-      let price2 = new PriceList;
-      price2.paymentId=3;
-      price2.price =this.selectedItem.itemDetailList[0].customerPrice;;
-      price2.priceName="Customer"
-      priceList.push(price2);
+        let price2 = new PriceList;
+        price2.paymentId = 3;
+        price2.price = this.selectedItem.itemDetailList[0].customerPrice;;
+        price2.priceName = "Customer"
+        priceList.push(price2);
 
         if (this.selectedItem.itemDetailList[0].availableQuantity >= 1) {
           let foundItem = _.find(this.itemToSave, { 'itemDetailId': this.selectedItem.itemDetailList[0].itemDetailId })
@@ -241,30 +241,30 @@ export class CreateJobComponent implements OnInit {
             item.itemId = this.selectedItem.itemId;
             item.discountPercentage = 0;
             item.total = this.selectedItem.itemDetailList[0].costPrice * 1;
-            item.priceList =priceList;
-            item.priceName ='MRP';
-            item.typeOfDiscount =1;
-            item.priceDiscount =0;
-            item.priceDiscountTotalItemWise =0;
-            item.cost =this.selectedItem.itemDetailList[0].costPrice;
+            item.priceList = priceList;
+            item.priceName = 'MRP';
+            item.typeOfDiscount = 1;
+            item.priceDiscount = 0;
+            item.priceDiscountTotalItemWise = 0;
+            item.cost = this.selectedItem.itemDetailList[0].costPrice;
 
             this.itemToSave.push(item);
             // console.log("test====",this.itemToSave);
             this.calculateTotal();
           } else {
             if (this.selectedItem.itemDetailList[0].availableQuantity > foundItem.sellingQuantity) {
-              if(foundItem.typeOfDiscount ==2){
+              if (foundItem.typeOfDiscount == 2) {
                 let price = foundItem.price;
                 let qty = foundItem.sellingQuantity;
                 foundItem.sellingQuantity++;
                 foundItem.total = price * (++qty) * _.round(1 - (foundItem.discountPercentage / 100), 4)
-              }else{
+              } else {
                 let price = foundItem.price;
                 foundItem.sellingQuantity++;
-                foundItem.priceDiscountTotalItemWise =foundItem.priceDiscount * (foundItem.sellingQuantity);
+                foundItem.priceDiscountTotalItemWise = foundItem.priceDiscount * (foundItem.sellingQuantity);
                 foundItem.total = price * (foundItem.sellingQuantity) - foundItem.priceDiscountTotalItemWise;
               }
-              
+
 
             } else {
               this.alertify.error('Quantity not enough...');
@@ -283,7 +283,7 @@ export class CreateJobComponent implements OnInit {
   }
 
 
-// --------------------------------------------------------------------------------------------------------------------------
+  // --------------------------------------------------------------------------------------------------------------------------
 
   changePrice(value, item) {
     value = Number(value);
@@ -303,7 +303,7 @@ export class CreateJobComponent implements OnInit {
     this.calculateTotal();
   };
 
- 
+
   changeDiscountType(value, item) {
     let foundItem = _.find(this.itemToSave, { 'itemDetailId': item.itemDetailId });
     _.remove(this.itemToSave, { 'itemDetailId': item.itemDetailId });
@@ -319,15 +319,15 @@ export class CreateJobComponent implements OnInit {
 
     let price = foundItem.cost;
     let qty = foundItem.sellingQuantity;
-    foundItem.priceDiscount =value;
-    foundItem.priceDiscountTotalItemWise =value*qty;
-    foundItem.total = (price * qty) - value*qty;
+    foundItem.priceDiscount = value;
+    foundItem.priceDiscountTotalItemWise = value * qty;
+    foundItem.total = (price * qty) - value * qty;
     this.itemToSave.push(foundItem);
 
     this.calculateTotal();
   }
 
-// ---------------------------------------------------------------------------------------------------------------------------
+  // ---------------------------------------------------------------------------------------------------------------------------
 
 
   selectedItemDetails(itemDetailId) {
@@ -338,26 +338,26 @@ export class CreateJobComponent implements OnInit {
       let length = this.itemToSave.length;
       let selectedDetail = _.find(this.selectedItem.itemDetailList, { 'itemDetailId': itemDetailId });
 
-      let priceList: PriceList[] = [] ;
+      let priceList: PriceList[] = [];
       let price1 = new PriceList;
-      price1.paymentId=1;
-      price1.price =selectedDetail.mrpPrice;
-      price1.priceName="MRP"
+      price1.paymentId = 1;
+      price1.price = selectedDetail.mrpPrice;
+      price1.priceName = "MRP"
       priceList.push(price1);
 
       let price = new PriceList;
-      price.paymentId=2;
-      price.price =selectedDetail.fabricatorPrice;;
-      price.priceName="Fabric"
+      price.paymentId = 2;
+      price.price = selectedDetail.fabricatorPrice;;
+      price.priceName = "Fabric"
       priceList.push(price);
 
       let price2 = new PriceList;
-      price2.paymentId=3;
-      price2.price =selectedDetail.customerPrice;;
-      price2.priceName="Customer"
+      price2.paymentId = 3;
+      price2.price = selectedDetail.customerPrice;;
+      price2.priceName = "Customer"
       priceList.push(price2);
 
-      
+
       if (selectedDetail.availableQuantity >= 1) {
         let item = new Item();
         item.subCategoryId = Number(this.selectedItem.subCategoryId);
@@ -371,11 +371,11 @@ export class CreateJobComponent implements OnInit {
         item.total = item.cost * item.sellingQuantity;
         item.priceList = priceList;
         item.typeOfPrice = 1
-        item.priceName='MRP';
+        item.priceName = 'MRP';
         item.id = length + 1;
-        item.typeOfDiscount =1;
-        item.priceDiscount =0
-        item.priceDiscountTotalItemWise =0;
+        item.typeOfDiscount = 1;
+        item.priceDiscount = 0
+        item.priceDiscountTotalItemWise = 0;
         this.itemToSave.push(item);
         this.calculateTotal();
       } else {
@@ -414,7 +414,7 @@ export class CreateJobComponent implements OnInit {
       let cost = findItem.cost;
       findItem.sellingQuantity++;
       if (findItem.typeOfDiscount == 1) {
-        console.log("Change QTY",findItem);
+        console.log("Change QTY", findItem);
         findItem.priceDiscountTotalItemWise = findItem.priceDiscount * qty;
         findItem.total = (cost * qty) - (findItem.priceDiscountTotalItemWise);
       } else {
@@ -448,17 +448,17 @@ export class CreateJobComponent implements OnInit {
 
   calculateTotal() {
     this.totalAmount = 0.00;
-    this.totalDiscount =0.00;
-    console.log("calculateTotal",this.itemToSave);
+    this.totalDiscount = 0.00;
+    console.log("calculateTotal", this.itemToSave);
     this.itemToSave.forEach(item => {
-      if(item.typeOfDiscount == 1){
+      if (item.typeOfDiscount == 1) {
         this.totalAmount += (item.sellingQuantity * item.cost) - Number(item.priceDiscountTotalItemWise);
         this.totalDiscount += Number(item.priceDiscountTotalItemWise);
-      }else{
+      } else {
         this.totalAmount += (item.sellingQuantity * item.cost * _.round(1 - (item.discountPercentage / 100), 4));
         this.totalDiscount += (item.sellingQuantity * item.cost * _.round((item.discountPercentage / 100), 4));
       }
-      
+
     });
 
     // this.balance = this.totalAmount;
@@ -477,7 +477,7 @@ export class CreateJobComponent implements OnInit {
       this.carsRefNo = '';
       this.chequeDescription = '';
       this.selectedBankId = -1;
-      this.chequeDate=null;
+      this.chequeDate = null;
     }
     if (this.paymentType == 'CQ') {
       this.showChequeFild = true;
@@ -490,7 +490,7 @@ export class CreateJobComponent implements OnInit {
       this.chequeNo = '';
       this.chequeDescription = '';
       this.selectedBankId = -1;
-      this.chequeDate=null;
+      this.chequeDate = null;
 
     }
     if (this.paymentType == 'CH') {
@@ -499,7 +499,7 @@ export class CreateJobComponent implements OnInit {
       this.chequeDescription = '';
       this.selectedBankId = -1;
       this.isShowCashFild = true;
-      this.chequeDate=null;
+      this.chequeDate = null;
     }
     if (this.paymentType == 'DB') {
       this.showCardFild = true;
@@ -507,7 +507,7 @@ export class CreateJobComponent implements OnInit {
       this.chequeNo = '';
       this.selectedBankId = -1;
       this.chequeDescription = '';
-      this.chequeDate=null;
+      this.chequeDate = null;
     }
   }
   saveInvoice() {
@@ -515,25 +515,25 @@ export class CreateJobComponent implements OnInit {
       if (this.model == null) {
         this.alertify.error('Please add Job date....');
         return false;
-      } 
-      if(this.startDate ==null){
+      }
+      if (this.startDate == null) {
         this.alertify.error('Please add start date....');
         return false;
       }
-      if(this.endDate == null){
+      if (this.endDate == null) {
         this.alertify.error('Please add end date....');
         return false;
       }
-      if(!this.isEditTrue){
+      if (!this.isEditTrue) {
         if (this.selectedCustomerId == null) {
           this.alertify.error('Please select customer....');
           return false;
         }
       }
 
-      if(this.jobName ==""){
+      if (this.jobName == "") {
         this.alertify.error('Please add job name....');
-        return false;   
+        return false;
       }
       // if(this.ratePerSquareFeet== 0 || this.ratePerSquareFeet==null){
       //   this.alertify.error('Please add rate....');
@@ -549,10 +549,10 @@ export class CreateJobComponent implements OnInit {
           this.alertify.error('Balance amount more than total amount ....');
           return false;
         }
-        
+
         this.customerName.replace(/ {2,}/g, ' ').trim();
-        this.customerDetails.firstName =this.customerName;
-        this.customerDetails.contactNumber =this.customerTelephone;
+        this.customerDetails.firstName = this.customerName;
+        this.customerDetails.contactNumber = this.customerTelephone;
         this.customerDetails.address1 = this.customerAddress;
 
 
@@ -562,15 +562,15 @@ export class CreateJobComponent implements OnInit {
           this.alertify.error('Please add cheque number....');
           return false;
         }
-        if(this.chequeDate==null){
+        if (this.chequeDate == null) {
           this.alertify.error('Please add cheque date....');
           return false;
         }
-        if(this.chequeDescription==''){
+        if (this.chequeDescription == '') {
           this.alertify.error('Please add Description....');
           return false;
         }
-        if(this.selectedBankId == -1){
+        if (this.selectedBankId == -1) {
           this.alertify.error('Please select bank....');
           return false;
         }
@@ -595,39 +595,39 @@ export class CreateJobComponent implements OnInit {
       }
       let innerThis = this;
       this.paymentDetailList.pop();
-      this.paymentDetail.amount = this.totalAmount;
-      this.paymentDetail.advancePayment =this.advance;
+      this.paymentDetail.amount = this.cash;
+      this.paymentDetail.advancePayment = this.advance;
       this.chequeNo == '' ? this.paymentDetail.chequeNumber = null : this.paymentDetail.chequeNumber = this.chequeNo;
       this.carsRefNo == "" ? this.paymentDetail.cardNumber = null : this.paymentDetail.cardNumber = this.carsRefNo;
-      this.chequeDescription=='' ? this.paymentDetail.description=null: this.paymentDetail.description = this.chequeDescription;
-      this.selectedBankId == -1 ? this.paymentDetail.bankId =null : this.paymentDetail.bankId =this.selectedBankId;
-      this.paymentDetail.chequeDate = this.chequeDate==null?null:this.chequeDate.formatted;
+      this.chequeDescription == '' ? this.paymentDetail.description = null : this.paymentDetail.description = this.chequeDescription;
+      this.selectedBankId == -1 ? this.paymentDetail.bankId = null : this.paymentDetail.bankId = this.selectedBankId;
+      this.paymentDetail.chequeDate = this.chequeDate == null ? null : this.chequeDate.formatted;
 
       this.paymentDetailList.push(this.paymentDetail);
-      this.alertify.confirm('Create Invoice', 'Are you sure you want to create invoice', function () {
+      this.alertify.confirm('Create Invoice', 'Are you sure you want to create Job', function () {
         let joibTosave = new Job;
 
         joibTosave.amount = innerThis.totalAmount;
         joibTosave.squareFeet = innerThis.squareFeet;
-        joibTosave.description="";
-        joibTosave.ratePerSquareFeet =innerThis.ratePerSquareFeet;
+        joibTosave.description = "";
+        joibTosave.ratePerSquareFeet = innerThis.ratePerSquareFeet;
         joibTosave.customerId = innerThis.selectedCustomerId;
-        joibTosave.startDate =innerThis.startDate.formatted;
-        joibTosave.endDate =innerThis.endDate.formatted;
+        joibTosave.startDate = innerThis.startDate.formatted;
+        joibTosave.endDate = innerThis.endDate.formatted;
         joibTosave.jobDate = innerThis.model.formatted;
-        joibTosave.state =1;
-        joibTosave.name =innerThis.jobName;
+        joibTosave.state = 1;
+        joibTosave.name = innerThis.jobName;
         joibTosave.itemVOList = innerThis.itemToSave;
         joibTosave.paymentDetailList = innerThis.paymentDetailList;
-        joibTosave.jobId =innerThis.selectedJobId;
-        joibTosave.jobSquareFeetDetailVOList =innerThis.squareFeelList;
+        joibTosave.jobId = innerThis.selectedJobId;
+        joibTosave.jobSquareFeetDetailVOList = innerThis.squareFeelList;
 
-        if(!innerThis.isEditTrue){
+        if (!innerThis.isEditTrue) {
           innerThis.JobService.saveJob(joibTosave).then((response) => {
             innerThis.spinner.show();
             let resultObj = response.json();
             if (resultObj.statusCode == 200 && resultObj.success) {
-  
+
               innerThis.spinner.hide();
               // innerThis.printInvoice(invoiceTosave, resultObj.result);
               innerThis.alertify.success('Create successfull');
@@ -635,15 +635,15 @@ export class CreateJobComponent implements OnInit {
               innerThis.totalAmount = 0.00;
               innerThis.balance = 0.00;
               innerThis.cash = 0.00;
-              innerThis.advance =0.00;
-              innerThis.customerName ='';
-              innerThis.customerAddress ='';
-              innerThis.customerTelephone ='';
-              innerThis.jobName ='';
-              innerThis.squareFeet=0.00;
-              innerThis.ratePerSquareFeet=0.00;
-              innerThis.squareFeelList=[];
-  
+              innerThis.advance = 0.00;
+              innerThis.customerName = '';
+              innerThis.customerAddress = '';
+              innerThis.customerTelephone = '';
+              innerThis.jobName = '';
+              innerThis.squareFeet = 0.00;
+              innerThis.ratePerSquareFeet = 0.00;
+              innerThis.squareFeelList = [];
+
               innerThis.selectedCustomer = ""
               innerThis.invoiceService.getItemList().then((response) => {
                 innerThis.itemList = response.json().result;
@@ -658,24 +658,24 @@ export class CreateJobComponent implements OnInit {
                 innerThis.mainCategoryList = response.json().result;
               })
               innerThis.closeModalWindow();
-              innerThis.isShow=false;
-              innerThis.isEditTrue=false;
-              innerThis.selectedJobNumber ='';
-  
+              innerThis.isShow = false;
+              innerThis.isEditTrue = false;
+              innerThis.selectedJobNumber = '';
+
             } else {
               innerThis.spinner.hide();
               innerThis.alertify.error('Create un-successfull');
               innerThis.itemToSave = [];
               innerThis.closeModalWindow();
-  
+
             }
           });
-        }else{
+        } else {
           innerThis.JobService.addNewItems(joibTosave).then((response) => {
             innerThis.spinner.show();
             let resultObj = response.json();
             if (resultObj.statusCode == 200 && resultObj.success) {
-  
+
               innerThis.spinner.hide();
               // innerThis.printInvoice(invoiceTosave, resultObj.result);
               innerThis.alertify.success('Create successfull');
@@ -683,14 +683,14 @@ export class CreateJobComponent implements OnInit {
               innerThis.totalAmount = 0.00;
               innerThis.balance = 0.00;
               innerThis.cash = 0.00;
-              innerThis.advance =0.00;
-              innerThis.customerName ='';
-              innerThis.customerAddress ='';
-              innerThis.customerTelephone ='';
-              innerThis.jobName ='';
-              innerThis.squareFeet=0.00;
-              innerThis.ratePerSquareFeet=0.00;
-  
+              innerThis.advance = 0.00;
+              innerThis.customerName = '';
+              innerThis.customerAddress = '';
+              innerThis.customerTelephone = '';
+              innerThis.jobName = '';
+              innerThis.squareFeet = 0.00;
+              innerThis.ratePerSquareFeet = 0.00;
+
               innerThis.selectedCustomer = ""
               innerThis.invoiceService.getItemList().then((response) => {
                 innerThis.itemList = response.json().result;
@@ -705,17 +705,17 @@ export class CreateJobComponent implements OnInit {
               innerThis.JobService.getJobList().then(response => {
                 innerThis.jobList = response.json().result;
               });
-              innerThis.isShow=false;
-              innerThis.isEditTrue=false;
-              innerThis.selectedJobNumber ='';
-              innerThis.squareFeelList=[];
-  
+              innerThis.isShow = false;
+              innerThis.isEditTrue = false;
+              innerThis.selectedJobNumber = '';
+              innerThis.squareFeelList = [];
+
             } else {
               innerThis.spinner.hide();
               innerThis.alertify.error('Create un-successfull');
               innerThis.itemToSave = [];
               innerThis.closeModalWindow();
-  
+
             }
           });
         }
@@ -727,19 +727,125 @@ export class CreateJobComponent implements OnInit {
     }
 
   }
+  ///////////////////////////////////////////////////// JOB EDIT ///////////////////////////////////////////////////////////////////////
+  editJob() {
+    if (this.isEditTrue) {
+      if (this.model == null) {
+        this.alertify.error('Please add Job date....');
+        return false;
+      }
+      if (this.startDate == null) {
+        this.alertify.error('Please add start date....');
+        return false;
+      }
+      if (this.endDate == null) {
+        this.alertify.error('Please add end date....');
+        return false;
+      }
+      if (!this.isEditTrue) {
+        if (this.selectedCustomerId == null) {
+          this.alertify.error('Please select customer....');
+          return false;
+        }
+      }
 
-  getBalanceAmount(cash,type) {
-    if(cash ==""){
+      if (this.jobName == "") {
+        this.alertify.error('Please add job name....');
+        return false;
+      }
+      let innerThis = this;
+      this.alertify.confirm('Create Invoice', 'Are you sure you want to Edit Job', function () {
+        let joibTosave = new Job;
+        joibTosave.amount = innerThis.totalAmount;
+        joibTosave.squareFeet = innerThis.squareFeet;
+        joibTosave.description = "";
+        joibTosave.ratePerSquareFeet = innerThis.ratePerSquareFeet;
+        joibTosave.customerId = innerThis.selectedCustomerId;
+        joibTosave.startDate = innerThis.startDate.formatted;
+        joibTosave.endDate = innerThis.endDate.formatted;
+        joibTosave.jobDate = innerThis.model.formatted;
+        joibTosave.state = 1;
+        joibTosave.name = innerThis.jobName;
+        joibTosave.itemVOList = innerThis.itemToSave;
+        joibTosave.paymentDetailList = innerThis.paymentDetailList;
+        joibTosave.jobId = innerThis.selectedJobId;
+        joibTosave.jobSquareFeetDetailVOList = innerThis.squareFeelList;
+        
+        console.log("Edit job Details",joibTosave);
+        innerThis.JobService.addNewItems(joibTosave).then((response) => {
+          innerThis.spinner.show();
+          let resultObj = response.json();
+          if (resultObj.statusCode == 200 && resultObj.success) {
+
+            innerThis.spinner.hide();
+            // innerThis.printInvoice(invoiceTosave, resultObj.result);
+            innerThis.alertify.success('Create successfull');
+            innerThis.itemToSave = [];
+            innerThis.totalAmount = 0.00;
+            innerThis.balance = 0.00;
+            innerThis.cash = 0.00;
+            innerThis.advance = 0.00;
+            innerThis.customerName = '';
+            innerThis.customerAddress = '';
+            innerThis.customerTelephone = '';
+            innerThis.jobName = '';
+            innerThis.squareFeet = 0.00;
+            innerThis.ratePerSquareFeet = 0.00;
+
+            innerThis.selectedCustomer = ""
+            innerThis.invoiceService.getItemList().then((response) => {
+              innerThis.itemList = response.json().result;
+            });
+            innerThis.categoryWiseItemList = [];
+            innerThis.selectedSubCategory = [];
+            innerThis.mainCategoryList = [];
+            innerThis.invoiceService.getMaiCategoryList().then((response) => {
+              innerThis.mainCategoryList = response.json().result;
+            })
+            innerThis.balance = Math.round((innerThis.totalInvoiceAmount + Number.EPSILON) * 100) / 100;
+            innerThis.advance = 0.00;
+            innerThis.cash = 0.00;
+            innerThis.paymentDetail.typeCode = 'CH';
+            innerThis.isShowCashFild = true;
+            innerThis.JobService.getJobList().then(response => {
+              innerThis.jobList = response.json().result;
+            });
+            innerThis.isShow = false;
+            innerThis.isEditTrue = false;
+            innerThis.selectedJobNumber = '';
+            innerThis.squareFeelList = [];
+
+          } else {
+            innerThis.spinner.hide();
+            innerThis.alertify.error('Create un-successfull');
+            innerThis.itemToSave = [];
+            innerThis.balance = Math.round((innerThis.totalInvoiceAmount + Number.EPSILON) * 100) / 100;
+            innerThis.advance = 0.00;
+            innerThis.cash = 0.00;
+            innerThis.paymentDetail.typeCode = 'CH';
+            innerThis.isShowCashFild = true;
+
+          }
+        });
+      });
+    }
+
+  }
+
+  getBalanceAmount(cash, type) {
+    if (cash == "") {
       cash = '0';
-      console.log("send data is =====",cash);  
+      console.log("send data is =====", cash);
     }
-    if(type ==1){
+    if (type == 1) {
       this.advance = parseFloat(cash.replace(/,/g, ''));
-    }else{
+    } else {
       this.cash = parseFloat(cash.replace(/,/g, ''));
-      
+
     }
+
     this.totalInvoiceAmount = Math.round((this.totalInvoiceAmount + Number.EPSILON) * 100) / 100;
+    console.log("Invoice Amount", this.totalInvoiceAmount);
     this.balance = this.totalInvoiceAmount - (this.cash + this.advance);
   }
 
@@ -849,13 +955,13 @@ export class CreateJobComponent implements OnInit {
     this.carsRefNo = '';
     this.isShowCashFild = true;
     this.chequeDescription = '';
-    this.selectedBankId=-1;
-    this.chequeDate=null;
+    this.selectedBankId = -1;
+    this.chequeDate = null;
     this.modalReference = this.modalService.open(content, { size: 'lg' });
   }
   closeModalWindow() {
-    this.balance = this.totalAmount;
-    this.advance=0.00;
+    this.balance = Math.round((this.totalInvoiceAmount + Number.EPSILON) * 100) / 100;
+    this.advance = 0.00;
     this.cash = 0.00;
     this.paymentDetail.typeCode = 'CH';
     this.isShowCashFild = true;
@@ -865,100 +971,100 @@ export class CreateJobComponent implements OnInit {
 
   setSelectedBank(selectedBankId) {
     console.log("selected Bank is =====", selectedBankId)
-    this.selectedBankId =selectedBankId
+    this.selectedBankId = selectedBankId
   }
-  addOtherExpenses(id){
-    if(id !=-1){
-      console.log("type",typeof id)
-      let selectedExpensesType = _.find(this.otherExpenses,{ 'id': Number(id) });
-      console.log("findItem ===",selectedExpensesType);
-      let selectedExpenses={
-       "id":selectedExpensesType.id,
-       "name":selectedExpensesType.name,
-       "amount":0.00,
-       "date" :"",
-       "description":""
-    }
+  addOtherExpenses(id) {
+    if (id != -1) {
+      console.log("type", typeof id)
+      let selectedExpensesType = _.find(this.otherExpenses, { 'id': Number(id) });
+      console.log("findItem ===", selectedExpensesType);
+      let selectedExpenses = {
+        "id": selectedExpensesType.id,
+        "name": selectedExpensesType.name,
+        "amount": 0.00,
+        "date": "",
+        "description": ""
+      }
 
       this.addedOtherExpenses.push(selectedExpenses);
-      console.log("Expenses",this.addedOtherExpenses);
-    }else{
-      this.alertify.error('Please Select Expenses'); 
+      console.log("Expenses", this.addedOtherExpenses);
+    } else {
+      this.alertify.error('Please Select Expenses');
     }
   }
-  clearName(){
-    this.selectedCustomer ="";
-    this.selectedCustomerId =null;
+  clearName() {
+    this.selectedCustomer = "";
+    this.selectedCustomerId = null;
   }
 
-  getJobDetailsById(id){
+  getJobDetailsById(id) {
     console.log("Job Id ====", id);
     id = Number(id);
-    this.selectedJobId =id;
+    this.selectedJobId = id;
     if (id != -1) {
-      this.isEditTrue=true;
+      this.isEditTrue = true;
       let selectedJob = _.find(this.jobList, { 'jobId': id });
       this.selectedJobNo = selectedJob.jobNumber;
       this.selectedJobName = selectedJob.name;
-      
+
 
       this.JobService.getJobById(id).then(response => {
         this.selectedJob = response.json().result;
         console.log("selectedJob ====", this.selectedJob);
         this.selectedJobNumber = this.selectedJob.jobNumber;
-        this.jobName =this.selectedJob.name;
-        this.ratePerSquareFeet =this.selectedJob.ratePerSquareFeet;
-        this.squareFeet =this.selectedJob.squareFeet;
+        this.jobName = this.selectedJob.name;
+        this.ratePerSquareFeet = this.selectedJob.ratePerSquareFeet;
+        this.squareFeet = this.selectedJob.squareFeet;
         let endDate = this.selectedJob.endDate.split("-");
-        let startDate =this.selectedJob.startDate.split("-");
-        this.savedItemList =this.selectedJob.itemVOList;
-        this.squareFeelList =this.selectedJob.jobSquareFeetDetailVOList;
+        let startDate = this.selectedJob.startDate.split("-");
+        this.savedItemList = this.selectedJob.itemVOList;
+        this.squareFeelList = this.selectedJob.jobSquareFeetDetailVOList;
         this.calculateInvoiceAmount();
         _.remove(this.savedItemList, { 'itemId': null });
-        this.isShow=true
-        this.startDate ={
+        this.isShow = true
+        this.startDate = {
           date: {
             year: startDate[0],
-            month:parseInt(startDate[1]),
-            day:parseInt(startDate[2])
+            month: parseInt(startDate[1]),
+            day: parseInt(startDate[2])
           }, formatted: startDate[0] + '-' + parseInt(startDate[1]) + '-' + parseInt(startDate[2])
         };
-        
-        this.endDate ={
+
+        this.endDate = {
           date: {
             year: endDate[0],
-            month:parseInt(endDate[1]),
-            day:parseInt(endDate[2])
+            month: parseInt(endDate[1]),
+            day: parseInt(endDate[2])
           }, formatted: endDate[0] + '-' + parseInt(endDate[1]) + '-' + parseInt(endDate[2])
         };
 
       })
-    }else{
-      this.isEditTrue =false;
-      this.selectedJobNumber ='';
-      this.jobName='';
-      this.ratePerSquareFeet=0;
-      this.squareFeet =0;
-      this.isShow=false;
-      this.startDate ={
+    } else {
+      this.isEditTrue = false;
+      this.selectedJobNumber = '';
+      this.jobName = '';
+      this.ratePerSquareFeet = 0;
+      this.squareFeet = 0;
+      this.isShow = false;
+      this.startDate = {
         date: {
           year: moment().year(),
           month: (moment().month() + 1),
           day: moment().date()
         }, formatted: moment().year() + '-' + (moment().month() + 1) + '-' + moment().date()
       };
-      this.endDate ={
+      this.endDate = {
         date: {
           year: moment().year(),
           month: (moment().month() + 1),
           day: moment().date()
         }, formatted: moment().year() + '-' + (moment().month() + 1) + '-' + moment().date()
       };
-      this.squareFeelList =[];
+      this.squareFeelList = [];
       this.calculateInvoiceAmount();
     }
   }
-  showItemList(){
+  showItemList() {
     let options: any = {
       size: "lg modal-dialog my-modal",
       container: 'nb-layout',
@@ -970,22 +1076,27 @@ export class CreateJobComponent implements OnInit {
     activeEditModal.componentInstance.itemList = this.savedItemList;
 
   }
-  calculateInvoiceAmount(){
-    this.totalInvoiceAmount=0;
+  calculateInvoiceAmount() {
+    this.totalInvoiceAmount = 0;
     this.squareFeelList.forEach(object => {
       this.totalInvoiceAmount += object.amount;
     });
-    this.totalInvoiceAmount =  _.round(this.totalInvoiceAmount, 2);
-    console.log("totalInvoiceAmount ===",this.totalInvoiceAmount);
+    this.totalInvoiceAmount = _.round(this.totalInvoiceAmount, 2);
+    console.log("totalInvoiceAmount ===", this.totalInvoiceAmount);
+
+    this.totalInvoiceAmount = Math.round((this.totalInvoiceAmount + Number.EPSILON) * 100) / 100;
+    console.log("Invoice Amount", this.totalInvoiceAmount);
+    this.balance = this.totalInvoiceAmount - (this.cash + this.advance);
+
   }
-  addSquareFeet(){
+  addSquareFeet() {
     let options: any = {
       size: "lg modal-dialog my-modal",
       container: 'nb-layout',
       class: "xxx",
       style: 'padding: 117px',
-      backdrop : 'static',
-      keyboard : false
+      backdrop: 'static',
+      keyboard: false
     };
     const activeEditModal = this.modalService.open(SquareFeetComponent, options);
     activeEditModal.componentInstance.jobNumber = this.selectedJobNumber;
@@ -993,24 +1104,24 @@ export class CreateJobComponent implements OnInit {
 
     activeEditModal.result.then((result) => {
       if (result) {
-      this.squareFeelList =result;
-      this.calculateInvoiceAmount();
+        this.squareFeelList = result;
+        this.calculateInvoiceAmount();
       }
-      });
+    });
 
   }
 
-  printInvoice(savedPurchaseOrder,insertObject) {
+  printInvoice(savedPurchaseOrder, insertObject) {
     var invoiceWindow = window.open("", "print-window");
     //invoiceWindow.document.open();
     for (var x = 0; x < savedPurchaseOrder.itemVOList.length; x++) {
-      this.printDetails = this.printDetails + '<tr>'+
-      '<td style="height:20px;width:50%;text-align:left;">' + savedPurchaseOrder.itemVOList[x].name + '</td>'+
-      '<td style="height:20px;width:11%;text-align:right;">' + savedPurchaseOrder.itemVOList[x].sellingQuantity + '</td>' +
-      '<td style="height:20px;width:10%;text-align:right;">' +
+      this.printDetails = this.printDetails + '<tr>' +
+        '<td style="height:20px;width:50%;text-align:left;">' + savedPurchaseOrder.itemVOList[x].name + '</td>' +
+        '<td style="height:20px;width:11%;text-align:right;">' + savedPurchaseOrder.itemVOList[x].sellingQuantity + '</td>' +
+        '<td style="height:20px;width:10%;text-align:right;">' +
         parseFloat(savedPurchaseOrder.itemVOList[x].price.toString()).toFixed(2).replace(/./g, function (c, i, a) {
           return i && c !== "." && ((a.length - i) % 3 === 0) ? ',' + c : c;
-        }) + '</td>'+
+        }) + '</td>' +
         '<td style="height:20px;width:15%;text-align:right;">' + parseFloat(savedPurchaseOrder.itemVOList[x].total).toFixed(2).replace(/./g, function (c, i, a) {
           return i && c !== "." && ((a.length - i) % 3 === 0) ? ',' + c : c;
         }) + '</td>' +

@@ -205,10 +205,12 @@
       <div class="col-md-1" style="height: 70px;">
         <button class="btn btn-md btn-success" (click)="openModalWindow(content)">Pay</button>
       </div>
-      <div class="col-md-2" style="height: 70px;">
-        <button class="btn btn-md btn-success" (click)="saveInvoice()">Save Job</button>
+      <div  class="col-md-3">
+      <div *ngIf="isShow" style="height: 70px;">
+        <button class="btn btn-md btn-success" (click)="editJob()">Save Edit Job</button>
       </div>
-      <div class="col-md-5" style="height: 70px;">
+      </div>
+      <div class="col-md-3" style="height: 70px;">
 
 
       </div>
