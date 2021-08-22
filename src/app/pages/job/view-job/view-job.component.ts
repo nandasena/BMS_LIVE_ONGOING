@@ -53,7 +53,7 @@ export class ViewJobComponent implements OnInit {
     });
 
     this.jobService.getModifiedJobList().subscribe(response => {
-      let orderedJobList =_.orderBy(response,['jobId'],['asc']);
+      let orderedJobList =_.orderBy(response,['jobId'],['desc']);
       this.source.load(orderedJobList);
     })
 
@@ -123,6 +123,7 @@ export class ViewJobComponent implements OnInit {
   getjobByDate() {
     this.jobService.getJobDetailsByDate(this.fromDate.formatted, this.toDate.formatted).then((response) => {
       let retunData = response.json();
+      console.log("Job Details======= ",retunData.result);
       if (retunData.statusCode == 200) {
         this.jobService.loadModifiedJobList(retunData.result);
       }

@@ -51,12 +51,12 @@ export class InvoiceListComponent implements OnInit {
         title: 'Invoice Date',
         type: 'string',
       },
-      paymentType: {
-        title: 'Payment Type',
-        type: 'string',
-      },
       customerName: {
         title: 'Customer Name',
+        type: 'string',
+      },
+      paymentType: {
+        title: 'Payment Type',
         type: 'string',
       },
       totalAmount: {

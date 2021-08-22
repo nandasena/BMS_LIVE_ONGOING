@@ -19,12 +19,12 @@ export class ItemBtnComponent implements ViewCell, OnInit {
   }
 
   ngOnInit() {
-
+    console.log("Item Edit ========");
     this.renderValue = this.value.toString().toUpperCase();
   }
 
   addItemDetails() {
-
+    console.log("Item Edit ========");
     const activeModal = this.modalService.open(ItemDetailsComponent, { size: 'lg', container: 'nb-layout',windowClass:'ItemDetailsWindow' });
     activeModal.componentInstance.rowData = this.rowData;
   }

@@ -59,16 +59,18 @@ export class EditJodComponent implements OnInit {
   }
 
   addOtherExpenses(id) {
-    console.log("id ====", this.selectedJobNo);
     if (this.selectedJobNo != -1) {
       if (id != -1) {
         id = Number(id);
         let name = (_.find(this.otherExpenses, { 'id': id })).name;
+        let expensesTypeId = (_.find(this.otherExpenses, { 'id': id })).id;
         console.log("name ==", name);
         let length = this.addedExpenses.length;
 
-        let expensess = { id: length + 1, "name": name, "description": "", "amount": 0 };
+        let expensess = { id: length + 1, "name": name, "description": "", "amount": 0,expensesTypeId:expensesTypeId};
         this.addedExpenses.push(expensess);
+        console.log("AAAAAAAAAAA",this.addedExpenses);
+
       } else {
         this.alertify.error('Plase select expensess Type');
       }

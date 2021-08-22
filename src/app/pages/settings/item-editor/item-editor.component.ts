@@ -42,7 +42,7 @@ export class ItemEditorComponent implements OnInit {
         title: 'Identifier Code',
         type: 'number',
       },
-      name: {
+      itemName: {
         title: 'Name',
         type: 'string',
       },
@@ -55,10 +55,12 @@ export class ItemEditorComponent implements OnInit {
   temp_itemcount: number = 0;
   mainCategoryList = [];
   subCategoryList = [];
+  itemList = [];
   selectedCategory: Category;
   selectedSubCategory: Category;
   changebleSubCategoryList: Category[] = [];
   itemName: string;
+  itemCode: string;
   private initcategory: Category = {
     name: "Select Category",
     categoryName: "",
@@ -72,11 +74,11 @@ export class ItemEditorComponent implements OnInit {
   source: LocalDataSource = new LocalDataSource();
 
   constructor(private service: SmartTableService,
-              private modalService: NgbModal ,
-              private alertifyService: AlertifyService,
-              private activeModal: NgbActiveModal,
-              private settingsservice: SettingsService,
-              private spinner: NgxSpinnerService) {
+    private modalService: NgbModal,
+    private alertifyService: AlertifyService,
+    private activeModal: NgbActiveModal,
+    private settingsservice: SettingsService,
+    private spinner: NgxSpinnerService) {
 
     this.selectedCategory = this.selectedSubCategory = this.initcategory;
   }
@@ -87,6 +89,9 @@ export class ItemEditorComponent implements OnInit {
     });
     this.settingsservice.getSubCategoryList().then(response => {
       this.subCategoryList = response.json().result;
+    });
+    this.settingsservice.getItemList().then(response => {
+      this.itemList = response.json().result;
     });
   }
 
@@ -103,14 +108,15 @@ export class ItemEditorComponent implements OnInit {
     this.selectedSubCategory = category;
   }
   bindItemList() {
-    if (!this.validation()){
+    if (!this.validation()) {
       return;
     }
-    else{
+    else {
+      let length = this.itemToSave.length;
       const item = new Item();
-      item.itemId = this.temp_itemcount++;
-      item.name = this.itemName;
-      item.itemCode = 'ss';
+      item.itemId = ++length;
+      item.itemName = this.itemName.trim();
+      item.itemCode = this.itemCode.trim();
       item.subCategoryId = this.selectedSubCategory.subCategoryId;
       item.categoryName = this.selectedSubCategory.name;
       this.itemToSave.push(item);
@@ -119,26 +125,29 @@ export class ItemEditorComponent implements OnInit {
 
 
   }
-  saveItems()  {
+  saveItems() {
     if (this.itemToSave.length !== 0) {
-      debugger;
-      this.settingsservice
-      .saveItemList(this.itemToSave)
-      .then(response => {
-        this.spinner.show();
-        let resultObj = response.json();
-        if (resultObj.statusCode === 200 && resultObj.success) {
-          this.spinner.hide();
-          this.alertifyService.success("Create successfull");
-          this.itemToSave = [];
-          this.closeModalWindow();
-        } else {
-          this.spinner.hide();
-          this.alertifyService.error("Create un-successfull");
-          this.itemToSave = [];
-          this.closeModalWindow();
-        }
+      console.log("this.itemToSave", this.itemToSave);
+      let innerThis = this;
+      this.alertifyService.confirm('Create Invoice', 'Are you sure you want to create invoice', function () {
+        innerThis.settingsservice.saveItemList(innerThis.itemToSave).then(response => {
+          innerThis.spinner.show();
+          let resultObj = response.json();
+          if (resultObj.statusCode === 200 && resultObj.success) {
+            innerThis.spinner.hide();
+            innerThis.alertifyService.success("Create successfull");
+            innerThis.itemToSave = [];
+            innerThis.closeModalWindow();
+          } else {
+            innerThis.spinner.hide();
+            innerThis.alertifyService.error("Create un-successfull");
+            innerThis.itemToSave = [];
+            innerThis.closeModalWindow();
+          }
+        });
+
       });
+
     } else {
       this.alertifyService.error("Please add at lease one item");
     }
@@ -146,22 +155,33 @@ export class ItemEditorComponent implements OnInit {
   }
 
   closeModalWindow() {
-    this.modalReference.close();
+    // this.modalReference.close();
+    this.activeModal.close();
   }
   validation(): boolean {
-
-
+    let founfItem = null;
+    let newfoundItem =null;
+    if(this.itemCode != null || this.itemCode != undefined){
+      founfItem = _.find(this.itemList, { 'itemCode': this.itemCode.trim() });
+      newfoundItem = _.find(this.itemToSave, { 'itemCode': this.itemCode.trim() });    
+    }
     if (this.selectedCategory === undefined || this.selectedCategory === null
       || this.selectedCategory.name === 'Select Category') {
-        this.alertifyService.error("Please select the category ");
-        return false;
-
-    }else if (this.selectedSubCategory === undefined || this.selectedSubCategory === null
-    || this.selectedSubCategory.name === 'Select Category') {
-      this.alertifyService.error("Please select the  sub category ");
+      this.alertifyService.error("Please select the category ");
       return false;
-    }else if (this.itemName === null || this.itemName === undefined || this.itemName.trim() === '') {
+
+    } else if (this.selectedSubCategory === undefined || this.selectedSubCategory === null
+      || this.selectedSubCategory.name === 'Select Category') {
+      this.alertifyService.error("Please select the  sub category");
+      return false;
+    } else if (this.itemName === null || this.itemName === undefined || this.itemName.trim() === '') {
       this.alertifyService.error("Please enter item name");
+      return false;
+    } else if (this.itemCode === null || this.itemCode === undefined || this.itemCode.trim() === '') {
+      this.alertifyService.error("Please enter item code");
+      return false;
+    } else if (founfItem !=null || newfoundItem!=null) {
+      this.alertifyService.error("Item Code is duplicate");
       return false;
     }
     return true;
@@ -170,11 +190,18 @@ export class ItemEditorComponent implements OnInit {
     this.temp_itemcount = 0;
     this.activeModal.close();
   }
-  saveCategory(){
+  saveCategory() {
 
   }
 
-  bindCategoryList(){
-    
+  bindCategoryList() {
+
+  }
+  removeItem(selectedRow) {
+    _.remove(this.itemToSave, { 'itemId': selectedRow });
+    this.itemToSave.forEach((item, index) => {
+      item.itemId = index + 1;
+    });
+    this.source.load(this.itemToSave);
   }
 }

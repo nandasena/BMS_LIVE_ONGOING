@@ -7,7 +7,8 @@ import { SettingsService } from '../../services/settings.service';
 import { CustomerSupplierService } from '../../services/customer-supplier.service'
 import { LocalDataSource, ViewCell } from 'ng2-smart-table';
 import { CategoryEditorComponent } from './category/category-editor/category-editor.component';
-import { ItemEditorComponent } from './item/item-editor/item-editor.component';
+//import { ItemEditorComponent } from './item/item-editor/item-editor.component';
+import {ItemEditorComponent}from '../settings/item-editor/item-editor.component';
 import { SupplierEditorComponent } from './supplier/supplier-editor/supplier-editor.component';
 import { CustomerEditorComponent } from './customer/customer-editor/customer-editor.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
