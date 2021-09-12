@@ -31,6 +31,7 @@ import { SettingsService } from './services/settings.service';
 import { JobService} from './services/job.service';
 import {InventoryService} from './services/inventory.service';
 import {ReportService} from './services/report.service';
+import {QuotationService} from './services/quotation.service';
 import { JwtHelper } from 'angular2-jwt';
 
 @NgModule({
@@ -118,6 +119,7 @@ import { JwtHelper } from 'angular2-jwt';
     CustomerSupplierService,
     ReportService,
     JobService,
+    QuotationService,
     {
       provide: NbRoleProvider,
       useClass: RoleProviderService

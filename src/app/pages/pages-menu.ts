@@ -48,6 +48,11 @@ export const MENU_ITEMS: NbMenuItem[] = [
     link: '/pages/job-handle',
   },
   {
+    title: 'Quotation',
+    icon: 'nb-list',
+    link: '/pages/quotation',
+  },
+  {
     title: 'Report',
     icon: 'nb-list',
     link: '/pages/report',

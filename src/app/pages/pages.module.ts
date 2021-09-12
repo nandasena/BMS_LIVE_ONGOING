@@ -30,6 +30,9 @@ import { ViewJobComponent } from './job/view-job/view-job.component';
 import { JobDetailComponent } from './job/job-detail/job-detail.component';
 import { JobStatusChangeComponent } from './job/job-status-change/job-status-change.component';
 import { JobStatusDropdownComponent } from './job/job-status-dropdown/job-status-dropdown.component';
+import { InvoiceQuotationComponent } from './quotation/invoice-quotation/invoice-quotation.component';
+import { JobQuotationComponent } from './quotation/job-quotation/job-quotation.component';
+import { QuotationComponent } from './quotation/quotation.component';
 
 const PAGES_COMPONENTS = [
   PagesComponent,
@@ -69,6 +72,9 @@ const PAGES_COMPONENTS = [
      JobDetailComponent,
      JobStatusChangeComponent,
      JobStatusDropdownComponent,
+     InvoiceQuotationComponent,
+     JobQuotationComponent,
+     QuotationComponent,
   ],
   entryComponents: [
     ItemModalWindowComponent,

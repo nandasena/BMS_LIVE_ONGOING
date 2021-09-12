@@ -1,0 +1,422 @@
+<ngx-spinner bdColor="rgba(51, 51, 51, 0.8)" size="large" color="#fff" type="ball-clip-rotate-multiple"></ngx-spinner>
+
+<div class="modal-body" style="height:100%; padding-top:0px;">
+  <div class="modal-header" style="padding: 0px;">
+    <span>Create New Quotation</span>
+    <span aria-hidden="true"></span>
+  </div>
+  <form>
+    <div class="form-group row">
+      <div class="col-sm-8 col-form-label">
+        <div class="row">
+          <label for="inputEmail1" class="col-sm-2" style="padding-top: 3px;">Invoice No:</label>
+          <div class="col-sm-3" style="padding:0px;">
+            <input type="email" class="form-control-sm" placeholder="Invoice No:" style="padding-left: 19px;">
+          </div>
+          <label for="inputEmail1" class="col-sm-2 col-form-label" style="padding-top: 3px;">Invoice Date:</label>
+          <div class="col-sm-3">
+            <my-date-picker name="mydate" [options]="myDatePickerOptions" [(ngModel)]="model" required></my-date-picker>
+          </div>
+        </div>
+
+      </div>
+      <div class="col-sm-2 col-form-label">
+        <input list="customer" autocomplete="off" class="form-control" id="selectedCustomer"
+          [(ngModel)]="selectedCustomer" name="customer" (change)="addCustomerName($event.target.value,$event)"
+          placeholder="Select Customer" style="width: 100%; height: 36px;padding-left: 8px;">
+        <datalist id="customer">
+          <option *ngFor="let customer of customerList" [value]="customer.customerId">{{ customer.firstName }}</option>
+        </datalist>
+      </div>
+      <div class="col-sm-2 col-form-label">
+        <input autocomplete="off" class="form-control" name="itemCode"
+          (change)="getItemByItemCode($event.target.value,$event)" placeholder="Enter Item Code"
+          style="width: 100%; height: 36px;padding-left: 8px;">
+        <!-- <datalist id="customer">
+          <option *ngFor="let customer of customerList" [value]="customer.customerId">{{ customer.firstName }}</option>
+        </datalist> -->
+      </div>
+    </div>
+
+
+    <div class="form-group row">
+      <div class="col-sm-8 col-form-label">
+        <div class="row">
+          <div class="col-sm-2" style="padding: 0px;"></div>
+          <div class="col-md-3" style="padding: 0px;padding-right:5px;">
+            <select class="form-control-sm" #selectedCategory (change)="getSubCategory($event.target.value)"
+              style="width: 100%">
+              <option selected [value]="-1">Select Category</option>
+              <option *ngFor="let mainCategory of this.mainCategoryList" [value]="mainCategory.mainCategoryId">
+                {{ mainCategory.name }}
+              </option>
+            </select>
+          </div>
+          <div class="col-md-3" style="padding: 0px; padding-left: 5px;">
+            <select class="form-control-sm" #selectedCategory (change)="getItemsOfRelevetCategory($event.target.value)"
+              style="width: 100%">
+              <option selected [value]="-1">Select Sub-Category</option>
+              <option *ngFor="let subCategory of this.selectedSubCategory" [value]="subCategory.subCategoryId">
+                {{ subCategory.name }}
+              </option>
+            </select>
+          </div>
+          <div class="col-md-3">
+            <select class="form-control-sm" #selectedInventoryItem style="width: 100%">
+              <option selected [value]="-1">Select Item</option>
+              <option *ngFor="let categoryWiseItem of categoryWiseItemList" [value]="categoryWiseItem.itemId">
+                {{ categoryWiseItem.description }}</option>
+
+            </select>
+
+            <button style="display: none;" id="myBtn"></button>
+          </div>
+          <div class="col-md-1" style="padding-left:0px;padding-right:0px;">
+            <button type="button" class="btn btn-md btn-success btn-sm" style="height: 35px;padding-top: 8px;"
+              (click)="addSelectedItemToTable(selectedInventoryItem.value,$event)">
+              <span class="" style="color: black;">&#x2b;</span>
+            </button>
+          </div>
+
+        </div>
+      </div>
+      <div class="col-sm-4 col-form-label">
+        <!-- Add new Radio button  -->
+        <div class="row">
+          <div class="col-md-2">
+            <div>
+              <input id="MRP" type="radio" value="MRP" name="priceType" checked="checked" (change)="changePriceType($event.target.value)">
+              <label for="MRP">MRP</label>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div>
+              <input id="FabricationPrice" type="radio" value="Fabric" name="priceType" (change)="changePriceType($event.target.value)">
+              <label for="FabricationPrice">Fabrication</label>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div>
+              <input id="ShowroomPrice" type="radio" value="Showroom" name="priceType" (change)="changePriceType($event.target.value)">
+              <label for="ShowroomPrice">Showroom</label>
+            </div>
+          </div>
+        </div>
+        <!-- ---------------END -->
+      </div>
+    </div>
+    <div class="form-group" style="height: 400px;overflow-y: auto;">
+      <table class="table table-striped table-fixed table-fixedResList">
+        <thead>
+          <tr>
+            <th style="font-weight: bold;">#</th>
+            <th style="font-weight: bold;">Category</th>
+            <th>Items</th>
+            <th>Qty</th>
+            <th>Available</th>
+            <th> Dis Type
+            <th>Discount</th>
+            <th>Price</th>
+            <th>Total</th>
+            <th>Remove</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of itemToSave let i = index" aria-required="true" style="height: 5%;">
+            <td>{{item.id}}</td>
+            <td>{{item.subCategoryId}}</td>
+            <td>{{item.name}}</td>
+            <td>
+              <input type="text" style="width: 110px;" ng-maxlength="3" class="table-number " name="tblQty"
+                value="{{item.sellingQuantity}}" (change)=changeQty(item.itemDetailId,$event.target.value,$event)
+                numbersOnly>
+            </td>
+            <td>{{item.availableQuantity}}</td>
+            <td>
+              <select ng-model="selectedColor" #selectedDiscount
+                (change)="changeDiscountType($event.target.value,item)">
+                <option selected [value]="1">Cash Discount</option>
+                <option [value]="2">Discount %</option>
+              </select>
+            </td>
+
+            <!-- --------------------------------------------------------------------------------------------------------------------------------- -->
+
+            <td *ngIf="item.typeOfDiscount == 1">
+              <input id="amountReceived" type="number" name="amountReceived" placeholder="0"
+                (change)="setPriceDiscount($event.target.value,item.itemDetailId)" value="{{item.priceDiscount}}"
+                numericType="decimal" OnlyNumber="true" double-number-directive>
+            </td>
+
+            <td *ngIf="item.typeOfDiscount == 2"><input id="amountReceived" type="number" name="amountReceived"
+                placeholder="%" (change)="setDiscount($event.target.value,item.itemDetailId)"
+                value="{{item.discountPercentage}}" OnlyNumber="true" numbersOnlyDiscount>
+            </td>
+
+
+            <!-- ---------------------------- END ------------------------------------------------------------------------------------------------- -->
+            <td>
+              <input id="amountReceived1" type="number" name="amountReceived1" placeholder="0"
+                value="{{item.price}}"
+                numericType="decimal" OnlyNumber="true" readonly>
+
+            </td>
+            <td>{{item.total | number:'1.2-2' }}</td>
+            <td style="padding: 0px;padding-top:7px;">
+              <button type="button" class="btn btn-default main-buttons-sub" style="height: 35px;padding-top: 14px;"
+                (click)="removeItem(item.itemDetailId)">
+                <span class="" style="color: black;">&#x203E;</span>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="row">
+
+      <div class="col-md-8" style="height: 70px;">
+        <button class="btn btn-md btn-success" (click)="saveInvoice()">Pay</button>
+
+      </div>
+      <div class="col-md-4">
+        <input type="text" style="float:right;" value="{{totalAmount + totalDiscount | number:'1.2-2'}}" readonly>
+        <label style="color: black;float:right;padding-top: 3px; padding-right: 10px;">Total Amount</label>
+        <input type="text" style="float:right;" value="{{totalDiscount | number:'1.2-2'}}" readonly>
+        <label style="color: black;float:right;padding-top: 3px; padding-right: 10px;">Total Discount</label>
+        <input type="text" style="float:right;" value="{{totalAmount | number:'1.2-2'}}" readonly>
+        <label style="color: black;float:right;padding-top: 3px; padding-right: 10px;">Net Amount</label>
+
+      </div>
+    </div>
+
+  </form>
+</div>
+
+<!-- ------------------- price modal ------------------------------------------------------------------------------ -->
+
+<div id="myModal" class="modal"
+  style="position: absolute; top: 263px; right:400px; bottom: 0; left:400px; z-index: 10040; overflow: auto; overflow-y: auto;">
+  <div class="modal-content" style="padding: 10px;width:750px;">
+    <span class="close" (click)="closeModal()">&times;</span>
+    <p>Price List</p>
+    <select class="form-control-sm" #ItemDetails (change)="selectedItemDetails($event.target.value)">
+      <option selected disabled>Select Price</option>
+      <option *ngFor="let itemDetail of itemDetailList" [value]="itemDetail.itemDetailId"> Price
+        {{ itemDetail.mrpPrice }} Quantity {{ itemDetail.availableQuantity }}
+      </option>
+    </select>
+  </div>
+</div>
+
+
+<!-- ------------------------------------------------------------------------------------------------------------------------- -->
+
+
+<!-- -------------------  payment modal window ------------------------------------------------------------------------------ -->
+
+
+<ng-template id="paymentModalWindow" #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">Payment Window</h4>
+    <button type="button" class="close" aria-label="Close" (click)="closeModalWindow()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="row" style="height:650px;">
+    <div class="col-md-12" style="height: 70px;">
+      <fieldset id="payment_method">
+        <legend style="padding-left: 19px;">Payment Method</legend>
+        <div class="fieldgroup">
+          <input type="radio" name="gender" value="CH" (click)="selectPaymentType($event.target.value)"
+            [checked]="isCheckedCash">
+          Cash<br>
+        </div>
+        <div class="fieldgroup">
+          <input type="radio" name="gender" value="CD" (click)="selectPaymentType($event.target.value)"
+            [checked]="isCheckedCreditCard"> Credit Card<br>
+        </div>
+        <div class="fieldgroup">
+          <input type="radio" name="gender" value="DB" (click)="selectPaymentType($event.target.value)"
+            [checked]="isCheckedDebitCard"> Debit Card<br>
+        </div>
+        <div class="fieldgroup">
+          <input type="radio" name="gender" value="CR" (click)="selectPaymentType($event.target.value)"
+            [checked]="isCheckedCredit"> Credit<br>
+        </div>
+        <div class="fieldgroup">
+          <input type="radio" name="gender" value="CQ" (click)="selectPaymentType($event.target.value)"
+            [checked]="isCheckedCheque"> Cheque<br>
+        </div>
+      </fieldset>
+      <div style="padding: 10px; padding-top: 60px;">
+        <div class="row">
+          <div class="col-md-8" style="height: 70px;">
+            <div class="row form-group">
+              <div class="col-md-4 main-font hidden-sm" style="padding-top: 20px;">
+                <label for="amount">Net Total</label>
+              </div>
+              <div class="col-md-8 main-font form-group mb-2">
+                <input class="text-right form-control" id="amount" type="text" name="amount" style="height: 40px;"
+                  value="{{totalAmount | number:'1.2-2'}}" placeholder="0.00" readonly>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row" *ngIf="isShowCashFild">
+          <div class="col-md-8" style="height: 70px;">
+            <div class="row form-group">
+              <div class="col-md-4 main-font hidden-sm" style="padding-top: 20px;">
+                <label for="amount">Advance</label>
+              </div>
+              <div class="col-md-8 main-font form-group mb-2">
+                <input class="text-right form-control" (change)="getBalanceAmount($event.target.value,1)" id="advance"
+                  type="text" style="height: 40px;" name="advance" value="{{advance | number:'1.2-2'}}"
+                  placeholder="0.00" numericType="decimal" double-number-directive>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- <div class="row" *ngIf="isShowCashFild">
+          <div class="col-md-8" style="height: 70px;">
+            <div class="row form-group">
+              <div class="col-md-4 main-font hidden-sm" style="padding-top: 20px;">
+                <label for="amount">Cash</label>
+              </div>
+              <div class="col-md-8 main-font form-group mb-2">
+                <input class="text-right form-control" (change)="getBalanceAmount($event.target.value,2)" id="cash"
+                  type="text" style="height: 40px;" name="cash" value="{{cash | number:'1.2-2'}}" placeholder="0.00"
+                  numericType="decimal" double-number-directive>
+              </div>
+            </div>
+          </div>
+        </div> -->
+        <div *ngIf="showChequeFild">
+          <div class="row">
+            <div class="col-md-8" style="height: 70px;">
+              <div class="row form-group">
+                <div class="col-md-4 main-font hidden-sm" style="padding-top: 20px;">
+                  <label for="amount">Cheque No</label>
+                </div>
+                <div class="col-md-8 main-font form-group mb-2">
+                  <input class="text-right form-control" id="chequeNo" [(ngModel)]="chequeNo" type="text"
+                    style="height: 40px;" name="chequeNo" value="">
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3 main-font form-group mb-2" style="padding: 0px;padding-right:5px;">
+              <select class="form-control text-right" (change)="setSelectedBank($event.target.value)"
+                style="width: 100%;height: 40px;padding:7px;">
+                <option selected [value]="-1">Select Bank</option>
+                <option *ngFor="let bank of bankList" [value]="bank.bankId">
+                  {{ bank.bankName }}
+                </option>
+              </select>
+            </div>
+            <div class="col-md-8" style="height: 70px;">
+              <div class="row form-group">
+                <div class="col-md-4 main-font hidden-sm" style="padding-top: 20px;">
+                  <label for="amount">Description</label>
+                </div>
+                <div class="col-md-8 main-font form-group mb-2">
+                  <input class="text-right form-control" id="chequeDescription" [(ngModel)]="chequeDescription"
+                    type="text" style="height: 40px;" name="chequeNo" value="">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-8" style="height: 70px;">
+              <div class="row form-group">
+                <div class="col-md-4 main-font hidden-sm">
+                  <label for="inputEmail1" style="padding-top: 3px;">Cheque Date:</label>
+                </div>
+                <div class="col-md-8 main-font form-group mb-2">
+                  <my-date-picker name="chequeDate" [options]="chequeDatePickerOptions" [(ngModel)]="chequeDate"
+                    required>
+                  </my-date-picker>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row" *ngIf="showCardFild">
+          <div class="col-md-8" style="height: 70px;">
+            <div class="row form-group">
+              <div class="col-md-4 main-font hidden-sm" style="padding-top: 20px;">
+                <label for="amount">Card Ref No</label>
+              </div>
+              <div class="col-md-8 main-font form-group mb-2">
+                <input class="text-right form-control" id="carsRefNo" [(ngModel)]="carsRefNo" type="text"
+                  style="height: 40px;" name="carsRefNo" value="">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row" *ngIf="isShowCashFild">
+          <div class="col-md-8" style="height: 70px;">
+            <div class="row form-group">
+              <div class="col-md-4 main-font hidden-sm" style="padding-top:12px;">
+                <label for="amount">Balance</label>
+              </div>
+              <div class="col-md-8 main-font form-group mb-2">
+                <input class="text-right form-control" id="balance" type="text" name="balance" style="height: 40px;"
+                  value="{{balance | number:'1.2-2'}}" placeholder="0.00" readonly>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row" style="padding-left: 15px;">
+          <div class="col-md-2">
+            <button class="btn btn-md btn-success" (click)="saveInvoice()">Create</button>
+          </div>
+          <div class="col-md-2">
+            <button type="button" class="btn btn-md btn-danger" (click)="closeModalWindow()">Close</button>
+          </div>
+
+        </div>
+        <div style="padding: 21px;">
+          <div class="row" style="padding: 7px;">
+            <div class="col-4">
+              <p>Customer Name :- </p>
+            </div>
+            <div class="col-4">
+              <input class="text-right form-control" id="customerName" type="text" style="height: 40px;"
+                name="customerName" [(ngModel)]="customerName" placeholder="Customer Name">
+            </div>
+
+          </div>
+
+          <div class="row" style="padding: 7px;">
+            <div class="col-4">
+              <p>Address :- </p>
+            </div>
+
+            <div class="col-4">
+              <input class="text-right form-control" id="customerAddress" type="text" style="height: 40px;"
+                name="customerAddress" [(ngModel)]="customerAddress" placeholder="Customer Address">
+            </div>
+          </div>
+
+          <div class="row" style="padding: 7px;">
+            <div class="col-4">
+              <p>Telephone No :- </p>
+            </div>
+            <div class="col-4">
+              <input class="text-right form-control" id="customerTelephone" type="text" style="height: 40px;"
+                name="customerTelephone" [(ngModel)]="customerTelephone" placeholder="Phone Number">
+            </div>
+          </div>
+
+        </div>
+      </div>
+      <div class="col-md-3" style="height: 70px;">
+      </div>
+    </div>
+  </div>
+  <!-- <div class="modal-footer">
+    <button type="button" class="btn btn-light" (click)="closeModalWindow()">Close</button>
+  </div> -->
+</ng-template>

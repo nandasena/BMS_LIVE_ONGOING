@@ -23,6 +23,9 @@ import {JobComponent} from './job/job.component';
 import {CreateJobComponent} from './job/create-job/create-job.component';
 import {EditJodComponent}from './job/edit-jod/edit-jod.component';
 import {ViewJobComponent} from './job/view-job/view-job.component';
+import {InvoiceQuotationComponent}from './quotation/invoice-quotation/invoice-quotation.component';
+import {JobQuotationComponent} from './quotation/job-quotation/job-quotation.component';
+import {QuotationComponent} from './quotation/quotation.component';
 import { from } from 'rxjs/observable/from';
 
 const routes: Routes = [{
@@ -109,7 +112,18 @@ const routes: Routes = [{
     path:'job-view',
     component:ViewJobComponent,
   },
-
+  {
+    path:'invoice-quotation',
+    component:InvoiceQuotationComponent,
+  },
+  {
+    path:'job-quotation',
+    component:JobQuotationComponent,
+  },
+  {
+    path:'quotation',
+    component:QuotationComponent,
+  },
   {
     path: '',
     redirectTo: 'dashboard',
