@@ -57,11 +57,11 @@ export const MENU_ITEMS: NbMenuItem[] = [
     icon: 'nb-list',
     link: '/pages/report',
   },
-  // {
-  //   title: 'Profit On Invoice',
-  //   icon: 'nb-list',
-  //   link: '/pages/report',
-  // },
+  {
+    title: 'Profit On Invoice',
+    icon: 'nb-list',
+    link: '/pages/report',
+  },
 ];
 export const LEVEL02_MENUS: NbMenuItem[] = [
   // {

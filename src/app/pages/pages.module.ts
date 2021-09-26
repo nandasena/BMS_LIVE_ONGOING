@@ -33,6 +33,9 @@ import { JobStatusDropdownComponent } from './job/job-status-dropdown/job-status
 import { InvoiceQuotationComponent } from './quotation/invoice-quotation/invoice-quotation.component';
 import { JobQuotationComponent } from './quotation/job-quotation/job-quotation.component';
 import { QuotationComponent } from './quotation/quotation.component';
+import { InvoiceQuitationListComponent } from './quotation/invoice-quitation-list/invoice-quitation-list.component';
+import { InvoiceQuotationPrintComponent} from './quotation/invoice-quitation-list/invoice-quotation-print.component';
+
 
 const PAGES_COMPONENTS = [
   PagesComponent,
@@ -75,13 +78,16 @@ const PAGES_COMPONENTS = [
      InvoiceQuotationComponent,
      JobQuotationComponent,
      QuotationComponent,
+     InvoiceQuitationListComponent,
+      InvoiceQuotationPrintComponent
   ],
   entryComponents: [
     ItemModalWindowComponent,
     SquareFeetComponent,
     JobDetailComponent,
     JobStatusChangeComponent,
-    JobStatusDropdownComponent
+    JobStatusDropdownComponent,
+     InvoiceQuotationPrintComponent
   ],
   providers: [
     // Config,

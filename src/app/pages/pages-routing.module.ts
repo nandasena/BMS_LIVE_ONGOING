@@ -26,12 +26,14 @@ import {ViewJobComponent} from './job/view-job/view-job.component';
 import {InvoiceQuotationComponent}from './quotation/invoice-quotation/invoice-quotation.component';
 import {JobQuotationComponent} from './quotation/job-quotation/job-quotation.component';
 import {QuotationComponent} from './quotation/quotation.component';
+import {InvoiceQuitationListComponent} from './quotation/invoice-quitation-list/invoice-quitation-list.component';
 import { from } from 'rxjs/observable/from';
 
 const routes: Routes = [{
   path: '',
   component: PagesComponent,
-  children: [{
+children: [
+  {
     path: 'dashboard',
     component: DashboardComponent,
   },
@@ -123,6 +125,10 @@ const routes: Routes = [{
   {
     path:'quotation',
     component:QuotationComponent,
+  },
+  {
+    path:'quotation-invoice-list',
+    component:InvoiceQuitationListComponent,
   },
   {
     path: '',

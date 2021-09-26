@@ -22,6 +22,6 @@ export class QuotationComponent implements OnInit {
     this.router.navigate(['/pages/job-quotation']);
   }
   viewJobs(){
-    this.router.navigate(['/pages/job-view']);
+    this.router.navigate(['/pages/quotation-invoice-list']);
   }
 }

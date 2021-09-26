@@ -2,6 +2,7 @@ import { Component, OnInit,Input } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { InvoiceService } from '../../../services/invoice.service';
 import { LocalDataSource, ViewCell } from 'ng2-smart-table';
+import { QuotationService } from '../../../services/quotation.service';
 
 @Component({
   selector: 'invoice-view',
@@ -11,6 +12,7 @@ import { LocalDataSource, ViewCell } from 'ng2-smart-table';
 export class InvoiceEditComponent implements OnInit {
   @Input() invoiceId;
   @Input() invoiceNumber;
+  @Input() type;
   source: LocalDataSource = new LocalDataSource();
   settings = {
     mode: 'external',
@@ -48,16 +50,22 @@ export class InvoiceEditComponent implements OnInit {
       }
     },
   };
-  constructor(private activeModal: NgbActiveModal,private invoiceService:InvoiceService) { }
+  constructor(private activeModal: NgbActiveModal,private invoiceService:InvoiceService,private quotationService: QuotationService) { }
 
   ngOnInit() {
-    this.invoiceService.getInvoiceDetailByInvoiceId(this.invoiceId).then(responce=>{
-      this.source.load(responce.json().result);
-    })
+    if(this.type ==='invoice'){
+      this.invoiceService.getInvoiceDetailByInvoiceId(this.invoiceId).then(responce=>{
+        this.source.load(responce.json().result);
+      })
+    } else if(this.type ==='quotation'){
+
+      this.quotationService.getQuotationDetailsById(this.invoiceId).then(responce=>{
+        this.source.load(responce.json().result);
+      })
+    }
+
 
   }
-
-  
   closeModal() {
     this.activeModal.close();
   }

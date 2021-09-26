@@ -13,4 +13,15 @@ export class QuotationService {
         return this.commonsService.apiPost(invoiceToSave,'quotation/invoice/');
       }
 
+    getQuotationByDateRange(fromDate,toDate){
+      return this.commonsService.apiGet('quotation/invoiceByDateRange/fromDate/' + fromDate + '/toDate/' + toDate+'/');
+    }
+    getQuotationDetailsById(id){
+
+      return this.commonsService.apiGet('quotation/invoice/'+id+'/');
+    }
+    getInvoiceDetailForReprintById(id){
+      return this.commonsService.apiGet('quotation/getInvoiceReprintData/'+id);
+    }
+
 }

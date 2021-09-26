@@ -91,7 +91,7 @@ import { JwtHelper } from 'angular2-jwt';
           view: ['targets', 'business-selfie', 'company-ratings'],
         },
         admin: {
-          view: ['invoice', 'rocks', 'targets', 'teams', 'business-selfie'],
+          view: ['dashboard'],
         }
       },
     }),

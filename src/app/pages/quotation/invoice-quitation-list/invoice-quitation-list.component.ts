@@ -1,22 +1,19 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { LocalDataSource, ViewCell } from 'ng2-smart-table';
-import { SmartTableService } from '../../../@core/data/smart-table.service';
-import { InvoiceEditComponent } from '../invoice-edit/invoice-edit.component';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { CustomRenderComponent } from './custome-render.component';
-import { InvoiceService } from '../../../services/invoice.service';
-import { AlertifyService } from '../../../services/alertify.service';
-import {InvoicePrintComponent}from '../invoice-list/invoice-print.component';
-import * as moment from 'moment';
 import { IMyDpOptions } from 'mydatepicker';
-
+import { SmartTableService } from '../../../@core/data/smart-table.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { AlertifyService } from '../../../services/alertify.service';
+import { QuotationService } from '../../../services/quotation.service';
+import * as moment from 'moment';
+import { InvoiceEditComponent } from '../../invoice/invoice-edit/invoice-edit.component';
+import { InvoiceQuotationPrintComponent } from './invoice-quotation-print.component';
 @Component({
-  selector: 'invoice-list',
-  templateUrl: './invoice-list.component.html',
-  styleUrls: ['./invoice-list.component.scss']
+  selector: 'invoice-quitation-list',
+  templateUrl: './invoice-quitation-list.component.html',
+  styleUrls: ['./invoice-quitation-list.component.scss']
 })
-export class InvoiceListComponent implements OnInit {
-  InvoiceList;
+export class InvoiceQuitationListComponent implements OnInit {
 
   settings = {
     mode: 'external',
@@ -72,10 +69,11 @@ export class InvoiceListComponent implements OnInit {
       print: {
         title:'',
         type: 'custom',
-        renderComponent:InvoicePrintComponent
+        renderComponent:InvoiceQuotationPrintComponent
       },
     },
   };
+
 
   source: LocalDataSource = new LocalDataSource();
   fromDate;
@@ -85,7 +83,7 @@ export class InvoiceListComponent implements OnInit {
     dateFormat: 'yyyy-mm-dd',
   };
 
-  constructor(private service: SmartTableService, private modalService: NgbModal, private invoiceService: InvoiceService, private alertify: AlertifyService) {
+  constructor(private service: SmartTableService, private modalService: NgbModal, private quotationService: QuotationService, private alertify: AlertifyService) { 
 
     let tempDate = moment().subtract(21, 'days').calendar().split('/');
     this.fromDate = {
@@ -113,23 +111,39 @@ export class InvoiceListComponent implements OnInit {
     let mm = today.getMonth() + 1;
     let y = today.getFullYear();
     let someFormattedDateToDate = y + '-' + mm + '-' + dd;
-    this.invoiceService.getInvoiceByDateRange(this.fromDate.formatted, someFormattedDateToDate).then((response) => {
+
+    this.quotationService.getQuotationByDateRange(this.fromDate.formatted, someFormattedDateToDate).then((response) => {
       let retunData = response.json();
       if (retunData.statusCode == 200) {
-        this.InvoiceList = retunData.result;
-        this.invoiceService.loadEditObject(this.InvoiceList);
+        this.source.load(retunData.result);
       }
     });
   }
 
   ngOnInit() {
+  }
+  getInvoiceByDate(){
+    if (this.toDate!=null && this.fromDate!=null) {
+      let today = new Date(this.toDate.formatted);
+      today.setDate(today.getDate() + 1);
 
-    this.invoiceService.getLoadedList().subscribe(invoiceList => {
-      this.source.load(invoiceList);
-    })
+      let dd = today.getDate();
+      let mm = today.getMonth() + 1;
+      let y = today.getFullYear();
+
+      let someFormattedDateToDate = y + '-' + mm + '-' + dd;
+      this.quotationService.getQuotationByDateRange(this.fromDate.formatted, someFormattedDateToDate).then((response) => {
+        let retunData = response.json();
+        if (retunData.statusCode == 200) {
+          this.source.load(retunData.result);
+        }
+      });
+    }else{
+      this.alertify.error('Please select date...');
+    }
   }
 
-  onEdit(event): void {
+  showDetails(event): void {
     this.showEditModal(event.data.id, event.data.invoiceNumber);
   }
 
@@ -146,33 +160,11 @@ export class InvoiceListComponent implements OnInit {
       style: 'padding: 117px'
     };
 
-    const activeEditModal = this.modalService.open(InvoiceEditComponent, options);
+    const activeEditModal = this.modalService.open(InvoiceEditComponent,options);
     activeEditModal.componentInstance.invoiceId = id;
     activeEditModal.componentInstance.invoiceNumber = invoiceNumber;
-    activeEditModal.componentInstance.type = 'invoice';
-  }
+    activeEditModal.componentInstance.type = 'quotation';
 
-  getInvoiceByDate() {
-
-    if (this.toDate!=null && this.fromDate!=null) {
-      let today = new Date(this.toDate.formatted);
-      today.setDate(today.getDate() + 1);
-
-      let dd = today.getDate();
-      let mm = today.getMonth() + 1;
-      let y = today.getFullYear();
-
-      let someFormattedDateToDate = y + '-' + mm + '-' + dd;
-      this.invoiceService.getInvoiceByDateRange(this.fromDate.formatted, someFormattedDateToDate).then((response) => {
-        let retunData = response.json();
-        if (retunData.statusCode == 200) {
-          this.InvoiceList = retunData.result;
-          this.invoiceService.loadEditObject(this.InvoiceList);
-        }
-      });
-    }else{
-      this.alertify.error('Please select date...');
-    }
   }
 
 }

@@ -29,6 +29,11 @@ ng2-smart-table /deep/ thead th:last-child {
 :host-conext(.my-modal){
   padding-top: 10px;
 }
+:host /deep/ .cell_left{
+  text-align: right;
+  margin: 0px;
+  margin-right: 5px;
+}
 
 
 
