@@ -27,6 +27,7 @@ import {InvoiceQuotationComponent}from './quotation/invoice-quotation/invoice-qu
 import {JobQuotationComponent} from './quotation/job-quotation/job-quotation.component';
 import {QuotationComponent} from './quotation/quotation.component';
 import {InvoiceQuitationListComponent} from './quotation/invoice-quitation-list/invoice-quitation-list.component';
+import {CreditNoteComponent} from './invoice/credit-note/credit-note.component';
 import { from } from 'rxjs/observable/from';
 
 const routes: Routes = [{
@@ -129,6 +130,10 @@ children: [
   {
     path:'quotation-invoice-list',
     component:InvoiceQuitationListComponent,
+  },
+  {
+    path:'credit-note',
+    component:CreditNoteComponent,
   },
   {
     path: '',

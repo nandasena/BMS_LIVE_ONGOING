@@ -26,6 +26,9 @@ export class InvoiceComponent  {
     // const activeModal = this.modalService.open(InvoiceAddComponent, {size:'lg', container: 'nb-layout'});
     this.router.navigate(['/pages/invoice-add']);
   }
+  showCreditModal(){
+    this.router.navigate(['/pages/credit-note']);
+  }
 
 
 }

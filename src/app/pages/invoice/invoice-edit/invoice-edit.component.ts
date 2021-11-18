@@ -47,7 +47,11 @@ export class InvoiceEditComponent implements OnInit {
       totalItemDiscount: {
         title: 'Discount',
         valuePrepareFunction: (value) => { return value === 'Total'? value : Intl.NumberFormat("ja-JP",{style: "decimal", currency: "JPY", minimumFractionDigits: 2, maximumFractionDigits: 2}).format(value)}
-      }
+      },
+      receivedQuantity: {
+        title: 'Return QY',
+        type: 'string',
+      },
     },
   };
   constructor(private activeModal: NgbActiveModal,private invoiceService:InvoiceService,private quotationService: QuotationService) { }

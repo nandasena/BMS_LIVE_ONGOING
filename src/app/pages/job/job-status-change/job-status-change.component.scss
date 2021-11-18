@@ -1,5 +1,22 @@
-  :host-conext(.ngb-modal-window){
-    .modal-dialog{
-        padding-top: 251px;
-    }  
-  }
+// :host-context(ngb-modal-window){
+//     // .modal-dialog{
+//     //     padding-top: 251px !important;
+//     // } 
+//     padding-top: 251px !important; 
+//   }
+
+//   :host-context(ngb-modal-window) div 
+//   // {
+//     .modal-dialog{
+//         padding-top: 251px !important;
+//     // } 
+     
+//   }
+
+// .modal-dialog{
+// padding-top: 500px;
+// }
+
+:host ::ng-deep ngb-modal-window:first-child {
+  padding-top: 500px;
+}

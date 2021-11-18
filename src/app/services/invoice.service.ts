@@ -87,4 +87,7 @@ export class InvoiceService {
     getSupplierList(){
       return this.commonsService.apiGet('supplier/');
     }
+    addRetunItem(itemDetaisl){
+      return this.commonsService.apiPost(itemDetaisl,'invoice/returnInvoiceItem/');
+    }
 }

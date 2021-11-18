@@ -16,8 +16,7 @@ import {NumberDirectiveDiscount} from '../../models/number-directive-discount'
 import {InvoicePrintComponent} from '../invoice/invoice-list/invoice-print.component';
 import {NumberModal} from '../../models/number.module';
 import { from } from 'rxjs/observable/from';
-// import {Config}from '../../config/config.service';
-// import {CommonService} from '../../commonService/common.service';
+import { CreditNoteComponent } from './credit-note/credit-note.component';
 
 @NgModule({
   imports: [
@@ -34,7 +33,8 @@ import { from } from 'rxjs/observable/from';
     InvoiceEditComponent,
     CustomRenderComponent,
     InvoiceExpandComponent,
-    InvoicePrintComponent
+    InvoicePrintComponent,
+    CreditNoteComponent,
   ],
   entryComponents: [
     InvoiceAddComponent,

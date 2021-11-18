@@ -1,13 +1,15 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ViewEncapsulation } from '@angular/core';
 import { AlertifyService } from '../../../services/alertify.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { JobStatusDropdownComponent } from '../job-status-dropdown/job-status-dropdown.component';
 import { JobService } from '../../../services/job.service';
+import { } from '@nebular/theme';
 import * as _ from 'lodash';
 @Component({
   selector: 'job-status-change',
   templateUrl: './job-status-change.component.html',
-  styleUrls: ['./job-status-change.component.scss']
+  styleUrls: ['./job-status-change.component.scss'],
+  encapsulation:ViewEncapsulation.None
 })
 export class JobStatusChangeComponent implements OnInit {
 

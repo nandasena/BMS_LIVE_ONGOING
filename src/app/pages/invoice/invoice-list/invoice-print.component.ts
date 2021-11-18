@@ -64,7 +64,7 @@ export class InvoicePrintComponent implements ViewCell, OnInit {
             <br/>
            
 
-            <table  style="margin-left:9%;width:92%;text-align:right;">
+            <table  style="margin-left:1%;width:92%;text-align:right;padding-left:7px;">
 
             <tbody > `+ this.printDetails + `</tbody>
             </table> 
@@ -72,7 +72,7 @@ export class InvoicePrintComponent implements ViewCell, OnInit {
 
             <div class="row">
 
-            <table style="margin-left:9%;width:92%;text-align:right;">
+            <table style="margin-left:1%;width:92%;text-align:right;padding-left:7px;">
              <thead> 
              <tr>
              <th style= " text-align:left; height: 20px; width:48%;">Total
@@ -129,7 +129,7 @@ export class InvoicePrintComponent implements ViewCell, OnInit {
       </div>`
   
   )
-    setTimeout(function () { invoiceWindow.close(); }, 2000);
+   // setTimeout(function () { invoiceWindow.close(); }, 2000);
     this.printDetails ='';
   }
 }
